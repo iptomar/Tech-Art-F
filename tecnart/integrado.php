@@ -142,14 +142,34 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
 
                                 foreach($data->{"output"} as $key) {
                                 $book=$key->{"book"};
-                                if(isset($book)){
-                                    
 
-                                echo "<h5 style='font-size: 16px; padding-right: 200px; color:#060633; padding-left: 50px;'>". $name.", ";
-                                echo $book->{"title"}.", (";
-                                echo $book->{$publication_year}.")"."</h5>";
-                                    
+
+                                if(isset($book)){
+            
+
+
+
+                                    echo "<h5 style='font-size: 16px; padding-right: 200px; color:#060633; padding-left: 50px;'>";
+                                    echo str_replace(";", " & ", $book->{"authors"}->{"citation"});
+                        
+                                    echo ". (" . $book->{$publication_year}. "). ";
+                        
+                                    echo $book->{"title"};
+                        
+                                    if(isset($book->{"volume"})){
+                                    echo ", " . $book->{"volume"};
+                                    }
+                        
+                                    if(isset($book->{"number-of-pages"})){
+                                    echo ", " . $book->{"number-of-pages"};
+                                    }
+                        
+                                    echo "<br>"."</h5>";
+                        
                                 }
+
+
+                                
                                 }
                            
                                 echo "<br><br><br>"
