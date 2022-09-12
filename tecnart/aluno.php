@@ -17,7 +17,7 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
       <section>
                 <div class="totall">
                     <div class="barraesquerda">
-                        <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 38px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 60px;">
+                        <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 38px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 60px; word-wrap: break-word;">
                         <?=$investigadores['nome']?>
                         </h3>
                         <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 60px; color:#060633; padding-left: 60px;  padding-bottom: 80px;">
@@ -162,38 +162,47 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
 
                     <div class="resto4" style="display: none;">
                         <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../investigadores/<?=$investigadores['fotografia']?>" alt="">
-                    
+                        
                         <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 30px; padding-left: 50px;">
                             Projetos
                         </h3>
-
-                        <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 20px;">
-                            Convallis egestas.
-                        </h5>
-                    
-                        <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 20px;">
-                            Onvallis egestas.
-                        </h5>
-
-                        <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 20px;">
-                            Accumsan est.
-                        </h5>
-
-                        <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 20px;">
-                            Convallis egestas.
-                        </h5>
-
-                        <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 20px;">
-                            Non accumsan est.
-                        </h5>
-
-                        <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 20px;">
-                            Nam aliquam risu.
-                        </h5>
                         
-                        <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 120px;">
-                            Habitasse platea dictumst.
-                        </h5>
+                        <div style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 20px;">
+                    <?php 
+                    $stmt = $pdo->prepare('SELECT p.* FROM investigadores_projetos ip INNER JOIN projetos p ON p.id = ip.projetos_id Where ip.investigadores_id = ?');
+                    $stmt->bindParam(1,$_GET["aluno"],PDO::PARAM_INT);
+                    $stmt->execute();
+                    $projetos = $stmt->fetchall(PDO::FETCH_ASSOC);
+                    ?>
+                    <section class="product_section layout_padding">
+                    <div style="padding-top: 20px;">
+                        <div class="container">
+                            <div class="row justify-content-center mt-3">
+                                <?php foreach ($projetos as $projeto): ?>
+
+                                <div class="ml-5 imgList">
+                                    <a href="projeto.php?projeto=<?=$projeto['id']?>">
+                                        <div class="image">
+                                            <img class="centrare" style="object-fit: cover; width:225px; height:280px;"
+                                                src="../projetos/<?=$projeto['fotografia']?>" alt="">
+                                            <div class="imgText justify-content-center m-auto">
+                                                <?=$projeto['nome']?>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <?php endforeach; ?>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </section>
+
+            </div>
                     
                     </div>  
                 </div>
