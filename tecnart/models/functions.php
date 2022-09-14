@@ -230,10 +230,10 @@ function template_footer(){
                             <div class="col-md-5">
                             <div class="full">
                             <div class="logo_footer">
-                                    <a href="#"><img width="210" src="./assets/images/logo.png" alt="#" /></a>
+                                    <a href="#"><img width="210" src="./assets/images/politecnico-de-tomar-verde.png" alt="#" /></a>
                                 </div>
                                 <div class="logo_footer">
-                                    <a href="#"><img width="210" src="./assets/images/logo.png" alt="#" /></a>
+                                    <a href="#"><img width="270" src="./assets/images/2017_FCT_H_branco.png" alt="#" /></a>
                                 </div>
                                 <div class="information_f">
                                     <p style="color: white; font-size: 13px;">Projeto UD/05488/2020</p>
