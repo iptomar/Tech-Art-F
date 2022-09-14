@@ -56,7 +56,7 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
                 </span>
             </button>
 
-            <button class="divbotao" id="showit3">
+            <!-- <button class="divbotao" id="showit3">
                 <span href="#" class="innerButton">
                     notícias e eventos
                 </span>
@@ -66,7 +66,7 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
                 <span href="#" class="innerButton">
                     publicações
                 </span>
-            </button>
+            </button> -->
 
             <h5 class="nofinal"
                 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; color:#060633; padding-bottom: 45px; padding-left: 190px;">
@@ -181,7 +181,7 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
 
         </div>
 
-        <div class="resto3" style="display: none;">
+        <!-- <div class="resto3" style="display: none;">
 
             <h3
                 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 50px;">
@@ -219,9 +219,9 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
                     mauris.</b>
             </h5>
 
-        </div>
+        </div> -->
 
-        <div class="resto4" style="display: none;">
+        <!-- <div class="resto4" style="display: none;">
             <h3
                 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 50px;">
                 Publicações
@@ -258,7 +258,7 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
                     mauris.</b>
             </h5>
 
-        </div>
+        </div> -->
     </div>
 
 </section>
@@ -272,18 +272,18 @@ $(function() {
     $('button#showit').on('click', function() {
         $('.resto').show();
         $('.resto2').hide();
-        $('.resto3').hide();
-        $('.resto4').hide();
+     /* $('.resto3').hide();
+        $('.resto4').hide(); */
     });
 
     $('button#showit2').on('click', function() {
         $('.resto2').show();
         $('.resto').hide();
-        $('.resto3').hide();
-        $('.resto4').hide();
+    /*  $('.resto3').hide();
+        $('.resto4').hide(); */
     });
 
-    $('button#showit3').on('click', function() {
+    /*     $('button#showit3').on('click', function() {
         $('.resto3').show();
         $('.resto').hide();
         $('.resto2').hide();
@@ -295,7 +295,7 @@ $(function() {
         $('.resto').hide();
         $('.resto3').hide();
         $('.resto2').hide();
-    });
+    }); */
 
 });
 </script>
