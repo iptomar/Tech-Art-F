@@ -38,7 +38,7 @@
 
 
     if ($result->num_rows > 0) {
-
+        $a=array();
         while ($row = $result->fetch_assoc()) {
 
             $variable = $row["ciencia_id"];
@@ -68,19 +68,39 @@
             /* $name = $row["nome"]; */
 
             if(isset($data->{"output"}))
-
+            
             foreach($data->{"output"} as $key) {
             $book=$key->{"book"};
             
             
             if(isset($book)){
+
+            array_push($a, $book);
+
+
+            }
+            }
             
 
+        }
+        
+        function cb($x, $y) {
+            return $x->{'publication-year'} <= $y->{'publication-year'};
+        }
+        usort($a, 'cb');
+        $ano = '';
+        foreach($a as $book) {
+            if($ano!=$book->{'publication-year'}){
+                $ano=$book->{'publication-year'};
+                echo "<br><br><b>".$ano."</b><br>";
+            }
+            
 
             /* echo $name.", "; */
+
             echo str_replace(";", " & ", $book->{"authors"}->{"citation"});
 
-            echo ". (" . $book->{$publication_year}. "). ";
+            echo ". (" . $book->{'publication-year'}. "). ";
 
             echo $book->{"title"};
 
@@ -94,12 +114,7 @@
 
             echo "<br>";
 
-            }
-            }
             
-
-            echo "<br>";
-
         }
     }
 
