@@ -88,7 +88,7 @@ function template_header($title){
                 </style>
                 
                
-                <script src='//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'></script>
+               
 
             
                 </head>
@@ -287,43 +287,85 @@ function template_footer(){
                 <script src="./assets/js/main2.js"></script>
 
 
-                <script>
-                
+                <script type="text/javascript">
 
                 function googleTranslateElementInit() {
+                  const lang = getCookie("googtrans");
+                  if (lang == "") {
+                    setCookie('googtrans', '/en/pt', 1);
+                  }
+            
+                  new google.translate.TranslateElement({
+                    autoDisplay: 'true',
+                    includedLanguages: 'pt,en',
+                    layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+                  }, 'google_translate_element');
+            
+                  document.getElementsByClassName("goog-te-combo")[0].addEventListener("change", function () {
+                    imagens();
+                  })
 
-               
-                new google.translate.TranslateElement({
-                pageLanguage: 'pt',
-                autoDisplay: 'true',
-                includedLanguages:'pt,en', 
-                layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
-                }, 'google_translate_element');
-               
+                 
+                          
+                  if (lang == "/en/pt") {
+                    
+                    document.getElementById('logo2').className = "show";
+                    document.getElementById('logo').className = "hidden"; 
+                  } else {
+                    
+                    document.getElementById('logo').className = "show";
+                    document.getElementById('logo2').className = "hidden";
+                  }
                 }
 
-                
-                $('.goog-te-combo').live('change',function(){
-                    getSelectedlang();
-                    
-                });
-                
-                
-                function getSelectedlang(){
-                    language = $("select.goog-te-combo option:selected").text();
+                function getLangSelecionada() {
+                    const e = document.getElementsByClassName("goog-te-combo")[0];
+                    return e.options[e.selectedIndex].value;
+                  }
 
-                    if (language == "Inglês"){
-                        document.getElementById('logo').className = "show";
-                        document.getElementById('logo2').className = "hidden";
 
+            
+                function imagens() {
+                  const lang = getLangSelecionada();
+                  
+                  if (lang == "pt") {
+                    setCookie('googtrans', '/en/pt', 1);
+                    document.getElementById('logo2').className = "show";
+                    document.getElementById('logo').className = "hidden"; 
+                  } else {
+                    setCookie('googtrans', '/en/en', 1);
+                    document.getElementById('logo').className = "show";
+                    document.getElementById('logo2').className = "hidden";
+                  }
+                }
+            
+                function getCookie(cname) {
+                  let name = cname + "=";
+                  let decodedCookie = decodeURIComponent(document.cookie);
+                  let ca = decodedCookie.split(';');
+                  for (let i = 0; i < ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                      c = c.substring(1);
                     }
-                    else{
-                        document.getElementById('logo2').className = "show";
-                        document.getElementById('logo').className = "hidden";   
+                    if (c.indexOf(name) == 0) {
+                      return c.substring(name.length, c.length);
                     }
-        }
-               
-                </script>
+                  }
+                  return "";
+                }
+            
+                function setCookie(key, value, expiry) {
+                  var expires = new Date();
+                  expires.setTime(expires.getTime() + (expiry * 24 * 60 * 60 * 1000));
+                  document.cookie = key + '=' + value + ';expires=' + expires.toUTCString();
+                }
+            
+            
+              </script>
+
+                <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 
 
 
