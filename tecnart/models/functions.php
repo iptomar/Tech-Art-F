@@ -129,11 +129,11 @@ function template_header($title){
                             <nav style="padding-top: 0px;" class="navbar navbar-expand-lg custom_nav-container ">
                                 
                                 <div id="logo2">
-                                <a class="navbar-brand" href="index.php"><img id="image5" width="300" src="./assets/images/TechnArt5FundoTrans.png" alt="#" /></a> <!--Logo que redireciona para o index.html-->
+                                <a class="navbar-brand" href="index.php"><img width="300" src="./assets/images/TechnArt5FundoTrans.png" alt="#" /></a> <!--Logo que redireciona para o index.html-->
                                 </div>
                                 
                                 <div style="display: none;" id="logo">
-                                <a class="navbar-brand" href="index.php"><img class="none11" id="image11" width="300" src="./assets/images/TechnArt11FundoTrans.png" alt="#" /></a> <!--Logo que redireciona para o index.html-->
+                                <a class="navbar-brand" href="index.php"><img width="300" src="./assets/images/TechnArt11FundoTrans.png" alt="#" /></a> <!--Logo que redireciona para o index.html-->
                                 </div>
 
                                 <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -147,9 +147,9 @@ function template_header($title){
                                         <a class="nav-link" id="sobretechn" href="sobre.php" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Sobre o Techn&art <span class="caret"></span></a>
                                         <div class="dropdown-content">
                                             <a href="missao.php">Missão e Objetivos</a>
-                                            <a href="eixos.html">Eixos de Investigação</a>
-                                            <a href="estrutura.html">Estrutura Orgânica</a>
-                                            <a href="oportunidades.html">Oportunidades</a>
+                                            <a href="eixos.php">Eixos de Investigação</a>
+                                            <a href="estrutura.php">Estrutura Orgânica</a>
+                                            <a href="oportunidades.php">Oportunidades</a>
                                     </div>
                                     </li>
                                     <li class="nav-item">
@@ -187,13 +187,20 @@ function template_footer(){
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="full">
-                                <div class="logo_footer">
-                                <a href="#"><img width="320" src="./assets/images/TechnArt6FundoTrans.png" alt="#" /></a>
-                                </div>
 
-                            </div>
+                        <div class="full">
+
+                        <div class="logo_footer" id="logo4">
+                        <a href="#"><img width="320" src="./assets/images/TechnArt6FundoTrans.png" alt="#" /></a>
                         </div>
+
+                        <div style="display: none;" class="logo_footer" id="logo3">
+                        <a href="#"><img width="320" src="./assets/images/TechnArt12FundoTrans.png" alt="#" /></a>
+                        </div>
+
+                        </div>
+
+                    </div>
                         <div class="col-md-8">
                             <div class="row">
                             <div class="col-md-7">
@@ -311,10 +318,14 @@ function template_footer(){
                     
                     document.getElementById('logo2').className = "show";
                     document.getElementById('logo').className = "hidden"; 
+                    document.getElementById('logo4').className = "show";
+                    document.getElementById('logo3').className = "hidden"; 
                   } else {
                     
                     document.getElementById('logo').className = "show";
                     document.getElementById('logo2').className = "hidden";
+                    document.getElementById('logo3').className = "show";
+                    document.getElementById('logo4').className = "hidden";
                   }
                 }
 
@@ -332,10 +343,15 @@ function template_footer(){
                     setCookie('googtrans', '/en/pt', 1);
                     document.getElementById('logo2').className = "show";
                     document.getElementById('logo').className = "hidden"; 
+                    document.getElementById('logo4').className = "show";
+                    document.getElementById('logo3').className = "hidden"; 
                   } else {
                     setCookie('googtrans', '/en/en', 1);
                     document.getElementById('logo').className = "show";
                     document.getElementById('logo2').className = "hidden";
+                    document.getElementById('logo3').className = "show";
+                    document.getElementById('logo4').className = "hidden";
+                    
                   }
                 }
             
