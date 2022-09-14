@@ -147,9 +147,9 @@ function template_header($title){
                                         <a class="nav-link" id="sobretechn" href="sobre.php" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Sobre o Techn&art <span class="caret"></span></a>
                                         <div class="dropdown-content">
                                             <a href="missao.php">Missão e Objetivos</a>
-                                            <a href="eixos.html">Eixos de Investigação</a>
-                                            <a href="estrutura.html">Estrutura Orgânica</a>
-                                            <a href="oportunidades.html">Oportunidades</a>
+                                            <a href="eixos.php">Eixos de Investigação</a>
+                                            <a href="estrutura.php">Estrutura Orgânica</a>
+                                            <a href="oportunidades.php">Oportunidades</a>
                                     </div>
                                     </li>
                                     <li class="nav-item">
