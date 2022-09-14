@@ -52,7 +52,7 @@ include 'models/functions.php';
                
                   <div class="image2">
                      <img class="centrare" style="object-fit: cover; width:350px; height:250px;" src="./assets/images/eixos.jpg" alt="">
-                     <button onclick="window.location.href='eixos.html'" type="button" class="mybuttonoverlap btn">SAIBA MAIS</button>
+                     <button onclick="window.location.href='eixos.php'" type="button" class="mybuttonoverlap btn">SAIBA MAIS</button>
                      <div class="qualquer">EIXOS DE INVESTIGAÇÃO</div>
                   </div>
 
@@ -67,7 +67,7 @@ include 'models/functions.php';
                
                   <div  class="image2">
                      <img class="centrare" style="object-fit: cover; width:350px; height:250px;" src="./assets/images/estrutura.jpg" alt="">
-                     <button onclick="window.location.href='estrutura.html'" type="button" class="mybuttonoverlap btn">SAIBA MAIS</button>
+                     <button onclick="window.location.href='estrutura.php'" type="button" class="mybuttonoverlap btn">SAIBA MAIS</button>
                      <div class="qualquer">ESTRUTURA ORGÂNICA</div>
                   </div>  
                
@@ -79,7 +79,7 @@ include 'models/functions.php';
                
                   <div class="image2">
                      <img class="centrare" style="object-fit: cover; width:350px; height:250px;" src="./assets/images/oportunidades.jpg" alt="">
-                     <button onclick="window.location.href='oportunidades.html'" type="button" class="mybuttonoverlap btn">SAIBA MAIS</button>
+                     <button onclick="window.location.href='oportunidades.php'" type="button" class="mybuttonoverlap btn">SAIBA MAIS</button>
                      <div class="qualquer">OPORTUNIDADES</div>
                   </div>
 
