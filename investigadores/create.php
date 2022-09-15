@@ -136,7 +136,7 @@
                     </div>
 
                     <div class="form-group">
-                        <button type="submit" onclick="window.location.href = 'index.php'" class="btn btn-danger btn-block">Cancelar</button>
+                        <button type="button" onclick="window.location.href = 'index.php'" class="btn btn-danger btn-block">Cancelar</button>
                     </div>
                 </form>
             </div>

@@ -132,14 +132,14 @@
 
                     <div class="form-group">
                         <label>Descrição</label>
-                        <textarea class="form-control" data-error="Por favor adiciona uma descrição." id="inputDescricao"><?php echo $descricao; ?></textarea>
+                        <textarea class="form-control" data-error="Por favor adiciona uma descrição." id="inputDescricao" name="descricao"><?php echo $descricao; ?></textarea>
                         <!-- Error -->
                         <div class="help-block with-errors"></div>
                     </div>
 
                     <div class="form-group">
                         <label>Sobre Projeto</label>
-                        <textarea class="form-control" cols="30" rows="5" data-error="Por favor adiciona um sobre projeto." id="inputSobreProjeto"><?php echo $sobreprojeto; ?></textarea>
+                        <textarea class="form-control" cols="30" rows="5" data-error="Por favor adiciona um sobre projeto." id="inputSobreProjeto" name="sobreprojeto"><?php echo $sobreprojeto; ?></textarea>
                         <!-- Error -->
                         <div class="help-block with-errors"></div>
                     </div>
