@@ -73,7 +73,7 @@ table.table tr th, table.table tr td {
 	padding: 12px 15px;
 	vertical-align: middle;
 }
-table.table tr th:first-child {
+/* table.table tr th:first-child {
 	width: 250px;
 }
 
@@ -83,7 +83,7 @@ table.table tr th:first-child + th {
 
 table.table tr th:first-child + th {
 	padding-right: 200px;
-}
+} */
 
 table.table-striped tbody tr:nth-of-type(odd) {
 	background-color: #fcfcfc;
@@ -272,13 +272,13 @@ table.table .avatar {
             <thead>
             <tr>
                 <th>Nome</th>
-                <th>Descrição</th>
-                <th>Sobre Projeto</th>
+<!--                 <th>Descrição</th>
+                <th>Sobre Projeto</th> -->
                 <th>Referência</th>
                 <th>Techn&Art Área Preferencial</th>
                 <th>Financiamento</th>
-                <th>Âmbito</th>
-                <th>Fotografia</th>
+<!--                 <th>Âmbito</th>
+ -->                <th>Fotografia</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -288,13 +288,13 @@ table.table .avatar {
         while($row = mysqli_fetch_assoc($result)) {
             echo "<tr>";
             echo "<td>".$row["nome"]."</td>"; 
-            echo "<td style='width:250px;'>".$row["descricao"]."</td>";
+/*             echo "<td style='width:250px;'>".$row["descricao"]."</td>";
             echo "<td style='width:250px;'>".$row["sobreprojeto"]."</td>";
-            echo "<td>".$row["referencia"]."</td>";
+ */            echo "<td>".$row["referencia"]."</td>";
             echo "<td>".$row["areapreferencial"]."</td>";
             echo "<td>".$row["financiamento"]."</td>";
-            echo "<td>".$row["ambito"]."</td>";
-            echo "<td><img src='$row[fotografia]' width = '100px' height = '100px'></td>";
+/*             echo "<td>".$row["ambito"]."</td>";
+ */            echo "<td><img src='$row[fotografia]' width = '100px' height = '100px'></td>";
             $sql1 = "SELECT investigadores_id FROM investigadores_projetos WHERE projetos_id = ".$row["id"];
             $result1 = mysqli_query($conn, $sql1);
             $selected = array();

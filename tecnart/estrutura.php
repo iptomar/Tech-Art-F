@@ -37,7 +37,7 @@ include 'models/functions.php';
                     
                     <div class="flex-left">
                         <figure class="imgfigura">
-                            <img class="imgestrutura" src="./assets/images/maskingAtHome.jpg" alt="Boat">
+                            <img class="imgestrutura" width="330px;" src="./assets/images/P1010947.JPG" alt="Boat">
                             <figcaption class="imgs">O encontro, Luís Marques</figcaption>
                         </figure>
                     </div>

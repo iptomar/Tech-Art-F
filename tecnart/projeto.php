@@ -98,13 +98,13 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
                 <?=$projetos['sobreprojeto']?>
             </h5>
 
-            <h5
+<!--             <h5
                 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px; padding-bottom: 45px;">
                 <b>duis a mollis urna. In hac habitasse platea dictumst. Vestibulum nisi nunc, elementum et vehicula
                     vel, rhoncus non metus.
                     In vel dapibus dolor. Sed at laoreet turpis. Donec nec aliquam velit. Quisque blandit nisi
                     mauris.</b>
-            </h5>
+            </h5> -->
 
             <h4
                 style="font-family: 'Quicksand', sans-serif; font-size: 26px; color:#060633; text-transform: uppercase; padding-left: 50px; padding-bottom: 30px;">

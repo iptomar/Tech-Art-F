@@ -259,7 +259,7 @@ table.table .avatar {
 <table class="table table-striped table-hover">
 				<thead>
 					<tr>
-						<th>Name</th>
+						<th>Nome</th>
 						<th>Email</th>
                         <th>Ações</th>
 					</tr>

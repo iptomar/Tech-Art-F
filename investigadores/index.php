@@ -282,12 +282,13 @@ table.table .avatar {
             <th>Nome</th>
             <th>Email</th>
 			<th>CiênciaVitae ID</th>
-            <th>Sobre</th>
+<!--             <th>Sobre</th>
             <th>Tipo</th>
             <th>Áreas de interesse</th>
             <th>Orcid</th>
-            <th>Scholar</th>
+            <th>Scholar</th> -->
             <th>Fotografia</th>
+            <th>Ações</th>
         </tr>
 
         </thead>
@@ -301,12 +302,12 @@ table.table .avatar {
                         echo "<td>".$row["nome"]."</td>"; 
                         echo "<td>".$row["email"]."</td>";
 						echo "<td>".$row["ciencia_id"]."</td>";
-                        echo "<td>".$row["sobre"]."</td>";
+/*                         echo "<td>".$row["sobre"]."</td>";
                         echo "<td>".$row["tipo"]."</td>";
                         echo "<td>".$row["areasdeinteresse"]."</td>";
                         echo "<td>".$row["orcid"]."</td>";
                         echo "<td>".$row["scholar"]."</td>";
-                        echo "<td><img src='$row[fotografia]' width = '100px' height = '100px'></td>";
+ */                        echo "<td><img src='$row[fotografia]' width = '100px' height = '100px'></td>";
                         echo "<td><a href='edit.php?id=".$row["id"]."' class='btn btn-primary'><span>Alterar</span></a></td>";
 						if($_SESSION["autenticado"] == 'administrador'){
                         echo "<td><a href='remove.php?id=".$row["id"]."' class='btn btn-danger'><span>Apagar</span></a></td>";
