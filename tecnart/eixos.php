@@ -25,14 +25,15 @@ include 'models/functions.php';
 
                 <div class="flex-container">
                     <div class="flex-right">
-                        <b>1. </b>luctus. Maecenas et quam rutrum, dignissim orci sodales, eleifend elit. Praesent viverra odio at volutpat aliquam. <b>Aliquam vitae libero molestie,
-                        laoreet tellus</b> non, pretium orci. Maximus lacus sed, aliquet ex. Integer faucibus ante et magna finibus, ac consequat sapien commodo.<br><br>
 
-                        <b>2. </b>Aenean a condimentum diam. Sed facilisis felis neque, a volutpat libero euismod ut. Donec pellentesque metus at enim tempor fringilla.
-                        Morbi dictum mauris sem, in commodo magna elementum eu. <b>Duis ornare, ex ac rhoncus</b> dictum, magna mauris tincidunt dolor.<br><br>
+                        O Centro de Tecnologia, Restauro e Valorização das Artes (Techn&Art) tem como missão o desenvolvimento de estratégias e metodologias de investigação
+                        no âmbito de duas linhas temáticas:<br><br>
 
-                        <b>3. </b>Sed odio lacus, bibendum sed leo fringilla, vehicula finibus sem. Fusce urna sem, vehicula a accumsan sed, molestie id mi.
-                        Donec tempus odio nec nisi euismod, ac volutpat purus laoreet. Ut <b>luctus eu libero</b> a fermentum. Sed pretium turpis enim.
+                        <b>a) </b>Salvaguarda<br><br>
+
+                        <b>a1) </b>Conservação e Restauro<br><br>
+
+                        <b>a2) </b>Caraterização e Contextualização do Património<br><br>
                     </div>
                     
                     <div class="flex-left">
@@ -43,19 +44,23 @@ include 'models/functions.php';
                     </div>
                 </div>
 
-                <div class="flex-container">
+                <div>
+<!--                 <div class="flex-container">
                     
                     <div class="flex-left2">
                         "tempor pulvinar. Vivamus ultrices egestas posuere. Integer magna orci, vestibulum."
-                    </div>
+                    </div> -->
 
                     <div class="flex-right">
-                        luctus. Maecenas et quam rutrum, dignissim orci sodales, eleifend elit. Praesent viverra odio at volutpat aliquam. Aliquam vitae libero molestie,
-                        laoreet tellus non, pretium orci. Maximus lacus sed, aliquet ex. Integer faucibus ante et magna finibus, ac consequat sapien commodo.
-                        Aenean a condimentum diam. Sed facilisis felis neque, a volutpat libero euismod ut. Donec pellentesque metus at enim tempor fringilla.
-                        Morbi dictum mauris sem, in commodo magna elementum eu. Uis ornare, ex ac rhoncus dictum, magna mauris tincidunt dolor
-                        ed odio lacus, bibendum sed leo fringilla, vehicula finibus sem. Fusce urna sem, vehicula a accumsan sed, molestie id mi.
-                        Donec tempus odio nec nisi euismod, ac volutpat purus laoreet. Luctus eu liber a fermentum. Sed pretium turpis enim.
+                        <b>b) </b>Valorização do Património Artístico e Cultural<br><br>
+                        
+                        <b>b1) </b>Didática, Tecnologia e Comunicação<br><br>
+                        
+                        <b>b2) </b>Design e Inovação<br><br>
+
+                        Estas linhas de ação complementam-se e imbricam-se para que o todo que a missão do Techn&Art seja coerente e tire partido do visando 
+                        a transferência de conhecimento, de competências e de experiências de todos os investigadores e colaboradores do nosso centro.
+                        
                     </div>
 
                 </div>

@@ -25,14 +25,30 @@ include 'models/functions.php';
 
                 <div class="flex-container">
                     <div class="flex-right">
-                        <b>1. </b>luctus. Maecenas et quam rutrum, dignissim orci sodales, eleifend elit. Praesent viverra odio at volutpat aliquam. <b>Aliquam vitae libero molestie,
-                        laoreet tellus</b> non, pretium orci. Maximus lacus sed, aliquet ex. Integer faucibus ante et magna finibus, ac consequat sapien commodo.<br><br>
+                        A atividade do Techn&Art é suportada pelos seguintes órgãos de direção, gestão e administração:<br><br>
 
-                        <b>2. </b>Aenean a condimentum diam. Sed facilisis felis neque, a volutpat libero euismod ut. Donec pellentesque metus at enim tempor fringilla.
-                        Morbi dictum mauris sem, in commodo magna elementum eu. <b>Duis ornare, ex ac rhoncus</b> dictum, magna mauris tincidunt dolor.<br><br>
+                        <b>Diretor<br> </b>Célio Gonçalo Marques<br><br>
 
-                        <b>3. </b>Sed odio lacus, bibendum sed leo fringilla, vehicula finibus sem. Fusce urna sem, vehicula a accumsan sed, molestie id mi.
-                        Donec tempus odio nec nisi euismod, ac volutpat purus laoreet. Ut <b>luctus eu libero</b> a fermentum. Sed pretium turpis enim.
+                        <b>Diretor Adjunto<br> </b>Hermínia Maria Pimenta Ferreira Sol<br><br>
+                        
+                        <b>Secretário administrativo<br> </b>Hirondina Alves São Pedro<br><br>
+                        
+                        <b>Conselho Diretivo<br> </b>Composto pelo Diretor, Diretor Adjunto<br>
+                                                Ricardo Pereira Triães<br>
+                                                Eunice Ferreira Ramos Lopes<br>
+                                                Regina Aparecida Delfino<br>
+                                                Marta Margarida S. Dionísio<br>
+                                                Ana Cláudia Pires da Silva<br><br>
+                        
+                        <b>Conselho Científico<br> </b>Composto por todos os membros integrados.<br><br>
+                        
+                        <b>Conselho Consultivo<br> </b>Ana María Calvo Manuel, Faculdade de Belas Artes da Universidade Completense de Madrid, Espanha.<br>
+                                                    Chao Gejin, Instituto de Tradição Oral da Academia Chinesa de Ciências Sociais.<br>
+                                                    José Julio García Arranz, Universidade da Estremadura, Espanha.<br>
+                                                    Laurent Tissot, Universidade de Neuchântel, Suíça.<br>
+                                                    Maria Filomena Guerra, Universidade Panthéon Sorbonne, Nanterre, França.<br>
+                                                    Zoltán Somhegyi, Universidade Károli Gáspár, Budapeste, Hungria<br><br>
+                        
                     </div>
                     
                     <div class="flex-left">
@@ -43,7 +59,7 @@ include 'models/functions.php';
                     </div>
                 </div>
 
-                <div class="flex-container">
+<!--                 <div class="flex-container">
                     
                     <div class="flex-left2">
                         "tempor pulvinar. Vivamus ultrices egestas posuere. Integer magna orci, vestibulum."
@@ -58,7 +74,7 @@ include 'models/functions.php';
                         Donec tempus odio nec nisi euismod, ac volutpat purus laoreet. Luctus eu liber a fermentum. Sed pretium turpis enim.
                     </div>
 
-                </div>
+                </div> -->
                
 
             </div>
