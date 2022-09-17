@@ -20,8 +20,18 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
                         <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 38px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 60px; word-wrap: break-word;">
                         <?=$investigadores['nome']?>
                         </h3>
-                        <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 60px; color:#060633; padding-left: 60px;  padding-bottom: 80px;">
-                        <?=$investigadores['email']?>
+                        
+                        <h5>
+                        
+                        <canvas id="e" ></canvas>
+                        <script>
+                        var canvas = document.getElementById("e");
+                        var context = canvas.getContext("2d");
+                        context.fillStyle = "#060633";
+                        context.font = "17px Arial Narrow, sans-serif";
+                        context.fillText("<?=$investigadores['email']?>", 60, 20);
+                        </script>
+
                         </h5>
 
 
