@@ -123,7 +123,7 @@
 
                     <div class="form-group">
                         <label>Sobre</label>
-                        <input type="text" class="form-control" id="inputSobre" name="sobre" value=<?php echo $sobre; ?>>
+                        <input type="text" class="form-control" id="inputSobre" name="sobre" value="<?php echo $sobre; ?>">
                         <!-- Error -->
                         <div class="help-block with-errors"></div>
                     </div>
