@@ -142,7 +142,7 @@
 
                     <div class="form-group">
                         <label>Áreas de interesse</label>
-                        <input type="text" class="form-control" id="inputAreasdeInteresse" name="areasdeinteresse" value=<?php echo $areasdeinteresse; ?>>
+                        <input type="text" class="form-control" id="inputAreasdeInteresse" name="areasdeinteresse" value="<?php echo $areasdeinteresse; ?>">
                         <!-- Error -->
                         <div class="help-block with-errors"></div>
                     </div>
