@@ -159,7 +159,7 @@ function template_header($title){
                                         <a class="nav-link" id="sobretechn" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">INVESTIGADORES/AS <span class="caret"></span></a>
                                         <div class="dropdown-content">
                                             <a href="integrados.php">Integrados/as</a>
-                                            <a href="colaboradores.php">Coloboradores/as</a>
+                                            <a href="colaboradores.php">Colaboradores/as</a>
                                             <a href="alunos.php">Alunos/as</a>
                                     </div>
                                     </li>
