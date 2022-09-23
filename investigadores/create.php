@@ -2,6 +2,12 @@
     require "verifica.php"; 
     require "basedados.php";
 
+    if($_SESSION["autenticado"]!= 'administrador') { 
+        // Usuário não logado! Redireciona para a página de login 
+        header("Location: index.php"); 
+        exit; 
+    } 
+    
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $target_file=$_FILES["fotografia"]["name"];
         move_uploaded_file($_FILES["fotografia"]["tmp_name"], $target_file);
