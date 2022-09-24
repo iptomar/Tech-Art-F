@@ -265,9 +265,11 @@ table.table .avatar {
 					<div class="col-sm-6">
 						<h2>Investigadores</h2>
 					</div>
+					<?php if($_SESSION["autenticado"] == 'administrador'){?>
 					<div class="col-sm-6">
 						<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Adiconar Novo Investigador</span></a>					
 					</div>
+					<?php } ?>
 				</div>
 			</div></div></div>
 
