@@ -102,21 +102,21 @@
                     <input type="hidden" name="id" value=<?php echo $id; ?>>
                     <div class="form-group">
                         <label>Nome</label>
-                        <input type="text" name="nome" class="form-control" data-error="You must have a name." id="inputName"  value=<?php echo $nome; ?>>
+                        <input type="text" name="nome" class="form-control" data-error="You must have a name." id="inputName"  value="<?php echo $nome; ?>">
                         <!-- Error -->
                         <div class="help-block with-errors"></div>
                     </div>
 
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="email" class="form-control" id="inputEmail" name="email" value=<?php echo $email; ?>>
+                        <input type="email" class="form-control" id="inputEmail" name="email" value="<?php echo $email; ?>">
                         <!-- Error -->
                         <div class="help-block with-errors"></div>
                     </div>
 
                     <div class="form-group">
                         <label>CiênciaVitae ID</label>
-                        <input type="text" class="form-control" id="inputCienciaid" name="ciencia_id" value=<?php echo $ciencia_id; ?>>
+                        <input type="text" class="form-control" id="inputCienciaid" name="ciencia_id" value="<?php echo $ciencia_id; ?>">
                         <!-- Error -->
                         <div class="help-block with-errors"></div>
                     </div>
