@@ -33,7 +33,18 @@ include 'models/functions.php';
                         <b>a) </b>Contribuir para a consolidação dos programas de formação do IPT enquadrados nos domínios científicos listados;<br><br>
 
                         <b>b) </b>Contribuir para a sólida formação dos alunos estreitando a colaboração entre os trabalhos de investigação científica desenvolvidos
-                        pelos investigadores TechnArt;
+                        pelos investigadores TechnArt;<br><br>
+
+                        <b>c) </b>Difundir a cultura científica, tecnológica e artística através da organização de conferências, colóquios, seminários, exposições
+                        e sessões culturais;<br><br>
+
+                        <b>d) </b>Promover a formação avançada dos recursos humanos, fomentando a sua constante valorização científica e cultural;<br><br>
+
+                        <b>e) </b>Estabelecer a cooperação interinstitucional com entidades nacionais e internacionais;<br><br>
+
+                        <b>f) </b>Utilizar com eficácia os financiamentos de que é beneficiária e outros recursos disponíveis;<br><br>
+
+                        <b>g) </b>Prestar serviços à comunidade no âmbito das suas atividades.<br><br>
                     </div>
                     
                     <div class="flex-left">
@@ -44,12 +55,12 @@ include 'models/functions.php';
                     </div>
                 </div>
 
-                <div>
-                <!--<div class="flex-container">
+                
+<!--                 <div class="flex-container">
                     
                     <div class="flex-left2">
                         "tempor pulvinar. Vivamus ultrices egestas posuere. Integer magna orci, vestibulum."
-                    </div> -->
+                    </div> 
 
                     <div class="flex-right">
                         <b>c) </b>Difundir a cultura científica, tecnológica e artística através da organização de conferências, colóquios, seminários, exposições
@@ -64,7 +75,7 @@ include 'models/functions.php';
                         <b>g) </b>Prestar serviços à comunidade no âmbito das suas atividades.<br><br>
                     </div>
 
-                </div>
+                </div> -->
                
 
             </div>

@@ -34,6 +34,16 @@ include 'models/functions.php';
                         <b>a1) </b>Conservação e Restauro<br><br>
 
                         <b>a2) </b>Caraterização e Contextualização do Património<br><br>
+
+                        <b>b) </b>Valorização do Património Artístico e Cultural<br><br>
+                        
+                        <b>b1) </b>Didática, Tecnologia e Comunicação<br><br>
+                        
+                        <b>b2) </b>Design e Inovação<br><br>
+
+                        Estas linhas de ação complementam-se e imbricam-se para que o todo que a missão do Techn&Art seja coerente e tire partido do visando 
+                        a transferência de conhecimento, de competências e de experiências de todos os investigadores e colaboradores do nosso centro.
+
                     </div>
                     
                     <div class="flex-left">
@@ -44,12 +54,11 @@ include 'models/functions.php';
                     </div>
                 </div>
 
-                <div>
 <!--                 <div class="flex-container">
                     
                     <div class="flex-left2">
                         "tempor pulvinar. Vivamus ultrices egestas posuere. Integer magna orci, vestibulum."
-                    </div> -->
+                    </div> 
 
                     <div class="flex-right">
                         <b>b) </b>Valorização do Património Artístico e Cultural<br><br>
@@ -63,7 +72,7 @@ include 'models/functions.php';
                         
                     </div>
 
-                </div>
+                </div> -->
                
 
             </div>
