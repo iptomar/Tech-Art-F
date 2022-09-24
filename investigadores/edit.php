@@ -149,21 +149,21 @@
 
                     <div class="form-group">
                         <label>Orcid</label>
-                        <input type="text" class="form-control" id="inputOrcid" name="orcid" value=<?php echo $orcid; ?>>
+                        <input type="text" class="form-control" id="inputOrcid" name="orcid" value="<?php echo $orcid; ?>">
                         <!-- Error -->
                         <div class="help-block with-errors"></div>
                     </div>
 
                     <div class="form-group">
                         <label>Scholar</label>
-                        <input type="text" class="form-control" id="inputScholar" name="scholar" value=<?php echo $scholar; ?>>
+                        <input type="text" class="form-control" id="inputScholar" name="scholar" value="<?php echo $scholar; ?>">
                         <!-- Error -->
                         <div class="help-block with-errors"></div>
                     </div>
 
                     <div class="form-group">
                         <label>Fotografia</label>
-                        <input type="file" class="form-control" id="inputFotografia" name="fotografia" value=<?php echo $fotografia; ?>>
+                        <input type="file" class="form-control" id="inputFotografia" name="fotografia" value="<?php echo $fotografia; ?>">
                         <!-- Error -->
                         <div class="help-block with-errors"></div>
                     </div>

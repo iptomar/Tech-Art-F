@@ -125,7 +125,7 @@
                     <input type="hidden" name="id" value=<?php echo $id; ?>>
                     <div class="form-group">
                         <label>Nome</label>
-                        <input type="text" name="nome" class="form-control" data-error="Tu deves ter um nome." id="inputName"  value=<?php echo $nome; ?>>
+                        <input type="text" name="nome" class="form-control" data-error="Tu deves ter um nome." id="inputName"  value="<?php echo $nome; ?>">
                         <!-- Error -->
                         <div class="help-block with-errors"></div>
                     </div>
@@ -146,28 +146,28 @@
 
                     <div class="form-group">
                         <label>Referência</label>
-                        <input type="text" class="form-control" id="inputReferencia" name="referencia" value=<?php echo $referencia; ?>>
+                        <input type="text" class="form-control" id="inputReferencia" name="referencia" value="<?php echo $referencia; ?>">
                         <!-- Error -->
                         <div class="help-block with-errors"></div>
                     </div>
 
                     <div class="form-group">
                         <label>Techn&Art área preferencial</label>
-                        <input type="text" class="form-control" id="inputAreaPreferencial" name="areapreferencial" value=<?php echo $areapreferencial; ?>>
+                        <input type="text" class="form-control" id="inputAreaPreferencial" name="areapreferencial" value="<?php echo $areapreferencial; ?>">
                         <!-- Error -->
                         <div class="help-block with-errors"></div>
                     </div>
 
                     <div class="form-group">
                         <label>Financiamento</label>
-                        <input type="text" class="form-control" id="inputFinanciamento" name="financiamento" value=<?php echo $financiamento; ?>>
+                        <input type="text" class="form-control" id="inputFinanciamento" name="financiamento" value="<?php echo $financiamento; ?>">
                         <!-- Error -->
                         <div class="help-block with-errors"></div>
                     </div>
 
                     <div class="form-group">
                         <label>Âmbito</label>
-                        <input type="text" class="form-control" id="inputAmbito" name="ambito" value=<?php echo $ambito; ?>>
+                        <input type="text" class="form-control" id="inputAmbito" name="ambito" value="<?php echo $ambito; ?>">
                         <!-- Error -->
                         <div class="help-block with-errors"></div>
                     </div>
