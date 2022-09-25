@@ -91,8 +91,7 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
                         </h3>
 
                         <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 40px;">
-                        Duis a mollis urna. In hac habitasse platea dictumst. Vestibulum nisi nunc, elementum et vehicula vel, rhoncus non metus.
-                        In vel dapibus dolor. Sed at laoreet turpis. Donec nec aliquam velit. Quisque blandit nisi mauris.
+                        <?=$investigadores['areasdeinteresse']?>
                         </h5>
 
 <!--                         <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 40px;">
