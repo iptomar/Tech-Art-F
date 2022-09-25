@@ -99,94 +99,50 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
                
                      <a style="display: inline-block; padding: 5px 25px; background-color:#333F50; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
                      -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;" 
-                     href="">
+                     href="projetos.php">
                      VER TODOS
                      </a>
                
             </div>
             <div class="row">
-               <div class="col">
-                  <div style="padding-top: 40px">
+            <?php 
+             $sql = "SELECT id, nome, descricao, fotografia FROM projetos ORDER BY id DESC limit 4";
+             $stmt = $pdo->prepare($sql);
+             $stmt->execute();
+             $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+             foreach($projetos as $row){
+                     ?>
+                     <div class="col">
+                     <div style="padding-top: 40px">
                      <div class="img-box">
-                        <img style="object-fit: cover; width:230px; height:230px;" src="./assets/images/riverwater.jpg" alt="">
+                     <a href="projeto.php?projeto=<?=$row["id"];?>">
+                     <img style="object-fit: cover; width:230px; height:230px;" src="../projetos/<?=$row["fotografia"];?>" alt="">
+                     </a>
                      </div>
-                  </div>
+                     </div>
                      <div class="detail-box">
                      <div style="color: #333F50; padding-left: 15px; padding-top: 15px; text-align: center; width:210px;">
+                     <a href="projeto.php?projeto=<?=$row["id"];?>" style="color:#000000;">
                         <h5>
-                           WaterRIVER.tour
+                            <?=$row["nome"];?>
                         </h5>
+                     </a>
                      </div>
-                        <div style="padding-left: 30px; text-align: center; width:210px;">
+                     <div style="padding-left: 30px; text-align: center; width:210px;">
                         <h6>
-                           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                           Interdum varius sit amet mattis. 
+                           <?=substr($row["descricao"],0,150);?>...
                         </h6>
                      </div>
                      </div>
-                  
                </div>
-               <div class="col">
-                  <div style="padding-top: 40px">
-                     <div class="img-box">
-                        <img style="object-fit: cover; width:230px; height:230px;" src="./assets/images/Festa-Tabuleiros.jpg" alt="">
-                     </div>
-                     </div>
-                     <div class="detail-box">
-                     <div style="color: #333F50; padding-left: 15px; padding-top: 15px; text-align: center; width:210px;">
-                        <h5>
-                           FesTab
-                        </h5>
-                     </div>
-                        <div style="padding-left: 30px; text-align: center; width:210px;">
-                           <h6>
-                              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                              Interdum varius sit amet mattis. 
-                           </h6>
-                        </div>
-                  </div>
-               </div>
-               <div class="col">
-                  <div style="padding-top: 40px">
-                     <div class="img-box">
-                        <img style="object-fit: cover; width:230px; height:230px;" src="./assets/images/Afonso_Henriques.jpg" alt="">
-                     </div>
-                     <div class="detail-box">
-                     <div style="color: #333F50; padding-left: 15px; padding-top: 15px; text-align: center; width:210px;">
-                        <h5>
-                           INSIGNIA
-                        </h5>
-                     </div>
-                        <div style="padding-left: 30px; text-align: center; width:210px;">
-                           <h6>
-                              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                              Interdum varius sit amet mattis. 
-                           </h6>
-                        </div>
-                     </div>
-                  </div>
-               </div>
+                     <?php
+                    }
+                
+                ?>
+               
+              
 
-               <div class="col">
-                  <div style="padding-top: 40px">
-                     <div class="img-box">
-                        <img style="object-fit: cover; width:230px; height:230px;" src="./assets/images/linha-de-costura.jpg" alt="">
-                     </div>
-                     <div class="detail-box">
-                     <div style="color: #333F50; padding-left: 15px; padding-top: 15px; text-align: center; width:210px;">
-                        <h5>
-                           POR1FIO
-                        </h5>
-                     </div>
-                        <div style="padding-left: 30px; text-align: center; width:210px;">
-                           <h6>
-                              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                              Interdum varius sit amet mattis. 
-                           </h6>
-                        </div>
-                     </div>
-                  </div>
-               </div>
+               
             </div>     
          </div>
       </div>
