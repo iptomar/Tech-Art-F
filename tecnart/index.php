@@ -88,7 +88,7 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
       
       <!-- product section -->
    <section class="product_section layout_padding">
-      <div style="background-color: #d4ced0; padding-top: 50px; padding-bottom: 50px;">
+      <div style="background-color: #dbdee1; padding-top: 50px; padding-bottom: 50px;">
          <div class="container">
             <div class="heading_container2 heading_center2">
                
@@ -122,7 +122,7 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
                      </div>
                      <div class="detail-box">
                      <div style="color: #333F50; padding-left: 15px; padding-top: 15px; text-align: center; width:210px;">
-                     <a href="projeto.php?projeto=<?=$row["id"];?>" style="color:#000000;">
+                     <a href="projeto.php?projeto=<?=$row["id"];?>" style="color:#333F50;">
                         <h5>
                             <?=$row["nome"];?>
                         </h5>
