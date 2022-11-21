@@ -84,6 +84,14 @@ function template_header($title){
                 .goog-te-gadget{
                     color: transparent !important;
                 }
+
+                #developmentWarningEN,#developmentWarningPT{
+                  position:fixed;
+                  top:0;
+                  right:0;
+                  z-index: 1;
+                  opacity: 0.8;
+                }
                  
                 </style>
                 
@@ -94,6 +102,14 @@ function template_header($title){
                 </head>
                 
                 <body>
+
+                <div id="developmentWarningEN">
+                  <a href="http://www.techneart.ipt.pt/"><img width="190" src="./assets/images/developmentWarningEN.png" alt="#" /></a> <!--Image warns users that website is in development-->
+                </div>
+                <div id="developmentWarningPT">
+                <a href="http://www.techneart.ipt.pt/"><img width="190" src="./assets/images/developmentWarningPT.png" alt="#" /></a> <!--Image warns users that website is in development-->
+                </div>
+
                 <div style="padding-bottom: 0px;" class="hero_area">
                     <!-- header section strats --><!--duplicar o tamanho do header -->
                     <header style="padding-bottom: 0px;" class="header_section2">
@@ -320,12 +336,16 @@ function template_footer(){
                     document.getElementById('logo').className = "hidden"; 
                     document.getElementById('logo4').className = "show";
                     document.getElementById('logo3').className = "hidden"; 
+                    document.getElementById('developmentWarningEN').className = "hidden";
+                    document.getElementById('developmentWarningPT').className = "show";       
                   } else {
                     
                     document.getElementById('logo').className = "show";
                     document.getElementById('logo2').className = "hidden";
                     document.getElementById('logo3').className = "show";
                     document.getElementById('logo4').className = "hidden";
+                    document.getElementById('developmentWarningEN').className = "show";
+                    document.getElementById('developmentWarningPT').className = "hidden";       
                   }
                 }
 
@@ -345,6 +365,8 @@ function template_footer(){
                     document.getElementById('logo').className = "hidden"; 
                     document.getElementById('logo4').className = "show";
                     document.getElementById('logo3').className = "hidden"; 
+                    document.getElementById('developmentWarningEN').className = "hidden";
+                    document.getElementById('developmentWarningPT').className = "show";                       
                   } else {
                     setCookie('googtrans', '/en/en', 1);
                     document.getElementById('logo').className = "show";
@@ -352,6 +374,8 @@ function template_footer(){
                     document.getElementById('logo3').className = "show";
                     document.getElementById('logo4').className = "hidden";
                     
+                    document.getElementById('developmentWarningEN').className = "show";
+                    document.getElementById('developmentWarningPT').className = "hidden";                        
                   }
                 }
             
