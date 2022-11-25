@@ -192,7 +192,7 @@ function template_header($title){
                     </div>
                     <!-- end header section -->
 
-    EOT;
+EOT;
 }
 
 function template_footer(){
@@ -409,6 +409,6 @@ function template_footer(){
 
 
 
-    EOT;
+EOT;
 
 }
