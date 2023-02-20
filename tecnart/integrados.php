@@ -46,7 +46,7 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
                <div  class="ml-5 imgList">
                   <a href="integrado.php?integrado=<?=$investigador['id']?>">
                         <div  class="image">
-                        <img class="centrare" style="object-fit: cover; width:225px; height:280px;" src="../investigadores/<?=$investigador['fotografia']?>" alt="">
+                        <img class="centrare" style="object-fit: cover; width:225px; height:280px;" src="../backoffice/assets/investigadores/<?=$investigador['fotografia']?>" alt="">
                            <div class="imgText justify-content-center m-auto"><?=$investigador['nome']?></div>
                         </div>
                   </a> 

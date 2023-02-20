@@ -116,7 +116,7 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
                      <div style="padding-top: 40px">
                      <div class="img-box">
                      <a href="projeto.php?projeto=<?=$row["id"];?>">
-                     <img style="object-fit: cover; width:230px; height:230px;" src="../projetos/<?=$row["fotografia"];?>" alt="">
+                     <img style="object-fit: cover; width:230px; height:230px;" src="../backoffice/assets/projetos/<?=$row["fotografia"];?>" alt="">
                      </a>
                      </div>
                      </div>

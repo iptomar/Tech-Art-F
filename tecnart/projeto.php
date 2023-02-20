@@ -22,7 +22,7 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
 
 <section class="product_section layout_padding3">
     <div
-        style="height:300px; background: url('../projetos/<?=$projetos['fotografia']?>'); background-size: cover; background-position:100%;">
+        style="height:300px; background: url('../backoffice/assets/projetos/<?=$projetos['fotografia']?>'); background-size: cover; background-position:100%;">
     </div>
 </section>
 
@@ -158,7 +158,7 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
                                     <a href="integrado.php?integrado=<?=$investigador['id']?>">
                                         <div class="image">
                                             <img class="centrare" style="object-fit: cover; width:225px; height:280px;"
-                                                src="../investigadores/<?=$investigador['fotografia']?>" alt="">
+                                                src="../backoffice/assets/investigadores/<?=$investigador['fotografia']?>" alt="">
                                             <div class="imgText justify-content-center m-auto">
                                                 <?=$investigador['nome']?>
                                             </div>

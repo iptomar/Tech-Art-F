@@ -70,7 +70,7 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
                     </div>
 
                     <div class="resto">
-                        <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../investigadores/<?=$investigadores['fotografia']?>" alt="">
+                        <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/investigadores/<?=$investigadores['fotografia']?>" alt="">
                     
                         <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 30px; padding-left: 50px;">
                             Sobre
@@ -83,7 +83,7 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
                     </div>
 
                     <div class="resto2" style="display: none;">
-                        <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../investigadores/<?=$investigadores['fotografia']?>" alt="">
+                        <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/investigadores/<?=$investigadores['fotografia']?>" alt="">
                     
                         <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 30px; padding-left: 50px;">
                             Áreas de interesse
@@ -106,7 +106,7 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
                     </div>
 
                     <div class="resto3" style="display: none;">
-                        <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../investigadores/<?=$investigadores['fotografia']?>" alt="">
+                        <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/investigadores/<?=$investigadores['fotografia']?>" alt="">
                     
                         <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 30px; padding-left: 50px;">
                             Publicações
@@ -184,7 +184,7 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
                     </div>
 
                     <div class="resto4" style="display: none;">
-                        <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../investigadores/<?=$investigadores['fotografia']?>" alt="">
+                        <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/investigadores/<?=$investigadores['fotografia']?>" alt="">
                         
                         <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 30px; padding-left: 50px;">
                             Projetos
@@ -207,7 +207,7 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
                                     <a href="projeto.php?projeto=<?=$projeto['id']?>">
                                         <div class="image">
                                             <img class="centrare" style="object-fit: cover; width:225px; height:280px;"
-                                                src="../projetos/<?=$projeto['fotografia']?>" alt="">
+                                                src="../backoffice/assets/projetos/<?=$projeto['fotografia']?>" alt="">
                                             <div class="imgText justify-content-center m-auto">
                                                 <?=$projeto['nome']?>
                                             </div>
