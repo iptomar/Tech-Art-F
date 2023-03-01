@@ -3,7 +3,7 @@ require "../verifica.php";
 require "../config/basedados.php";
 
 if ($_SESSION["autenticado"] != 'administrador') {
-    // Usuário não tem permissão para eliminar investigadores Redireciona para a página de login 
+    // Usuário não tem permissão para eliminar noticias redireciona para o index das noticias
     header("Location: index.php");
     exit;
 }

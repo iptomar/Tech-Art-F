@@ -29,8 +29,12 @@ $result = mysqli_query($conn, $sql);
 						<h2>Notícias</h2>
 					</div>
 					<div class="col-sm-6">
-						<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i>
-							<span>Adiconar Nova Notícia</span></a>
+						<?php
+						if ($_SESSION["autenticado"] == "administrador") {
+							echo '<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i>';
+							echo '<span>Adiconar Nova Notícia</span></a>';
+						}
+						?>
 					</div>
 				</div>
 			</div>

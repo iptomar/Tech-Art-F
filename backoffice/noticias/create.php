@@ -49,10 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="container mt-5">
     <div class="card">
-        <h5 class="card-header text-center">Adicionar Administrador</h5>
+        <h5 class="card-header text-center">Adicionar Notícia</h5>
         <div class="card-body">
             <form role="form" data-toggle="validator" action="create.php" method="post" enctype="multipart/form-data">
-
 
                 <div class="form-group">
                     <label>Titulo</label>
