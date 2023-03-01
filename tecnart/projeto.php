@@ -68,21 +68,6 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
                 </span>
             </button> -->
 
-            <h5 class="nofinal"
-                style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; color:#060633; padding-bottom: 45px; padding-left: 190px;">
-                Ligações externas
-            </h5>
-
-            <a href="https://www.researchgate.net/"
-                style="font-size:28px; color:#04d7aa; position: absolute; bottom: 11px; left: 207px;"><i
-                    class="fab fa-researchgate"></i></a>
-            <a href="https://www.youtube.com/"
-                style="font-size:30px; color:red; position: absolute; bottom: 10px; left: 240px;"><i
-                    class="fa fa-youtube-play"></i></a>
-            <a href="https://www.facebook.com/"
-                style="font-size:25px; color:#2c61a0; position: absolute; bottom: 13px; left: 280px;"><i
-                    class="fa fa-facebook-official"></i></a>
-
 
         </div>
 
