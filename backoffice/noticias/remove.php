@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 </style>
 
-<div class="container mt-5">
+<div class="container-xl mt-5">
     <div class="card">
         <h5 class="card-header text-center">Remover Notícia</h5>
         <div class="card-body">
