@@ -46,12 +46,14 @@
 
 
 <ul>
-    <li><a href="../projetos">Projetos</a></li>
-    <li><a href="../investigadores">Investigadores</a></li>
     <?php
     // Utilizador tem permissão para aceder ao administradores
     if ($_SESSION["autenticado"] == "administrador") {
-        echo "  <li><a href=\"../administradores\">Administradores</a></li>";
-    } ?>
+        echo "<li><a href=\"../administradores\">Administradores</a></li>";
+    }
+    ?>
+    <li><a href="../investigadores">Investigadores</a></li>
+    <li><a href="../projetos">Projetos</a></li>
+    <li><a href="../noticias">Notícias</a></li>
     <li><a class="leftnav" href="../sair.php">Sair</a></li>
 </ul>
