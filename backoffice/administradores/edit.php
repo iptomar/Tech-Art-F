@@ -69,14 +69,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="hidden" name="id" value=<?php echo $id; ?>>
                 <div class="form-group">
                     <label>Nome</label>
-                    <input type="text" name="nome" class="form-control" data-error="You must have a name." id="inputName" placeholder="Nome" value="<?php echo $nome; ?>">
+                    <input type="text" minlength="1" required maxlength="255" required name="nome" class="form-control" data-error="Introduza um nome válido" id="inputName" placeholder="Nome" value="<?php echo $nome; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email" value="<?php echo $email; ?>">
+                    <input type="email" minlength="1" required maxlength="100" required class="form-control" id="inputEmail" placeholder="Email" name="email" value="<?php echo $email; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>

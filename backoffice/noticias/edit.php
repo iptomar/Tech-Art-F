@@ -90,14 +90,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="hidden" name="id" value=<?php echo $id; ?>>
                 <div class="form-group">
                     <label>Título</label>
-                    <input type="text" name="titulo" class="form-control" data-error="Por favor adicione o titulo" id="inputTitle" placeholder="Título" value="<?php echo $titulo; ?>">
+                    <input type="text" minlength="1" required maxlength="100" required name="titulo" class="form-control" data-error="Por favor adicione um título válido" id="inputTitle" placeholder="Título" value="<?php echo $titulo; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Conteúdo da notícia</label>
-                    <textarea class="form-control" cols="30" rows="5" data-error="Por favor adicione o conteudo da noticia" id="inputContent" name="conteudo"><?php echo $conteudo; ?></textarea>
+                    <textarea class="form-control" minlength="1" required cols="30" rows="5" data-error="Por favor adicione o conteudo da noticia" id="inputContent" name="conteudo"><?php echo $conteudo; ?></textarea>
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
@@ -111,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Imagem</label>
-                    <input type="file" class="form-control" id="inputImage" name="imagem" onchange="previewImg(this);" value="<?php echo $imagem; ?>">
+                    <input type="file" minlength="1" required maxlength="100" data-error="Por favor adicione uma imagem válida" required class="form-control" id="inputImage" name="imagem" onchange="previewImg(this);" value="<?php echo $imagem; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>

@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="hidden" name="id" value="<?php echo $_GET["id"]; ?>">
                     <div class="form-group">
                         <label>Password</label>
-                        <input type="password" class="form-control" id="inputPassword" placeholder="Password" name="password">
+                        <input type="password" minlength="1" required maxlength="255" data-error="Por favor introduza uma password válida" required class="form-control" id="inputPassword" placeholder="Password" name="password">
                         <!-- Error -->
                         <div class="help-block with-errors"></div>
                     </div>

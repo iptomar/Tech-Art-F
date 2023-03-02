@@ -70,56 +70,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="hidden" name="id" value=<?php echo $id; ?>>
                 <div class="form-group">
                     <label>Nome</label>
-                    <input type="text" name="nome" class="form-control" data-error="Tu deves ter um nome." id="inputName" readonly value="<?php echo $nome; ?>">
+                    <input readonly type="text" name="nome" class="form-control" data-error="Tu deves ter um nome." id="inputName" readonly value="<?php echo $nome; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Descrição</label>
-                    <input type="text" class="form-control" id="inputDescricao" name="descricao" readonly value="<?php echo $descricao; ?>">
+                    <input readonly type="text" class="form-control" id="inputDescricao" name="descricao" readonly value="<?php echo $descricao; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Sobre Projeto</label>
-                    <input type="text" class="form-control" id="inputSobreProjeto" name="sobreprojeto" readonly value="<?php echo $sobreprojeto; ?>">
+                    <input readonly type="text" class="form-control" id="inputSobreProjeto" name="sobreprojeto" readonly value="<?php echo $sobreprojeto; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Referência</label>
-                    <input type="text" class="form-control" id="inputReferencia" name="referencia" readonly value="<?php echo $referencia; ?>">
+                    <input readonly type="text" class="form-control" id="inputReferencia" name="referencia" readonly value="<?php echo $referencia; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Techn&Art área preferencial</label>
-                    <input type="text" class="form-control" id="inputAreaPreferencial" name="areapreferencial" readonly value="<?php echo $areapreferencial; ?>">
+                    <input readonly type="text" class="form-control" id="inputAreaPreferencial" name="areapreferencial" readonly value="<?php echo $areapreferencial; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Financiamento</label>
-                    <input type="text" class="form-control" id="inputFinanciamento" name="financiamento" readonly value="<?php echo $financiamento; ?>">
+                    <input readonly type="text" class="form-control" id="inputFinanciamento" name="financiamento" readonly value="<?php echo $financiamento; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Âmbito</label>
-                    <input type="text" class="form-control" id="inputAmbito" name="ambito" readonly value="<?php echo $ambito; ?>">
+                    <input readonly type="text" class="form-control" id="inputAmbito" name="ambito" readonly value="<?php echo $ambito; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Fotografia</label>
-                    <input type="text" class="form-control" id="inputFotografia" name="fotografia" readonly value="<?php echo "../assets/projetos/" . $fotografia; ?>">
+                    <input readonly type="text" class="form-control" id="inputFotografia" name="fotografia" readonly value="<?php echo "../assets/projetos/" . $fotografia; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>

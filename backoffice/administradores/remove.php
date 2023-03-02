@@ -61,14 +61,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="hidden" name="id" value=<?php echo $id; ?>>
                 <div class="form-group">
                     <label>Nome</label>
-                    <input type="text" name="nome" class="form-control" data-error="You must have a name." id="inputName" placeholder="Nome" readonly value="<?php echo $nome; ?>">
+                    <input readonly type="text" name="nome" class="form-control" id="inputName" placeholder="Nome" readonly value="<?php echo $nome; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email" readonly value="<?php echo $email; ?>">
+                    <input readonly type="email" class="form-control" id="inputEmail" placeholder="Email" name="email" readonly value="<?php echo $email; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
