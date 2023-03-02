@@ -75,63 +75,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="hidden" name="id" value=<?php echo $id; ?>>
                 <div class="form-group">
                     <label>Nome</label>
-                    <input readonly type="text" name="nome" class="form-control" id="inputName" readonly value="<?php echo $nome; ?>">
+                    <input type="text" name="nome" class="form-control" id="inputName" readonly value="<?php echo $nome; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Email</label>
-                    <input readonly type="email" class="form-control" id="inputEmail" name="email" readonly value="<?php echo $email; ?>">
+                    <input type="email" class="form-control" id="inputEmail" name="email" readonly value="<?php echo $email; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>CiênciaVitae ID</label>
-                    <input readonly type="text" class="form-control" id="inputCienciaid" name="ciencia_id" readonly value="<?php echo $ciencia_id; ?>">
+                    <input type="text" class="form-control" id="inputCienciaid" name="ciencia_id" readonly value="<?php echo $ciencia_id; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Sobre</label>
-                    <input readonly type="sobre" class="form-control" id="inputSobre" name="sobre" readonly value="<?php echo $sobre; ?>">
+                    <input type="sobre" class="form-control" id="inputSobre" name="sobre" readonly value="<?php echo $sobre; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Áreas de interesse</label>
-                    <input readonly type="text" class="form-control" id="inputAreasdeInteresse" name="areasdeinteresse" readonly value="<?php echo $areasdeinteresse; ?>">
+                    <input type="text" class="form-control" id="inputAreasdeInteresse" name="areasdeinteresse" readonly value="<?php echo $areasdeinteresse; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Orcid</label>
-                    <input readonly type="text" maxlength="255" required class="form-control" id="inputOrcid" name="orcid" readonly value="<?php echo $orcid; ?>">
+                    <input type="text" maxlength="255" required class="form-control" id="inputOrcid" name="orcid" readonly value="<?php echo $orcid; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Scholar</label>
-                    <input readonly type="text" class="form-control" id="inputScholar" name="scholar" readonly value="<?php echo $scholar; ?>">
+                    <input type="text" class="form-control" id="inputScholar" name="scholar" readonly value="<?php echo $scholar; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Tipo</label>
-                    <input readonly type="text" class="form-control" id="inputTipo" name="tipo" readonly value="<?php echo $tipo; ?>">
+                    <input type="text" class="form-control" id="inputTipo" name="tipo" readonly value="<?php echo $tipo; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Fotografia</label>
-                    <input readonly type="text" class="form-control" id="inputFotografia" name="fotografia" readonly value="<?php echo "../assets/projetos/" . $fotografia; ?>">
+                    <input type="text" class="form-control" id="inputFotografia" name="fotografia" readonly value="<?php echo "../assets/projetos/" . $fotografia; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
