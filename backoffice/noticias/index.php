@@ -17,7 +17,18 @@ $result = mysqli_query($conn, $sql);
 	<?php
 	$css = file_get_contents('../styleBackoffices.css');
 	echo $css;
-	?>
+	?>.div-textarea {
+		display: block;
+		padding: 5px 10px;
+		border: 1px solid lightgray;
+		resize: vertical;
+		overflow: auto;
+		resize: vertical;
+		font-size: 1rem;
+		font-weight: 400;
+		line-height: 1.5;
+		color: #495057;
+	}
 </style>
 
 <div class="container-xl">
@@ -54,7 +65,7 @@ $result = mysqli_query($conn, $sql);
 						while ($row = mysqli_fetch_assoc($result)) {
 							echo "<tr>";
 							echo "<td style='width:250px;'>" . $row["titulo"] . "</td>";
-							echo "<td style='width:500px;'>" . "<textarea readonly style='width:100%; height:100%;' rows='5'>".$row["conteudo"]."</textarea>" . "</td>";
+							echo "<td style='width:500px; height:100px;'>" . "<div class='div-textarea' style='width:100%; height:100%;'>" . $row["conteudo"] . "</div>" . "</td>";
 							echo "<td style='width:250px;'>" . $row["data"] . "</td>";
 							echo "<td><img src='../assets/noticias/$row[imagem]' width = '100px' height = '100px'></td>";
 							if ($_SESSION["autenticado"] == "administrador") {

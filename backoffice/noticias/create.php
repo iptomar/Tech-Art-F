@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $titulo = $_POST["titulo"];
     $conteudo = $_POST["conteudo"];
     $imagem = $target_file;
-    $data =$_POST["data"];
+    $data = $_POST["data"];
     mysqli_stmt_bind_param($stmt, 'ssss', $titulo, $conteudo, $imagem, $data);
     if (mysqli_stmt_execute($stmt)) {
         header('Location: index.php');
@@ -28,6 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </link>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+
 <style>
     .container {
         max-width: 550px;
@@ -44,6 +45,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         font-size: 13px;
         padding: 4px 0 0;
         color: red;
+    }
+
+    .ck-editor__editable {
+        resize: vertical;
+        min-height: 200px;
     }
 </style>
 
@@ -92,6 +98,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </div>
+
+<!--Criar o CKEditor 5-->
+<script src="../ckeditor5/build/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#inputContent'), {
+            licenseKey: '',
+        })
+        .then(editor => {
+            window.editor = editor;
+        })
+</script>
 
 <?php
 mysqli_close($conn);

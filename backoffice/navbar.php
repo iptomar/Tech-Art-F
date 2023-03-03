@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 <style>
-    ul {
+    .navUl {
         list-style-type: none;
         margin: 0;
         padding: 0;
@@ -10,11 +10,11 @@
         font-family: 'Varela Round';
     }
 
-    li {
+    .navLi {
         float: left;
     }
 
-    li a {
+    .navLi a {
         display: block;
         color: white;
         text-align: center;
@@ -22,7 +22,7 @@
         text-decoration: none;
     }
 
-    li a:hover {
+    .navLi a:hover {
         background-color: #324c6c;
         text-decoration: none;
         color: white;
@@ -44,16 +44,15 @@
     }
 </style>
 
-
-<ul>
+<ul class="navUl">
     <?php
     // Utilizador tem permissão para aceder ao administradores
     if ($_SESSION["autenticado"] == "administrador") {
-        echo "<li><a href=\"../administradores\">Administradores</a></li>";
+        echo "<li class=\"navLi\"><a href=\"../administradores\">Administradores</a></li>";
     }
     ?>
-    <li><a href="../investigadores">Investigadores</a></li>
-    <li><a href="../projetos">Projetos</a></li>
-    <li><a href="../noticias">Notícias</a></li>
-    <li><a class="leftnav" href="../sair.php">Sair</a></li>
+    <li class="navLi"><a href="../investigadores">Investigadores</a></li>
+    <li class="navLi"><a href="../projetos">Projetos</a></li>
+    <li class="navLi"><a href="../noticias">Notícias</a></li>
+    <li class="navLi"><a class="leftnav" href="../sair.php">Sair</a></li>
 </ul>
