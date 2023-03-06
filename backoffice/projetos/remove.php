@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Sobre Projeto</label>
-                    <input type="text" class="form-control" id="inputSobreProjeto" name="sobreprojeto" readonly value="<?php echo $sobreprojeto; ?>">
+                    <div readonly class="form-control" style="width:100%; height:100%;"><?php echo $sobreprojeto; ?></div>
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
