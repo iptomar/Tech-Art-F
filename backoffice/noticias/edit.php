@@ -111,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Imagem</label>
-                    <input type="file" minlength="1" required maxlength="100" data-error="Por favor adicione uma imagem válida" required class="form-control" id="inputImage" name="imagem" onchange="previewImg(this);" value="<?php echo $imagem; ?>">
+                    <input type="file" minlength="1" maxlength="100" class="form-control" id="inputImage" name="imagem" onchange="previewImg(this);" value="<?php echo $imagem; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>

@@ -203,7 +203,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Fotografia</label>
-                    <input type="file" minlength="1" required maxlength="100" required data-error="Por favor introduza uma fotografia válida" class="form-control" id="inputFotografia" name="fotografia" value=<?php echo $fotografia; ?>>
+                    <input type="file" minlength="1" maxlength="100" class="form-control" id="inputFotografia" name="fotografia" value=<?php echo $fotografia; ?>>
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
