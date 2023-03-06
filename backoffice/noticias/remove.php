@@ -58,6 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         padding: 4px 0 0;
         color: red;
     }
+    
 </style>
 
 <div class="container-xl mt-5">
@@ -69,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="hidden" name="id" value=<?php echo $id; ?>>
                 <div class="form-group">
                     <label>Título</label>
-                    <input readonly type="text" name="titulo" class="form-control" data-error="Por favor adicione o titulo" id="inputTitle" placeholder="Título" value="<?php echo $titulo; ?>">
+                    <input readonly type="text" name="titulo" class="form-control" id="inputTitle" value="<?php echo $titulo; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
@@ -83,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Conteúdo da notícia</label>
-                    <textarea readonly class="form-control" cols="30" rows="5" data-error="Por favor adicione o conteudo da noticia" id="inputContent" name="conteudo"><?php echo $conteudo; ?></textarea>
+                    <div readonly class="form-control" style="width:100%; height:100%;"><?php echo $conteudo; ?></div>
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>

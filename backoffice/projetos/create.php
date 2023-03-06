@@ -164,6 +164,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </div>
 
+<!--Criar o CKEditor 5-->
+<script src="../ckeditor5/build/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#inputSobreProjeto'), {
+            licenseKey: '',
+        })
+        .then(editor => {
+            window.editor = editor;
+        })
+</script>
 
 <?php
 mysqli_close($conn);

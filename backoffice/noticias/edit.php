@@ -79,6 +79,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         padding: 4px 0 0;
         color: red;
     }
+
+    .ck-editor__editable {
+        resize: vertical;
+        min-height: 200px;
+    }
 </style>
 
 <div class="container-xl mt-5">
@@ -130,6 +135,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </div>
 
+<!--Criar o CKEditor 5-->
+<script src="../ckeditor5/build/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#inputContent'), {
+            licenseKey: '',
+        })
+        .then(editor => {
+            window.editor = editor;
+        })
+</script>
 
 <?php
 mysqli_close($conn);
