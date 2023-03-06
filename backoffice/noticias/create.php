@@ -61,28 +61,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Titulo</label>
-                    <input type="text" name="titulo" class="form-control" data-error="Por favor adicione o titulo" id="inputTitle" placeholder="Nome">
+                    <input type="text" minlength="1" required maxlength="100" required name="titulo" class="form-control" data-error="Por favor adicione um titulo válido" id="inputTitle" placeholder="Nome">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Conteúdo da notícia</label>
-                    <textarea class="form-control" cols="30" rows="5" data-error="Por favor adicione o conteudo da noticia" id="inputContent" name="conteudo"></textarea>
+                    <textarea class="form-control" minlength="1" required cols="30" rows="5" data-error="Por favor adicione o conteudo da noticia" id="inputContent" name="conteudo"></textarea>
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Data da notícia</label>
-                    <input type="date" class="form-control" id="inputDate" name="data" value="<?php echo date('Y-m-d'); ?>">
+                    <input type="date" class="form-control" id="inputDate" data-error="Por favor adicione uma data" name="data" value="<?php echo date('Y-m-d'); ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Imagem</label>
-                    <input type="file" class="form-control" id="inputImage" name="imagem">
+                    <input type="file" minlength="1" required maxlength="100" data-error="Por favor adicione uma imagem válida" required class="form-control" id="inputImage" name="imagem">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>

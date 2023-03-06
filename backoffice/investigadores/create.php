@@ -72,35 +72,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Nome</label>
-                    <input type="text" name="nome" class="form-control" data-error="You must have a name." id="inputName" placeholder="Nome">
+                    <input type="text" minlength="1" required maxlength="100" required name="nome" class="form-control" data-error="Por favor introduza um nome válido" id="inputName" placeholder="Nome">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email">
+                    <input type="email" minlength="1" required maxlength="100" required class="form-control" id="inputEmail" placeholder="Email" name="email">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" class="form-control" id="inputPassword" placeholder="Password" name="password">
+                    <input type="password" minlength="1" required maxlength="255" required class="form-control" id="inputPassword" placeholder="Password" name="password">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>CiênciaVitae ID</label>
-                    <input type="text" class="form-control" id="inputCienciaid" placeholder="CiênciaVitae ID" name="ciencia_id">
+                    <input type="text" minlength="1" required maxlength="100" required data-error="Por favor introduza un ID válido" class="form-control" id="inputCienciaid" placeholder="CiênciaVitae ID" name="ciencia_id">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Sobre</label>
-                    <input type="text" class="form-control" id="inputSobre" placeholder="Sobre" name="sobre">
+                    <input type="text" minlength="1" required data-error="Por favor introduza uma descrição sobre si" class="form-control" id="inputSobre" placeholder="Sobre" name="sobre">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
@@ -119,28 +119,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Áreas de interesse</label>
-                    <input type="text" class="form-control" id="inputAreasdeInteresse" placeholder="Áreas de interesse" name="areasdeinteresse">
+                    <input type="text" minlength="1" required data-error="Por favor introduza as suas áreas de interesse" class="form-control" id="inputAreasdeInteresse" placeholder="Áreas de interesse" name="areasdeinteresse">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Orcid</label>
-                    <input type="text" class="form-control" id="inputOrcid" placeholder="Orcid" name="orcid">
+                    <input type="text" minlength="1" required maxlength="255" required data-error="Por favor introduza um orcID válido" class="form-control" id="inputOrcid" placeholder="Orcid" name="orcid">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Scholar</label>
-                    <input type="text" class="form-control" id="inputScholar" placeholder="Scholar" name="scholar">
+                    <input type="text" minlength="1" required maxlength="255" required data-error="Por favor introduza um ID válido" class="form-control" id="inputScholar" placeholder="Scholar" name="scholar">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Fotografia</label>
-                    <input type="file" class="form-control" id="inputFotografia" placeholder="Fotografia" name="fotografia">
+                    <input type="file" minlength="1" required maxlength="100" required data-error="Por favor adicione uma fotografia válida" class="form-control" id="inputFotografia" placeholder="Fotografia" name="fotografia">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>

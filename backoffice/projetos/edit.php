@@ -126,49 +126,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="hidden" name="id" value=<?php echo $id; ?>>
                 <div class="form-group">
                     <label>Nome</label>
-                    <input type="text" name="nome" class="form-control" data-error="Tu deves ter um nome." id="inputName" value="<?php echo $nome; ?>">
+                    <input type="text" minlength="1" required maxlength="100" required data-error="Por favor introduza um nome válido" name="nome" class="form-control" id="inputName" value="<?php echo $nome; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Descrição</label>
-                    <textarea class="form-control" data-error="Por favor adiciona uma descrição." id="inputDescricao" name="descricao"><?php echo $descricao; ?></textarea>
+                    <textarea class="form-control" minlength="1" required data-error="Por favor introduza uma descrição" id="inputDescricao" name="descricao"><?php echo $descricao; ?></textarea>
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Sobre Projeto</label>
-                    <textarea class="form-control" cols="30" rows="5" data-error="Por favor adiciona um sobre projeto." id="inputSobreProjeto" name="sobreprojeto"><?php echo $sobreprojeto; ?></textarea>
+                    <textarea class="form-control" minlength="1" required data-error="Por favor introduza um 'sobre projeto'" cols="30" rows="5" id="inputSobreProjeto" name="sobreprojeto"><?php echo $sobreprojeto; ?></textarea>
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Referência</label>
-                    <input type="text" class="form-control" id="inputReferencia" name="referencia" value="<?php echo $referencia; ?>">
+                    <input type="text" minlength="1" required maxlength="100" required data-error="Por favor introduza uma referÊncia válida" class="form-control" id="inputReferencia" name="referencia" value="<?php echo $referencia; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Techn&Art área preferencial</label>
-                    <input type="text" class="form-control" id="inputAreaPreferencial" name="areapreferencial" value="<?php echo $areapreferencial; ?>">
+                    <input type="text" minlength="1" required maxlength="255" required data-error="Por favor introduza uma área preferencial" class="form-control" id="inputAreaPreferencial" name="areapreferencial" value="<?php echo $areapreferencial; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Financiamento</label>
-                    <input type="text" class="form-control" id="inputFinanciamento" name="financiamento" value="<?php echo $financiamento; ?>">
+                    <input type="text" minlength="1" required maxlength="20" required data-error="Por favor introduza um financiamento válido" class="form-control" id="inputFinanciamento" name="financiamento" value="<?php echo $financiamento; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Âmbito</label>
-                    <input type="text" class="form-control" id="inputAmbito" name="ambito" value="<?php echo $ambito; ?>">
+                    <input type="text" minlength="1" required maxlength="100" required data-error="Por favor introduza um âmbito válido" class="form-control" id="inputAmbito" name="ambito" value="<?php echo $ambito; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
@@ -203,7 +203,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Fotografia</label>
-                    <input type="file" class="form-control" id="inputFotografia" name="fotografia" value=<?php echo $fotografia; ?>>
+                    <input type="file" minlength="1" required maxlength="100" required data-error="Por favor introduza uma fotografia válida" class="form-control" id="inputFotografia" name="fotografia" value=<?php echo $fotografia; ?>>
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>

@@ -108,28 +108,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="hidden" name="id" value=<?php echo $id; ?>>
                 <div class="form-group">
                     <label>Nome</label>
-                    <input type="text" name="nome" class="form-control" data-error="You must have a name." id="inputName" value="<?php echo $nome; ?>">
+                    <input type="text" minlength="1" required maxlength="100" required name="nome" class="form-control" data-error="Por favor Introduza um nome válido" id="inputName" value="<?php echo $nome; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" class="form-control" id="inputEmail" name="email" value="<?php echo $email; ?>">
+                    <input type="email" minlength="1" required maxlength="100" required class="form-control" id="inputEmail" name="email" value="<?php echo $email; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>CiênciaVitae ID</label>
-                    <input type="text" class="form-control" id="inputCienciaid" name="ciencia_id" value="<?php echo $ciencia_id; ?>">
+                    <input type="text" minlength="1" required maxlength="100" required class="form-control" data-error="Por favor introduza um ID válido" id="inputCienciaid" name="ciencia_id" value="<?php echo $ciencia_id; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Sobre</label>
-                    <input type="text" class="form-control" id="inputSobre" name="sobre" value="<?php echo $sobre; ?>">
+                    <input type="text" minlength="1" required data-error="Por favor introduza uma descrição sobre si" class="form-control" id="inputSobre" name="sobre" value="<?php echo $sobre; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
@@ -148,28 +148,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Áreas de interesse</label>
-                    <input type="text" class="form-control" id="inputAreasdeInteresse" name="areasdeinteresse" value="<?php echo $areasdeinteresse; ?>">
+                    <input type="text" minlength="1" required data-error="Por favor introduza as suas áreas de interesse" class="form-control" id="inputAreasdeInteresse" name="areasdeinteresse" value="<?php echo $areasdeinteresse; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Orcid</label>
-                    <input type="text" class="form-control" id="inputOrcid" name="orcid" value="<?php echo $orcid; ?>">
+                    <input type="text" minlength="1" required maxlength="255" required data-error="Por favor introduza um orcID válido" class="form-control" id="inputOrcid" name="orcid" value="<?php echo $orcid; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Scholar</label>
-                    <input type="text" class="form-control" id="inputScholar" name="scholar" value="<?php echo $scholar; ?>">
+                    <input type="text" minlength="1" required maxlength="255" required data-error="Por favor introduza im ID válido" class="form-control" id="inputScholar" name="scholar" value="<?php echo $scholar; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Fotografia</label>
-                    <input type="file" class="form-control" id="inputFotografia" name="fotografia" value="<?php echo $fotografia; ?>">
+                    <input type="file" minlength="1" required maxlength="100" data-error="Por favor introduza uma fotografia válida" required class="form-control" id="inputFotografia" name="fotografia" value="<?php echo $fotografia; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>

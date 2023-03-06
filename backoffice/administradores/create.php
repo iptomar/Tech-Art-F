@@ -1,4 +1,5 @@
 <?php
+require "../verifica_campos.php";
 require "../verifica.php";
 require "../config/basedados.php";
 require "bloqueador.php";
@@ -52,21 +53,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Nome</label>
-                    <input type="text" name="nome" class="form-control" data-error="You must have a name." id="inputName" placeholder="Nome">
+                    <input type="text" minlength="1" required maxlength="255" required name="nome" class="form-control" data-error="Introduza um nome válido" id="inputName" placeholder="Nome">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email">
+                    <input type="email" minlength="1" required maxlength="100" required class="form-control" id="inputEmail" placeholder="Email" name="email">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" class="form-control" id="inputPassword" placeholder="Password" name="password">
+                    <input type="password" minlength="1" required maxlength="255" required class="form-control" id="inputPassword" placeholder="Password" name="password">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>

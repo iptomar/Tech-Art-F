@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="hidden" name="id" value=<?php echo $id; ?>>
                 <div class="form-group">
                     <label>Nome</label>
-                    <input type="text" name="nome" class="form-control" data-error="You must have a name." id="inputName" placeholder="Nome" readonly value="<?php echo $nome; ?>">
+                    <input type="text" name="nome" class="form-control" id="inputName" placeholder="Nome" readonly value="<?php echo $nome; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
