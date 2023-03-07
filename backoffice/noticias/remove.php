@@ -9,9 +9,7 @@ if ($_SESSION["autenticado"] != 'administrador') {
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST["id"];
-    $sql = "DELETE FROM noticias WHERE id = " . $id;
-    mysqli_query($conn, $sql);
-    $sql = "delete from investigadores where id = ?";
+    $sql = "DELETE FROM noticias WHERE id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $id);
     if (mysqli_stmt_execute($stmt)) {
