@@ -159,117 +159,50 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
         <div class="owl-carousel owl-theme" id="bestSellerCarousel">
-          <div class="card-product">
+            <?php
+                  $pdo = pdo_connect_mysql();
+
+            $stmt = $pdo->prepare('SELECT id, imagem, titulo, conteudo, data FROM noticias');
+            $stmt->execute();
+            $noticias = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            ?>
+            <?php foreach ($noticias as $noticia) : ?>
+               <div class="card-product">
                   <div class="absoluto">
-                        <div class="image">
-                           <img class="img-fluid" src="https://www.noticiasdafloresta.pt/images/2021/Ministra_Agricultura_visita_SGS.jpg" alt="">
-                                 <div class="text-block">
-                                       <h5 style="font-size: 20px; text-transform: uppercase; font-weight: 600;">Visita aos laboratórios</h5>
-                                       <h6 style="font-size: 14px; font-weight: 100;">Nec feugiat in fermentum posuere urna nec tincidunt praesent semper.</h6>
-                                       <h6 style="font-size: 11px; font-weight: 100;">31.01.2022</h6>
-                                 </div>
-                        </div>
+                  <a href="noticia.php?noticia=<?= $noticia['id'] ?>">
+                     <div style="z-index: 1000;" class="image">
+                           <img class="img-fluid"src="../backoffice/assets/noticias/<?= $noticia['imagem'] ?>" alt="">
+                           <div class="text-block">
+                                 <h5 style="font-size: 20px; text-transform: uppercase; font-weight: 600;">
+                                    <?=
+                                    $titulo = preg_split("/\s+(?=\S*+$)/",substr($noticia['titulo'] ,0,35))[0];
+                                    echo ($titulo!=$noticia['titulo']) ? "...":"";
+                                    ?>
+                                 </h5>
+                                 <h6 style="font-size: 14px; font-weight: 100;">
+                                    <?php
+                                    //Adicionar espaços antes das etiquetas html,
+                                    $spaces = str_replace('<', ' <', $noticia['conteudo']);
+                                    //remover as etiquetas de html e limitar a string a 100 caracteres
+                                    $textNoticia = substr(strip_tags($spaces), 0, 100);
+                                    //Se o texto da notícia foi cortado, imprimir com reticencias
+                                    echo ($textNoticia != strip_tags($spaces)) ? $textNoticia . "..." : $textNoticia;
+                                    ?>
+                                 </h6>
+                                 <h6 style="font-size: 11px; font-weight: 100;"><?= date("d.m.Y",strtotime($noticia['data'])) ?></h6>
+                           </div>
+                     </div>
+                     </a>
+
                   </div>
-          </div>
-
-          <div class="card-product">
-                  <div class="absoluto">
-                        <div class="image">
-                           <img class="img-fluid" src="https://www.ourem.pt/wp-content/uploads/2022/01/2022.01.03-Reuniao-da-Camara-Municipal-executivo--scaled.jpg" alt="">
-                                 <div class="text-block">
-                                       <h5 style="font-size: 20px; text-transform: uppercase; font-weight: 600;">Reunião com a CM Angra do Heroísmo</h5>
-                                       <h6 style="font-size: 14px; font-weight: 100;">Nec feugiat in fermentum posuere urna nec tincidunt praesent semper.</h6>
-                                       <h6 style="font-size: 11px; font-weight: 100;">27.01.2022</h6>
-                                 </div>
-                        </div>
-                  </div>
-          </div>
-
-          <div class="card-product">
-                  <div class="absoluto">
-                        <div class="image">
-                           <img class="img-fluid" src="https://static.globalnoticias.pt/dn/image.jpg?brand=DN&type=generate&guid=028a0e1a-ea3d-45a9-9a30-24679dcca4eb" alt="">
-                                 <div class="text-block">
-                                       <h5 style="font-size: 20px; text-transform: uppercase; font-weight: 600;">Aprovação do partido</h5>
-                                       <h6 style="font-size: 14px; font-weight: 100;">Nec feugiat in fermentum posuere urna nec tincidunt praesent semper.</h6>
-                                       <h6 style="font-size: 11px; font-weight: 100;">25.01.2022</h6>
-                                 </div>
-                        </div>
-                  </div>
-          </div>
-
-          <div class="card-product">
-                  <div class="absoluto">
-                        <div class="image">
-                           <img class="img-fluid" src="https://imagens.publico.pt/imagens.aspx/1619935?tp=UH&db=IMAGENS&type=JPG&w=320&act=resize" alt="">
-                                 <div class="text-block">
-                                       <h5 style="font-size: 20px; text-transform: uppercase; font-weight: 600;">Reunião com o presidente</h5>
-                                       <h6 style="font-size: 14px; font-weight: 100;">Nec feugiat in fermentum posuere urna nec tincidunt praesent semper.</h6>
-                                       <h6 style="font-size: 11px; font-weight: 100;">23.01.2022</h6>
-                                 </div>
-                        </div>
-                  </div>
-          </div>
-
-          <div class="card-product">
-                  <div class="absoluto">
-                        <div class="image">
-                           <img class="img-fluid" src="https://www.noticiasdafloresta.pt/images/2021/Ministra_Agricultura_visita_SGS.jpg" alt="">
-                                 <div class="text-block">
-                                       <h5 style="font-size: 20px; text-transform: uppercase; font-weight: 600;">Visita aos laboratórios</h5>
-                                       <h6 style="font-size: 14px; font-weight: 100;">Nec feugiat in fermentum posuere urna nec tincidunt praesent semper.</h6>
-                                       <h6 style="font-size: 11px; font-weight: 100;">31.01.2022</h6>
-                                 </div>
-                        </div>
-                  </div>
-          </div>
-
-          <div class="card-product">
-                  <div class="absoluto">
-                        <div class="image">
-                           <img class="img-fluid" src="https://www.ourem.pt/wp-content/uploads/2022/01/2022.01.03-Reuniao-da-Camara-Municipal-executivo--scaled.jpg" alt="">
-                                 <div class="text-block">
-                                       <h5 style="font-size: 20px; text-transform: uppercase; font-weight: 600;">Reunião com a CM Angra do Heroísmo</h5>
-                                       <h6 style="font-size: 14px; font-weight: 100;">Nec feugiat in fermentum posuere urna nec tincidunt praesent semper.</h6>
-                                       <h6 style="font-size: 11px; font-weight: 100;">27.01.2022</h6>
-                                 </div>
-                        </div>
-                  </div>
-          </div>
-
-
-          <div class="card-product">
-                  <div class="absoluto">
-                        <div class="image">
-                           <img class="img-fluid" src="https://static.globalnoticias.pt/dn/image.jpg?brand=DN&type=generate&guid=028a0e1a-ea3d-45a9-9a30-24679dcca4eb" alt="">
-                                 <div class="text-block">
-                                       <h5 style="font-size: 20px; text-transform: uppercase; font-weight: 600;">Aprovação do partido</h5>
-                                       <h6 style="font-size: 14px; font-weight: 100;">Nec feugiat in fermentum posuere urna nec tincidunt praesent semper.</h6>
-                                       <h6 style="font-size: 11px; font-weight: 100;">25.01.2022</h6>
-                                 </div>
-                        </div>
-                  </div>
-          </div>
-
-          <div class="card-product">
-                  <div class="absoluto">
-                        <div class="image">
-                           <img class="img-fluid" src="https://imagens.publico.pt/imagens.aspx/1619935?tp=UH&db=IMAGENS&type=JPG&w=320&act=resize" alt="">
-                                 <div class="text-block">
-                                       <h5 style="font-size: 20px; text-transform: uppercase; font-weight: 600;">Reunião com o presidente</h5>
-                                       <h6 style="font-size: 14px; font-weight: 100;">Nec feugiat in fermentum posuere urna nec tincidunt praesent semper.</h6>
-                                       <h6 style="font-size: 11px; font-weight: 100;">23.01.2022</h6>
-                                 </div>
-                        </div>
-                  </div>
-          </div>
-
+               </div>
+            <?php endforeach; ?>
         </div>
 
         <div style="padding-left: 480px;">
         <a style="display: inline-block; padding: 5px 25px; background-color:#333F50; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
                      -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;" 
-                     href="">
+                     href="noticias.php">
                      VER TODAS
                      </a>
          </div>

@@ -179,9 +179,9 @@ function template_header($title){
                                             <a href="alunos.php">Alunos/as</a>
                                     </div>
                                     </li>
-                                    <!--<li class="nav-item">
-                                        <a class="nav-link" href="#">Eventos & Notícias</a>
-                                    </li>--> 
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="noticias.php">Notícias</a>
+                                    </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="publicacoes.php">Publicações</a>
                                     </li>                     
