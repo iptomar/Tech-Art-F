@@ -160,9 +160,9 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <div class="owl-carousel owl-theme" id="bestSellerCarousel">
             <?php
-                  $pdo = pdo_connect_mysql();
-
-            $stmt = $pdo->prepare('SELECT id, imagem, titulo, conteudo, data FROM noticias');
+            $pdo = pdo_connect_mysql();
+            //Selecionar no máximo 6 notícias, ordenadas pela data mais recente, e que tenham data anterior ou igual à atual
+            $stmt = $pdo->prepare('SELECT id, imagem, titulo, conteudo, data FROM noticias WHERE data<=NOW() ORDER BY DATA DESC LIMIT 6;');
             $stmt->execute();
             $noticias = $stmt->fetchAll(PDO::FETCH_ASSOC);
             ?>
@@ -175,6 +175,7 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
                            <div class="text-block">
                                  <h5 style="font-size: 20px; text-transform: uppercase; font-weight: 600;">
                                     <?=
+                                    //Limitar o título a 35 caracteres e cortar pelo último espaço
                                     $titulo = preg_split("/\s+(?=\S*+$)/",substr($noticia['titulo'] ,0,35))[0];
                                     echo ($titulo!=$noticia['titulo']) ? "...":"";
                                     ?>

@@ -5,7 +5,7 @@ include 'models/functions.php';
 
 $pdo = pdo_connect_mysql();
 
-$stmt = $pdo->prepare('SELECT * FROM noticias WHERE id=?');
+$stmt = $pdo->prepare('SELECT * FROM noticias WHERE id=? and data<=NOW()');
 $stmt->bindParam(1, $_GET["noticia"], PDO::PARAM_INT);
 $stmt->execute();
 $noticias = $stmt->fetch(PDO::FETCH_ASSOC);

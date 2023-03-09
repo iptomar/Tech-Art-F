@@ -5,7 +5,7 @@ include 'models/functions.php';
 
 $pdo = pdo_connect_mysql();
 
-$stmt = $pdo->prepare('SELECT * FROM noticias');
+$stmt = $pdo->prepare('SELECT * FROM noticias WHERE data<=NOW() ORDER BY DATA DESC;');
 $stmt->execute();
 $noticias = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -50,6 +50,7 @@ $noticias = $stmt->fetchAll(PDO::FETCH_ASSOC);
                            echo ($titulo != $noticia['titulo']) ? "..." : "";
                            ?>
                         </div>
+                        <h6 class="imgText m-auto" style="font-size: 11px; font-weight: 100; top:95%"><?= date("d.m.Y",strtotime($noticia['data'])) ?></h6>
                      </div>
                   </a>
                </div>
