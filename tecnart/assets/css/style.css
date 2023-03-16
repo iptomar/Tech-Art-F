@@ -227,7 +227,7 @@ a:focus {
   display: block;
   width: 35px;
   height: 4px;
-  background-color: #000000;
+  background-color: #ffffff;
   margin: 7px 0;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
@@ -242,7 +242,7 @@ a:focus {
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: #000000;
+  background-color: #ffffff;
   top: -10px;
   border-radius: 5px;
   -webkit-transition: all 0.3s;
@@ -271,6 +271,13 @@ a:focus {
 
 /*end header section*/
 /* slider section */
+
+.align-text-slider {
+  position: absolute;
+  bottom: 0;
+  padding-bottom: 30px;
+  width: 100%;
+}
 
 .slider_section {
   -webkit-box-flex: 1;
@@ -970,11 +977,6 @@ a:focus {
   display: inline-block;
 }
 
-.tamanho{
-  width: 800px;
-  text-align: center;
-}
-
 li.nav-item ul {
     background: #fff;
     border: solid #000 2px;
@@ -1443,11 +1445,6 @@ form input[type="submit"]:focus {
   padding-right: 15px;
   padding-left: 15px; }
 
-  .ajustar {
-    position: relative;
-    padding-top: 40px;
-    left: 180px;
-  }
   .col-md-7 {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 58.33333%;

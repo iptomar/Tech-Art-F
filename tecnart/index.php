@@ -13,49 +13,51 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <!DOCTYPE html>
 <html>
 
-      <?=template_header('Index');?>
-
-         <!-- slider section -->
-         <section class="home-slider owl-carousel">
+   <?=template_header('Index');?>
+   <!-- slider section -->
+   <section class="home-slider owl-carousel">
       <div class="slider-item" style="background-image:url('https://cdn.pixabay.com/photo/2021/08/25/20/42/field-6574455__480.jpg');">
       	<div class="overlay"></div>
         
-          <div class="row no-gutters slider-text align-items-center justify-content-start" data-scrollax-parent="true">
-          <div class="col-md-7 ftco-animate mb-md-5">
-          <h1 style="padding-top: 180px;" class="mb-4">SOBRE O TECHN&ART</h1>
-          	<span class="subheading">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                At augue eget arcu dictum. Iaculis eu non diam.</span>
-            <p><a href="sobre.php" class="btn btn-primary px-4 py-3 mt-3">SAIBA MAIS</a></p>
-          
-        </div>
-        </div>
+         <div  class="row no-gutters slider-text justify-content-start" style="position: relative; height: 100%; max-width:100%;" data-scrollax-parent="true">
+            <div class="align-text-slider">
+               <div class="col-md-7 mobile_adjust ftco-animate mb-md-5">
+                  <h1 class="mb-4">SOBRE O TECHN&ART</h1>
+                  <span class="subheading">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                     At augue eget arcu dictum. Iaculis eu non diam.</span>
+                  <div><a href="sobre.php" class="btn btn-primary px-4 py-3 mt-3 btn_no_left">SAIBA MAIS</a></div>
+               </div>
+            </div>
+         </div>
       </div>
 
       <div class="slider-item" style="background-image:url('https://i0.wp.com/multarte.com.br/wp-content/uploads/2015/08/imagens-amor.jpg?fit=1680%2C1050&ssl=1');">
       	<div class="overlay"></div>
   
-          <div class="row no-gutters slider-text align-items-center justify-content-start" data-scrollax-parent="true">
-          <div class="col-md-7 ftco-animate mb-md-5">
-            <h1 style="padding-top: 180px;" class="mb-4">We Help to Grow Your Business</h1>
-            <span class="subheading">Aliquam malesuada bibendum arcu vitae elementum. Risus at ultrices mi tempus imperdiet nulla malesuada. 
-               Magna fringilla urna porttitor rhoncus. Magna fermentum iaculis eu nons.</span>
-            <p><a href="sobre.php" class="btn btn-primary px-4 py-3 mt-3">SAIBA MAIS</a></p>
-
-        </div>
-        </div>
+         <div  class="row no-gutters slider-text justify-content-start" style="position: relative; height: 100%; max-width:100%;" data-scrollax-parent="true">
+            <div class="align-text-slider">
+               <div class="col-md-7 mobile_adjust ftco-animate mb-md-5">
+                  <h1 class="mb-4">We Help to Grow Your Business</h1>
+                  <span class="subheading">Aliquam malesuada bibendum arcu vitae elementum. Risus at ultrices mi tempus imperdiet nulla malesuada. 
+                     Magna fringilla urna porttitor rhoncus. Magna fermentum iaculis eu nons.
+                  </span>
+                  <div><a href="sobre.php" class="btn btn-primary px-4 py-3 mt-3 btn_no_left">SAIBA MAIS</a></div>
+               </div>
+            </div>
+         </div>
       </div>
 
       <div class="slider-item" style="background-image:url('https://www.2net.com.br//Repositorio/251/Publicacoes/23883/3c2fd25f-c.jpg');">
-      	<div class="overlay"></div>
-        
-          <div class="row no-gutters slider-text align-items-center justify-content-start" data-scrollax-parent="true">
-          <div class="col-md-7 ftco-animate mb-md-5">
-          <h1 style="padding-top: 180px;" class="mb-4">We Are The Best Consulting Agency</h1>
-          	<span class="subheading">Pulvinar neque laoreet suspendisse interdum consectetur libero. Sed tempus urna et pharetra pharetra. 
-                Et egestas quis ipsum suspendisse. Euismod in pellentesque massa placerat.</span>
-            <p><a href="sobre.php" class="btn btn-primary px-4 py-3 mt-3">SAIBA MAIS</a></p>
-       
-        </div>
+      	<div class="overlay"></div>       
+         <div  class="row no-gutters slider-text justify-content-start" style="position: relative; height: 100%; max-width:100%;" data-scrollax-parent="true">
+            <div class="align-text-slider">
+               <div class="col-md-7 mobile_adjust ftco-animate mb-md-5">
+                  <h1 class="mb-4">We Are The Best Consulting Agency</h1>
+                  <span class="subheading">Pulvinar neque laoreet suspendisse interdum consectetur libero. Sed tempus urna et pharetra pharetra. 
+                     Et egestas quis ipsum suspendisse. Euismod in pellentesque massa placerat.</span>
+                  <div><a href="sobre.php" class="btn btn-primary px-4 py-3 mt-3 btn_no_left">SAIBA MAIS</a></div>
+               </div>
+            </div>
         </div>
       </div>
 
@@ -69,18 +71,16 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
                <h3>
                   VÍDEO INSTITUCIONAL
                </h3>
-               <div class="tamanho">
+               <div class="mx-auto text-center" style="max-width: 800px;">
                   <h5>
                      Orci a scelerisque purus semper eget duis at tellus at. Metus dictum at tempor commodo ullamcorper a lacus vestibulum Libero volutpat sed cras ornare.
                   </h5>
                </div>
             </div>
-            <div class="row">
-               <div class="col-md-4">
-                  <div class="ajustar">
-                     <video src="./assets/images/TheRangeTechnology.mp4" controls width="800" height="500"></video>
+            <div class="pt-5">
+                  <div class="embed-responsive embed-responsive-16by9 mx-auto" style="max-width: 800px;">
+                     <video src="./assets/images/TheRangeTechnology.mp4" controls height="500"></video>
                   </div>
-                </div>
             </div>
          </div>
       </section>
@@ -170,7 +170,7 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
                <div class="card-product">
                   <div class="absoluto">
                   <a href="noticia.php?noticia=<?= $noticia['id'] ?>">
-                     <div style="z-index: 1000;" class="image">
+                     <div style="z-index: 1;" class="image">
                            <img class="img-fluid"src="../backoffice/assets/noticias/<?= $noticia['imagem'] ?>" alt="">
                            <div class="text-block">
                                  <h5 style="font-size: 20px; text-transform: uppercase; font-weight: 600;">
@@ -200,7 +200,7 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php endforeach; ?>
         </div>
 
-        <div style="padding-left: 480px;">
+        <div class="text-center">
         <a style="display: inline-block; padding: 5px 25px; background-color:#333F50; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
                      -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;" 
                      href="noticias.php">

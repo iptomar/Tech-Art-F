@@ -89,8 +89,10 @@ function template_header($title){
                   position:fixed;
                   top:0;
                   right:0;
-                  z-index: 1;
+                  z-index: 2;
                   opacity: 0.8;
+                  max-width: 190px;
+                  width:25%
                 }
                  
                 </style>
@@ -103,11 +105,12 @@ function template_header($title){
                 
                 <body>
 
+                <!--Image warns users that website is in development-->
                 <div id="developmentWarningEN">
-                  <a href="http://www.techneart.ipt.pt/"><img width="190" src="./assets/images/developmentWarningEN.png" alt="#" /></a> <!--Image warns users that website is in development-->
+                  <a href="http://www.techneart.ipt.pt/"><img class="w-100" src="./assets/images/developmentWarningEN.png" alt="#" /></a> 
                 </div>
                 <div id="developmentWarningPT">
-                <a href="http://www.techneart.ipt.pt/"><img width="190" src="./assets/images/developmentWarningPT.png" alt="#" /></a> <!--Image warns users that website is in development-->
+                  <a href="http://www.techneart.ipt.pt/"><img class="w-100" src="./assets/images/developmentWarningPT.png" alt="#" /></a>
                 </div>
 
                 <div style="padding-bottom: 0px;" class="hero_area">
@@ -144,17 +147,17 @@ function template_header($title){
                         <div style="padding-top: 0px;" class="container">
                             <nav style="padding-top: 0px;" class="navbar navbar-expand-lg custom_nav-container ">
                                 
-                                <div id="logo2">
-                                <a class="navbar-brand" href="index.php"><img width="300" src="./assets/images/TechnArt5FundoTrans.png" alt="#" /></a> <!--Logo que redireciona para o index.html-->
+                                <div id="logo2" style="max-width:300px; width:85%;">
+                                  <a class="navbar-brand" href="index.php"><img class="w-100" src="./assets/images/TechnArt5FundoTrans.png" alt="#" /></a> <!--Logo que redireciona para o index.html-->
                                 </div>
                                 
-                                <div style="display: none;" id="logo">
-                                <a class="navbar-brand" href="index.php"><img width="300" src="./assets/images/TechnArt11FundoTrans.png" alt="#" /></a> <!--Logo que redireciona para o index.html-->
+                                <div style="display: none; max-width:300px; width:70%;" id="logo">
+                                  <a class="navbar-brand" href="index.php"><img class="w-100" src="./assets/images/TechnArt11FundoTrans.png" alt="#" /></a> <!--Logo que redireciona para o index.html-->
                                 </div>
 
-                                <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class=""> </span>
-                                </button>-->
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span></span>
+                                </button>
                                 
                                 <div style="padding-top: 0px;" class="collapse navbar-collapse" id="navbarSupportedContent">
                                 <ul class="navbar-nav">
@@ -275,7 +278,7 @@ function template_footer(){
                 <!-- custom js -->
                 <script src="./assets/js/custom.js"></script>
                 <script src="./assets/js/owl.carousel.min.js"></script>
-                <script src="./assets/js/jquery.min.js"></script>
+            <!-- <script src="./assets/js/jquery.min.js"></script> -->
                 <script src="./assets/js/jquery-migrate-3.0.1.min.js"></script>
                 <script src="./assets/js/popper2.min.js"></script>
                 <script src="./assets/js/bootstrap.min.js"></script>
@@ -288,7 +291,7 @@ function template_footer(){
                 <script src="./assets/js/jquery.animateNumber.min.js"></script>
                 <script src="./assets/js/scrollax.min.js"></script>
                 <script src="./assets/js/main.js"></script>
-                <script src="./assets/js/jquery-2.1.0.min.js"></script>
+            <!--  <script src="./assets/js/jquery-2.1.0.min.js"></script> -->
                 <script src="./assets/js/owl-carousel.js"></script>
                 <script src="./assets/js/accordions.js"></script>
                 <script src="./assets/js/datepicker.js"></script>
@@ -300,7 +303,7 @@ function template_footer(){
                 <script src="./assets/js/lightbox.js"></script> 
                 <script src="./assets/js/isotope.js"></script> 
                 
-                <script src="./assets/vendors/jquery/jquery-3.2.1.min.js"></script>
+            <!--  <script src="./assets/vendors/jquery/jquery-3.2.1.min.js"></script> -->
                 <script src="./assets/vendors/bootstrap/bootstrap.bundle.min.js"></script>
                 <script src="./assets/vendors/skrollr.min.js"></script>
                 <script src="./assets/vendors/owl-carousel/owl.carousel.min.js"></script>
