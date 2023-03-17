@@ -19,7 +19,7 @@ include 'models/functions.php';
                   </h3>
 
                  
-                     <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 16px; padding-right: 550px; color:#060633;">
+                     <h5 class="heading2_h5">
                      Cras massa velit, vehicula nec tincidunt at, aliquet porttitor ligula. Nullam faucibus est nunc, at tincidunt odio efficitur eget. 
                      Pellentesque justo ex, tristique sed sapien ac, tempor venenatis odio liquet tincidun.  
                      </h5>

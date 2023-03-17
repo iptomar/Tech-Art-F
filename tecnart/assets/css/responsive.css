@@ -59,7 +59,7 @@
     text-align: left;
   }
 
-  .nav-link{
+  .nav-link {
     padding-left: 0px !important;
     text-align: left;
   }
@@ -75,6 +75,10 @@
 
   #developmentWarningEN,#developmentWarningPT{
     left: 0;
+  }
+
+  .heading2_h5 {
+    padding-right: 20%;
   }
 }
 

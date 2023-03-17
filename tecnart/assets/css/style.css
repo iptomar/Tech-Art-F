@@ -977,6 +977,13 @@ a:focus {
   display: inline-block;
 }
 
+.heading2_h5 {
+  font-family: 'Arial Narrow, sans-serif';
+  font-size: 16px;
+  padding-right: 55%;
+  color: #060633;
+}
+
 li.nav-item ul {
     background: #fff;
     border: solid #000 2px;

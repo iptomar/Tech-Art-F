@@ -23,7 +23,7 @@ $noticias = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 33px; margin-bottom: 5px; color:#333f50;">
                Notícias
             </h3>
-            <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 16px; padding-right: 660px; color:#060633;">
+            <h5 class="heading2_h5">
                Cras massa velit, vehicula nec tincidunt at, aliquet porttitor ligula. Nullam faucibus est nunc, at tincidunt odio efficitur eget.
                Pellentesque justo ex, tristique sed sapien ac, tempor venenatis odio liquet tincidun.
             </h5>
