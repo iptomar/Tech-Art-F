@@ -80,7 +80,25 @@
   .heading2_h5 {
     padding-right: 20%;
   }
+
+  .mobile_reverse{
+    display: block !important;
+  }
+
+  .mobile_reverse .flex-left{
+    width: 100% !important;
+    text-align: center;
+  }
+
+  .mobile_reverse .flex-right{
+    width: 100% !important;
+  }
+
+  .imgfigura{
+    width: 100%;
+  }
 }
+
 
 @media (max-width: 767px) {
 
@@ -118,6 +136,15 @@
 
   .subscribe_section .subscribe_form form button {
     margin-top: 15px;
+  }
+
+  .flex-left2{
+    width: 50%;
+    padding-right: 15px;
+  }
+
+  .flex-right{
+    padding-right: 20px;
   }
 }
 

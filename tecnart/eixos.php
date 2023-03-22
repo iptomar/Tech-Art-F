@@ -23,7 +23,13 @@ include 'models/functions.php';
                     subtítulo
                 </h4>
 
-                <div class="flex-container">
+                <div class="flex-container mobile_reverse">
+                    <div class="flex-left">
+                        <figure class="imgfigura">
+                            <img class="imgeixos w-100" style="max-width: 330px;" src="./assets/images/DSC00513.JPG" alt="Boat">
+                            <figcaption class="imgs">O encontro, Luís Marques</figcaption>
+                        </figure>
+                    </div>
                     <div class="flex-right">
 
                         O Centro de Tecnologia, Restauro e Valorização das Artes (Techn&Art) tem como missão o desenvolvimento de estratégias e metodologias de investigação
@@ -44,13 +50,6 @@ include 'models/functions.php';
                         Estas linhas de ação complementam-se e imbricam-se para que o todo que a missão do Techn&Art seja coerente e tire partido do visando 
                         a transferência de conhecimento, de competências e de experiências de todos os investigadores e colaboradores do nosso centro.
 
-                    </div>
-                    
-                    <div class="flex-left">
-                        <figure class="imgfigura">
-                            <img class="imgeixos" width="330px;" src="./assets/images/DSC00513.JPG" alt="Boat">
-                            <figcaption class="imgs">O encontro, Luís Marques</figcaption>
-                        </figure>
                     </div>
                 </div>
 

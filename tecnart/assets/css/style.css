@@ -1845,14 +1845,15 @@ form input[type="submit"]:focus {
 
                           .flex-container {
                             display: flex;
-
                             padding-top: 30px;
+                          }
+
+                          .mobile_reverse {
+                            flex-direction: row-reverse;
                           }
                           
                           .flex-left {
                             width: 30%;
-                            height: 40vh;
-
                           }
 
                           .flex-left2 {
@@ -1867,11 +1868,6 @@ form input[type="submit"]:focus {
                           .flex-right {
                             width: 70%;
                             padding-right: 40px;
-                          }
-
-                          .imgmissao {
-                            width: 340px;
-                            height: 240px;
                           }
 
                           figure {

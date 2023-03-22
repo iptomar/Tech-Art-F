@@ -23,7 +23,13 @@ include 'models/functions.php';
                     subtítulo
                 </h4>
 
-                <div class="flex-container">
+                <div class="flex-container mobile_reverse">
+                    <div class="flex-left">
+                        <figure class="imgfigura">
+                            <img class="imgestrutura w-100" style="max-width:330px;" src="./assets/images/P1010947.JPG" alt="Boat">
+                            <figcaption class="imgs">O encontro, Luís Marques</figcaption>
+                        </figure>
+                    </div>
                     <div class="flex-right">
                         A atividade do Techn&Art é suportada pelos seguintes órgãos de direção, gestão e administração:<br><br>
 
@@ -49,13 +55,6 @@ include 'models/functions.php';
                                                     Maria Filomena Guerra, Universidade Panthéon Sorbonne, Nanterre, França.<br>
                                                     Zoltán Somhegyi, Universidade Károli Gáspár, Budapeste, Hungria<br><br>
                         
-                    </div>
-                    
-                    <div class="flex-left">
-                        <figure class="imgfigura">
-                            <img class="imgestrutura" width="330px;" src="./assets/images/P1010947.JPG" alt="Boat">
-                            <figcaption class="imgs">O encontro, Luís Marques</figcaption>
-                        </figure>
                     </div>
                 </div>
 

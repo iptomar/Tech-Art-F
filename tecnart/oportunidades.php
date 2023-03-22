@@ -23,7 +23,13 @@ include 'models/functions.php';
                     subtítulo
                 </h4>
 
-                <div class="flex-container">
+                <div class="flex-container mobile_reverse">
+                    <div class="flex-left">
+                        <figure class="imgfigura">
+                            <img class="imgoportunidades w-100" style="max-width:330px;" src="./assets/images/IMG_9569.JPG" alt="Boat">
+                            <figcaption class="imgs">O encontro, Luís Marques</figcaption>
+                        </figure>
+                    </div>
                     <div class="flex-right">
                         <b>1. </b>luctus. Maecenas et quam rutrum, dignissim orci sodales, eleifend elit. Praesent viverra odio at volutpat aliquam. <b>Aliquam vitae libero molestie,
                         laoreet tellus</b> non, pretium orci. Maximus lacus sed, aliquet ex. Integer faucibus ante et magna finibus, ac consequat sapien commodo.<br><br>
@@ -33,13 +39,6 @@ include 'models/functions.php';
 
                         <b>3. </b>Sed odio lacus, bibendum sed leo fringilla, vehicula finibus sem. Fusce urna sem, vehicula a accumsan sed, molestie id mi.
                         Donec tempus odio nec nisi euismod, ac volutpat purus laoreet. Ut <b>luctus eu libero</b> a fermentum. Sed pretium turpis enim.
-                    </div>
-                    
-                    <div class="flex-left">
-                        <figure class="imgfigura">
-                            <img class="imgoportunidades" width="330px;" src="./assets/images/IMG_9569.JPG" alt="Boat">
-                            <figcaption class="imgs">O encontro, Luís Marques</figcaption>
-                        </figure>
                     </div>
                 </div>
 
