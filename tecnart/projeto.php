@@ -71,7 +71,7 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
 
         </div>
 
-        <div class="resto">
+        <div id="resto" class="infoCorpo">
 
             <h3
                 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 50px;">
@@ -79,7 +79,7 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
             </h3>
 
             <h5
-                style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 20px;">
+                class="textInfo" style="padding-bottom: 20px;">
                 <?=$projetos['sobreprojeto']?>
             </h5>
 
@@ -118,14 +118,14 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
 
         </div>
 
-        <div class="resto2" style="display: none;">
+        <div id="resto2" class="infoCorpo" style="display: none;">
 
             <h3
                 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 50px;">
                 Equipa e intervenientes
             </h3>
 
-            <div style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 20px;">
+            <div class="textInfo" style="padding-bottom: 20px;">
                 <?php 
             $stmt = $pdo->prepare('SELECT i.* FROM investigadores i INNER JOIN investigadores_projetos ip ON ip.projetos_id = ? and ip.investigadores_id = i.id');
             $stmt->bindParam(1,$_GET["projeto"],PDO::PARAM_INT);
@@ -166,7 +166,7 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
 
         </div>
 
-        <!-- <div class="resto3" style="display: none;">
+        <!-- <div id="resto3" class="infoCorpo"  style="display: none;">
 
             <h3
                 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 50px;">
@@ -174,7 +174,7 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
             </h3>
 
             <h5
-                style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 20px;">
+                class="textInfo" style="padding-bottom: 20px;">
                 Duis a mollis urna. In hac habitasse platea dictumst. Vestibulum nisi nunc, elementum et vehicula vel,
                 rhoncus non metus.
                 In vel dapibus dolor. Sed at laoreet turpis. Donec nec aliquam velit. Quisque blandit nisi mauris.
@@ -206,14 +206,14 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
 
         </div> -->
 
-        <!-- <div class="resto4" style="display: none;">
+        <!-- <div id="resto4" class="infoCorpo"  style="display: none;">
             <h3
                 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 50px;">
                 Publicações
             </h3>
 
             <h5
-                style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 20px;">
+                class="textInfo" style="padding-bottom: 20px;">
                 Duis a mollis urna. In hac habitasse platea dictumst. Vestibulum nisi nunc, elementum et vehicula vel,
                 rhoncus non metus.
                 In vel dapibus dolor. Sed at laoreet turpis. Donec nec aliquam velit. Quisque blandit nisi mauris.
@@ -255,31 +255,31 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
 $(function() {
 
     $('button#showit').on('click', function() {
-        $('.resto').show();
-        $('.resto2').hide();
-     /* $('.resto3').hide();
-        $('.resto4').hide(); */
+        $('#resto').show();
+        $('#resto2').hide();
+     /* $('#resto3').hide();
+        $('#resto4').hide(); */
     });
 
     $('button#showit2').on('click', function() {
-        $('.resto2').show();
-        $('.resto').hide();
-    /*  $('.resto3').hide();
-        $('.resto4').hide(); */
+        $('#resto2').show();
+        $('#resto').hide();
+    /*  $('#resto3').hide();
+        $('#resto4').hide(); */
     });
 
     /*     $('button#showit3').on('click', function() {
-        $('.resto3').show();
-        $('.resto').hide();
-        $('.resto2').hide();
-        $('.resto4').hide();
+        $('#resto3').show();
+        $('#resto').hide();
+        $('#resto2').hide();
+        $('#resto4').hide();
     });
 
     $('button#showit4').on('click', function() {
-        $('.resto4').show();
-        $('.resto').hide();
-        $('.resto3').hide();
-        $('.resto2').hide();
+        $('#resto4').show();
+        $('#resto').hide();
+        $('#resto3').hide();
+        $('#resto2').hide();
     }); */
 
 });

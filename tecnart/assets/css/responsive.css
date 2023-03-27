@@ -97,6 +97,32 @@
   .imgfigura{
     width: 100%;
   }
+
+  .totall{
+    display: block;
+
+  }
+
+  .barraesquerda, .infoCorpo{
+    width: 100%;
+  }
+
+  .canvasEmail{
+    height: 30px;
+  }
+
+  .lastBtn{
+    margin-bottom: 100px;
+  }
+
+  .publicaInv{
+    padding-right:50px;
+    padding-bottom: 10px;
+  }
+
+  .textInfo{
+    padding-right: 50px;
+  }
 }
 
 

@@ -20,7 +20,7 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
                         <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 38px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 60px; word-wrap: break-word;">
                         <?=$investigadores['nome']?>
                         </h3>
-                        <h5>
+                        <h5 class="canvasEmail">
                         
                         <canvas id="e" ></canvas>
                         <script>
@@ -52,13 +52,13 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
                                 </span>
                             </button>
 
-                            <button class="divbotao" id="showit4" style="margin-bottom: 350px;">
+                            <button class="divbotao lastBtn" id="showit4">
                                 <span href="#" class="innerButton">
                                     projetos
                                 </span>
                             </button>
 
-                        <h5 class="nofinal" style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; color:#060633; padding-bottom: 45px; padding-left: 190px;">
+                        <h5 class="nofinal">
                             Ligações externas
                         </h5>
 
@@ -69,43 +69,43 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
   
                     </div>
 
-                    <div class="resto">
+                    <div id="resto" class="infoCorpo">
                         <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/investigadores/<?=$investigadores['fotografia']?>" alt="">
                     
                         <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 30px; padding-left: 50px;">
                             Sobre
                         </h3>
 
-                        <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 80px;">
+                        <h5 class="textInfo" style="padding-bottom: 80px;">
                         <?=$investigadores['sobre']?>
                         </h5>
                     
                     </div>
 
-                    <div class="resto2" style="display: none;">
+                    <div id="resto2" class="infoCorpo" style="display: none;">
                         <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/investigadores/<?=$investigadores['fotografia']?>" alt="">
                     
                         <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 30px; padding-left: 50px;">
                             Áreas de interesse
                         </h3>
 
-                        <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 40px;">
+                        <h5 class="textInfo" style="padding-bottom: 40px;">
                         <?=$investigadores['areasdeinteresse']?>
                         </h5>
 
-<!--                         <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 40px;">
+<!--                         <h5 class="textInfo" style="padding-bottom: 40px;">
                         Phasellus non accumsan est. Sed eu nibh quis mauris finibus viverra ac sit amet eros. Nullam vel sagittis massa. Quisque faucibus egestas aliquet. 
                         Duis facilisis ipsum ut convallis egestas. Nam aliquam risus dictu.
                         </h5>
                     
-                        <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 40px;">
+                        <h5 class="textInfo" style="padding-bottom: 40px;">
                         Duis facilisis ipsum ut convallis egestas. Nam aliquam risus dictum erat aliquam egestas. Quisque et orci ut nulla accumsan congue ut et eros. 
                         Praesent vitae ipsum vel enim rutrum volutpat et non tortor. Donec egestas vene.
                         </h5>
                      -->
                     </div>
 
-                    <div class="resto3" style="display: none;">
+                    <div id="resto3" class="infoCorpo" style="display: none;">
                         <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/investigadores/<?=$investigadores['fotografia']?>" alt="">
                     
                         <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 30px; padding-left: 50px;">
@@ -153,7 +153,7 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 
-                                    echo "<h5 style='font-size: 16px; padding-right: 200px; color:#060633; padding-left: 50px;'>";
+                                    echo "<h5 class='publicaInv' style='padding-bottom: 10px;'>";
                                     echo str_replace(";", " & ", $book->{"authors"}->{"citation"});
                         
                                     echo ". (" . $book->{$publication_year}. "). ";
@@ -177,20 +177,20 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
 
                         ?>
 
-<!--                         <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 120px;">
+<!--                         <h5 class="textInfo" style="padding-bottom: 120px;">
                             Uis falus non accumsan est.
                         </h5> -->
 
                     </div>
 
-                    <div class="resto4" style="display: none;">
+                    <div id="resto4" class="infoCorpo" style="display: none;">
                         <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/investigadores/<?=$investigadores['fotografia']?>" alt="">
                         
                         <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 30px; padding-left: 50px;">
                             Projetos
                         </h3>
                         
-                        <div style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 20px;">
+                        <div class="textInfo" style="padding-bottom: 20px;">
                     <?php 
                     $stmt = $pdo->prepare('SELECT p.* FROM investigadores_projetos ip INNER JOIN projetos p ON p.id = ip.projetos_id Where ip.investigadores_id = ?');
                     $stmt->bindParam(1,$_GET["aluno"],PDO::PARAM_INT);
@@ -240,31 +240,31 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
             $(function(){
 
             $('button#showit').on('click',function(){  
-                $('.resto').show();
-                $('.resto2').hide();
-                $('.resto3').hide();
-                $('.resto4').hide();   
+                $('#resto').show();
+                $('#resto2').hide();
+                $('#resto3').hide();
+                $('#resto4').hide();   
             });
 
             $('button#showit2').on('click',function(){  
-                $('.resto2').show();
-                $('.resto').hide();
-                $('.resto3').hide();
-                $('.resto4').hide();   
+                $('#resto2').show();
+                $('#resto').hide();
+                $('#resto3').hide();
+                $('#resto4').hide();   
             });
 
             $('button#showit3').on('click',function(){  
-                $('.resto3').show();
-                $('.resto').hide();
-                $('.resto2').hide();
-                $('.resto4').hide();   
+                $('#resto3').show();
+                $('#resto').hide();
+                $('#resto2').hide();
+                $('#resto4').hide();   
             });
 
             $('button#showit4').on('click',function(){  
-                $('.resto4').show();
-                $('.resto').hide();
-                $('.resto3').hide();
-                $('.resto2').hide();   
+                $('#resto4').show();
+                $('#resto').hide();
+                $('#resto3').hide();
+                $('#resto2').hide();   
             });
 
             });
