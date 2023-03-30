@@ -185,10 +185,10 @@ $lang_values_array = array(
                                 <ul class="navbar-nav">
                                 
                                     <li style="padding-top: 25px;" class="nav-item">
-                                      <form>
+                                      <div style="margin-right: 20px">
                                           <a class="translationOption" href="session_var_pt.php" >PT</a>
                                           <a class="translationOption" href="session_var_en.php" >EN</a>
-                                      </form>
+                                      </div>
                                     </li>
                                 
                                 </ul>
