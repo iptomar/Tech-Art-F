@@ -15,12 +15,12 @@ include 'models/functions.php';
             <div class="heading_container2 heading_center2">
                
                 <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 33px; color:#333f50; text-transform: uppercase;">
-                    oportunidades
+                   <?= change_lang("opport-page-heading") ?>
                 </h3>
 
                  
                 <h4 style="font-family: 'Quicksand', sans-serif; font-size: 26px; padding-right: 660px; color:#060633; text-transform: uppercase; padding-top: 25px;">
-                    subtítulo
+                <?= change_lang("opport-page-subtitle") ?>
                 </h4>
 
                 <div class="flex-container">

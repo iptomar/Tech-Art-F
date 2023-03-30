@@ -7,7 +7,6 @@ include 'models/functions.php';
 
       <?=template_header('Sobre');?>
 
-
       <!-- product section -->
       <section class="product_section layout_padding">
       <div style="background-color: #dbdee1; padding-top: 50px; padding-bottom: 50px;">
@@ -15,13 +14,12 @@ include 'models/functions.php';
             <div class="heading_container2 heading_center2">
                
                   <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 33px; margin-bottom: 5px; color:#333f50;">
-                     Sobre o TECHN&ART
+                     <?= change_lang("about-technart-page-heading") ?>
                   </h3>
 
                  
                      <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 16px; padding-right: 550px; color:#060633;">
-                     Cras massa velit, vehicula nec tincidunt at, aliquet porttitor ligula. Nullam faucibus est nunc, at tincidunt odio efficitur eget. 
-                     Pellentesque justo ex, tristique sed sapien ac, tempor venenatis odio liquet tincidun.  
+                     <?= change_lang("about-technart-page-subtitle") ?>
                      </h5>
                
 
@@ -42,8 +40,8 @@ include 'models/functions.php';
 
                         <div class="image2">
                            <img class="centrare" style="object-fit: cover; width:350px; height:250px;" src="./assets/images/missao.jpg" alt="">
-                           <button onclick="window.location.href='missao.php'" type="button" class="mybuttonoverlap btn">SAIBA MAIS</button>
-                           <div class="qualquer">MISSÃO E OBJETIVOS</div>
+                           <button onclick="window.location.href='missao.php'" type="button" class="mybuttonoverlap btn"><?= change_lang("opportunities-know-more-btn") ?></button>
+                           <div class="qualquer"><?= change_lang("mission-and-goals-caption") ?></div>
                         </div>  
 
                </div>
@@ -52,8 +50,8 @@ include 'models/functions.php';
                
                   <div class="image2">
                      <img class="centrare" style="object-fit: cover; width:350px; height:250px;" src="./assets/images/eixos.jpg" alt="">
-                     <button onclick="window.location.href='eixos.php'" type="button" class="mybuttonoverlap btn">SAIBA MAIS</button>
-                     <div class="qualquer">EIXOS DE INVESTIGAÇÃO</div>
+                     <button onclick="window.location.href='eixos.php'" type="button" class="mybuttonoverlap btn"><?= change_lang("opportunities-know-more-btn") ?></button>
+                     <div class="qualquer"><?= change_lang("research-axes-caption") ?></div>
                   </div>
 
                </div>
@@ -67,8 +65,8 @@ include 'models/functions.php';
                
                   <div  class="image2">
                      <img class="centrare" style="object-fit: cover; width:350px; height:250px;" src="./assets/images/estrutura.jpg" alt="">
-                     <button onclick="window.location.href='estrutura.php'" type="button" class="mybuttonoverlap btn">SAIBA MAIS</button>
-                     <div class="qualquer">ESTRUTURA ORGÂNICA</div>
+                     <button onclick="window.location.href='estrutura.php'" type="button" class="mybuttonoverlap btn"><?= change_lang("opportunities-know-more-btn") ?></button>
+                     <div class="qualquer"><?= change_lang("organic-struct-caption") ?></div>
                   </div>  
                
                </div>
@@ -79,8 +77,8 @@ include 'models/functions.php';
                
                   <div class="image2">
                      <img class="centrare" style="object-fit: cover; width:350px; height:250px;" src="./assets/images/oportunidades.jpg" alt="">
-                     <button onclick="window.location.href='oportunidades.php'" type="button" class="mybuttonoverlap btn">SAIBA MAIS</button>
-                     <div class="qualquer">OPORTUNIDADES</div>
+                     <button onclick="window.location.href='oportunidades.php'" type="button" class="mybuttonoverlap btn"><?= change_lang("opportunities-know-more-btn") ?></button>
+                     <div class="qualquer"><?= change_lang("opportunities-caption") ?></div>
                   </div>
 
 

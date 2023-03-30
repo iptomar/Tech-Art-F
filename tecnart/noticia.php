@@ -1,5 +1,4 @@
 <?php
-session_start();
 include 'config/dbconnection.php';
 include 'models/functions.php';
 
@@ -29,7 +28,7 @@ $noticias = $stmt->fetch(PDO::FETCH_ASSOC);
             <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/noticias/<?= $noticias['imagem'] ?>" alt="">
 
             <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 30px; padding-left: 50px;">
-                Conteúdo da Notícia
+                <?= change_lang("news-content-heading") ?>
             </h3>
 
             <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 80px;">

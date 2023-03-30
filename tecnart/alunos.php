@@ -1,5 +1,4 @@
 <?php
-session_start();
 include 'config/dbconnection.php';
 include 'models/functions.php';
 
@@ -13,51 +12,50 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <!DOCTYPE html>
 <html>
 
-      <?=template_header('Alunos');?>
-      
-      <!-- product section -->
-      <section class="product_section layout_padding">
-      <div style="background-color: #dbdee1; padding-top: 50px; padding-bottom: 50px;">
-         <div class="container">
-            <div class="heading_container2 heading_center2">
-               
-                <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 33px; margin-bottom: 5px; color:#333f50;">
-                    Investigadores/as Alunos/as
-                </h3>
-                 
-                <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 16px; padding-right: 660px; color:#060633;">
-                    Cras massa velit, vehicula nec tincidunt at, aliquet porttitor ligula. Nullam faucibus est nunc, at tincidunt odio efficitur eget. 
-                    Pellentesque justo ex, tristique sed sapien ac, tempor venenatis odio liquet tincidun.  
-                </h5>
+<?= template_header('Alunos'); ?>
 
-            </div>
+<!-- product section -->
+<section class="product_section layout_padding">
+   <div style="background-color: #dbdee1; padding-top: 50px; padding-bottom: 50px;">
+      <div class="container">
+         <div class="heading_container2 heading_center2">
+
+            <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 33px; margin-bottom: 5px; color:#333f50;">
+               <?= change_lang("student-researchers-page-heading") ?>
+            </h3>
+
+            <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 16px; padding-right: 660px; color:#060633;">
+               <?= change_lang("student-researchers-page-heading-desc") ?>
+            </h5>
+
          </div>
       </div>
-   </section>
-      <!-- end product section -->
+   </div>
+</section>
+<!-- end product section -->
 
 <section class="product_section layout_padding">
-      <div style="padding-top: 20px;">
-         <div class="container">
-      <div class="row justify-content-center mt-3">
+   <div style="padding-top: 20px;">
+      <div class="container">
+         <div class="row justify-content-center mt-3">
 
-         <?php foreach ($investigadores as $investigador): ?>
+            <?php foreach ($investigadores as $investigador) : ?>
 
-               <div  class="ml-5 imgList">
-                  <a href="aluno.php?aluno=<?=$investigador['id']?>">
-                        <div  class="image">
-                        <img class="centrare" style="object-fit: cover; width:225px; height:280px;" src="../backoffice/assets/investigadores/<?=$investigador['fotografia']?>" alt="">
-                           <div class="imgText justify-content-center m-auto"><?=$investigador['nome']?></div>
-                        </div>
-                  </a> 
+               <div class="ml-5 imgList">
+                  <a href="aluno.php?aluno=<?= $investigador['id'] ?>">
+                     <div class="image">
+                        <img class="centrare" style="object-fit: cover; width:225px; height:280px;" src="../backoffice/assets/investigadores/<?= $investigador['fotografia'] ?>" alt="">
+                        <div class="imgText justify-content-center m-auto"><?= $investigador['nome'] ?></div>
+                     </div>
+                  </a>
                </div>
 
-         <?php endforeach; ?>
+            <?php endforeach; ?>
 
-      </div>
-      
-                      
-<!--             <div class="row justify-content-center mt-3">
+         </div>
+
+
+         <!--             <div class="row justify-content-center mt-3">
                
                <div  class="ml-4 imgList">
                
@@ -122,15 +120,16 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
             </div> -->
 
-                
-         </div>
 
       </div>
-   </section>
 
-      <!-- end product section -->
+   </div>
+</section>
 
-      <?=template_footer();?>
+<!-- end product section -->
 
-   </body>
+<?= template_footer(); ?>
+
+</body>
+
 </html>

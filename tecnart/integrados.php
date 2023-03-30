@@ -1,5 +1,4 @@
 <?php
-session_start();
 include 'config/dbconnection.php';
 include 'models/functions.php';
 
@@ -22,12 +21,11 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="heading_container2 heading_center2">
                
                   <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 33px; margin-bottom: 5px; color:#333f50;">
-                     Investigadores/as Integrados/as
+                     <?= change_lang("integrated-researchers-page-heading") ?>
                   </h3>
                  
                      <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 16px; padding-right: 660px; color:#060633;">
-                     Cras massa velit, vehicula nec tincidunt at, aliquet porttitor ligula. Nullam faucibus est nunc, at tincidunt odio efficitur eget. 
-                     Pellentesque justo ex, tristique sed sapien ac, tempor venenatis odio liquet tincidun.  
+                          <?= change_lang("integrated-researchers-page-heading-desc") ?>
                      </h5>
 
             </div>
