@@ -255,6 +255,8 @@ function ret_dic_pt(){
         "projects-btn-class" => "projetos",
         //Classe css para todos os titulos de separadores 'projetos'
         "projects-tab-title-class" => "Projetos",
+        //Texto 'Ligacoes Externas'
+        "ext-links" => "Ligações externas",
 
         //::::::noticias.php::::::
 

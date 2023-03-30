@@ -7,22 +7,8 @@ if(!isset($_SESSION["lang"])){
 
 $_SESSION["basename"] = $_SERVER['PHP_SELF'];
 
-if(basename($_SESSION["basename"]) === "projeto.php"){
-
+if(isset($_SERVER["QUERY_STRING"])){
   $_SESSION["basename"] = $_SESSION["basename"]."?".$_SERVER["QUERY_STRING"];
-
-}elseif (basename($_SESSION["basename"]) === "integrado.php") {
-  
-  $_SESSION["basename"] = $_SESSION["basename"]."?".$_SERVER["QUERY_STRING"];
-
-}elseif (basename($_SESSION["basename"]) === "colaborador.php") {
-  
-  $_SESSION["basename"] = $_SESSION["basename"]."?".$_SERVER["QUERY_STRING"];
-
-}elseif (basename($_SESSION["basename"]) === "aluno.php") {
-
-  $_SESSION["basename"] = $_SESSION["basename"]."?".$_SERVER["QUERY_STRING"];
-
 }
 function template_header($title){
 
@@ -179,7 +165,7 @@ $lang_values_array = array(
                 <body>
 
                 <div id="developmentWarning">
-                  <a href="http://www.techneart.ipt.pt/"><img width="190" src=$lang_values_array[0] alt="#" /></a> <!--aImage warns users that website is in development-->
+                  <a href="http://www.techneart.ipt.pt/"><img width="190" src=$lang_values_array[0] alt="#" /></a> <!--Image warns users that website is in development-->
                 </div>
 
                 <div style="padding-bottom: 0px;" class="hero_area">
