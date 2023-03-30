@@ -1,10 +1,13 @@
 <?php 
+function ret_dic_pt(){
+
 
     /**
      * Dicionario para site em portugues
      * As chaves dos arrays servirao como substituto do id ou classe CSS do objeto
      * [INCOMPLETO!!! VERIFICAR E INTRODUZIR ENTRADAS NESTE DICIONARIO!!]
      */
+
     $dic_pt = array(
 
         //::::::IMAGEM DO SITE EM DESENVOLVIMENTO::::::
@@ -46,7 +49,7 @@
         //Divisoria com 'projeto UD ...'
         "project-ud-txt" => "Projeto UD/05488/2020",
         //Etiqueta / texto com 'Instituto Pol...'
-        "ipt-copyright-txt" => "©Instituto Politécnico de Tomar | ",
+        "ipt-copyright-txt" => "©Instituto Politécnico de Tomar",
         //Etiqueta / texto com 'Todos os direitos reservados'
         "all-rights-reserved-txt" => "Todos os direitos reservados",
 
@@ -55,21 +58,21 @@
         //Titulo 'SOBRE O TECHN&ART' do slider
         "about-technart-slider" => "SOBRE O TECHN&ART",
         //Breve descricao do item 'SOBRE O TECHN&ART'
-        "about-technart-slider-desc" => "",
+        "about-technart-slider-desc" => "TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE ",
         //Titulo 'Ajudamos a Crescer o seu negocio' do slider
         "we-help-grow-slider" => "Ajudamos a Crescer o seu Negócio",
         //Breve descricao do item 'Somos a melhor agencia de consultoria'
-        "we-help-grow-slider-desc" => "",
+        "we-help-grow-slider-desc" => "TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE ",
         //Titulo 'Somos a melhor agencia de consultoria' do slider
         "best-consulting-agency-slider" => "Somos s Melhor Agência de Consultoria",
         //Breve descricao do item 'Somos a melhor agencia de consultoria'
-        "best-consulting-agency-slider-desc" => "",
+        "best-consulting-agency-slider-desc" => "TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE ",
         //botao 'Saiba mais' do slider
         "know-more-btn-txt-slider" => "SAIBA MAIS",
         //Etiqueta 'Video Institucional'
         "institutional-video-heading" => "VÍDEO INSTITUCIONAL",
         //Descricao do video institucional
-        "institutional-video-heading-desc" => "",
+        "institutional-video-heading-desc" => "TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE ",
         //Etiqueta 'Projetos I&D'
         "rd-projects-heading" => "PROJETOS I&D",
         //botao 'Ver Todos'
@@ -81,6 +84,10 @@
 
         //::::::sobre.php::::::
 
+        //Titulo 'Sobre o Techn&Art'
+        "about-technart-page-heading" => "Sobre o TECHN&ART",
+        //Subitulo página 'Sobre o Techn&Art'
+        "about-technart-page-subtitle" => "Cras massa velit, vehicula nec tincidunt at, aliquet porttitor ligula. Nullam faucibus est nunc, at tincidunt odio efficitur eget. Pellentesque justo ex, tristique sed sapien ac, tempor venenatis odio liquet tincidun.  ",
         //Legenda 'Missao e Objetivos'
         "mission-and-goals-caption" => "MISSÃO E OBJETIVOS",
         //Legenda 'Eixos de Investigacao'
@@ -89,6 +96,8 @@
         "organic-struct-caption" => "ESTRUTURA ORGÂNICA",
         //Legenda 'Oportunidades'
         "opportunities-caption" => "OPORTUNIDADES",
+        //botao 'SAIBA MAIS'
+        "opportunities-know-more-btn" => "SAIBA MAIS",
 
         //::::::missao.php::::::
 
@@ -187,7 +196,7 @@
         //Titulo 'Projetos'
         "projects-page-heading" => "Projetos",
         //Descricao pagina 'Projetos'
-        "projects-page-description" => "",
+        "projects-page-description" => "TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE ",
 
         //::::::projeto.php::::::
 
@@ -196,21 +205,21 @@
         //Classe css para todos os titulos de separadores 'Sobre'
         "about-project-tab-title-class" => "Sobre o projeto",
         //Subtitulo separador 'sobre o projeto'
-        "about-project-tab-subtitle-class" => "",
+        "about-project-tab-subtitle-class" => "Subtitulo ",
         //Etiqueta de referencia do projeto
-        "about-project-tab-reference-tag" => "Referência",
+        "about-project-tab-reference-tag" => "Referência: ",
         //Etiqueta de area preferida do projeto
-        "about-project-tab-pref-area-tag" => "Área preferencial Techn&Art",
+        "about-project-tab-pref-area-tag" => "Área preferencial Techn&Art: ",
         //Etiqueta de financiamento do projeto
-        "about-project-tab-financing-tag" => "Financiamento",
+        "about-project-tab-financing-tag" => "Financiamento: ",
         //Etiqueta de escopo do projeto
-        "about-project-tab-scope-tag" => "Escopo",
+        "about-project-tab-scope-tag" => "Escopo: ",
         //Classe css para todos os botoes 'Equipa e Intervenientes'
         "team-steakholders-btn-class" => "equipa e intervenientes",
         //Classe css para todos os botoes 'Equipa e Intervenientes'
         "team-steakholders-tab-title-class" => "Equipa e intervenientes",
         //Subtitulo separador 'equipa e intervenientes'
-        "team-steakholders-tab-subtitle-class" => "",
+        "team-steakholders-tab-subtitle-class" => "Subtitulo ",
         //
 
         //::::::integrados.php/colaboradores.php/alunos.php::::::
@@ -218,15 +227,15 @@
         //Titulo 'Investigadores/as Integrados/as'
         "integrated-researchers-page-heading" => "Investigadores/as Integrados/as",
         //Descricao de 'Investigadores/as Integrados/as'
-        "integrated-researchers-page-heading-desc" => "",
+        "integrated-researchers-page-heading-desc" => "TESTE TESTE TESTE TESTE TESTE TESTE TESTE ",
         //Titulo 'Investigadores/as Colaboradores/as'
         "colaborative-researchers-page-heading" => "Investigadores/as Colaboradores/as",
         //Descricao de 'Investigadores/as Integrados/as'
-        "colaborative-researchers-page-heading-desc" => "",
+        "colaborative-researchers-page-heading-desc" => "TESTE TESTE TESTE TESTE TESTE TESTE TESTE ",
         //Titulo 'Investigadores/as Alunos/as'
         "student-researchers-page-heading" => "Investigadores/as Alunos/as",
         //Descricao de 'Investigadores/as Alunos/as'
-        "student-researchers-page-heading-desc" => "",
+        "student-researchers-page-heading-desc" => "TESTE TESTE TESTE TESTE TESTE TESTE TESTE ",
 
         //::::::integrado.php/colaborador.php/aluno.php:::::
 
@@ -252,7 +261,7 @@
         //Titulo pagina 'Noticias'
         "news-page-heading" => "Notícias",
         //Descricao pagina noticias
-        "news-page-heading-desc" => "",
+        "news-page-heading-desc" => "TESTE TESTE TESTE TESTE TESTE TESTE TESTE ",
 
         //::::::noticia.php::::::
         
@@ -265,5 +274,8 @@
         "publications-page-heading" => "Publicações"
 
     );
+
+    return $dic_pt;
+}
 
 ?>

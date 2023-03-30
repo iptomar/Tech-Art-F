@@ -1,5 +1,4 @@
 <?php
-    session_start();
     include 'config/dbconnection.php';
     include 'models/functions.php';
 
