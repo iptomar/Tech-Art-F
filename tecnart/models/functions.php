@@ -206,25 +206,18 @@ function template_footer(){
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4">
-
-                        <div class="full">
-
-                        <div class="logo_footer" id="logo4">
-                        <a href="#"><img width="320" src="./assets/images/TechnArt6FundoTrans.png" alt="#" /></a>
-                        </div>
-
-                        <div style="display: none;" class="logo_footer" id="logo3">
-                        <a href="#"><img width="320" src="./assets/images/TechnArt12FundoTrans.png" alt="#" /></a>
-                        </div>
-
-                        </div>
-
+                          <div id="logo4">
+                            <a href="#"><img class="logo-tech_footer" src="./assets/images/TechnArt6FundoTrans.png" alt="#" /></a>
+                          </div>
+                          <div style="display: none;" id="logo3">
+                            <a href="#"><img class="logo-tech_footer" src="./assets/images/TechnArt12FundoTrans.png" alt="#" /></a>
+                          </div>
                     </div>
                         <div class="col-md-8">
+                            <div class="row center_footer">
+                            <div class="col-md-7 center_footer">
                             <div class="row">
-                            <div class="col-md-7">
-                            <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-6 center_footer">
                                     <div class="widget_menu">
                                         <ul>
                                         <li><a style="color: white;">Quinta do Contador,</a></li>
@@ -240,24 +233,22 @@ function template_footer(){
                                 <div class="widget_menu">
                                     <br><ul><li><a style="color: white;"><strong>SIGA-NOS</strong></a></li></ul>
                                 </div>
-                                <div class="container">
+                                <div class="widget_menu">
                                     <span><a href="https://www.facebook.com"><i id ="fateste" class="fab fa-facebook-f"></i>&nbsp</a></span>
                                     <span><a style="color: white; font-size: 19px;" href="https://www.youtube.com"><i class="fab fa-youtube"></i></a></span>
                                 </div>
                             </div> 
 
-                            <div class="col-md-5">
-                            <div class="full">
+                            <div class="col-md-5 center_footer">
                             <div class="logo_footer">
                                     <a href="#"><img width="210" src="./assets/images/politecnico-de-tomar-verde.png" alt="#" /></a>
                                 </div>
-                                <div class="logo_footer">
+                                <div class="logo_footer align-logo">
                                     <a href="#"><img width="270" src="./assets/images/2017_FCT_H_branco.png" alt="#" /></a>
                                 </div>
                                 <div class="information_f">
                                     <p style="color: white; font-size: 13px;">Projeto UD/05488/2020</p>
                                 </div>
-                            </div>
                             </div>
                             </div>
                         </div>

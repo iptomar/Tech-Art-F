@@ -127,6 +127,35 @@
 
 
 @media (max-width: 767px) {
+  footer{
+    padding: 40px 0 20px;
+  }
+
+  .logo-tech_footer{
+    margin: auto;
+    display: block;
+    width: 75%;
+    margin-bottom: 20px !important;
+  }
+
+  .logo_footer{
+    margin-bottom: 10px;
+    margin-top: 30px;
+  }
+
+  .center_footer{
+    text-align: center;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .widget_menu{
+    text-align: center;
+  }
+
+  .align-logo{
+    margin-left: auto;
+  }
 
   .slider_bg_box img {
     -o-object-position: top center;
