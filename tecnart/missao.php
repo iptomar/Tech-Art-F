@@ -15,12 +15,12 @@ include 'models/functions.php';
             <div class="heading_container2 heading_center2">
                
                 <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 33px; color:#333f50; text-transform: uppercase;">
-                    missão e objetivos
+                    <?= change_lang("mission-and-goals-page-heading") ?>
                 </h3>
 
                  
                 <h4 style="font-family: 'Quicksand', sans-serif; font-size: 26px; padding-right: 660px; color:#060633; text-transform: uppercase; padding-top: 25px;">
-                    subtítulo
+                <?= change_lang("mission-and-goals-page-subtitle") ?>
                 </h4>
 
                 <div class="flex-container mobile_reverse">
@@ -31,26 +31,23 @@ include 'models/functions.php';
                         </figure>
                     </div>
                     <div class="flex-right">
-                        <b>1. </b>O Techn&Art desenvolve investigação nos domínios da Salvaguarda do Património e da Valorização do Património, quer em desenvolvimento
-                        experimental, quer em investigação aplicada.<br><br>
+                        <b>1. </b><?= change_lang("mission-and-goals-page-point-one") ?><br><br>
 
-                        <b>2. </b>Adicionalmente, o Techn&Art tem por missão:<br><br>
+                        <b>2. </b><?= change_lang("mission-and-goals-page-point-two") ?><br><br>
 
-                        <b>a) </b>Contribuir para a consolidação dos programas de formação do IPT enquadrados nos domínios científicos listados;<br><br>
+                        <b>a) </b><?= change_lang("mission-and-goals-page-a-txt") ?><br><br>
 
-                        <b>b) </b>Contribuir para a sólida formação dos alunos estreitando a colaboração entre os trabalhos de investigação científica desenvolvidos
-                        pelos investigadores TechnArt;<br><br>
+                        <b>b) </b><?= change_lang("mission-and-goals-page-b-txt") ?><br><br>
 
-                        <b>c) </b>Difundir a cultura científica, tecnológica e artística através da organização de conferências, colóquios, seminários, exposições
-                        e sessões culturais;<br><br>
+                        <b>c) </b><?= change_lang("mission-and-goals-page-c-txt") ?><br><br>
 
-                        <b>d) </b>Promover a formação avançada dos recursos humanos, fomentando a sua constante valorização científica e cultural;<br><br>
+                        <b>d) </b><?= change_lang("mission-and-goals-page-d-txt") ?><br><br>
 
-                        <b>e) </b>Estabelecer a cooperação interinstitucional com entidades nacionais e internacionais;<br><br>
+                        <b>e) </b><?= change_lang("mission-and-goals-page-e-txt") ?><br><br>
 
-                        <b>f) </b>Utilizar com eficácia os financiamentos de que é beneficiária e outros recursos disponíveis;<br><br>
+                        <b>f) </b><?= change_lang("mission-and-goals-page-f-txt") ?><br><br>
 
-                        <b>g) </b>Prestar serviços à comunidade no âmbito das suas atividades.<br><br>
+                        <b>g) </b><?= change_lang("mission-and-goals-page-g-txt") ?><br><br>
                     </div>
                 </div>
 

@@ -1,5 +1,4 @@
 <?php
-session_start();
 include 'config/dbconnection.php';
 include 'models/functions.php';
 
@@ -21,11 +20,10 @@ $noticias = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="container">
          <div class="heading_container2 heading_center2">
             <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 33px; margin-bottom: 5px; color:#333f50;">
-               Notícias
+               <?= change_lang("news-page-heading") ?>
             </h3>
             <h5 class="heading2_h5">
-               Cras massa velit, vehicula nec tincidunt at, aliquet porttitor ligula. Nullam faucibus est nunc, at tincidunt odio efficitur eget.
-               Pellentesque justo ex, tristique sed sapien ac, tempor venenatis odio liquet tincidun.
+               <?= change_lang("news-page-heading-desc") ?>
             </h5>
 
          </div>
@@ -50,7 +48,7 @@ $noticias = $stmt->fetchAll(PDO::FETCH_ASSOC);
                            echo ($titulo != $noticia['titulo']) ? "..." : "";
                            ?>
                         </div>
-                        <h6 class="imgText m-auto" style="font-size: 11px; font-weight: 100; top:95%"><?= date("d.m.Y",strtotime($noticia['data'])) ?></h6>
+                        <h6 class="imgText m-auto" style="font-size: 11px; font-weight: 100; top:95%"><?= date("d.m.Y", strtotime($noticia['data'])) ?></h6>
                      </div>
                   </a>
                </div>

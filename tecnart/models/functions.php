@@ -1,9 +1,70 @@
 <?php
+session_start();
 
+if(!isset($_SESSION["lang"])){
+  $_SESSION["lang"] = "pt";
+}
 
+$_SESSION["basename"] = $_SERVER['PHP_SELF'];
+
+if(isset($_SERVER["QUERY_STRING"])){
+  $_SESSION["basename"] = $_SESSION["basename"]."?".$_SERVER["QUERY_STRING"];
+}
 function template_header($title){
-    echo <<<EOT
 
+//variaveis para passar valores de dicionarios
+
+//imagens
+$img_site_development = change_lang("img-site-development");
+$header_site_logo = change_lang("header-site-logo");
+
+//::::::CABECALHO PRINCIPAL::::::
+
+//drop-down 'sobre o technart'
+$about_technart_drop_down = change_lang("about-technart-drop-down");
+$mission_and_goals_option = change_lang("mission-and-goals-option");
+$research_axes_option = change_lang("research-axes-option");
+$org_struct_option = change_lang("org-struct-option");
+$opportunities_option= change_lang("opportunities-option");
+
+//Separador 'projetos'
+$projects_tab = change_lang("projects-tab");
+
+//drop-down 'investigadores'
+$researchers_drop_down = change_lang("researchers-drop-down");
+$integrated_option = change_lang("integrated-option");
+$collaborators_option = change_lang("collaborators-option");
+$students_option = change_lang("students-option");
+
+//separador das noticias
+$news_tab = change_lang("news-tab");
+
+//separador das publicacoes
+$publ_tab = change_lang("publ-tab");
+
+$lang_values_array = array(
+
+   //:::CABECALHO (0-13):::
+
+   $img_site_development,
+   $header_site_logo,
+   $about_technart_drop_down,
+   $mission_and_goals_option,
+   $research_axes_option,
+   $org_struct_option,
+   $opportunities_option,
+   $projects_tab,
+   $researchers_drop_down,
+   $integrated_option,
+   $collaborators_option,
+   $students_option,
+   $news_tab,
+   $publ_tab,
+
+);
+
+    echo <<<EOT
+                
                 <head>
                 <!-- Basic -->
                 <meta charset="utf-8" />
@@ -45,7 +106,7 @@ function template_header($title){
                 <link rel="stylesheet" type="text/css" href="./assets/css/font-awesome.css">
                 <link rel="stylesheet" href="./assets/css/owl-carousel.css">
 
-                <link rel="stylesheet" href="./assets/css/lightbox.css'">
+                <link rel="stylesheet" href="./assets/css/lightbox.css">
 
                 <link rel="stylesheet" href="https://code.jquery.com/jquery-3.4.1.min.js">
 
@@ -85,10 +146,10 @@ function template_header($title){
                     color: transparent !important;
                 }
 
-                #developmentWarningEN,#developmentWarningPT{
+                #developmentWarning{
                   position:fixed;
                   top:0;
-                  right:0;
+                  left:0;
                   z-index: 2;
                   opacity: 0.8;
                   max-width: 190px;
@@ -105,12 +166,8 @@ function template_header($title){
                 
                 <body>
 
-                <!--Image warns users that website is in development-->
-                <div id="developmentWarningEN">
-                  <a href="http://www.techneart.ipt.pt/"><img class="w-100" src="./assets/images/developmentWarningEN.png" alt="#" /></a> 
-                </div>
-                <div id="developmentWarningPT">
-                  <a href="http://www.techneart.ipt.pt/"><img class="w-100" src="./assets/images/developmentWarningPT.png" alt="#" /></a>
+                <div id="developmentWarning">
+                  <a href="http://www.techneart.ipt.pt/"><img class="w-100" src=$lang_values_array[0] alt="#" /></a> <!--Image warns users that website is in development-->
                 </div>
 
                 <div style="padding-bottom: 0px;" class="hero_area">
@@ -130,7 +187,10 @@ function template_header($title){
                                 <ul class="navbar-nav">
                                 
                                     <li style="padding-top: 25px;" class="nav-item">
-                                        <div style="margin-right: 140px;" id='google_translate_element'></div>
+                                      <div style="margin-right: 20px">
+                                          <a class="translationOption" href="session_var_pt.php" >PT</a>
+                                          <a class="translationOption" href="session_var_en.php" >EN</a>
+                                      </div>
                                     </li>
                                 
                                 </ul>
@@ -147,12 +207,8 @@ function template_header($title){
                         <div style="padding-top: 0px;" class="container">
                             <nav style="padding-top: 0px;" class="navbar navbar-expand-lg custom_nav-container ">
                                 
-                                <div id="logo2" style="max-width:300px; width:85%;">
-                                  <a class="navbar-brand" href="index.php"><img class="w-100" src="./assets/images/TechnArt5FundoTrans.png" alt="#" /></a> <!--Logo que redireciona para o index.html-->
-                                </div>
-                                
-                                <div style="display: none; max-width:300px; width:70%;" id="logo">
-                                  <a class="navbar-brand" href="index.php"><img class="w-100" src="./assets/images/TechnArt11FundoTrans.png" alt="#" /></a> <!--Logo que redireciona para o index.html-->
+                                <div id="logo" style="max-width:300px; width:85%;">
+                                <a class="navbar-brand" href="index.php"><img class="w-100"  src=$lang_values_array[1] alt="#" /></a> <!--Logo que redireciona para o index.html-->
                                 </div>
 
                                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -163,30 +219,30 @@ function template_header($title){
                                 <ul class="navbar-nav">
 
                                 <li class="nav-item dropdown">
-                                        <a class="nav-link" id="sobretechn" href="sobre.php" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Sobre o Techn&art <span class="caret"></span></a>
+                                        <a class="nav-link" id="sobretechn" href="sobre.php" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">$lang_values_array[2]<span class="caret"></span></a>
                                         <div class="dropdown-content">
-                                            <a href="missao.php">Missão e Objetivos</a>
-                                            <a href="eixos.php">Eixos de Investigação</a>
-                                            <a href="estrutura.php">Estrutura Orgânica</a>
-                                            <a href="oportunidades.php">Oportunidades</a>
+                                            <a href="missao.php">$lang_values_array[3]</a>
+                                            <a href="eixos.php">$lang_values_array[4]</a>
+                                            <a href="estrutura.php">$lang_values_array[5]</a>
+                                            <a href="oportunidades.php">$lang_values_array[6]</a>
                                     </div>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="projetos.php">Projetos</a>
+                                        <a class="nav-link" href="projetos.php">$lang_values_array[7]</a>
                                     </li>
                                     <li class="nav-item dropdown">
-                                        <a class="nav-link" id="sobretechn" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">INVESTIGADORES/AS <span class="caret"></span></a>
+                                        <a class="nav-link" id="sobretechn" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">$lang_values_array[8]<span class="caret"></span></a>
                                         <div class="dropdown-content">
-                                            <a href="integrados.php">Integrados/as</a>
-                                            <a href="colaboradores.php">Colaboradores/as</a>
-                                            <a href="alunos.php">Alunos/as</a>
+                                            <a href="integrados.php">$lang_values_array[9]</a>
+                                            <a href="colaboradores.php">$lang_values_array[10]</a>
+                                            <a href="alunos.php">$lang_values_array[11]</a>
                                     </div>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="noticias.php">Notícias</a>
+                                        <a class="nav-link" href="noticias.php">$lang_values_array[12]</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="publicacoes.php">Publicações</a>
+                                        <a class="nav-link" href="publicacoes.php">$lang_values_array[13]</a>
                                     </li>                     
                                 </div>
                             </nav>
@@ -200,18 +256,53 @@ EOT;
 
 function template_footer(){
 
+//variaveis para passar valores de dicionarios
+
+//imagens
+
+$footer_site_logo = change_lang("footer-site-logo");
+
+//::::::RODAPE PRINCIPAL::::::
+
+//textos da morada
+$address_txt_1 = change_lang("address-txt-1");
+$address_txt_2 = change_lang("address-txt-2");
+
+//texto 'siga-nos'
+$follow_us_txt = change_lang("follow-us-txt");
+
+//texto do UD do projeto
+$project_ud_txt = change_lang("project-ud-txt");
+
+//copyright IPT
+$ipt_copyright_txt = change_lang("ipt-copyright-txt");
+
+//todos os direitos reservados
+$all_rights_reserved_txt = change_lang("all-rights-reserved-txt");
+
+$lang_values_array = array(
+
+  //:::RODAPE(0-6):::
+
+  $footer_site_logo,
+  $address_txt_1,
+  $address_txt_2,
+  $follow_us_txt,
+  $project_ud_txt,
+  $ipt_copyright_txt,
+  $all_rights_reserved_txt
+
+);
+
     echo <<<EOT
                 <!-- footer start -->
                 <footer>
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4">
-                          <div id="logo4">
-                            <a href="#"><img class="logo-tech_footer" src="./assets/images/TechnArt6FundoTrans.png" alt="#" /></a>
-                          </div>
-                          <div style="display: none;" id="logo3">
-                            <a href="#"><img class="logo-tech_footer" src="./assets/images/TechnArt12FundoTrans.png" alt="#" /></a>
-                          </div>
+                        <div class="logo_footer" id="logo4">
+                        <a href="#"><img class="logo-tech_footer" src=$lang_values_array[0] alt="#" /></a>
+                        </div>
                     </div>
                         <div class="col-md-8">
                             <div class="row center_footer">
@@ -220,8 +311,8 @@ function template_footer(){
                                 <div class="col-md-6 center_footer">
                                     <div class="widget_menu">
                                         <ul>
-                                        <li><a style="color: white;">Quinta do Contador,</a></li>
-                                        <li><a style="color: white;">Estrada da Serra</a></li>
+                                        <li><a style="color: white;">$lang_values_array[1]</a></li>
+                                        <li><a style="color: white;">$lang_values_array[2]</a></li>
                                         <li><a style="color: white;">2300-313 Tomar - Portugal</a></li>
                                         </ul>
                                     </div>
@@ -231,7 +322,7 @@ function template_footer(){
                                     <br><ul><li><a style="color: white;">sec.techenart@ipt.pt</a></li></ul>
                                 </div>
                                 <div class="widget_menu">
-                                    <br><ul><li><a style="color: white;"><strong>SIGA-NOS</strong></a></li></ul>
+                                    <br><ul><li><a style="color: white;"><strong>$lang_values_array[3]</strong></a></li></ul>
                                 </div>
                                 <div class="widget_menu">
                                     <span><a href="https://www.facebook.com"><i id ="fateste" class="fab fa-facebook-f"></i>&nbsp</a></span>
@@ -247,7 +338,7 @@ function template_footer(){
                                     <a href="#"><img width="270" src="./assets/images/2017_FCT_H_branco.png" alt="#" /></a>
                                 </div>
                                 <div class="information_f">
-                                    <p style="color: white; font-size: 13px;">Projeto UD/05488/2020</p>
+                                    <p style="color: white; font-size: 13px;">$lang_values_array[4]</p>
                                 </div>
                             </div>
                             </div>
@@ -257,7 +348,7 @@ function template_footer(){
                 </footer>
                 <!-- footer end -->
                 <div class="cpy_">
-                <p class="mx-auto" style="font-size: 13px; padding-bottom: 20px;">©Instituto Politécnico de Tomar | Todos os direitos reservados<br></p>
+                <p class="mx-auto" style="font-size: 13px; padding-bottom: 20px;">$lang_values_array[5] | $lang_values_array[6]<br></p>
                 </div>
 
                 <!-- jQery -->
@@ -306,7 +397,7 @@ function template_footer(){
 
                 <script type="text/javascript">
 
-                function googleTranslateElementInit() {
+                /*function googleTranslateElementInit() {
                   const lang = getCookie("googtrans");
                   if (lang == "") {
                     setCookie('googtrans', '/en/pt', 1);
@@ -318,13 +409,14 @@ function template_footer(){
                     layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
                   }, 'google_translate_element');
             
-                  document.getElementsByClassName("goog-te-combo")[0].addEventListener("change", function () {
-                    imagens();
+                 
                   })
 
-                 
-                          
-                  if (lang == "/en/pt") {
+                 lang = document.getElementsById("translation_select").addEventListener("change", function () {
+                    imagens(); 
+                 }
+
+                  if (lang == "en") {
                     
                     document.getElementById('logo2').className = "show";
                     document.getElementById('logo').className = "hidden"; 
@@ -341,10 +433,10 @@ function template_footer(){
                     document.getElementById('developmentWarningEN').className = "show";
                     document.getElementById('developmentWarningPT').className = "hidden";       
                   }
-                }
+                }*/
 
-                function getLangSelecionada() {
-                    const e = document.getElementsByClassName("goog-te-combo")[0];
+                /*function getLangSelecionada() {
+                    const e = document.getElementById("translation_select");
                     return e.options[e.selectedIndex].value;
                   }
 
@@ -354,7 +446,7 @@ function template_footer(){
                   const lang = getLangSelecionada();
                   
                   if (lang == "pt") {
-                    setCookie('googtrans', '/en/pt', 1);
+                    //setCookie('googtrans', '/en/pt', 1);
                     document.getElementById('logo2').className = "show";
                     document.getElementById('logo').className = "hidden"; 
                     document.getElementById('logo4').className = "show";
@@ -362,7 +454,7 @@ function template_footer(){
                     document.getElementById('developmentWarningEN').className = "hidden";
                     document.getElementById('developmentWarningPT').className = "show";                       
                   } else {
-                    setCookie('googtrans', '/en/en', 1);
+                    //setCookie('googtrans', '/en/en', 1);
                     document.getElementById('logo').className = "show";
                     document.getElementById('logo2').className = "hidden";
                     document.getElementById('logo3').className = "show";
@@ -372,6 +464,10 @@ function template_footer(){
                     document.getElementById('developmentWarningPT').className = "hidden";                        
                   }
                 }
+
+                document.getElementsById("translation_select").addEventListener("change", function () {
+                 imagens();
+                });
             
                 function getCookie(cname) {
                   let name = cname + "=";
@@ -394,15 +490,26 @@ function template_footer(){
                   expires.setTime(expires.getTime() + (expiry * 24 * 60 * 60 * 1000));
                   document.cookie = key + '=' + value + ';expires=' + expires.toUTCString();
                 }
-            
+            */
             
               </script>
 
-                <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+              <!--<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>-->
 
 
 
 
 EOT;
 
+}
+
+include 'models/dicionario_en.php';
+include 'models/dicionario_pt.php';
+
+function change_lang($dicElem){
+  if ($_SESSION["lang"] == "en"){
+    return ret_dic_en()[$dicElem];
+  } elseif($_SESSION["lang"] == "pt"){
+    return ret_dic_pt()[$dicElem];
+  }
 }
