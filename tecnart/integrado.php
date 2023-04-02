@@ -164,7 +164,7 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 
-                        echo "<h5 class='publicaInv' style='padding-bottom: 10px;'>";
+                        echo "<h5 class='textInfo' style='padding-bottom: 10px;'>";
                         echo str_replace(";", " & ", $book->{"authors"}->{"citation"});
 
                         echo ". (" . $book->{$publication_year} . "). ";
