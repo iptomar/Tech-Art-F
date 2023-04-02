@@ -18,9 +18,9 @@ include 'models/functions.php';
                   </h3>
 
                  
-                     <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 16px; padding-right: 550px; color:#060633;">
+                  <h5 class="heading2_h5">
                      <?= change_lang("about-technart-page-subtitle") ?>
-                     </h5>
+                  </h5>
                
 
             </div>

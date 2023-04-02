@@ -20,7 +20,8 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
 <?= template_header('Projeto'); ?>
 
 <section class="product_section layout_padding3">
-    <div style="height:300px; background: url('../backoffice/assets/projetos/<?= $projetos['fotografia'] ?>'); background-size: cover; background-position:100%;">
+    <div
+        style="height:300px; background: url('../backoffice/assets/projetos/<?= $projetos['fotografia'] ?>'); background-size: cover; background-position:100%;">
     </div>
 </section>
 
@@ -31,10 +32,12 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
     <div class="totall">
         <div class="barraesquerda">
 
-            <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 38px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 45px;  text-transform: uppercase;">
+            <h3
+                style="font-family: 'Merriweather Sans', sans-serif; font-size: 38px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 45px;  text-transform: uppercase;">
                 <?= $projetos['nome'] ?>
             </h3>
-            <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 40px; color:#060633; padding-left: 45px; padding-bottom: 50px;">
+            <h5
+                style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 40px; color:#060633; padding-left: 45px; padding-bottom: 50px;">
                 <?= $projetos['descricao'] ?>
             </h5>
 
@@ -67,13 +70,14 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
 
         </div>
 
-        <div class="resto">
+        <div id="resto" class="infoCorpo">
 
-            <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 50px;">
+            <h3
+                style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 50px;">
                 <?= change_lang("about-project-tab-title-class") ?>
             </h3>
 
-            <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 20px;">
+            <h5 class="textInfo" style="padding-bottom: 20px;">
                 <?= $projetos['sobreprojeto'] ?>
             </h5>
 
@@ -85,35 +89,53 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
                     mauris.</b>
             </h5> -->
 
-            <h4 style="font-family: 'Quicksand', sans-serif; font-size: 26px; color:#060633; text-transform: uppercase; padding-left: 50px; padding-bottom: 30px;">
+            <h4
+                style="font-family: 'Quicksand', sans-serif; font-size: 26px; color:#060633; text-transform: uppercase; padding-left: 50px; padding-bottom: 30px;">
                 <?= change_lang("team-steakholders-tab-subtitle-class") ?>
             </h4>
 
-            <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;">
-                <b><?= change_lang("about-project-tab-reference-tag") ?></b> <?= $projetos['referencia'] ?>
+            <h5
+                style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;">
+                <b>
+                    <?= change_lang("about-project-tab-reference-tag") ?>
+                </b>
+                <?= $projetos['referencia'] ?>
             </h5>
 
-            <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;">
-                <b><?= change_lang("about-project-tab-pref-area-tag") ?></b> <?= $projetos['areapreferencial'] ?>
+            <h5
+                style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;">
+                <b>
+                    <?= change_lang("about-project-tab-pref-area-tag") ?>
+                </b>
+                <?= $projetos['areapreferencial'] ?>
             </h5>
 
-            <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;">
-                <b><?= change_lang("about-project-tab-financing-tag") ?></b> <?= $projetos['financiamento'] ?>
+            <h5
+                style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;">
+                <b>
+                    <?= change_lang("about-project-tab-financing-tag") ?>
+                </b>
+                <?= $projetos['financiamento'] ?>
             </h5>
 
-            <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px; padding-bottom: 150px;">
-                <b><?= change_lang("about-project-tab-scope-tag") ?></b> <?= $projetos['ambito'] ?>
+            <h5
+                style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px; padding-bottom: 150px;">
+                <b>
+                    <?= change_lang("about-project-tab-scope-tag") ?>
+                </b>
+                <?= $projetos['ambito'] ?>
             </h5>
 
         </div>
 
-        <div class="resto2" style="display: none;">
+        <div id="resto2" class="infoCorpo" style="display: none;">
 
-            <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 50px;">
+            <h3
+                style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 50px;">
                 <?= change_lang("team-steakholders-tab-title-class") ?>
             </h3>
 
-            <div style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 20px;">
+            <div class="textInfo" style="padding-bottom: 20px;">
                 <?php
                 $stmt = $pdo->prepare('SELECT i.* FROM investigadores i INNER JOIN investigadores_projetos ip ON ip.projetos_id = ? and ip.investigadores_id = i.id');
                 $stmt->bindParam(1, $_GET["projeto"], PDO::PARAM_INT);
@@ -125,12 +147,14 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
                         <div class="container">
                             <div class="row justify-content-center mt-3">
 
-                                <?php foreach ($investigadores as $investigador) : ?>
+                                <?php foreach ($investigadores as $investigador): ?>
 
                                     <div class="ml-5 imgList">
                                         <a href="integrado.php?integrado=<?= $investigador['id'] ?>">
                                             <div class="image">
-                                                <img class="centrare" style="object-fit: cover; width:225px; height:280px;" src="../backoffice/assets/investigadores/<?= $investigador['fotografia'] ?>" alt="">
+                                                <img class="centrare" style="object-fit: cover; width:225px; height:280px;"
+                                                    src="../backoffice/assets/investigadores/<?= $investigador['fotografia'] ?>"
+                                                    alt="">
                                                 <div class="imgText justify-content-center m-auto">
                                                     <?= $investigador['nome'] ?>
                                                 </div>
@@ -153,7 +177,7 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
 
         </div>
 
-        <!-- <div class="resto3" style="display: none;">
+        <!-- <div id="resto3" class="infoCorpo"  style="display: none;">
 
             <h3
                 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 50px;">
@@ -161,7 +185,7 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
             </h3>
 
             <h5
-                style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 20px;">
+                class="textInfo" style="padding-bottom: 20px;">
                 Duis a mollis urna. In hac habitasse platea dictumst. Vestibulum nisi nunc, elementum et vehicula vel,
                 rhoncus non metus.
                 In vel dapibus dolor. Sed at laoreet turpis. Donec nec aliquam velit. Quisque blandit nisi mauris.
@@ -193,14 +217,14 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
 
         </div> -->
 
-        <!-- <div class="resto4" style="display: none;">
+        <!-- <div id="resto4" class="infoCorpo"  style="display: none;">
             <h3
                 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 50px;">
                 Publicações
             </h3>
 
             <h5
-                style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 20px;">
+                class="textInfo" style="padding-bottom: 20px;">
                 Duis a mollis urna. In hac habitasse platea dictumst. Vestibulum nisi nunc, elementum et vehicula vel,
                 rhoncus non metus.
                 In vel dapibus dolor. Sed at laoreet turpis. Donec nec aliquam velit. Quisque blandit nisi mauris.
@@ -239,34 +263,33 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
 <?= template_footer(); ?>
 
 <script>
-    $(function() {
-
-        $('button#showit').on('click', function() {
-            $('.resto').show();
-            $('.resto2').hide();
-            /* $('.resto3').hide();
-               $('.resto4').hide(); */
+    $(function () {
+        $('button#showit').on('click', function () {
+            $('#resto').show();
+            $('#resto2').hide();
+            /* $('#resto3').hide();
+               $('#resto4').hide(); */
         });
 
-        $('button#showit2').on('click', function() {
-            $('.resto2').show();
-            $('.resto').hide();
-            /*  $('.resto3').hide();
-                $('.resto4').hide(); */
+        $('button#showit2').on('click', function () {
+            $('#resto2').show();
+            $('#resto').hide();
+            /*  $('#resto3').hide();
+                $('#resto4').hide(); */
         });
 
         /*     $('button#showit3').on('click', function() {
-            $('.resto3').show();
-            $('.resto').hide();
-            $('.resto2').hide();
-            $('.resto4').hide();
+            $('#resto3').show();
+            $('#resto').hide();
+            $('#resto2').hide();
+            $('#resto4').hide();
         });
-
+    
         $('button#showit4').on('click', function() {
-            $('.resto4').show();
-            $('.resto').hide();
-            $('.resto3').hide();
-            $('.resto2').hide();
+            $('#resto4').show();
+            $('#resto').hide();
+            $('#resto3').hide();
+            $('#resto2').hide();
         }); */
 
     });

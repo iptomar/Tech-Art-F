@@ -22,7 +22,7 @@ $noticias = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 33px; margin-bottom: 5px; color:#333f50;">
                <?= change_lang("news-page-heading") ?>
             </h3>
-            <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 16px; padding-right: 660px; color:#060633;">
+            <h5 class="heading2_h5">
                <?= change_lang("news-page-heading-desc") ?>
             </h5>
 

@@ -24,14 +24,14 @@ $noticias = $stmt->fetch(PDO::FETCH_ASSOC);
 
         </div>
 
-        <div class="resto">
+        <div class="infoCorpo" >
             <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/noticias/<?= $noticias['imagem'] ?>" alt="">
 
             <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 30px; padding-left: 50px;">
                 <?= change_lang("news-content-heading") ?>
             </h3>
 
-            <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;  padding-bottom: 80px;">
+            <h5 class="textInfo" style="padding-bottom: 80px;">
                 <?= $noticias['conteudo'] ?>
             </h5>
 

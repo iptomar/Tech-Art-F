@@ -2,9 +2,10 @@ $(function() {
   "use strict";
 
   //------- Parallax -------//
-  skrollr.init({
+  /* Bloqueia o scrolling no telemóvel 
+    skrollr.init({
     forceHeight: false
-  });
+  });*/
 
   //------- Active Nice Select --------//
   $('select').niceSelect();

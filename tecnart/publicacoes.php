@@ -93,7 +93,7 @@ $result = mysqli_query($con, $sql);
 
 
                         /* echo $name.", "; */
-
+                        echo "<p>";
                         echo str_replace(";", " & ", $book->{"authors"}->{"citation"});
 
                         echo ". (" . $book->{'publication-year'} . "). ";
@@ -107,8 +107,7 @@ $result = mysqli_query($con, $sql);
                         if (isset($book->{"number-of-pages"})) {
                             echo ", " . $book->{"number-of-pages"};
                         }
-
-                        echo "<br>";
+                        echo "</p>";
                     }
                 }
 

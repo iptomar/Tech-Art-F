@@ -7,7 +7,7 @@ if(!isset($_SESSION["lang"])){
 
 $_SESSION["basename"] = $_SERVER['PHP_SELF'];
 
-if(isset($_SERVER["QUERY_STRING"])){
+if(strlen($_SERVER["QUERY_STRING"])>0){
   $_SESSION["basename"] = $_SESSION["basename"]."?".$_SERVER["QUERY_STRING"];
 }
 function template_header($title){
@@ -150,8 +150,10 @@ $lang_values_array = array(
                   position:fixed;
                   top:0;
                   left:0;
-                  z-index: 1;
+                  z-index: 2;
                   opacity: 0.8;
+                  max-width: 190px;
+                  width:25%
                 }
                  
                 </style>
@@ -165,53 +167,49 @@ $lang_values_array = array(
                 <body>
 
                 <div id="developmentWarning">
-                  <a href="http://www.techneart.ipt.pt/"><img width="190" src=$lang_values_array[0] alt="#" /></a> <!--Image warns users that website is in development-->
+                  <a href="http://www.techneart.ipt.pt/"><img class="w-100" src=$lang_values_array[0] alt="#" /></a> <!--Image warns users that website is in development-->
                 </div>
-
-                <div style="padding-bottom: 0px;" class="hero_area">
-                    <!-- header section strats --><!--duplicar o tamanho do header -->
-                    <header style="padding-bottom: 0px;" class="header_section2">
-                    
-                            <nav style="padding-bottom: 0px; height: 40px;" class="navbar navbar-expand-lg custom_nav-container ">
-                                <div style="padding-bottom: 0px;" class="collapse navbar-collapse" id="navbarSupportedContent">
-                                        
-                                <!-- <form class="form-inline">
-                                        <button class="btn  my-2 my-sm-0 nav_search-btn">
-                                        <i style="padding-left: 1125px; padding-top: 19px;" class="fa fa-search" aria-hidden="true"></i>
-                                        </button> 
-                                    </form> -->
-
-
-                                <ul class="navbar-nav">
-                                
-                                    <li style="padding-top: 25px;" class="nav-item">
-                                      <div style="margin-right: 20px">
-                                          <a class="translationOption" href="session_var_pt.php" >PT</a>
-                                          <a class="translationOption" href="session_var_en.php" >EN</a>
-                                      </div>
-                                    </li>
-                                
-                                </ul>
-                                                        
-                                </div>
-                            </nav>
-                        
-                    </header>
-                    </div>
 
                     <div style="padding-top: 0px;"class="hero_area">
                     <!-- header section strats -->
                     <header style="padding-top: 0px;" class="header_section">
                         <div style="padding-top: 0px;" class="container">
+
+                          <!--Language nav bar-->
+                          <div style="padding-bottom: 0px;" class="hero_area">
+                            <!-- header section strats -->
+                            <header style="padding-bottom: 0px; z-index:1;" class="header_section2">
+                                    <nav class="navbar navbar-expand custom_nav-container lang_nav">  
+                                        <!-- <form class="form-inline">
+                                                <button class="btn  my-2 my-sm-0 nav_search-btn">
+                                                <i style="padding-left: 1125px; padding-top: 19px;" class="fa fa-search" aria-hidden="true"></i>
+                                                </button> 
+                                            </form> -->
+                                        <ul class="navbar-nav">
+                                            <li style="margin-top: 40px; overflow:visible;" class="nav-item">
+                                              <div>
+                                                  <a class="translationOption" href="session_var_pt.php" >PT</a>
+                                                  <a class="translationOption" href="session_var_en.php" >EN</a>
+                                              </div>
+                                            </li>
+                                        
+                                        </ul>
+                                                                
+                                    </nav>
+                                
+                            </header>
+                          </div>
+
+                            <!-- Main navbar -->
                             <nav style="padding-top: 0px;" class="navbar navbar-expand-lg custom_nav-container ">
                                 
-                                <div id="logo">
-                                <a class="navbar-brand" href="index.php"><img width="300" src=$lang_values_array[1] alt="#" /></a> <!--Logo que redireciona para o index.html-->
+                                <div id="logo" style="max-width:300px; width:85%;">
+                                <a class="navbar-brand" href="index.php"><img class="w-100"  src=$lang_values_array[1] alt="#" /></a> <!--Logo que redireciona para o index.html-->
                                 </div>
 
-                                <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class=""> </span>
-                                </button>-->
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span></span>
+                                </button>
                                 
                                 <div style="padding-top: 0px;" class="collapse navbar-collapse" id="navbarSupportedContent">
                                 <ul class="navbar-nav">
@@ -298,21 +296,15 @@ $lang_values_array = array(
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4">
-
-                        <div class="full">
-
                         <div class="logo_footer" id="logo4">
-                        <a href="#"><img width="320" src=$lang_values_array[0] alt="#" /></a>
+                        <a href="#"><img class="logo-tech_footer" src=$lang_values_array[0] alt="#" /></a>
                         </div>
-
-                        </div>
-
                     </div>
                         <div class="col-md-8">
+                            <div class="row center_footer">
+                            <div class="col-md-7 center_footer">
                             <div class="row">
-                            <div class="col-md-7">
-                            <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-6 center_footer">
                                     <div class="widget_menu">
                                         <ul>
                                         <li><a style="color: white;">$lang_values_array[1]</a></li>
@@ -328,24 +320,22 @@ $lang_values_array = array(
                                 <div class="widget_menu">
                                     <br><ul><li><a style="color: white;"><strong>$lang_values_array[3]</strong></a></li></ul>
                                 </div>
-                                <div class="container">
+                                <div class="widget_menu">
                                     <span><a href="https://www.facebook.com"><i id ="fateste" class="fab fa-facebook-f"></i>&nbsp</a></span>
                                     <span><a style="color: white; font-size: 19px;" href="https://www.youtube.com"><i class="fab fa-youtube"></i></a></span>
                                 </div>
                             </div> 
 
-                            <div class="col-md-5">
-                            <div class="full">
+                            <div class="col-md-5 center_footer">
                             <div class="logo_footer">
                                     <a href="#"><img width="210" src="./assets/images/politecnico-de-tomar-verde.png" alt="#" /></a>
                                 </div>
-                                <div class="logo_footer">
+                                <div class="logo_footer align-logo">
                                     <a href="#"><img width="270" src="./assets/images/2017_FCT_H_branco.png" alt="#" /></a>
                                 </div>
                                 <div class="information_f">
                                     <p style="color: white; font-size: 13px;">$lang_values_array[4]</p>
                                 </div>
-                            </div>
                             </div>
                             </div>
                         </div>
@@ -366,7 +356,7 @@ $lang_values_array = array(
                 <!-- custom js -->
                 <script src="./assets/js/custom.js"></script>
                 <script src="./assets/js/owl.carousel.min.js"></script>
-                <script src="./assets/js/jquery.min.js"></script>
+            <!-- <script src="./assets/js/jquery.min.js"></script> -->
                 <script src="./assets/js/jquery-migrate-3.0.1.min.js"></script>
                 <script src="./assets/js/popper2.min.js"></script>
                 <script src="./assets/js/bootstrap.min.js"></script>
@@ -379,7 +369,7 @@ $lang_values_array = array(
                 <script src="./assets/js/jquery.animateNumber.min.js"></script>
                 <script src="./assets/js/scrollax.min.js"></script>
                 <script src="./assets/js/main.js"></script>
-                <script src="./assets/js/jquery-2.1.0.min.js"></script>
+            <!--  <script src="./assets/js/jquery-2.1.0.min.js"></script> -->
                 <script src="./assets/js/owl-carousel.js"></script>
                 <script src="./assets/js/accordions.js"></script>
                 <script src="./assets/js/datepicker.js"></script>
@@ -391,7 +381,7 @@ $lang_values_array = array(
                 <script src="./assets/js/lightbox.js"></script> 
                 <script src="./assets/js/isotope.js"></script> 
                 
-                <script src="./assets/vendors/jquery/jquery-3.2.1.min.js"></script>
+            <!--  <script src="./assets/vendors/jquery/jquery-3.2.1.min.js"></script> -->
                 <script src="./assets/vendors/bootstrap/bootstrap.bundle.min.js"></script>
                 <script src="./assets/vendors/skrollr.min.js"></script>
                 <script src="./assets/vendors/owl-carousel/owl.carousel.min.js"></script>

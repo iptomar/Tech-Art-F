@@ -12,46 +12,74 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <html>
 
 <?= template_header('Index'); ?>
-
 <!-- slider section -->
 <section class="home-slider owl-carousel">
-   <div class="slider-item" style="background-image:url('https://cdn.pixabay.com/photo/2021/08/25/20/42/field-6574455__480.jpg');">
+   <div class="slider-item"
+      style="background-image:url('https://cdn.pixabay.com/photo/2021/08/25/20/42/field-6574455__480.jpg');">
       <div class="overlay"></div>
 
-      <div class="row no-gutters slider-text align-items-center justify-content-start" data-scrollax-parent="true">
-         <div class="col-md-7 ftco-animate mb-md-5">
-            <h1 style="padding-top: 180px;" class="mb-4"><?= change_lang("about-technart-slider"); ?></h1>
-            <span class="subheading"><?= change_lang("about-technart-slider-desc"); ?></span>
-            <p><a href="sobre.php" class="btn btn-primary px-4 py-3 mt-3"><?= change_lang("know-more-btn-txt-slider") ?></a></p>
-
+      <div class="row no-gutters slider-text justify-content-start"
+         style="position: relative; height: 100%; max-width:100%;" data-scrollax-parent="true">
+         <div class="align-text-slider">
+            <div class="col-md-7 mobile_adjust ftco-animate mb-md-5">
+               <h1 class="mb-4">
+                  <?= change_lang("about-technart-slider"); ?>
+               </h1>
+               <span class="subheading">
+                  <?= change_lang("about-technart-slider-desc"); ?>
+               </span>
+               <div><a href="sobre.php" class="btn btn-primary px-4 py-3 mt-3 btn_no_left">
+                     <?= change_lang("know-more-btn-txt-slider") ?>
+                  </a></div>
+            </div>
          </div>
       </div>
    </div>
+   </div>
 
-   <div class="slider-item" style="background-image:url('https://i0.wp.com/multarte.com.br/wp-content/uploads/2015/08/imagens-amor.jpg?fit=1680%2C1050&ssl=1');">
+   <div class="slider-item"
+      style="background-image:url('https://i0.wp.com/multarte.com.br/wp-content/uploads/2015/08/imagens-amor.jpg?fit=1680%2C1050&ssl=1');">
       <div class="overlay"></div>
 
-      <div class="row no-gutters slider-text align-items-center justify-content-start" data-scrollax-parent="true">
-         <div class="col-md-7 ftco-animate mb-md-5">
-            <h1 style="padding-top: 180px;" class="mb-4"><?= change_lang("we-help-grow-slider"); ?></h1>
-            <span class="subheading"><?= change_lang("we-help-grow-slider-desc"); ?></span>
-            <p><a href="sobre.php" class="btn btn-primary px-4 py-3 mt-3"><?= change_lang("know-more-btn-txt-slider") ?></a></p>
-
+      <div class="row no-gutters slider-text justify-content-start"
+         style="position: relative; height: 100%; max-width:100%;" data-scrollax-parent="true">
+         <div class="align-text-slider">
+            <div class="col-md-7 mobile_adjust ftco-animate mb-md-5">
+               <h1 class="mb-4">
+                  <?= change_lang("we-help-grow-slider"); ?>
+               </h1>
+               <span class="subheading">
+                  <?= change_lang("we-help-grow-slider-desc"); ?>
+               </span>
+               <div><a href="sobre.php" class="btn btn-primary px-4 py-3 mt-3 btn_no_left">
+                     <?= change_lang("know-more-btn-txt-slider") ?>
+                  </a></div>
+            </div>
          </div>
       </div>
    </div>
+   </div>
 
-   <div class="slider-item" style="background-image:url('https://www.2net.com.br//Repositorio/251/Publicacoes/23883/3c2fd25f-c.jpg');">
+   <div class="slider-item"
+      style="background-image:url('https://www.2net.com.br//Repositorio/251/Publicacoes/23883/3c2fd25f-c.jpg');">
       <div class="overlay"></div>
-
-      <div class="row no-gutters slider-text align-items-center justify-content-start" data-scrollax-parent="true">
-         <div class="col-md-7 ftco-animate mb-md-5">
-            <h1 style="padding-top: 180px;" class="mb-4"><?= change_lang("best-consulting-agency-slider"); ?></h1>
-            <span class="subheading"><?= change_lang("best-consulting-agency-slider-desc"); ?></span>
-            <p><a href="sobre.php" class="btn btn-primary px-4 py-3 mt-3"><?= change_lang("know-more-btn-txt-slider") ?></a></p>
-
+      <div class="row no-gutters slider-text justify-content-start"
+         style="position: relative; height: 100%; max-width:100%;" data-scrollax-parent="true">
+         <div class="align-text-slider">
+            <div class="col-md-7 mobile_adjust ftco-animate mb-md-5">
+               <h1 class="mb-4">
+                  <?= change_lang("best-consulting-agency-slider"); ?>
+               </h1>
+               <span class="subheading">
+                  <?= change_lang("best-consulting-agency-slider-desc"); ?>
+               </span>
+               <div><a href="sobre.php" class="btn btn-primary px-4 py-3 mt-3 btn_no_left">
+                     <?= change_lang("know-more-btn-txt-slider") ?>
+                  </a></div>
+            </div>
          </div>
       </div>
+   </div>
    </div>
 
 </section>
@@ -64,19 +92,19 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
          <h3>
             <?= change_lang("institutional-video-heading"); ?>
          </h3>
-         <div class="tamanho">
+         <div class="mx-auto text-center" style="max-width: 800px;">
             <h5>
-            <?= change_lang("institutional-video-heading-desc"); ?> 
+               <?= change_lang("institutional-video-heading-desc"); ?>
             </h5>
          </div>
       </div>
-      <div class="row">
-         <div class="col-md-4">
-            <div class="ajustar">
-               <video src="./assets/images/TheRangeTechnology.mp4" controls width="800" height="500"></video>
-            </div>
+      <div class="pt-5">
+         <div class="embed-responsive embed-responsive-16by9 mx-auto" style="max-width: 800px;">
+            <video src="./assets/images/TheRangeTechnology.mp4" controls height="500"></video>
          </div>
       </div>
+   </div>
+   </div>
    </div>
 </section>
 <!-- end why section -->
@@ -88,12 +116,14 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
          <div class="heading_container2 heading_center2">
 
             <h3>
-            <?= change_lang("rd-projects-heading"); ?> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+               <?= change_lang("rd-projects-heading"); ?> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+               &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
             </h3>
 
             <a style="display: inline-block; padding: 5px 25px; background-color:#333F50; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
-                     -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;" href="projetos.php">
+                     -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;"
+               href="projetos.php">
                <?= change_lang("see-all-btn-rd-projects"); ?>
             </a>
 
@@ -105,12 +135,13 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $stmt->execute();
             $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             foreach ($projetos as $row) {
-            ?>
+               ?>
                <div class="col">
                   <div style="padding-top: 40px">
                      <div class="img-box">
                         <a href="projeto.php?projeto=<?= $row["id"]; ?>">
-                           <img style="object-fit: cover; width:230px; height:230px;" src="../backoffice/assets/projetos/<?= $row["fotografia"]; ?>" alt="">
+                           <img style="object-fit: cover; width:230px; height:230px;"
+                              src="../backoffice/assets/projetos/<?= $row["fotografia"]; ?>" alt="">
                         </a>
                      </div>
                   </div>
@@ -129,7 +160,7 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
                      </div>
                   </div>
                </div>
-            <?php
+               <?php
             }
 
             ?>
@@ -149,7 +180,9 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
    <div style="padding-bottom: 50px;">
       <div class="container">
          <div class="section-intro pb-60px">
-            <h2 style="font-family: 'Quicksand', sans-serif; padding-bottom: 20px; padding-left: 50px;">ÚLTIMAS NOTÍCIAS</h2>
+            <h2 style="font-family: 'Quicksand', sans-serif; padding-bottom: 20px; padding-left: 50px;">
+            <?= change_lang("latest-news-heading") ?>
+            </h2>
          </div>
 
          <div class="owl-carousel owl-theme" id="bestSellerCarousel">
@@ -160,17 +193,17 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $stmt->execute();
             $noticias = $stmt->fetchAll(PDO::FETCH_ASSOC);
             ?>
-            <?php foreach ($noticias as $noticia) : ?>
+            <?php foreach ($noticias as $noticia): ?>
                <div class="card-product">
                   <div class="absoluto">
                      <a href="noticia.php?noticia=<?= $noticia['id'] ?>">
-                        <div style="z-index: 1000;" class="image">
+                        <div style="z-index: 1;" class="image">
                            <img class="img-fluid" src="../backoffice/assets/noticias/<?= $noticia['imagem'] ?>" alt="">
                            <div class="text-block">
                               <h5 style="font-size: 20px; text-transform: uppercase; font-weight: 600;">
                                  <?=
-                                 //Limitar o título a 35 caracteres e cortar pelo último espaço
-                                 $titulo = preg_split("/\s+(?=\S*+$)/", substr($noticia['titulo'], 0, 35))[0];
+                                    //Limitar o título a 35 caracteres e cortar pelo último espaço
+                                    $titulo = preg_split("/\s+(?=\S*+$)/", substr($noticia['titulo'], 0, 35))[0];
                                  echo ($titulo != $noticia['titulo']) ? "..." : "";
                                  ?>
                               </h5>
@@ -184,7 +217,9 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                  echo ($textNoticia != strip_tags($spaces)) ? $textNoticia . "..." : $textNoticia;
                                  ?>
                               </h6>
-                              <h6 style="font-size: 11px; font-weight: 100;"><?= date("d.m.Y", strtotime($noticia['data'])) ?></h6>
+                              <h6 style="font-size: 11px; font-weight: 100;">
+                                 <?= date("d.m.Y", strtotime($noticia['data'])) ?>
+                              </h6>
                            </div>
                         </div>
                      </a>
@@ -194,9 +229,10 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php endforeach; ?>
          </div>
 
-         <div style="padding-left: 480px;">
+         <div class="text-center">
             <a style="display: inline-block; padding: 5px 25px; background-color:#333F50; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
-                     -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;" href="noticias.php">
+                     -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;"
+               href="noticias.php">
                <?= change_lang("see-all-btn-latest-news") ?>
             </a>
          </div>

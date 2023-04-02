@@ -24,7 +24,7 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                <?= change_lang("projects-page-heading") ?>
             </h3>
 
-            <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 16px; padding-right: 660px; color:#060633;">
+            <h5 class="heading2_h5">
                <?= change_lang("projects-page-description") ?>
             </h5>
 

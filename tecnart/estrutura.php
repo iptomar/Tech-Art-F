@@ -23,7 +23,13 @@ include 'models/functions.php';
                     <?= change_lang("org-struct-page-subtitle") ?>
                 </h4>
 
-                <div class="flex-container">
+                <div class="flex-container mobile_reverse">
+                    <div class="flex-left">
+                        <figure class="imgfigura">
+                            <img class="imgestrutura w-100" style="max-width:330px;" src="./assets/images/P1010947.JPG" alt="Boat">
+                            <figcaption class="imgs">O encontro, Luís Marques</figcaption>
+                        </figure>
+                    </div>
                     <div class="flex-right">
                         <?= change_lang("org-struct-page-description") ?><br><br>
 
@@ -50,13 +56,6 @@ include 'models/functions.php';
                         <?= change_lang("advisory-board-five") ?><br>
                         <?= change_lang("advisory-board-six") ?><br><br>
 
-                    </div>
-
-                    <div class="flex-left">
-                        <figure class="imgfigura">
-                            <img class="imgestrutura" width="330px;" src="./assets/images/P1010947.JPG" alt="Boat">
-                            <figcaption class="imgs">O encontro, Luís Marques</figcaption>
-                        </figure>
                     </div>
                 </div>
 

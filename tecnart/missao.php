@@ -5,7 +5,7 @@ include 'models/functions.php';
 <!DOCTYPE html>
 <html>
 
-      <?=template_header('Missao');?>
+      <?=template_header('Missão');?>
 
 
       <!-- product section -->
@@ -23,7 +23,13 @@ include 'models/functions.php';
                 <?= change_lang("mission-and-goals-page-subtitle") ?>
                 </h4>
 
-                <div class="flex-container">
+                <div class="flex-container mobile_reverse">
+                    <div class="flex-left">
+                        <figure class="imgfigura">
+                            <img class="imgmissao w-100" style="max-width:330px;" src="./assets/images/maskingAtHome.jpg" alt="Boat">
+                            <figcaption class="imgs">O encontro, Luís Marques</figcaption>
+                        </figure>
+                    </div>
                     <div class="flex-right">
                         <b>1. </b><?= change_lang("mission-and-goals-page-point-one") ?><br><br>
 
@@ -42,13 +48,6 @@ include 'models/functions.php';
                         <b>f) </b><?= change_lang("mission-and-goals-page-f-txt") ?><br><br>
 
                         <b>g) </b><?= change_lang("mission-and-goals-page-g-txt") ?><br><br>
-                    </div>
-                    
-                    <div class="flex-left">
-                        <figure class="imgfigura">
-                            <img class="imgmissao" src="./assets/images/maskingAtHome.jpg" alt="Boat">
-                            <figcaption class="imgs">O encontro, Luís Marques</figcaption>
-                        </figure>
                     </div>
                 </div>
 
