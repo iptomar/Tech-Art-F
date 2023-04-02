@@ -7,7 +7,7 @@ if(!isset($_SESSION["lang"])){
 
 $_SESSION["basename"] = $_SERVER['PHP_SELF'];
 
-if(isset($_SERVER["QUERY_STRING"])){
+if(strlen($_SERVER["QUERY_STRING"])>0){
   $_SESSION["basename"] = $_SESSION["basename"]."?".$_SERVER["QUERY_STRING"];
 }
 function template_header($title){
@@ -170,41 +170,37 @@ $lang_values_array = array(
                   <a href="http://www.techneart.ipt.pt/"><img class="w-100" src=$lang_values_array[0] alt="#" /></a> <!--Image warns users that website is in development-->
                 </div>
 
-                <div style="padding-bottom: 0px;" class="hero_area">
-                    <!-- header section strats --><!--duplicar o tamanho do header -->
-                    <header style="padding-bottom: 0px;" class="header_section2">
-                    
-                            <nav style="padding-bottom: 0px; height: 40px;" class="navbar navbar-expand-lg custom_nav-container ">
-                                <div style="padding-bottom: 0px;" class="collapse navbar-collapse" id="navbarSupportedContent">
-                                        
-                                <!-- <form class="form-inline">
-                                        <button class="btn  my-2 my-sm-0 nav_search-btn">
-                                        <i style="padding-left: 1125px; padding-top: 19px;" class="fa fa-search" aria-hidden="true"></i>
-                                        </button> 
-                                    </form> -->
-
-
-                                <ul class="navbar-nav">
-                                
-                                    <li style="padding-top: 25px;" class="nav-item">
-                                      <div style="margin-right: 20px">
-                                          <a class="translationOption" href="session_var_pt.php" >PT</a>
-                                          <a class="translationOption" href="session_var_en.php" >EN</a>
-                                      </div>
-                                    </li>
-                                
-                                </ul>
-                                                        
-                                </div>
-                            </nav>
-                        
-                    </header>
-                    </div>
-
                     <div style="padding-top: 0px;"class="hero_area">
                     <!-- header section strats -->
                     <header style="padding-top: 0px;" class="header_section">
                         <div style="padding-top: 0px;" class="container">
+
+                          <!--Language nav bar-->
+                          <div style="padding-bottom: 0px;" class="hero_area">
+                            <!-- header section strats -->
+                            <header style="padding-bottom: 0px; z-index:1;" class="header_section2">
+                                    <nav class="navbar navbar-expand custom_nav-container lang_nav">  
+                                        <!-- <form class="form-inline">
+                                                <button class="btn  my-2 my-sm-0 nav_search-btn">
+                                                <i style="padding-left: 1125px; padding-top: 19px;" class="fa fa-search" aria-hidden="true"></i>
+                                                </button> 
+                                            </form> -->
+                                        <ul class="navbar-nav">
+                                            <li style="margin-top: 40px; overflow:visible;" class="nav-item">
+                                              <div>
+                                                  <a class="translationOption" href="session_var_pt.php" >PT</a>
+                                                  <a class="translationOption" href="session_var_en.php" >EN</a>
+                                              </div>
+                                            </li>
+                                        
+                                        </ul>
+                                                                
+                                    </nav>
+                                
+                            </header>
+                          </div>
+
+                            <!-- Main navbar -->
                             <nav style="padding-top: 0px;" class="navbar navbar-expand-lg custom_nav-container ">
                                 
                                 <div id="logo" style="max-width:300px; width:85%;">

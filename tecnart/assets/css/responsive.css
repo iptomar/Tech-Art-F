@@ -123,6 +123,12 @@
   .textInfo{
     padding-right: 50px;
   }
+
+  .lang_nav{
+    padding: 0;
+    padding-bottom: 20px;
+    font-size: 16px;
+  }
 }
 
 

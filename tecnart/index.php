@@ -180,7 +180,8 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
    <div style="padding-bottom: 50px;">
       <div class="container">
          <div class="section-intro pb-60px">
-            <h2 style="font-family: 'Quicksand', sans-serif; padding-bottom: 20px; padding-left: 50px;">ÚLTIMAS NOTÍCIAS
+            <h2 style="font-family: 'Quicksand', sans-serif; padding-bottom: 20px; padding-left: 50px;">
+            <?= change_lang("latest-news-heading") ?>
             </h2>
          </div>
 
