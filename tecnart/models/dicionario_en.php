@@ -33,6 +33,7 @@ function ret_dic_en(){
         "integrated-option" => "Integrated",
         "collaborators-option" => "Collaborators",
         "students-option" => "Students",
+        "admission-option" => "New admissions",
         //Separador 'Noticias'
         "news-tab" => "News",
         //Separador 'Publicacoes'

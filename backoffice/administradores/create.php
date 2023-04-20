@@ -1,5 +1,4 @@
 <?php
-require "../verifica_campos.php";
 require "../verifica.php";
 require "../config/basedados.php";
 require "bloqueador.php";

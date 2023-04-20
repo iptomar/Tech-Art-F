@@ -31,6 +31,7 @@ function ret_dic_pt(){
         "integrated-option" => "Integrados",
         "collaborators-option" => "Colaboradores",
         "students-option" => "Aluno",
+        "admission-option" => "Novas admissões",
         //Separador 'Noticias'
         "news-tab" => "Notícias",
         //Separador 'Publicacoes'
