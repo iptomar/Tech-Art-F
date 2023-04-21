@@ -245,7 +245,10 @@ $lang_values_array = array(
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="publicacoes.php">$lang_values_array[13]</a>
-                                    </li>                     
+                                    </li>   
+                                    <li class="nav-item">
+                                      <a class="nav-link" href="../backoffice/index.php">Login</a>
+                                    </li>                  
                                 </div>
                             </nav>
                         </div>
