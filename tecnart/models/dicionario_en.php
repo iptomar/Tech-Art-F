@@ -276,12 +276,17 @@ function ret_dic_en(){
         //::::::publicacoes.php
 
         //Etiqueta 'Publicacoes'
-        "publications-page-heading" => "Publications"
+        "publications-page-heading" => "Publications",
 
+        //:::::novasadimssoes.php
+        "new-admissions-title" => "New admissions",
+        "new-admissions-p1" => "The admission of new members to the TECHN&ART research team, integrated or colaborators, is proessed by proposal to the scientific board. The candidate should fill the form with the necessary information and documentation.",
+        "new-admissions-p2" => " Admission will require that the candidate be proposed by an integrated member of TECHN&ART, with the letter of recomendation required in the form serving this purpose.",
+        "new-admissions-regulations" => "The candidate should also read the TECHN&ART",
+        "new-admissions-regulations-link" => "general regulations document.",
+        "new-admissions-regulations-fill" => "Fill out Form",
     );
 
     return $dic_en;
 
 }
-
-?>

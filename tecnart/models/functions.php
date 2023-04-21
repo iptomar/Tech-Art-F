@@ -237,7 +237,7 @@ $lang_values_array = array(
                                             <a href="integrados.php">$lang_values_array[9]</a>
                                             <a href="colaboradores.php">$lang_values_array[10]</a>
                                             <a href="alunos.php">$lang_values_array[11]</a>
-                                            <a href="admissao.php">{$change_lang("admission-option")}</a>
+                                            <a href="novasadmissoes.php">{$change_lang("admission-option")}</a>
                                     </div>
                                     </li>
                                     <li class="nav-item">

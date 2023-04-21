@@ -274,8 +274,17 @@ function ret_dic_pt(){
         //::::::publicacoes.php
 
         //Etiqueta 'Publicacoes'
-        "publications-page-heading" => "Publicações"
 
+        "publications-page-heading" => "Publicações",
+        
+        
+        //:::::novasadimssoes.php
+        "new-admissions-title" => "Novas admissões",
+        "new-admissions-p1" => "A admissão de novos/as membros/as à equipa de investigação do TECHN&ART, integrados/as ou colaboradores/as, processa-se através de proposta ao conselho científico. O/A candidado/a deve preencher o formulário com as informações e a documentação necessária.",
+        "new-admissions-p2" => "A admissão requerirá que o/a candidado/a seja proposto/a por um membro integrado do TEHN&ART, servindo para o efeito a carta de recomendação pedida no formulário.",
+        "new-admissions-regulations" => "O/A candidato deverá também consultar o",
+        "new-admissions-regulations-link" => "regulamento geral do TECHN&ART.",
+        "new-admissions-regulations-fill" => "Preencher Formulário"
     );
 
     return $dic_pt;
