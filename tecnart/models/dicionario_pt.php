@@ -284,7 +284,44 @@ function ret_dic_pt(){
         "new-admissions-p2" => "A admissão requerirá que o/a candidado/a seja proposto/a por um membro integrado do TEHN&ART, servindo para o efeito a carta de recomendação pedida no formulário.",
         "new-admissions-regulations" => "O/A candidato deverá também consultar o",
         "new-admissions-regulations-link" => "regulamento geral do TECHN&ART.",
-        "new-admissions-regulations-fill" => "Preencher Formulário"
+        "new-admissions-regulations-fill" => "Preencher Formulário",
+        
+        //:::admiissao.php
+        //Título
+        "admission-title" => "Formulário de integração | TECHN&ART",
+        //Mensagem informação após o título
+        "admission-msg-1" => "Caro/a investigador/a.",
+        "admission-msg-2" => "Muito obrigado pelo seu interesse em integrar a nossa unidade I&D - TECHN&ART. Para que a sua candidatura seja submetida a conselho científico, é necessário que seja preenchido este formulário.",
+        "admission-msg-3" => "Caso seja necessário algum esclarecimento, não hesite em contactar o nosso secretariado, através do endereço",
+        //Placeholder e Erro dos Inputs
+        "admission-placeholder" => "Introduza a sua resposta",
+        "admission-error" => "Por favor introduza um valor válido",
+        //Etiquetas dos campos de input do formulário
+        "admission-name" => "Nome completo",
+        "admission-name-prof" => "Nome Profissional",
+        "admission-cienciaid" => "Ciência ID",
+        "admission-orcid" => "ORCID",
+        "admission-email" => "Endereço de email",
+        "admission-cellphone" => "Contacto telefónico",
+        "admission-academic-qualifications" => "Grau Académico",
+        "admission-year-conclusion" => "Ano de conclusão do grau académico",
+        "admission-field-expertise" => "Área de especialização do Grau Académico",
+        "admission-main-research-areas" => "Principais áreas de Investigação",
+        "admission-institucional-affliation" => "Instituição de vínculo (data de início e fim, se aplicável [dd/mm/aaaa])",
+        "admission-percentage-dedication-tech" => "Percentagem de dedicação ao TECHN&ART",
+        "admission-member-another" => "Pertence a outro centro de investigação e desenvolvimento?",
+        "admission-member-yes" => "Sim",
+        "admission-member-no" => "Não",
+        "admission-another-centre-info" => "Se SIM, qual, em que categoria e qual a percentagem de dedicação?",
+        "admission-biography" => "Curta biografia de investigador/a (1-2 parágrafos) em português e inglês",
+        //Etiquetas dos campos de ficheiros
+        "admission-motivation" => "Carta de Motivação",
+        "admission-recommendation" => "Carta de Recomendação do/a investigador/a do TECHN&ART proponente",
+        "admission-cv" => "Curriculum Vitae",
+        "admission-photo" => "Fotografia do/a investigador/a",
+        //Botão Submeter
+        "admission-submit" => "Submeter",
+        "admission-cancel" => "Cancelar",
     );
 
     return $dic_pt;

@@ -1,4 +1,4 @@
-CREATE TABLE `admissao` (
+CREATE TABLE `admissoes` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `nome_completo` VARCHAR(255) NOT NULL,
     `nome_profissional` VARCHAR(255) NOT NULL,

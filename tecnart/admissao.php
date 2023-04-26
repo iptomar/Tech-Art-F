@@ -1,5 +1,6 @@
 <?php
 require "./config/dbconnection.php";
+require "models/functions.php";
 
 //Guardar um ficheiro na pasta pedido_<id pedido> mudando o nome do ficheiro
 function save_file($id, $new_name, $file)
@@ -21,8 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo '<script>alert("Ocorreu um erro a conectar à base de dados, por favor tente novamente")</script>';
     }
     if (isset($pdo) && !is_null($pdo)) {
-        print_r($_POST);
-        $sql = "INSERT INTO admissao (
+        $sql = "INSERT INTO admissoes (
             `nome_completo`, `nome_profissional`, `ciencia_id`, 
             `orcid` , `email`, `telefone` , 
             `grau_academico`, `ano_conclusao_academico`, `area_academico`, `area_investigacao` , 
@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
                 //Se o valor está vazio enviar como null
                 if ($value == '') $value = null;
-                $stmt->bindParam($key, $value, $valuetype);
+                $stmt->bindValue($key, $value, $valuetype);
             }
         }
         //Gerar nome para os ficheiros com a extenção
@@ -89,8 +89,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
 <head>
-<title>Formulário de integração | TECHN&ART</title>
+    <title>Formulário de integração | TECHN&ART</title>
 </head>
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </link>
@@ -129,118 +130,124 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     a:hover {
         color: #212529;
     }
-</style>
 
-<div class="container mt-5">
+    textarea{
+        min-height: 100px;
+    }
+    .align-option {
+        margin-top: 10px;
+        display: flex;
+        justify-content: end;
+        height: 25px;
+    }
+</style>
+<div class="container mt-3">
+    <div class="align-option w-100 mb-3">
+        <a class="text-decoration-none pr-2" style="font-weight:<?= $_SESSION["lang"] == "pt" ? "bold" : "normal" ?>;" href="session_var_pt.php">PT</a>
+        <a class="text-decoration-none" href="session_var_en.php" style="font-weight:<?= $_SESSION["lang"] == "en" ? "bold" : "normal" ?>;">EN</a>
+    </div>
     <div class="card">
         <div class="card-header">
-            <h5 class="mt-2 text-center">Formulário de integração | TECHN&ART</h5>
+            <h5 class="mt-2 text-center"><?= change_lang("admission-title") ?></h5>
             <div class="message">
                 <span class="text-format-content ">
-                    Caro/a investigador/a.
-                    <br>Muito obrigado pelo seu interesse em integrar a nossa unidade I&D - TECHN&ART.
-                    Para que a sua candidatura seja submetida a conselho científico, é necessário que seja preenchido este formulário.
-                    <br>Caso seja necessário algum esclarecimento, não hesite em contactar o nosso secretariado, através do endereço
-                    <span><a href="mailto:sec.techneart@ipt.pt" class="linkified">sec.techneart@ipt.pt</a></span><br>--<br>
-                    Dear researcher,<br>Thank you very much for your interest in our R&D unit - TECHN&ART.
-                    So that your proposal may proceed to the consideration of the scientific board, it is necessary
-                    that you fill in this form.&nbsp;<br>If any questions arise, do not hesitate to contact our secretariat,
-                    at&nbsp;<span><a href="mailto:sec.techneart@ipt.pt" class="linkified">sec.techneart@ipt.pt</a></span></span>
+                    <?= change_lang("admission-msg-1") ?>
+                    <br><?= change_lang("admission-msg-2") ?>
+                    <br><?= change_lang("admission-msg-3") ?>
+                    <span><a href="mailto:sec.techneart@ipt.pt" class="linkified">sec.techneart@ipt.pt</a></span>
             </div>
         </div>
         <div class="card-body">
             <form role="form" data-toggle="validator" action="admissao.php" method="post" enctype="multipart/form-data">
                 <?php
                 $dados = array(
-                    "dados_nome" => "Nome completo | Full name",
-                    "dados_nome_prof" => "Nome Profissional | Professional Name",
-                    "dados_ciencia_id" => "Ciência ID",
-                    "dados_orcid" => "ORCID",
-                    "dados_email" => "Endereço de email | Email address",
-                    "dados_telefone" => "Contacto telefónico | Cellphone number",
-                    "dados_grau_academico" => "Grau Académico | Academic Qualifications",
-                    "dados_ano_conclusao_academico" => "Ano de conclusão do grau académico | Year of conclusion of the academic qualifications",
-                    "dados_area_academico" => "Área de especialização do Grau Académico | Field of expertise of the academic qualifications",
-                    "dados_area_investigacao" => "Principais áreas de Investigação | Main research areas",
-                    "dados_instituicao_vinculo" => "Instituição de vínculo (data de início e fim, se aplicável [dd/mm/aaaa]) | Institucional affiliation (start date and end date, if applicable [dd/mm/yyyy)]",
-                    "dados_percentagem_dedicacao" => "Percentagem de dedicação ao TECHN&ART | Percentage of dedication to TECHN&ART",
+                    "dados_nome" => change_lang("admission-name"),
+                    "dados_nome_prof" => change_lang("admission-name-prof"),
+                    "dados_ciencia_id" => change_lang("admission-cienciaid"),
+                    "dados_orcid" => change_lang("admission-orcid"),
+                    "dados_email" => change_lang("admission-email"),
+                    "dados_telefone" =>  change_lang("admission-cellphone"),
+                    "dados_grau_academico" => change_lang("admission-academic-qualifications"),
+                    "dados_ano_conclusao_academico" => change_lang("admission-year-conclusion"),
+                    "dados_area_academico" => change_lang("admission-field-expertise"),
+                    "dados_area_investigacao" => change_lang("admission-main-research-areas"),
+                    "dados_instituicao_vinculo" => change_lang("admission-institucional-affliation"),
+                    "dados_percentagem_dedicacao" => change_lang("admission-percentage-dedication-tech")
                 );
+
+                //Colocar os campos de input baseados no array dados
                 foreach ($dados as $id => $nome) {
-                    $placeholder = "Introduza a sua resposta";
+                    $placeholder = change_lang("admission-placeholder");
                     $type = "text";
                     if ($id == "dados_email") $type = "email";
                     echo "<div class='form-group'>
                     <label>$nome</label>
-                    <input type='$type' id='$id' placeholder='$placeholder' name='$id' minlength='1' required maxlength='255' required class='form-control' data-error='Por favor introduza um valor válido'>
+                    <input type='$type' id='$id' placeholder='$placeholder' name='$id' minlength='1' required maxlength='255' class='form-control'>
                     <!-- Error -->
                     <div class='help-block with-errors'></div>
                     </div>";
                 }
-
-                /*                    "dados_pertencer_outro"=>"Pertence a outro centro de investigação e desenvolvimento? | Are you a member of another research and development centre?",
-                    "dados_outro_texto"=>"outro_texto",
-                    "dados_biografia"=>"biografia",*/
                 ?>
                 <div class='form-group'>
-                    <label>Pertence a outro centro de investigação e desenvolvimento? | Are you a member of another research and development centre?</label>
+                    <label><?= change_lang("admission-member-another") ?> </label>
                     <div class="form-check">
                         <input required value="true" class="form-check-input" type="radio" name="dados_pertencer_outro" id="dados_pertencer_outro1">
                         <label class="form-check-label" for="dados_pertencer_outro1">
-                            Sim | Yes
+                            <?= change_lang("admission-member-yes") ?>
                         </label>
                     </div>
                     <div class="form-check">
                         <input required value="false" class="form-check-input" type="radio" name="dados_pertencer_outro" id="dados_pertencer_outro2">
                         <label class="form-check-label" for="dados_pertencer_outro2">
-                            Não | No
+                            <?= change_lang("admission-member-no") ?>
                         </label>
                         <div class="help-block with-errors"></div>
                     </div>
                 </div>
 
                 <div class='form-group'>
-                    <label>Se SIM, qual, em que categoria e qual a percentagem de dedicação? | If YES, which centre, in which category and with what percentage of dedication?</label>
-                    <input type='text' id='dados_outro_texto' placeholder="Introduza a sua resposta" name='dados_outro_texto' minlength='1' class='form-control' data-error='Por favor introduza um valor válido'>
+                    <label><?= change_lang("admission-another-centre-info") ?></label>
+                    <input type='text' id='dados_outro_texto' placeholder="<?= change_lang("admission-placeholder") ?>" name='dados_outro_texto' minlength='1' class='form-control'>
                     <!-- Error -->
                     <div class='help-block with-errors'></div>
                 </div>
 
                 <div class='form-group'>
-                    <label>Curta biografia de investigador/a (1-2 parágrafos) em português e inglês | Short researcher biography (1-2 paragraphs) in English</label>
-                    <textarea id='dados_biografia' placeholder='Introduza a sua resposta' name='dados_biografia' required class='form-control' data-error='Por favor introduza um valor válido'></textarea>
+                    <label><?= change_lang("admission-biography") ?></label>
+                    <textarea id='dados_biografia' placeholder="<?= change_lang("admission-placeholder") ?>" name='dados_biografia' required class='form-control'></textarea>
                     <!-- Error -->
                     <div class='help-block with-errors'></div>
                 </div>
 
                 <div class="form-group">
-                    <label>Carta de Motivação || Motivation Letter</label>
-                    <input type="file" id="motivacao" name="motivacao" required data-error="Por favor adicione uma Carta de Motivação" class="form-control">
+                    <label><?= change_lang("admission-motivation") ?></label>
+                    <input type="file" id="motivacao" name="motivacao" required class="form-control">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group">
-                    <label>Carta de Recomendação do/a investigador/a do TECHN&ART proponente || Recommendation Letter of the proponent TECHN&ART researcher</label>
-                    <input type="file" id="recomendacao" name="recomendacao" required data-error="Por favor adicione uma Carta de Recomendação" class="form-control">
+                    <label><?= change_lang("admission-recommendation") ?></label>
+                    <input type="file" id="recomendacao" name="recomendacao" required class="form-control">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group">
-                    <label>Curriculum Vitae</label>
-                    <input type="file" id="cv" name="cv" required data-error="Por favor adicione um Curriculum Vitae" class="form-control">
+                    <label><?= change_lang("admission-cv") ?></label>
+                    <input type="file" id="cv" name="cv" required class="form-control">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group">
-                    <label>Fotografia do/a investigador/a || Researcher Photo</label>
-                    <input type="file" id="fotografia" name="fotografia" required data-error="Por favor adicione uma fotografia" class="form-control">
+                    <label><?= change_lang("admission-photo") ?></label>
+                    <input type="file" id="fotografia" name="fotografia" required class="form-control">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block mb-3">Submeter</button>
-                    <button type="button" onclick="window.location.href = 'index.php'" class="btn btn-danger btn-block">Cancelar</button>
+                    <button type="submit" class="btn btn-primary btn-block mb-3"><?= change_lang("admission-submit") ?></button>
+                    <button type="button" onclick="window.location.href = 'index.php'" class="btn btn-danger btn-block"><?= change_lang("admission-cancel") ?></button>
                 </div>
 
             </form>
