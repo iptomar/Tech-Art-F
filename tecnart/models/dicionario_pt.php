@@ -1,5 +1,7 @@
 <?php 
+include_once "config/configurations.php";
 function ret_dic_pt(){
+
 
 
     /**
@@ -277,7 +279,6 @@ function ret_dic_pt(){
 
         "publications-page-heading" => "Publicações",
         
-        
         //:::::novasadimssoes.php
         "new-admissions-title" => "Novas admissões",
         "new-admissions-p1" => "A admissão de novos/as membros/as à equipa de investigação do TECHN&ART, integrados/as ou colaboradores/as, processa-se através de proposta ao conselho científico. O/A candidado/a deve preencher o formulário com as informações e a documentação necessária.",
@@ -322,9 +323,12 @@ function ret_dic_pt(){
         //Botão Submeter
         "admission-submit" => "Submeter",
         "admission-cancel" => "Cancelar",
+        //Mensagens de Submissão
+        "admission-file-size-error" => "ERRO: O tamanho do ficheiro excede o limite máximo de ".MAX_FILE_SIZE."MB",
+        "admission-required-error" => "ERRO: Não foi possível obter os dados dos campos",
+        "admission-send-error" => "ERRO Base de dados: Por favor, tente novamente mais tarde",
+        "admission-successful" => "O formulário foi enviado com sucesso"
     );
 
     return $dic_pt;
 }
-
-?>

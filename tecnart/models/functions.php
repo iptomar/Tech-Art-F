@@ -518,3 +518,24 @@ function change_lang($dicElem){
     return ret_dic_pt()[$dicElem];
   }
 }
+
+function alert_redirect($msg, $redirect)
+{
+  echo "<script>
+        alert('$msg');
+        window.location.href = '$redirect';
+        </script>";
+  exit();
+}
+
+function show_error($error)
+{
+  echo '<div class="w-100">
+  <div class="mx-auto alert alert-danger alert-dismissible fade show d-flex align-items-center justify-content-center" style="min-height:150px;" role="alert">
+    <div>' . $error . '</div>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>';
+}

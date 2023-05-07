@@ -1,5 +1,5 @@
 <?php 
-
+include_once "config/configurations.php";
 function ret_dic_en(){
 
 
@@ -276,6 +276,7 @@ function ret_dic_en(){
         //::::::publicacoes.php
 
         //Etiqueta 'Publicacoes'
+        
         "publications-page-heading" => "Publications",
 
         //:::::novasadimssoes.php
@@ -322,8 +323,12 @@ function ret_dic_en(){
         //Botão Submeter
         "admission-submit" => "Submit",
         "admission-cancel" => "Cancel",
+        //Mensagens de Submissão
+        "admission-file-size-error" => "ERROR: File size exceeds the maximum limit of " . MAX_FILE_SIZE . "MB",
+        "admission-required-error" => "ERROR: Failed to retrieve data from the fields",
+        "admission-send-error" => "Database ERROR: Please try again later",
+        "admission-successful" => "The form was successfully submitted"
     );
 
     return $dic_en;
-
 }
