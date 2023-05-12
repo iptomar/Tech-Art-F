@@ -63,6 +63,11 @@ $lang_values_array = array(
 
 );
 
+  $change_lang =  function ($key) {
+    return  change_lang($key);
+  };
+
+
     echo <<<EOT
                 
                 <head>
@@ -232,6 +237,7 @@ $lang_values_array = array(
                                             <a href="integrados.php">$lang_values_array[9]</a>
                                             <a href="colaboradores.php">$lang_values_array[10]</a>
                                             <a href="alunos.php">$lang_values_array[11]</a>
+                                            <a href="novasadmissoes.php">{$change_lang("admission-option")}</a>
                                     </div>
                                     </li>
                                     <li class="nav-item">
@@ -239,7 +245,10 @@ $lang_values_array = array(
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="publicacoes.php">$lang_values_array[13]</a>
-                                    </li>                     
+                                    </li>   
+                                    <li class="nav-item">
+                                      <a class="nav-link" href="../backoffice/index.php">Login</a>
+                                    </li>                  
                                 </div>
                             </nav>
                         </div>
@@ -508,4 +517,25 @@ function change_lang($dicElem){
   } elseif($_SESSION["lang"] == "pt"){
     return ret_dic_pt()[$dicElem];
   }
+}
+
+function alert_redirect($msg, $redirect)
+{
+  echo "<script>
+        alert('$msg');
+        window.location.href = '$redirect';
+        </script>";
+  exit();
+}
+
+function show_error($error)
+{
+  echo '<div class="w-100">
+  <div class="mx-auto alert alert-danger alert-dismissible fade show d-flex align-items-center justify-content-center" style="min-height:150px;" role="alert">
+    <div>' . $error . '</div>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>';
 }
