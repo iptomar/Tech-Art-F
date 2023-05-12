@@ -137,7 +137,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $valuetype = PDO::PARAM_STR;
                     //Verificar se os dados é o dados_pertencer_outro que usa bool não string
                     if ($key == "dados_pertencer_outro") {
-                        $valuetype =  PDO::PARAM_BOOL;
+                        //Utilizou-se PARAM_INT em vez de PARAM_BOOL para funcionar no servidor, com PARAM_BOOL o INSERT falhava
+                        $valuetype =  PDO::PARAM_INT;
                         $value = $_POST['dados_pertencer_outro'] == 'true' ? true : false;
                     }
                     //Se o valor está vazio enviar como null
