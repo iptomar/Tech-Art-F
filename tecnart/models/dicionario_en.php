@@ -1,5 +1,5 @@
 <?php 
-
+include_once "config/configurations.php";
 function ret_dic_en(){
 
 
@@ -33,6 +33,7 @@ function ret_dic_en(){
         "integrated-option" => "Integrated",
         "collaborators-option" => "Collaborators",
         "students-option" => "Students",
+        "admission-option" => "New admissions",
         //Separador 'Noticias'
         "news-tab" => "News",
         //Separador 'Publicacoes'
@@ -275,12 +276,59 @@ function ret_dic_en(){
         //::::::publicacoes.php
 
         //Etiqueta 'Publicacoes'
-        "publications-page-heading" => "Publications"
+        
+        "publications-page-heading" => "Publications",
 
+        //:::::novasadimssoes.php
+        "new-admissions-title" => "New admissions",
+        "new-admissions-p1" => "The admission of new members to the TECHN&ART research team, integrated or colaborators, is proessed by proposal to the scientific board. The candidate should fill the form with the necessary information and documentation.",
+        "new-admissions-p2" => " Admission will require that the candidate be proposed by an integrated member of TECHN&ART, with the letter of recomendation required in the form serving this purpose.",
+        "new-admissions-regulations" => "The candidate should also read the TECHN&ART",
+        "new-admissions-regulations-link" => "general regulations document.",
+        "new-admissions-regulations-fill" => "Fill out Form",
+
+        //:::admiissao.php
+        //Título
+        "admission-title" => "Integration form | TECHN&ART",
+        //Mensagem informação após o título
+        "admission-msg-1" => "Dear researcher,",
+        "admission-msg-2" => "Thank you very much for your interest in our R&D unit - TECHN&ART. So that your proposal may proceed to the consideration of the scientific board, it is necessary that you fill in this form.",
+        "admission-msg-3" => "If any questions arise, do not hesitate to contact our secretariat, at",
+        //Placeholder e Erro dos Inputs
+        "admission-placeholder" => "Enter your answer",
+        "admission-error" => "Please enter a valid value",
+        //Etiquetas dos campos de input do formulário
+        "admission-name" => "Full name",
+        "admission-name-prof" => "Professional Name",
+        "admission-cienciaid" => "Ciência ID",
+        "admission-orcid" => "ORCID",
+        "admission-email" => "Email address",
+        "admission-cellphone" => "Cellphone number",
+        "admission-academic-qualifications" => "Academic Qualifications",
+        "admission-year-conclusion" => "Year of conclusion of the academic qualifications",
+        "admission-field-expertise" => "Field of expertise of the academic qualifications",
+        "admission-main-research-areas" => "Main research areas",
+        "admission-institucional-affliation" => "Institucional affiliation (start date and end date, if applicable [dd/mm/yyyy)]",
+        "admission-percentage-dedication-tech" => "Percentage of dedication to TECHN&ART",
+        "admission-member-another" => "Are you a member of another research and development centre?",
+        "admission-member-yes" => "Yes",
+        "admission-member-no" => "No",
+        "admission-another-centre-info" => "If YES, which centre, in which category and with what percentage of dedication?",
+        "admission-biography" => "Short researcher biography (1-2 paragraphs) in English",
+        //Etiquetas dos campos de ficheiros
+        "admission-motivation" => "Motivation Letter",
+        "admission-recommendation" => "Recommendation Letter of the proponent TECHN&ART researcher",
+        "admission-cv" => "Curriculum Vitae",
+        "admission-photo" => "Researcher Photo",
+        //Botão Submeter
+        "admission-submit" => "Submit",
+        "admission-cancel" => "Cancel",
+        //Mensagens de Submissão
+        "admission-file-size-error" => "ERROR: File size exceeds the maximum limit of " . MAX_FILE_SIZE . "MB",
+        "admission-required-error" => "ERROR: Failed to retrieve data from the fields",
+        "admission-send-error" => "Database ERROR: Please try again later",
+        "admission-successful" => "The form was successfully submitted"
     );
 
     return $dic_en;
-
 }
-
-?>
