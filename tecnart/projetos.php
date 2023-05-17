@@ -18,9 +18,9 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <section class="product_section layout_padding">
    <div style="background-color: #dbdee1; padding-top: 50px; padding-bottom: 50px;">
       <div class="container">
-         <div class="heading_container2 heading_center2">
+         <div class="heading_container3">
 
-            <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 33px; margin-bottom: 5px; color:#333f50;">
+            <h3 style="margin-bottom: 5px;">
                <?= change_lang("projects-page-heading") ?>
             </h3>
 

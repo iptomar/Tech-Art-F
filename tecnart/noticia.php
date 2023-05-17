@@ -15,25 +15,27 @@ $noticias = $stmt->fetch(PDO::FETCH_ASSOC);
 <section>
     <div class="totall">
         <div class="barraesquerda">
-            <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 38px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 45px; word-wrap: break-word;">
+            <h3 class="heading_h3" style="margin-bottom: 20px; padding-top: 60px; padding-right: 10px; padding-left: 45px; word-wrap: break-word;">
                 <?= $noticias['titulo'] ?>
             </h3>
-            <h5 style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 40px; color:#060633; padding-left: 45px;  padding-bottom: 50px;">
-                <?= date("l jS \of F Y", strtotime($noticias['data'])) ?>
-            </h5>
+            <p style="font-size: 13px; padding-right: 40px; color:#060633; padding-right: 10px; padding-left: 45px;  padding-bottom: 50px;">
+                <?php
+                $data = strtotime($noticias['data']);
+                $diaSemana = date('w', $data);
+                $mes = date('n', $data);
+                // Format the date using the day-name and month-name arrays from the language dictionary files
+                echo change_lang("day-name")[$diaSemana] . ' ' . date('j', $data) . change_lang("date-of") . change_lang("month-name")[$mes - 1] . change_lang("date-of") . date('Y', $data);
+                ?>
+            </p>
 
         </div>
 
-        <div class="infoCorpo" >
-            <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/noticias/<?= $noticias['imagem'] ?>" alt="">
+        <div class="infoCorpo">
+            <img style="object-fit: cover; height:350px; padding-left: 50px; padding-top: 50px;margin-bottom: 30px; " src="../backoffice/assets/noticias/<?= $noticias['imagem'] ?>" alt="">
 
-            <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 30px; padding-left: 50px;">
-                <?= change_lang("news-content-heading") ?>
-            </h3>
-
-            <h5 class="textInfo" style="padding-bottom: 80px;">
+            <div class="textInfo" style="padding-bottom: 80px;">
                 <?= $noticias['conteudo'] ?>
-            </h5>
+            </div>
 
         </div>
 

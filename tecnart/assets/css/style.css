@@ -977,11 +977,48 @@ a:focus {
   display: inline-block;
 }
 
+.heading_container3 h3{
+  position: relative;
+  margin-bottom: 15px;
+  display: inline-block;
+  font-family: 'Merriweather Sans', sans-serif !important; 
+  font-size: 33px;  
+  color:#333f50; 
+
+}
+
+.heading_h3{
+  font-family: 'Merriweather Sans', sans-serif !important; 
+  font-size: 33px;  
+  color:#333f50; 
+}
+
 .heading2_h5 {
-  font-family: 'Arial Narrow, sans-serif';
-  font-size: 16px;
-  padding-right: 55%;
+  font-size: 15px;
+  font-weight: 400;
+  padding-right: 35%;
   color: #060633;
+}
+
+.emailScroll{
+  overflow-x:auto;
+  overflow-y:hidden; 
+  height:45px;  
+  margin-left: 60px;
+}
+
+.emailScroll::-webkit-scrollbar {
+  width: 4px;
+  height: 10px;
+}
+
+.emailScroll::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 2px;
+}
+
+.emailScroll::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
 }
 
 li.nav-item ul {
@@ -1038,10 +1075,6 @@ footer {
 .logo-tech_footer{
   max-width:320px;
   width: 100%;
-}
-
-.align-logo{
-  margin-left: -35px;
 }
 
 .information_f p {
@@ -1592,7 +1625,8 @@ form input[type="submit"]:focus {
 
                           .image {
                             position: relative;
-                            margin-right: 1.4rem;
+                            margin-right: 0.7rem;
+                            margin-left: 0.7rem;
                             margin-bottom: 3rem;
                             color: white;
                             z-index:1;
@@ -1779,8 +1813,7 @@ form input[type="submit"]:focus {
                           }
 
                           .textInfo {
-                            font-family: 'Arial Narrow, sans-serif';
-                            font-size: 17px;
+                            font-size: 15px;
                             padding-right: 200px;
                             color: #060633;
                             padding-left: 50px;
@@ -1832,7 +1865,6 @@ form input[type="submit"]:focus {
                             position: absolute;
                             bottom: 0;
                             right: 0;
-                            font-family: 'Arial Narrow, sans-serif';
                             font-size: 17px;
                             color: #060633;
                             padding-bottom: 45px;

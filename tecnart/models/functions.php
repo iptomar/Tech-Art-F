@@ -208,7 +208,7 @@ $lang_values_array = array(
                             <!-- Main navbar -->
                             <nav style="padding-top: 0px;" class="navbar navbar-expand-lg custom_nav-container ">
                                 
-                                <div id="logo" style="max-width:300px; width:85%;">
+                                <div id="logo" style="max-width:350px; width:85%;">
                                 <a class="navbar-brand" href="index.php"><img class="w-100"  src=$lang_values_array[1] alt="#" /></a> <!--Logo que redireciona para o index.html-->
                                 </div>
 
@@ -336,11 +336,12 @@ $lang_values_array = array(
                             </div> 
 
                             <div class="col-md-5 center_footer">
-                            <div class="logo_footer">
-                                    <a href="#"><img width="210" src="./assets/images/politecnico-de-tomar-verde.png" alt="#" /></a>
+                            <!-- adicionar margin-left ao logotipo do ipt de forma aos logatipos ficaram alinhados-->
+                            <div class="logo_footer" style="margin-left: -10px">
+                                    <a href="#"><img height="100" src="./assets/images/IPT_i_1-vertical-branco-img-para-fundo-escuro.png" alt="#" /></a>
                                 </div>
-                                <div class="logo_footer align-logo">
-                                    <a href="#"><img width="270" src="./assets/images/2017_FCT_H_branco.png" alt="#" /></a>
+                                <div class="logo_footer">
+                                    <a href="#"><img height="80" src="./assets/images/2022_FCT_Logo_A_horizontal_branco.png" alt="#" /></a>
                                 </div>
                                 <div class="information_f">
                                     <p style="color: white; font-size: 13px;">$lang_values_array[4]</p>
