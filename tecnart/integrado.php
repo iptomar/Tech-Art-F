@@ -78,12 +78,11 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
             </h5>
 
             <div class="alinhado">
-                <a href="<?= $investigadores['orcid'] ?>"><span class="dot"></span></a>
-                <a href="<?= $investigadores['scholar'] ?>"><span class="dot2"></span></a>
+                <?= !empty(trim($investigadores['orcid'])) ? "<a class='link_externo orcid' href='https://orcid.org/" . $investigadores['orcid'] . "'></a>" : "" ?>
+                <?= !empty(trim($investigadores['ciencia_id'])) ? "<a class='link_externo ciencia_id' href='https://www.cienciavitae.pt/" . $investigadores['ciencia_id'] . "'></a>" : "" ?>
+                <?= !empty(trim($investigadores['research_gate'])) ? "<a class='link_externo research_gate' href=" . $investigadores['research_gate'] . "></a>" : "" ?> 
             </div>
-
         </div>
-
         <div id="resto" class="infoCorpo">
             <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px"
                 src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">

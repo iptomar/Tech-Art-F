@@ -240,3 +240,8 @@ CREATE TABLE `admissoes` (
     `data_criacao` TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+ALTER TABLE `investigadores`
+ADD `research_gate` VARCHAR(255) AFTER `scholar`,
+ADD `scopus_id` VARCHAR(255) AFTER `research_gate`;

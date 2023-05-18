@@ -1880,13 +1880,29 @@ form input[type="submit"]:focus {
                             margin-right: 15px;
                           }
 
-                          .dot, .dot2{
-                            height: 20px;
-                            width: 20px;
-                            border-radius: 50%;
+                          .link_externo{
+                            height: 30px;
+                            width: 30px;
+                            background-size: 30px 30px;
                             display: block;
                             margin-right: 5px;
                             margin-bottom: 20px;
+                          }
+
+                          .ciencia_id{
+                            background-image: url("../images/CienciaID.png");
+                          }
+
+                          .orcid{
+                            background-image: url("../images/Orcid.png");
+                          }
+
+                          .research_gate{
+                            background-image: url("../images/ResearchGate.png");
+                          }
+
+                          .dot, .dot2{
+                            border-radius: 50%;
                           }
 
                           .dot {
