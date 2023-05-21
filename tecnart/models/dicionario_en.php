@@ -30,6 +30,7 @@ function ret_dic_en(){
         "research-axes-option" => "Research Axes",
         "org-struct-option" => "Organic Structure",
         "opportunities-option" => "Opportunities",
+        "funding-option" => "Funding",
         //Drop-down 'Projetos'
         "projects-tab" => "Projects",
         "ongoing-option" => "Ongoing",
@@ -346,7 +347,27 @@ function ret_dic_en(){
         "admission-file-size-error" => "ERROR: File size exceeds the maximum limit of " . MAX_FILE_SIZE . "MB",
         "admission-required-error" => "ERROR: Failed to retrieve data from the fields",
         "admission-send-error" => "Database ERROR: Please try again later",
-        "admission-successful" => "The form was successfully submitted"
+        "admission-successful" => "The form was successfully submitted",
+
+        //::::::financiamento.php::::::
+        "funding-title" => "Funding",
+        "funding-p1" => "Funding allocated to the Research Center for Technology, Restoration, and Valorization of Arts (TECHN&ART)",
+        "funding-table1-project" => "Project",
+        "funding-table1-project-name" => "R&D Unit <br>Center for Technology, Restoration, and Valorization of Arts (TECHN&ART)",
+        "funding-table1-investigator" => "Investigator/Coordinator",
+        "funding-table1-promoter" => "Promoter",
+        "funding-table1-date-celebration" => "Date of celebration/Acceptance Term",
+        "funding-table1-execution-period" => "Execution period",
+        "funding-table1-start-date" => "Start date",
+        "funding-table1-end-date" => "End date",
+        "funding-table1-total-investment" => "Total Investment",
+        "funding-table1-funding" => "Funding",
+        "funding-p2" => "The overall funding of the research center corresponds to the sum of two components:",
+        "funding-title-2" => "Base Funding",
+        "funding-title-3" => "Programmatic Funding",
+        "funding-tables-universal-code" => "Universal Code",
+        "funding-tables-funding" => "Funding",
+        "funding-tables-execution-period" => "Execution period",
     );
 
     return $dic_en;

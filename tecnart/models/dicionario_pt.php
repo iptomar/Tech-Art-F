@@ -30,6 +30,7 @@ function ret_dic_pt(){
         "research-axes-option" => "Eixos de Investigação",
         "org-struct-option" => "Estrutura Orgânica",
         "opportunities-option" => "Oportunidades",
+        "funding-option" => "Financiamento",
         //Drop-down 'Projetos'
         "projects-tab" => "Projetos",
         "ongoing-option" => "Em Curso",
@@ -346,7 +347,27 @@ function ret_dic_pt(){
         "admission-file-size-error" => "ERRO: O tamanho do ficheiro excede o limite máximo de " . MAX_FILE_SIZE . "MB",
         "admission-required-error" => "ERRO: Não foi possível obter os dados dos campos",
         "admission-send-error" => "ERRO Base de dados: Por favor, tente novamente mais tarde",
-        "admission-successful" => "O formulário foi enviado com sucesso"
+        "admission-successful" => "O formulário foi enviado com sucesso",
+
+        //::::::financiamento.php::::::
+        "funding-title" => "Financiamento",
+        "funding-p1" => "Financiamento atribuído ao Centro de investigação Centro de Tecnologia, Restauro e Valorização de Artes (TECHN&ART)",
+        "funding-table1-project" => "Projeto",
+        "funding-table1-project-name" => "Unidade de I&D <br>Centro de Tecnologia, Restauro e Valorização das Artes (TECHN&ART)",
+        "funding-table1-investigator" => "Investigador/Coordenador",
+        "funding-table1-promoter" => "Promotor",
+        "funding-table1-date-celebration" => "Data de celebração/Termo de Aceitação",
+        "funding-table1-execution-period" => "Período de execução",
+        "funding-table1-start-date" => "Data de início",
+        "funding-table1-end-date" => "Data de fim",
+        "funding-table1-total-investment" => "Investimento Total",
+        "funding-table1-funding" => "Financiamento",
+        "funding-p2" => "O financiamento global do centro de investigação corresponde à soma de duas parcelas:",
+        "funding-title-2" => "Financiamento Base",
+        "funding-title-3" => "Financiamento Programático",
+        "funding-tables-universal-code" => "Código universal",
+        "funding-tables-funding" => "Financiamento",
+        "funding-tables-execution-period" => "Período de execução",
     );
 
     return $dic_pt;
