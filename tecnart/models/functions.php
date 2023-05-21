@@ -220,7 +220,7 @@ $lang_values_array = array(
                                 <ul class="navbar-nav">
 
                                 <li class="nav-item dropdown">
-                                        <a class="nav-link" id="sobretechn" href="sobre.php" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">$lang_values_array[2]<span class="caret"></span></a>
+                                        <a class="nav-link" id="nav_drop" href="sobre.php" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">$lang_values_array[2]<span class="caret"></span></a>
                                         <div class="dropdown-content">
                                             <a href="missao.php">$lang_values_array[3]</a>
                                             <a href="eixos.php">$lang_values_array[4]</a>
@@ -228,17 +228,21 @@ $lang_values_array = array(
                                             <a href="oportunidades.php">$lang_values_array[6]</a>
                                     </div>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="projetos.php">$lang_values_array[7]</a>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link" id="nav_drop" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"><span class="nav-label">{$change_lang("projects-tab")}<span class="caret"></span></a>
+                                        <div class="dropdown-content">
+                                          <a href="projetos_em_curso.php">{$change_lang("ongoing-option")}</a>
+                                          <a href="projetos_concluidos.php">{$change_lang("finished-option")}</a>
+                                        </div>
                                     </li>
                                     <li class="nav-item dropdown">
-                                        <a class="nav-link" id="sobretechn" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">$lang_values_array[8]<span class="caret"></span></a>
+                                        <a class="nav-link" id="nav_drop" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">$lang_values_array[8]<span class="caret"></span></a>
                                         <div class="dropdown-content">
                                             <a href="integrados.php">$lang_values_array[9]</a>
                                             <a href="colaboradores.php">$lang_values_array[10]</a>
                                             <a href="alunos.php">$lang_values_array[11]</a>
                                             <a href="novasadmissoes.php">{$change_lang("admission-option")}</a>
-                                    </div>
+                                        </div>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="noticias.php">$lang_values_array[12]</a>

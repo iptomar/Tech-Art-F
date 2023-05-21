@@ -2,7 +2,7 @@
 require "../verifica.php";
 require "../config/basedados.php";
 
-$sql = "SELECT id, nome, descricao, sobreprojeto, referencia, areapreferencial, financiamento, ambito, fotografia FROM projetos";
+$sql = "SELECT id, nome, referencia, areapreferencial, financiamento,fotografia, concluido FROM projetos";
 $result = mysqli_query($conn, $sql);
 
 ?>
@@ -40,6 +40,7 @@ $result = mysqli_query($conn, $sql);
 					<thead>
 						<tr>
 							<th>Nome</th>
+							<th>Estado</th>
 							<!--                 <th>Descrição</th>
 				<th>Sobre Projeto</th> -->
 							<th>Referência</th>
@@ -57,6 +58,11 @@ $result = mysqli_query($conn, $sql);
 							while ($row = mysqli_fetch_assoc($result)) {
 								echo "<tr>";
 								echo "<td>" . $row["nome"] . "</td>";
+								if($row["concluido"]){
+									echo "<td>Concluído</td>";
+								}else{
+									echo "<td>Em Curso</td>";
+								}
 								/*             echo "<td style='width:250px;'>".$row["descricao"]."</td>";
 							echo "<td style='width:250px;'>".$row["sobreprojeto"]."</td>";
 							*/

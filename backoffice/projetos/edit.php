@@ -3,47 +3,36 @@ require "../verifica.php";
 require "../config/basedados.php";
 require "bloqueador.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nome = $_POST["nome"];
+    $descricao = $_POST["descricao"];
+    $sobreprojeto = $_POST["sobreprojeto"];
+    $referencia = $_POST["referencia"];
+    $id = $_POST["id"];
+    $areapreferencial = $_POST["areapreferencial"];
+    $financiamento = $_POST["financiamento"];
+    $ambito = $_POST["ambito"];
+    $concluido = isset($_POST['concluido']) ? 1 : 0;
+    $investigadores = [];
+    if (isset($_POST["investigadores"])) {
+        $investigadores = $_POST["investigadores"];
+    }
     if ($_FILES["fotografia"]["size"] != 0) {
         $target_file = $_FILES["fotografia"]["name"];
+        $fotografia = $target_file;
         move_uploaded_file($_FILES["fotografia"]["tmp_name"], "../assets/projetos/" . $target_file);
         $sql = "update projetos set " .
             "nome = ?, descricao = ?, " .
-            "sobreprojeto = ?, referencia = ?, areapreferencial = ?, financiamento = ?, ambito = ?, fotografia = ? " .
+            "sobreprojeto = ?, referencia = ?, areapreferencial = ?, financiamento = ?, ambito = ?, fotografia = ?, concluido = ? " .
             "where  id  = ?";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, 'ssssssssi', $nome, $descricao, $sobreprojeto, $referencia, $areapreferencial, $financiamento, $ambito, $fotografia, $id);
-        $nome = $_POST["nome"];
-        $descricao = $_POST["descricao"];
-        $sobreprojeto = $_POST["sobreprojeto"];
-        $referencia = $_POST["referencia"];
-        $fotografia = $target_file;
-        $id = $_POST["id"];
-        $areapreferencial = $_POST["areapreferencial"];
-        $financiamento = $_POST["financiamento"];
-        $ambito = $_POST["ambito"];
-        $investigadores = [];
-        if (isset($_POST["investigadores"])) {
-            $investigadores = $_POST["investigadores"];
-        }
+        mysqli_stmt_bind_param($stmt, 'ssssssssii', $nome, $descricao, $sobreprojeto, $referencia, $areapreferencial, $financiamento, $ambito, $fotografia,$concluido, $id);
     } else {
         $sql = "update projetos set " .
             "nome = ?, descricao = ?, " .
-            "sobreprojeto = ?, referencia = ?, areapreferencial = ?, financiamento = ?, ambito = ? " .
+            "sobreprojeto = ?, referencia = ?, areapreferencial = ?, financiamento = ?, ambito = ?, concluido = ? " .
             "where  id  = ?";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, 'sssssssi', $nome, $descricao, $sobreprojeto, $referencia, $areapreferencial, $financiamento, $ambito, $id);
-        $nome = $_POST["nome"];
-        $descricao = $_POST["descricao"];
-        $sobreprojeto = $_POST["sobreprojeto"];
-        $referencia = $_POST["referencia"];
-        $id = $_POST["id"];
-        $areapreferencial = $_POST["areapreferencial"];
-        $financiamento = $_POST["financiamento"];
-        $ambito = $_POST["ambito"];
-        $investigadores = [];
-        if (isset($_POST["investigadores"])) {
-            $investigadores = $_POST["investigadores"];
-        }
+        mysqli_stmt_bind_param($stmt, 'sssssssii', $nome, $descricao, $sobreprojeto, $referencia, $areapreferencial, $financiamento, $ambito,$concluido, $id);
     }
 
     if (mysqli_stmt_execute($stmt)) {
@@ -71,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 } else {
 
-    $sql = "select nome, descricao, sobreprojeto, referencia, areapreferencial, financiamento, ambito, fotografia from projetos " .
+    $sql = "select nome, descricao, sobreprojeto, referencia, areapreferencial, financiamento, ambito, fotografia, concluido from projetos " .
         "where id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $id);
@@ -88,6 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $areapreferencial = $row["areapreferencial"];
     $financiamento = $row["financiamento"];
     $ambito = $row["ambito"];
+    $concluido = $row["concluido"] ? "checked":"";
 }
 
 
@@ -98,6 +88,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </link>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+<script type="text/javascript">
+    function previewImg(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#preview').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }else{
+            $('#preview').attr('src', '<?="../assets/projetos/" . $fotografia;?>');
+        }
+    }
+</script>
 <style>
     .container {
         max-width: 550px;
@@ -124,6 +127,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form role="form" data-toggle="validator" action="edit.php?id=<?php echo $id; ?>" method="post" enctype="multipart/form-data">
 
                 <input type="hidden" name="id" value=<?php echo $id; ?>>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="1" id="concluido" name="concluido" <?=$concluido?>>
+                        <label class="form-check-label" for="concluido">
+                            Concluído
+                        </label>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label>Nome</label>
                     <input type="text" minlength="1" required maxlength="100" required data-error="Por favor introduza um nome válido" name="nome" class="form-control" id="inputName" value="<?php echo $nome; ?>">

@@ -245,3 +245,6 @@ CREATE TABLE `admissoes` (
 ALTER TABLE `investigadores`
 ADD `research_gate` VARCHAR(255) AFTER `scholar`,
 ADD `scopus_id` VARCHAR(255) AFTER `research_gate`;
+
+
+ALTER TABLE `projetos` ADD `concluido` boolean NOT NULL default false;

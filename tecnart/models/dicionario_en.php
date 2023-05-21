@@ -30,8 +30,10 @@ function ret_dic_en(){
         "research-axes-option" => "Research Axes",
         "org-struct-option" => "Organic Structure",
         "opportunities-option" => "Opportunities",
-        //Separador 'Projetos'
+        //Drop-down 'Projetos'
         "projects-tab" => "Projects",
+        "ongoing-option" => "Ongoing",
+        "finished-option" => "Finished",
         //Drop-down 'Investigadores/as'
         "researchers-drop-down" => "Researchers",
         "integrated-option" => "Integrated",
@@ -200,12 +202,19 @@ function ret_dic_en(){
         //LEGENDA DA IMAGEM AQUI
         //RESTO DO TEXTO DESTA PAGINA AINDA E SIMULADO
 
-        //::::::projetos.php::::::
+        //::::::projetos_em_curso.php::::::
 
         //Titulo 'Projetos'
-        "projects-page-heading" => "Projects",
+        "projects-ongoing-page-heading" => "Ongoing Projects",
         //Descricao pagina 'Projetos'
-        "projects-page-description" => "",
+        "projects-ongoing-page-description" => "",
+
+        //::::::projetos_concluidos.php::::::
+
+        //Titulo 'Projetos'
+        "projects-finished-page-heading" => "Finished Projects",
+        //Descricao pagina 'Projetos'
+        "projects-finished-page-description" => "",
 
         //::::::projeto.php::::::
 

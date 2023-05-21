@@ -8,10 +8,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     move_uploaded_file($_FILES["fotografia"]["tmp_name"], "../assets/projetos/" . $target_file);
 
     //adicionar novo projeto na base de dados
-    $sql = "INSERT INTO projetos (nome, descricao, sobreprojeto, referencia, areapreferencial, financiamento, ambito, fotografia) " .
-        "VALUES (?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO projetos (nome, descricao, sobreprojeto, referencia, areapreferencial, financiamento, ambito, fotografia, concluido) " .
+        "VALUES (?,?,?,?,?,?,?,?,?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 'ssssssss', $nome, $descricao, $sobreprojeto, $referencia, $areapreferencial, $financiamento, $ambito, $fotografia);
+    mysqli_stmt_bind_param($stmt, 'ssssssssi', $nome, $descricao, $sobreprojeto, $referencia, $areapreferencial, $financiamento, $ambito, $fotografia, $concluido);
     $nome = $_POST["nome"];
     $descricao = $_POST["descricao"];
     $sobreprojeto = $_POST["sobreprojeto"];
@@ -21,6 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $financiamento = $_POST["financiamento"];
     $ambito = $_POST["ambito"];
     $investigadores = [];
+    $concluido = isset($_POST['concluido']) ? 1 : 0;
     if (isset($_POST["investigadores"])) {
         $investigadores = $_POST["investigadores"];
     }
@@ -76,6 +77,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h5 class="card-header text-center">Criar Projeto</h5>
         <div class="card-body">
             <form role="form" data-toggle="validator" action="create.php" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="1" id="concluido" name="concluido">
+                        <label class="form-check-label" for="concluido">
+                            Concluído
+                        </label>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label>Nome</label>
