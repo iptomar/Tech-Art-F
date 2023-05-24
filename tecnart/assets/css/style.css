@@ -1929,17 +1929,18 @@ form input[type="submit"]:focus {
                             background-image: url("../images/ResearchGate.png");
                           }
 
+                          .site{
+                            background-image: url("../images/site.png");
+                          }
+
+                          .facebook{
+                            background-image: url("../images/facebook.png");
+                          }
+
                           .dot, .dot2{
                             border-radius: 50%;
                           }
 
-                          .dot {
-                            background-color: #04d4ac;
-                          }
-
-                          .dot2 {
-                            background-color: #a6ce39;
-                          }
 
                           .divbotao{
                             width: 100%;

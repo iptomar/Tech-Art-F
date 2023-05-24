@@ -63,7 +63,14 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
                     publicações
                 </span>
             </button> -->
+            <h5 class="nofinal">
+                <?= change_lang("ext-links") ?>
+            </h5>
 
+            <div class="alinhado">
+                <?= !empty(trim($projetos['site']."")) ? "<a target='_blank' class='link_externo site' href='".$projetos['site'] . "'></a>" : ""; ?>
+                <?= !empty(trim($projetos['facebook']."")) ? "<a target='_blank' class='link_externo facebook' href='".$projetos['facebook'] . "'></a>" : ""; ?>
+            </div>
 
         </div>
 

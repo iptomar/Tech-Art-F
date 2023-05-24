@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
 } else {
-    $sql = "select nome, descricao, sobreprojeto, referencia, areapreferencial, financiamento, ambito, fotografia from projetos " .
+    $sql = "select nome, descricao, sobreprojeto, referencia, areapreferencial, financiamento, ambito, fotografia, concluido, site, facebook from projetos " .
         "where id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $id);
@@ -32,6 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $areapreferencial = $row["areapreferencial"];
     $financiamento = $row["financiamento"];
     $ambito = $row["ambito"];
+    $concluido = $row["concluido"] ? "checked" : "";
+    $site = $row["site"];
+    $facebook = $row["facebook"];
 }
 
 
@@ -59,6 +62,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         padding: 4px 0 0;
         color: red;
     }
+
+    .ck-content {
+        overflow: auto;
+    }
+
+    .ck-content p {
+        display: flex;
+        align-items: flex-end;
+    }
+
+    .ck-content .image {
+        clear: both;
+        display: table;
+        margin: 0.9em auto;
+        min-width: 50px;
+        text-align: center;
+    }
+
+    .ck-content .image-style-side {
+        margin-top: 0;
+        float: right;
+        max-width: 50%;
+    }
+
+    .ck-content img {
+        max-width: 100%;
+        max-height: 100%;
+    }
 </style>
 
 <div class="container-xl mt-5">
@@ -68,6 +99,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form role="form" data-toggle="validator" action="remove.php?id=<?php echo $id; ?>" method="post">
 
                 <input type="hidden" name="id" value=<?php echo $id; ?>>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="1" id="concluido" name="concluido" <?= $concluido ?> disabled>
+                        <label class="form-check-label" for="concluido">
+                            Concluído
+                        </label>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label>Nome</label>
                     <input type="text" name="nome" class="form-control" data-error="Tu deves ter um nome." id="inputName" readonly value="<?php echo $nome; ?>">
@@ -84,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Sobre Projeto</label>
-                    <div readonly class="form-control" style="width:100%; height:100%;"><?php echo $sobreprojeto; ?></div>
+                    <div readonly class="form-control ck-content" style="width:100%; height:100%;"><?php echo $sobreprojeto; ?></div>
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
@@ -117,6 +156,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="help-block with-errors"></div>
                 </div>
 
+                <div class="form-group">
+                    <label>Site</label>
+                    <input type="text" minlength="1" readonly maxlength="100" data-error="Por favor introduza um site válido" class="form-control" id="inputSite" name="site" value="<?php echo $site; ?>">
+                    <!-- Error -->
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Facebook</label>
+                    <input type="text" minlength="1" readonly maxlength="100" data-error="Por favor introduza um facebook válido" class="form-control" id="inputFace" name="facebook" value="<?php echo $facebook; ?>">
+                    <!-- Error -->
+                    <div class="help-block with-errors"></div>
+                </div>
                 <div class="form-group">
                     <label>Fotografia</label>
                     <input type="text" class="form-control" id="inputFotografia" name="fotografia" readonly value="<?php echo "../assets/projetos/" . $fotografia; ?>">

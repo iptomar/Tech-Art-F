@@ -243,8 +243,12 @@ CREATE TABLE `admissoes` (
 
 
 ALTER TABLE `investigadores`
-ADD `research_gate` VARCHAR(255) AFTER `scholar`,
-ADD `scopus_id` VARCHAR(255) AFTER `research_gate`;
+ADD `research_gate` NOT NULL VARCHAR(255) AFTER `scholar`,
+ADD `scopus_id` NOT NULL VARCHAR(255) AFTER `research_gate`;
 
 
 ALTER TABLE `projetos` ADD `concluido` boolean NOT NULL default false;
+
+ALTER TABLE `projetos`
+ADD `site` VARCHAR(255) NOT NULL AFTER `ambito`,
+ADD `facebook` VARCHAR(255) NOT NULL AFTER `site`;

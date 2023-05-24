@@ -12,6 +12,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $financiamento = $_POST["financiamento"];
     $ambito = $_POST["ambito"];
     $concluido = isset($_POST['concluido']) ? 1 : 0;
+    $site = $_POST["site"];
+    $facebook = $_POST["facebook"];
     $investigadores = [];
     if (isset($_POST["investigadores"])) {
         $investigadores = $_POST["investigadores"];
@@ -22,17 +24,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         move_uploaded_file($_FILES["fotografia"]["tmp_name"], "../assets/projetos/" . $target_file);
         $sql = "update projetos set " .
             "nome = ?, descricao = ?, " .
-            "sobreprojeto = ?, referencia = ?, areapreferencial = ?, financiamento = ?, ambito = ?, fotografia = ?, concluido = ? " .
+            "sobreprojeto = ?, referencia = ?, areapreferencial = ?, financiamento = ?, ambito = ?, fotografia = ?, concluido = ?, site = ?, facebook = ? " .
             "where  id  = ?";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, 'ssssssssii', $nome, $descricao, $sobreprojeto, $referencia, $areapreferencial, $financiamento, $ambito, $fotografia, $concluido, $id);
+        mysqli_stmt_bind_param($stmt, 'ssssssssissi', $nome, $descricao, $sobreprojeto, $referencia, $areapreferencial, $financiamento, $ambito, $fotografia, $concluido, $site, $facebook, $id);
     } else {
         $sql = "update projetos set " .
             "nome = ?, descricao = ?, " .
-            "sobreprojeto = ?, referencia = ?, areapreferencial = ?, financiamento = ?, ambito = ?, concluido = ? " .
+            "sobreprojeto = ?, referencia = ?, areapreferencial = ?, financiamento = ?, ambito = ?, concluido = ?, site = ?, facebook = ? " .
             "where  id  = ?";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, 'sssssssii', $nome, $descricao, $sobreprojeto, $referencia, $areapreferencial, $financiamento, $ambito, $concluido, $id);
+        mysqli_stmt_bind_param($stmt, 'sssssssissi', $nome, $descricao, $sobreprojeto, $referencia, $areapreferencial, $financiamento, $ambito, $concluido, $site, $facebook, $id);
     }
 
     if (mysqli_stmt_execute($stmt)) {
@@ -60,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 } else {
 
-    $sql = "select nome, descricao, sobreprojeto, referencia, areapreferencial, financiamento, ambito, fotografia, concluido from projetos " .
+    $sql = "select nome, descricao, sobreprojeto, referencia, areapreferencial, financiamento, ambito, fotografia, concluido, site, facebook from projetos " .
         "where id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $id);
@@ -77,7 +79,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $areapreferencial = $row["areapreferencial"];
     $financiamento = $row["financiamento"];
     $ambito = $row["ambito"];
-    $concluido = $row["concluido"] ? "checked" : "";    
+    $concluido = $row["concluido"] ? "checked" : "";
+    $site = $row["site"];
+    $facebook = $row["facebook"];
+
 }
 
 
@@ -182,6 +187,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="form-group">
                     <label>Âmbito</label>
                     <input type="text" minlength="1" required maxlength="100" required data-error="Por favor introduza um âmbito válido" class="form-control" id="inputAmbito" name="ambito" value="<?php echo $ambito; ?>">
+                    <!-- Error -->
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group">
+                    <label>Site</label>
+                    <input type="text" minlength="1" required maxlength="100" data-error="Por favor introduza um site válido" class="form-control" id="inputSite" name="site" value="<?php echo $site; ?>">
+                    <!-- Error -->
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Facebook</label>
+                    <input type="text" minlength="1" required maxlength="100" data-error="Por favor introduza um facebook válido" class="form-control" id="inputFace" name="facebook" value="<?php echo $facebook; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>

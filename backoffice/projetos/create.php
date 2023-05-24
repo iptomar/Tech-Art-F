@@ -8,10 +8,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     move_uploaded_file($_FILES["fotografia"]["tmp_name"], "../assets/projetos/" . $target_file);
 
     //adicionar novo projeto na base de dados
-    $sql = "INSERT INTO projetos (nome, descricao, sobreprojeto, referencia, areapreferencial, financiamento, ambito, fotografia, concluido) " .
-        "VALUES (?,?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO projetos (nome, descricao, sobreprojeto, referencia, areapreferencial, financiamento, ambito, fotografia, concluido, site, facebook) " .
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 'ssssssssi', $nome, $descricao, $sobreprojeto, $referencia, $areapreferencial, $financiamento, $ambito, $fotografia, $concluido);
+    mysqli_stmt_bind_param($stmt, 'ssssssssiss', $nome, $descricao, $sobreprojeto, $referencia, $areapreferencial, $financiamento, $ambito, $fotografia, $concluido, $site, $facebook);
     $nome = $_POST["nome"];
     $descricao = $_POST["descricao"];
     $sobreprojeto = $_POST["sobreprojeto"];
@@ -22,6 +22,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ambito = $_POST["ambito"];
     $investigadores = [];
     $concluido = isset($_POST['concluido']) ? 1 : 0;
+    $site = $_POST["site"];
+    $facebook = $_POST["facebook"];
+
     if (isset($_POST["investigadores"])) {
         $investigadores = $_POST["investigadores"];
     }
@@ -131,6 +134,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="form-group">
                     <label>Âmbito</label>
                     <input type="text" minlength="1" required maxlength="100" required data-error="Por favor introduza um âmbito válido" class="form-control" id="inputAmbito" name="ambito">
+                    <!-- Error -->
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Site</label>
+                    <input type="text" minlength="1" required maxlength="100" data-error="Por favor introduza um site válido" class="form-control" id="inputSite" name="site">
+                    <!-- Error -->
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Facebook</label>
+                    <input type="text" minlength="1" required maxlength="100" data-error="Por favor introduza um facebook válido" class="form-control" id="inputFace" name="facebook">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
