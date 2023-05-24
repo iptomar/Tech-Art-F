@@ -117,14 +117,14 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             <a style="display: inline-block; padding: 5px 25px; background-color:#333F50; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
                      -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;"
-               href="projetos.php">
+               href="projetos_em_curso.php">
                <?= change_lang("see-all-btn-rd-projects"); ?>
             </a>
 
          </div>
          <div class="row">
             <?php
-            $sql = "SELECT id, nome, descricao, fotografia FROM projetos ORDER BY id DESC limit 4";
+            $sql = "SELECT id, nome, descricao, fotografia FROM projetos where concluido=0 ORDER BY id DESC limit 4";
             $stmt = $pdo->prepare($sql);
             $stmt->execute();
             $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
