@@ -67,11 +67,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         overflow: auto;
     }
 
-    .ck-content p {
-        display: flex;
-        align-items: flex-end;
-    }
-
     .ck-content .image {
         clear: both;
         display: table;

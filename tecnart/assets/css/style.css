@@ -1802,11 +1802,7 @@ form input[type="submit"]:focus {
                             display:block;
                            
                           }
-
-
-
-
-
+                          
                           .infoCorpo {
                             width: 78%;
                             margin: 0 auto;
@@ -1826,11 +1822,6 @@ form input[type="submit"]:focus {
 
                           .ck-content {
                             overflow: auto;
-                          }
-
-                          .ck-content p {
-                            display: flex;
-                            align-items: flex-end;
                           }
 
                           .ck-content .image {
