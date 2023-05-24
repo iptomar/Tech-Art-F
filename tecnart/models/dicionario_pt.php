@@ -165,21 +165,21 @@ function ret_dic_pt(){
         "org-struct-page-description" => "A atividade do Techn&Art é suportada pelos seguintes órgãos de direção, gestão e administração:",
         //Etiqueta 'Diretor'
         "org-struct-page-director-tag" => "Diretor",
-        "director" => "Célio Gonçalo Marques, Tecnologias de Informação e Comunicação",
+        "director" => "<a href='#'>Célio Gonçalo Marques</a>, Tecnologias de Informação e Comunicação",
         //Etiqueta 'Diretor adjunto'
         "org-struct-page-deputy-director-tag" => "Diretora Adjunta",
-        "deputy-director" => "Hermínia Maria Pimenta Ferreira Sol, Literatura",
+        "deputy-director" => "<a href='#'>Hermínia Maria Pimenta Ferreira Sol</a>, Literatura",
         //Etiqueta 'secretarios administrativos'
         "org-struct-page-executive-secretary-tag" => "Secretário Administrativo",
         "executive-secretary" => "Hirondina Alves São Pedro",
         //Etiqueta 'Conselho diretivo'
         "org-struct-page-board-tag" => "Conselho Diretivo",
         "board-composed" => "Composto pelo Diretor, pela Diretora Adjunta e por:",
-        "board-member1" => "Ricardo Pereira Triães, Conservação e Restauro",
-        "board-member2" => "Eunice Ferreira Ramos Lopes, Turismo",
-        "board-member3" => "Regina Aparecida Delfino, Artes Gráficas",
-        "board-member4" => "Marta Margarida S. Dionísio, Línguas",
-        "board-member5" => "Ana Cláudia Pires da Silva, Gestão",
+        "board-member1" => "<a href='#'>Ricardo Pereira Triães</a>, Conservação e Restauro",
+        "board-member2" => "<a href='#'>Eunice Ferreira Ramos Lopes</a>, Turismo",
+        "board-member3" => "<a href='#'>Regina Aparecida Delfino</a>, Artes Gráficas",
+        "board-member4" => "<a href='#'>Marta Margarida S. Dionísio</a>, Línguas",
+        "board-member5" => "<a href='#'>Ana Cláudia Pires da Silva</a>, Gestão",
         //Etiqueta 'Conselho cinetifico'
         "org-struct-page-scinetific-conucil-tag" => "Conselho Científico",
         "all-integrated-members" => "Composto por todos os membros integrados.",

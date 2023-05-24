@@ -165,21 +165,21 @@ function ret_dic_en(){
         "org-struct-page-description" => "Techn&Art's activity is supported by the following governing, management and administration bodies:",
         //Etiqueta 'Diretor'
         "org-struct-page-director-tag" => "Director",
-        "director" => "Célio Gonçalo Marques, Information and Communication Technologies",
+        "director" => "<a href='#'>Célio Gonçalo Marques</a>, Information and Communication Technologies",
         //Etiqueta 'Diretor adjunto'
         "org-struct-page-deputy-director-tag" => "Deputy Director",
-        "deputy-director" => "Hermínia Maria Pimenta Ferreira Sol, Literature",
+        "deputy-director" => "<a href='#'>Hermínia Maria Pimenta Ferreira Sol</a>, Literature",
         //Etiqueta 'secretarios administrativos'
         "org-struct-page-executive-secretary-tag" => "Executive Secretary ",
         "executive-secretary" => "Hirondina Alves São Pedro",
         //Etiqueta 'Conselho diretivo'
         "org-struct-page-board-tag" => "Board",
         "board-composed" => "Comprised of the Director, the Deputy Director and by:",
-        "board-member1" => "Ricardo Pereira Triães, Conservation and Restoration",
-        "board-member2" => "Eunice Ferreira Ramos Lopes, Tourism",
-        "board-member3" => "Regina Aparecida Delfino, Graphic Arts",
-        "board-member4" => "Marta Margarida S. Dionísio, Languages",
-        "board-member5" => "Ana Cláudia Pires da Silva, Management",
+        "board-member1" => "<a href='#'>Ricardo Pereira Triães</a>, Conservation and Restoration",
+        "board-member2" => "<a href='#'>Eunice Ferreira Ramos Lopes</a>, Tourism",
+        "board-member3" => "<a href='#'>Regina Aparecida Delfino</a>, Graphic Arts",
+        "board-member4" => "<a href='#'>Marta Margarida S. Dionísio</a>, Languages",
+        "board-member5" => "<a href='#'>Ana Cláudia Pires da Silva</a>, Management",
         //Etiqueta 'Conselho cinetifico'
         "org-struct-page-scinetific-conucil-tag" => "Scientific Council",
         "all-integrated-members" => "Composed of all integrated members.",
