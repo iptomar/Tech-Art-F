@@ -40,7 +40,7 @@ $noticias = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php foreach ($noticias as $noticia) : ?>
                <div class="ml-5 imgList">
                   <a href="noticia.php?noticia=<?= $noticia['id'] ?>">
-                     <div class="image">
+                     <div class="image_default">
                         <img class="centrare" style="object-fit: cover; width:225px; height:280px;" src="../backoffice/assets/noticias/<?= $noticia['imagem'] ?>" alt="">
                         <div class="imgText justify-content-center m-auto" style="top:75%">
                            <?php

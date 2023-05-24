@@ -179,6 +179,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ClassicEditor
         .create(document.querySelector('#inputSobreProjeto'), {
             licenseKey: '',
+            simpleUpload: {
+                uploadUrl: '../ckeditor5/upload_image.php'
+            }
         })
         .then(editor => {
             window.editor = editor;

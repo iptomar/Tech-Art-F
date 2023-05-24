@@ -1623,7 +1623,7 @@ form input[type="submit"]:focus {
                               z-index:3 
                           }
 
-                          .image {
+                          .image_default {
                             position: relative;
                             margin-right: 0.7rem;
                             margin-left: 0.7rem;
@@ -1634,7 +1634,7 @@ form input[type="submit"]:focus {
                             justify-content: center;
                           }
 
-                          .image::after{
+                          .image_default::after{
                             content:"";
                             position:absolute;
                             background: linear-gradient(0deg,        rgba(39,38,42,1) 0%, rgba(255,255,255,0)     60%);
@@ -1817,6 +1817,34 @@ form input[type="submit"]:focus {
                             padding-right: 200px;
                             color: #060633;
                             padding-left: 50px;
+                          }
+
+                          .textInfo img {
+                            max-width: 100%;
+                            max-height: 100%;
+                          }
+
+                          .ck-content {
+                            overflow: auto;
+                          }
+
+                          .ck-content p {
+                            display: flex;
+                            align-items: flex-end;
+                          }
+
+                          .ck-content .image {
+                            clear: both;
+                            display: table;
+                            margin: 0.9em auto;
+                            min-width: 50px;
+                            text-align: center;
+                          }
+
+                          .ck-content .image-style-side {
+                            margin-top: 0;
+                            float: right;
+                            max-width: 50%;
                           }
 
                           .publicaInv {

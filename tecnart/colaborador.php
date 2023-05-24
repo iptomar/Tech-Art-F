@@ -212,7 +212,7 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
 
                                     <div class="ml-5 imgList">
                                         <a href="projeto.php?projeto=<?= $projeto['id'] ?>">
-                                            <div class="image">
+                                            <div class="image_default">
                                                 <img class="centrare" style="object-fit: cover; width:225px; height:280px;"
                                                     src="../backoffice/assets/projetos/<?= $projeto['fotografia'] ?>"
                                                     alt="">

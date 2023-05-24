@@ -25,14 +25,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "sobreprojeto = ?, referencia = ?, areapreferencial = ?, financiamento = ?, ambito = ?, fotografia = ?, concluido = ? " .
             "where  id  = ?";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, 'ssssssssii', $nome, $descricao, $sobreprojeto, $referencia, $areapreferencial, $financiamento, $ambito, $fotografia,$concluido, $id);
+        mysqli_stmt_bind_param($stmt, 'ssssssssii', $nome, $descricao, $sobreprojeto, $referencia, $areapreferencial, $financiamento, $ambito, $fotografia, $concluido, $id);
     } else {
         $sql = "update projetos set " .
             "nome = ?, descricao = ?, " .
             "sobreprojeto = ?, referencia = ?, areapreferencial = ?, financiamento = ?, ambito = ?, concluido = ? " .
             "where  id  = ?";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, 'sssssssii', $nome, $descricao, $sobreprojeto, $referencia, $areapreferencial, $financiamento, $ambito,$concluido, $id);
+        mysqli_stmt_bind_param($stmt, 'sssssssii', $nome, $descricao, $sobreprojeto, $referencia, $areapreferencial, $financiamento, $ambito, $concluido, $id);
     }
 
     if (mysqli_stmt_execute($stmt)) {
@@ -77,8 +77,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $areapreferencial = $row["areapreferencial"];
     $financiamento = $row["financiamento"];
     $ambito = $row["ambito"];
-    $concluido = $row["concluido"] ? "checked":"";
+    $concluido = $row["concluido"] ? "checked" : "";    
 }
+
 
 
 
@@ -96,8 +97,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $('#preview').attr('src', e.target.result);
             }
             reader.readAsDataURL(input.files[0]);
-        }else{
-            $('#preview').attr('src', '<?="../assets/projetos/" . $fotografia;?>');
+        } else {
+            $('#preview').attr('src', '<?= "../assets/projetos/" . $fotografia; ?>');
         }
     }
 </script>
@@ -129,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="hidden" name="id" value=<?php echo $id; ?>>
                 <div class="form-group">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="1" id="concluido" name="concluido" <?=$concluido?>>
+                        <input class="form-check-input" type="checkbox" value="1" id="concluido" name="concluido" <?= $concluido ?>>
                         <label class="form-check-label" for="concluido">
                             Concluído
                         </label>
@@ -240,6 +241,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ClassicEditor
         .create(document.querySelector('#inputSobreProjeto'), {
             licenseKey: '',
+            simpleUpload: {
+                uploadUrl: '../ckeditor5/upload_image.php'
+            }
         })
         .then(editor => {
             window.editor = editor;
