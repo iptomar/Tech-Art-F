@@ -335,18 +335,18 @@ $lang_values_array = array(
                                     <br><ul><li><a style="color: white;"><strong>$lang_values_array[3]</strong></a></li></ul>
                                 </div>
                                 <div class="widget_menu">
-                                    <span><a href="https://www.facebook.com"><i id ="fateste" class="fab fa-facebook-f"></i>&nbsp</a></span>
-                                    <span><a style="color: white; font-size: 19px;" href="https://www.youtube.com"><i class="fab fa-youtube"></i></a></span>
+                                    <span><a target="_blank"href="https://www.facebook.com/Techn.Art.IPT/"><i id ="fateste" class="fab fa-facebook-f"></i>&nbsp</a></span>
+                                    <span><a target="_blank" style="color: white; font-size: 19px;" href="https://www.youtube.com/channel/UC3w94LwkXczhZ12WYINYKzA"><i class="fab fa-youtube"></i></a></span>
                                 </div>
                             </div> 
 
                             <div class="col-md-5 center_footer">
                             <!-- adicionar margin-left ao logotipo do ipt de forma aos logatipos ficaram alinhados-->
                             <div class="logo_footer" style="margin-left: -10px">
-                                    <a href="#"><img height="100" src="./assets/images/IPT_i_1-vertical-branco-img-para-fundo-escuro.png" alt="#" /></a>
+                                    <a target="_blank"href="https://www.ipt.pt/"><img height="100" src="./assets/images/IPT_i_1-vertical-branco-img-para-fundo-escuro.png" alt="#" /></a>
                                 </div>
                                 <div class="logo_footer">
-                                    <a href="#"><img height="80" src="./assets/images/2022_FCT_Logo_A_horizontal_branco.png" alt="#" /></a>
+                                    <a target="_blank"href="https://www.fct.pt/"><img height="80" src="./assets/images/2022_FCT_Logo_A_horizontal_branco.png" alt="#" /></a>
                                 </div>
                                 <div class="information_f">
                                     <p style="color: white; font-size: 13px;">$lang_values_array[4]</p>
