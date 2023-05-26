@@ -46,7 +46,7 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
                 </span>
             </button>
 
-            <button class="divbotao" id="showit2">
+            <button class="divbotao lastBtn" id="showit2">
                 <span href="#" class="innerButton">
                     <?= change_lang("team-steakholders-btn-class") ?>
                 </span>
