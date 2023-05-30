@@ -252,3 +252,12 @@ ALTER TABLE `projetos` ADD `concluido` boolean NOT NULL default false;
 ALTER TABLE `projetos`
 ADD `site` VARCHAR(255) NOT NULL AFTER `ambito`,
 ADD `facebook` VARCHAR(255) NOT NULL AFTER `site`;
+
+CREATE TABLE `oportunidades` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `imagem` VARCHAR(100) NOT NULL,
+  `titulo` VARCHAR(255) NOT NULL,
+  `conteudo` MEDIUMTEXT NOT NULL,
+  `visivel` boolean NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
