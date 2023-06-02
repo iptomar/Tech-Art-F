@@ -81,7 +81,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     .ck-editor__editable {
-        resize: vertical;
         min-height: 200px;
     }
 </style>
