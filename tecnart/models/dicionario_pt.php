@@ -199,9 +199,9 @@ function ret_dic_pt(){
         "opport-page-heading" => "oportunidades",
         //Subtitulo
         "opport-page-subtitle" => "subtítulo",
-        //legenda da imagem
-        //LEGENDA DA IMAGEM AQUI
-        //RESTO DO TEXTO DESTA PAGINA AINDA E SIMULADO
+
+        //::::::oportunidade.php::::::
+        "opport-page-file" => "Ficheiros",
 
         //::::::projetos_em_curso.php::::::
 
@@ -284,14 +284,12 @@ function ret_dic_pt(){
         //Descricao pagina noticias
         "news-page-heading-desc" => "",
 
-        //::::::noticia.php::::::
+        //::::::oportunidades.php::::::
 
-
-        //Heading 'Conteúdo da noticia'
-        "news-content-heading" => "Conteúdo da Notícia",
-
-        //Heading 'Conteúdo da noticia'
-        "news-content-heading" => "Conteúdo da Notícia",
+        //Titulo pagina 'Oportunidades'
+        "opportunities-page-heading" => "Oportunidades",
+        //Descricao pagina Oportunidades
+        "opportunities-page-heading-desc" => "",
 
         //::::::publicacoes.php
 

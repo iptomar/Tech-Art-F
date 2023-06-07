@@ -225,8 +225,8 @@ $lang_values_array = array(
                                             <a href="missao.php">$lang_values_array[3]</a>
                                             <a href="eixos.php">$lang_values_array[4]</a>
                                             <a href="estrutura.php">$lang_values_array[5]</a>
-                                            <a href="oportunidades.php">$lang_values_array[6]</a>
                                             <a href="financiamento.php">{$change_lang("funding-option")}</a>
+                                            <a href="oportunidades.php">$lang_values_array[6]</a>
                                     </div>
                                     </li>
                                     <li class="nav-item dropdown">
