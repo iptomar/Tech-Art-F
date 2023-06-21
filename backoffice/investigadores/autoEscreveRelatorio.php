@@ -138,10 +138,10 @@ foreach($rows as $row){
 
 
 //::::::::::::GUARDAR RELATORIO::::::::::::
-header('Content-Type: application/vnd.ms-excel');
-header('Content-Disposition: attachment;filename="'.$novoRelatorio.'"');
-header('Cache-Control: max-age=0');
-$writer->save('php://output');
+//header('Content-Type: application/vnd.ms-excel');
+//header('Content-Disposition: attachment;filename="'.$novoRelatorio.'"');
+//header('Cache-Control: max-age=0');
+$writer->save($novoRelatorio);
 
 
 ?>
