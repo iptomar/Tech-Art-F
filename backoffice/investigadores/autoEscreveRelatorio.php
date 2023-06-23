@@ -1,10 +1,6 @@
 <?php
 
-require '../../libraries/vendor/autoload.php';
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use Psr\Http\Message\ResponseInterface;
-
+include '../../libraries/vendor/phpoffice/phpexcel/Classes/PHPExcel.php';
 require "../verifica.php";
 require "../config/basedados.php";
 
@@ -17,15 +13,16 @@ if ($_SESSION["autenticado"] != 'administrador' && $_SESSION["autenticado"] != $
 $login = 'IPT_ADMIN';
 $password = 'U6-km(jD8a68r';
 
-//iniciar handler cURL
+//iniciar sessao cURL
 $ch = curl_init();
 $headers = array(
     "Content-Type: application/json",
     "Accept: application/json",
 );
 
+curl_setopt($ch, CURLOPT_FAILONERROR, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); //adicionar cabecalhos
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); //retornar transferencia ativada
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //retornar transferencia ativada
 curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC); //autenticacao cURL basica ativada
 curl_setopt($ch, CURLOPT_USERPWD, "$login:$password"); //user e password para o swagger UI
 
@@ -43,41 +40,71 @@ $rows = mysqli_fetch_assoc($result); //obter colunas como um array
 $ciencia_id = $rows["ciencia_id"]; //ciencia id
 $orcid = $rows["orcid"]; //orcid
 
-//nomes dos relatorios
+//nomes do relatorio modelo
 $relatorioModelo = "./relatorio.xlsx";
-$novoRelatorio = "./relatorio_anual_" . $ciencia_id . ".xlsx";
 $aux = "./auxiliar.xlsx";
 
 //se nao exitir, criar ficheiro do novo relatorio
-if(!file_exists($novoRelatorio)){
+/*if(!file_exists($novoRelatorio)){
     $handle = @fopen($novoRelatorio, "w+");
     fclose($handle);
     if(!copy($relatorioModelo, $novoRelatorio)){
         echo "Não foi possível copiar $relatorioModelo...</br>";
     }
-}
+}*/
 
 $url = "https://qa.cienciavitae.pt/api/v1.1/curriculum/" . $ciencia_id . "/person-info?lang=User%20defined";
 
-//adiconar url ao handler cURL
+//adicionar url ao handler cURL
 curl_setopt($ch, CURLOPT_URL, $url);
 
 $result_curl = curl_exec($ch); //executar cURL e armazenar resultado
+
+echo curl_error($ch);
+
 curl_close($ch); //fechar handler
 $data = json_decode($result_curl); //descodificar JSON da resposta
 
+//nome completo
 $nome = $data->{"full-name"};
+$nomeArray = explode(" ", $nome);
 
-echo "$nome, $ciencia_id, $orcid</br>";
+//array de carateres nao reconhecidos
+$unwanted_array = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
+                            'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U',
+                            'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c',
+                            'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o',
+                            'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y' );
+
+//ultimo nome
+$lastName = $nomeArray[count($nomeArray)-1];
+$lastName = strtr($lastName, $unwanted_array);
+
+//primeiro nome
+$firstName = $nomeArray[0];
+$firstName = strtr($firstName, $unwanted_array);
+
+//ano
+$year = 2023;
+
+//nome do novo relatorio
+$novoRelatorio = "./".strtoupper($lastName)."_".strtolower($firstName)."_".$year.".xlsx";
+
+echo $novoRelatorio."</br>";
+
+echo "$nome</br>";
 
 //::::::::::::ESCREVER NO EXCEL::::::::::::
 
-//leitor de folhas de calculo para o novo relatorio
-$reader = IOFactory::createReader("Xlsx");
-$spreadsheet = $reader->load($novoRelatorio);
+//tipo de ficheiro
+$inputFileType = PHPExcel_IOFactory::identify($relatorioModelo);
 
-//escritor de folhas de calculo para o novo relatorio
-$writer = IOFactory::createWriter($spreadsheet, "Xlsx");
+//carregar o  relatorio modelo
+$reader = PHPExcel_IOFactory::createReader($inputFileType);
+$spreadsheet = $reader->load($relatorioModelo);
+
+//escritor de folhas de calculo para o relatorio modelo
+$writer = PHPExcel_IOFactory::createWriter($spreadsheet, $inputFileType);
 
 $spreadsheet->setActiveSheetIndex(0);
 $spreadsheet->getActiveSheet()->getCell('B20')->setValue($nome);
@@ -142,7 +169,6 @@ foreach($rows as $row){
 //header('Content-Disposition: attachment;filename="'.$novoRelatorio.'"');
 //header('Cache-Control: max-age=0');
 $writer->save($novoRelatorio);
-
 
 ?>
 
