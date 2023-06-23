@@ -12,49 +12,44 @@ include 'models/functions.php';
 <section class="product_section layout_padding">
     <div style="padding-top: 50px; padding-bottom: 30px;">
         <div class="container">
-            <div class="heading_container2 heading_center2">
+            <div class="heading_container3">
 
-                <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 33px; color:#333f50; text-transform: uppercase;">
+                <h3 style="font-size: 33px; text-transform: uppercase;">
                     <?= change_lang("org-struct-page-heading") ?>
                 </h3>
-
-
-                <h4 style="font-family: 'Quicksand', sans-serif; font-size: 26px; padding-right: 660px; color:#060633; text-transform: uppercase; padding-top: 25px;">
-                    <?= change_lang("org-struct-page-subtitle") ?>
-                </h4>
 
                 <div class="flex-container mobile_reverse">
                     <div class="flex-left">
                         <figure class="imgfigura">
-                            <img class="imgestrutura w-100" style="max-width:330px;" src="./assets/images/P1010947.JPG" alt="Boat">
-                            <figcaption class="imgs">O encontro, Luís Marques</figcaption>
+                            <img class="imgestrutura w-100" style="max-width:330px;" src="./assets/images/estrutura.JPG" alt="Boat">
+                            <figcaption class="imgs"></figcaption>
                         </figure>
                     </div>
                     <div class="flex-right">
                         <?= change_lang("org-struct-page-description") ?><br><br>
 
-                        <b><?= change_lang("org-struct-page-director-tag") ?><br> </b>Célio Gonçalo Marques<br><br>
+                        <b><?= change_lang("org-struct-page-director-tag") ?></b><br><?= change_lang("director") ?><br><br>
 
-                        <b><?= change_lang("org-struct-page-deputy-director-tag") ?><br> </b>Hermínia Maria Pimenta Ferreira Sol<br><br>
+                        <b><?= change_lang("org-struct-page-deputy-director-tag") ?></b><br><?= change_lang("deputy-director") ?><br><br>
 
-                        <b><?= change_lang("org-struct-page-admin-directors-tag") ?><br> </b>Hirondina Alves São Pedro<br><br>
+                        <b><?= change_lang("org-struct-page-executive-secretary-tag") ?></b><br><?= change_lang("executive-secretary") ?><br><br>
 
-                        <b><?= change_lang("org-struct-page-board-of-directors-tag") ?><br> </b><?= change_lang("director-deputy-director") ?><br>
-                        Ricardo Pereira Triães<br>
-                        Eunice Ferreira Ramos Lopes<br>
-                        Regina Aparecida Delfino<br>
-                        Marta Margarida S. Dionísio<br>
-                        Ana Cláudia Pires da Silva<br><br>
+                        <b><?= change_lang("org-struct-page-board-tag") ?><br> </b><?= change_lang("board-composed") ?><br>
+                        <?= change_lang("board-member1") ?><br>
+                        <?= change_lang("board-member2") ?><br>
+                        <?= change_lang("board-member3") ?><br>
+                        <?= change_lang("board-member4") ?><br>
+                        <?= change_lang("board-member5") ?><br><br>
 
                         <b><?= change_lang("org-struct-page-scinetific-conucil-tag") ?><br> </b><?= change_lang("all-integrated-members") ?><br><br>
 
-                        <b><?= change_lang("org-struct-page-advisory-board-tag") ?><br>
-                        </b><?= change_lang("advisory-board-one") ?><br>
-                        <?= change_lang("advisory-board-two") ?><br>
-                        <?= change_lang("advisory-board-three") ?><br>
-                        <?= change_lang("advisory-board-four") ?><br>
-                        <?= change_lang("advisory-board-five") ?><br>
-                        <?= change_lang("advisory-board-six") ?><br><br>
+                        <b><?= change_lang("org-struct-page-advisory-council-tag") ?><br>
+                        </b><?= change_lang("advisory-council-one") ?><br>
+                        <?= change_lang("advisory-council-two") ?><br>
+                        <?= change_lang("advisory-council-three") ?><br>
+                        <?= change_lang("advisory-council-four") ?><br>
+                        <?= change_lang("advisory-council-five") ?><br>
+                        <?= change_lang("advisory-council-six") ?><br><br>
 
                     </div>
                 </div>

@@ -20,8 +20,7 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
 <?= template_header('Projeto'); ?>
 
 <section class="product_section layout_padding3">
-    <div
-        style="height:300px; background: url('../backoffice/assets/projetos/<?= $projetos['fotografia'] ?>'); background-size: cover; background-position:100%;">
+    <div style="height:300px; background: url('../backoffice/assets/projetos/<?= $projetos['fotografia'] ?>'); background-size: cover; background-position:100%;">
     </div>
 </section>
 
@@ -32,14 +31,12 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
     <div class="totall">
         <div class="barraesquerda">
 
-            <h3
-                style="font-family: 'Merriweather Sans', sans-serif; font-size: 38px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 45px;  text-transform: uppercase;">
+            <h3 class="heading_h3" style="font-size: 38px; margin-bottom: 20px; padding-top: 60px; padding-right: 10px; padding-left: 45px;  text-transform: uppercase;">
                 <?= $projetos['nome'] ?>
             </h3>
-            <h5
-                style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 40px; color:#060633; padding-left: 45px; padding-bottom: 50px;">
+            <div style="font-size: 15px; color:#060633; padding-left: 45px; padding-right: 10px; padding-bottom: 50px; padding-right:20px;">
                 <?= $projetos['descricao'] ?>
-            </h5>
+            </div>
 
 
 
@@ -49,7 +46,7 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
                 </span>
             </button>
 
-            <button class="divbotao" id="showit2">
+            <button class="divbotao lastBtn" id="showit2">
                 <span href="#" class="innerButton">
                     <?= change_lang("team-steakholders-btn-class") ?>
                 </span>
@@ -66,72 +63,67 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
                     publicações
                 </span>
             </button> -->
+            <h5 class="nofinal">
+                <?= change_lang("ext-links") ?>
+            </h5>
 
+            <div class="alinhado">
+                <?= !empty(trim($projetos['site']."")) ? "<a target='_blank' class='link_externo site' href='".$projetos['site'] . "'></a>" : ""; ?>
+                <?= !empty(trim($projetos['facebook']."")) ? "<a target='_blank' class='link_externo facebook' href='".$projetos['facebook'] . "'></a>" : ""; ?>
+            </div>
 
         </div>
 
         <div id="resto" class="infoCorpo">
 
-            <h3
-                style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 50px;">
+            <h3 class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 60px; padding-left: 50px;">
                 <?= change_lang("about-project-tab-title-class") ?>
             </h3>
 
-            <h5 class="textInfo" style="padding-bottom: 20px;">
-                <?= $projetos['sobreprojeto'] ?>
-            </h5>
+            <div class="textInfo " style="padding-bottom: 20px;">
+                <div class="ck-content">
+                    <?= $projetos['sobreprojeto'] ?>
+                </div>
+            </div>
 
-            <!--             <h5
-                style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px; padding-bottom: 45px;">
-                <b>duis a mollis urna. In hac habitasse platea dictumst. Vestibulum nisi nunc, elementum et vehicula
-                    vel, rhoncus non metus.
-                    In vel dapibus dolor. Sed at laoreet turpis. Donec nec aliquam velit. Quisque blandit nisi
-                    mauris.</b>
-            </h5> -->
-
-            <h4
-                style="font-family: 'Quicksand', sans-serif; font-size: 26px; color:#060633; text-transform: uppercase; padding-left: 50px; padding-bottom: 30px;">
+            <!-- <h4
+                style=" font-size: 26px; color:#060633; text-transform: uppercase; padding-left: 50px; padding-bottom: 30px;">
                 <?= change_lang("team-steakholders-tab-subtitle-class") ?>
-            </h4>
+            </h4> -->
 
-            <h5
-                style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;">
+            <div class="textInfo" style="margin-bottom: 8px;">
                 <b>
                     <?= change_lang("about-project-tab-reference-tag") ?>
                 </b>
                 <?= $projetos['referencia'] ?>
-            </h5>
+            </div>
 
-            <h5
-                style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;">
+            <div class="textInfo" style="margin-bottom: 8px;">
                 <b>
-                    <?= change_lang("about-project-tab-pref-area-tag") ?>
+                    <?= change_lang("about-project-tab-main-research-tag") ?>
                 </b>
                 <?= $projetos['areapreferencial'] ?>
-            </h5>
+            </div>
 
-            <h5
-                style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px;">
+            <div class="textInfo" style="margin-bottom: 8px;">
                 <b>
                     <?= change_lang("about-project-tab-financing-tag") ?>
                 </b>
                 <?= $projetos['financiamento'] ?>
-            </h5>
+            </div>
 
-            <h5
-                style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px; padding-bottom: 150px;">
+            <div class="textInfo" style=" padding-bottom: 150px; margin-bottom: 8px;">
                 <b>
                     <?= change_lang("about-project-tab-scope-tag") ?>
                 </b>
                 <?= $projetos['ambito'] ?>
-            </h5>
+            </div>
 
         </div>
 
         <div id="resto2" class="infoCorpo" style="display: none;">
 
-            <h3
-                style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 50px;">
+            <h3 class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 60px; padding-left: 50px;">
                 <?= change_lang("team-steakholders-tab-title-class") ?>
             </h3>
 
@@ -147,14 +139,12 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
                         <div class="container">
                             <div class="row justify-content-center mt-3">
 
-                                <?php foreach ($investigadores as $investigador): ?>
+                                <?php foreach ($investigadores as $investigador) : ?>
 
                                     <div class="ml-5 imgList">
                                         <a href="integrado.php?integrado=<?= $investigador['id'] ?>">
-                                            <div class="image">
-                                                <img class="centrare" style="object-fit: cover; width:225px; height:280px;"
-                                                    src="../backoffice/assets/investigadores/<?= $investigador['fotografia'] ?>"
-                                                    alt="">
+                                            <div class="image_default">
+                                                <img class="centrare" style="object-fit: cover; width:225px; height:280px;" src="../backoffice/assets/investigadores/<?= $investigador['fotografia'] ?>" alt="">
                                                 <div class="imgText justify-content-center m-auto">
                                                     <?= $investigador['nome'] ?>
                                                 </div>
@@ -176,85 +166,6 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
             <div style="clear:all;"></div>
 
         </div>
-
-        <!-- <div id="resto3" class="infoCorpo"  style="display: none;">
-
-            <h3
-                style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 50px;">
-                Notícias e eventos
-            </h3>
-
-            <h5
-                class="textInfo" style="padding-bottom: 20px;">
-                Duis a mollis urna. In hac habitasse platea dictumst. Vestibulum nisi nunc, elementum et vehicula vel,
-                rhoncus non metus.
-                In vel dapibus dolor. Sed at laoreet turpis. Donec nec aliquam velit. Quisque blandit nisi mauris.
-                Nunc euismod lacus ante, id ornare dolor aliquet nec. Aenean aliquam vestibulum metus, a vestibulum sem
-                eleifend id.
-                Donec at quam purus. Integer lobortis sapien at arcu feugiat, sed aliquam lectus laoreet.
-                Vestibulum dictum sollicitudin mauris, id condimentum libero venenatis pellentesque. Nullam lacinia
-                pretium sem, ac mattis lectus tempus ut.
-                Nullam eget odio eu odio feugiat placerat at a risus. Nullam id ligula in quam cursus hendrerit. Donec
-                facilisis ultrices elit.Sed a odio tortor.
-                Phasellus non accumsan est. Sed eu nibh quis mauris finibus viverra ac sit amet eros. Nullam vel
-                sagittis massa. Quisque faucibus egestas aliquet.
-                Duis facilisis ipsum ut convallis egestas. Nam aliquam risus dictum erat aliquam egestas. Quisque et
-                orci ut nulla accumsan congue ut et eros.
-                Praesent vitae ipsum vel enim rutrum volutpat et non tortor. Donec egestas venenatis ipsum, sit amet
-                imperdiet orci luctus in.
-                Nulla malesuada sem turpis, sit amet dignissim dolor efficitur eu. In dui diam, sagittis rutrum
-                fermentum sed, sodales sed nunc.
-                Icitudin mauris, id condimentum libero venenatis pellentesque.
-            </h5>
-
-            <h5
-                style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px; padding-bottom: 45px;">
-                <b>duis a mollis urna. In hac habitasse platea dictumst. Vestibulum nisi nunc, elementum et vehicula
-                    vel, rhoncus non metus.
-                    In vel dapibus dolor. Sed at laoreet turpis. Donec nec aliquam velit. Quisque blandit nisi
-                    mauris.</b>
-            </h5>
-
-        </div> -->
-
-        <!-- <div id="resto4" class="infoCorpo"  style="display: none;">
-            <h3
-                style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 50px;">
-                Publicações
-            </h3>
-
-            <h5
-                class="textInfo" style="padding-bottom: 20px;">
-                Duis a mollis urna. In hac habitasse platea dictumst. Vestibulum nisi nunc, elementum et vehicula vel,
-                rhoncus non metus.
-                In vel dapibus dolor. Sed at laoreet turpis. Donec nec aliquam velit. Quisque blandit nisi mauris.
-                Nunc euismod lacus ante, id ornare dolor aliquet nec. Aenean aliquam vestibulum metus, a vestibulum sem
-                eleifend id.
-                Donec at quam purus. Integer lobortis sapien at arcu feugiat, sed aliquam lectus laoreet.
-                Vestibulum dictum sollicitudin mauris, id condimentum libero venenatis pellentesque. Nullam lacinia
-                pretium sem, ac mattis lectus tempus ut.
-                Nullam eget odio eu odio feugiat placerat at a risus. Nullam id ligula in quam cursus hendrerit. Donec
-                facilisis ultrices elit.Sed a odio tortor.
-                Phasellus non accumsan est. Sed eu nibh quis mauris finibus viverra ac sit amet eros. Nullam vel
-                sagittis massa. Quisque faucibus egestas aliquet.
-                Duis facilisis ipsum ut convallis egestas. Nam aliquam risus dictum erat aliquam egestas. Quisque et
-                orci ut nulla accumsan congue ut et eros.
-                Praesent vitae ipsum vel enim rutrum volutpat et non tortor. Donec egestas venenatis ipsum, sit amet
-                imperdiet orci luctus in.
-                Nulla malesuada sem turpis, sit amet dignissim dolor efficitur eu. In dui diam, sagittis rutrum
-                fermentum sed, sodales sed nunc.
-                Icitudin mauris, id condimentum libero venenatis pellentesque.
-            </h5>
-
-            <h5
-                style="font-family: 'Arial Narrow, sans-serif'; font-size: 17px; padding-right: 200px; color:#060633; padding-left: 50px; padding-bottom: 45px;">
-                <b>duis a mollis urna. In hac habitasse platea dictumst. Vestibulum nisi nunc, elementum et vehicula
-                    vel, rhoncus non metus.
-                    In vel dapibus dolor. Sed at laoreet turpis. Donec nec aliquam velit. Quisque blandit nisi
-                    mauris.</b>
-            </h5>
-
-        </div> -->
     </div>
 
 </section>
@@ -263,15 +174,15 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
 <?= template_footer(); ?>
 
 <script>
-    $(function () {
-        $('button#showit').on('click', function () {
+    $(function() {
+        $('button#showit').on('click', function() {
             $('#resto').show();
             $('#resto2').hide();
             /* $('#resto3').hide();
                $('#resto4').hide(); */
         });
 
-        $('button#showit2').on('click', function () {
+        $('button#showit2').on('click', function() {
             $('#resto2').show();
             $('#resto').hide();
             /*  $('#resto3').hide();

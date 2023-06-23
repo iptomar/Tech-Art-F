@@ -57,6 +57,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         color: red;
     }
     
+    .ck-content {
+        overflow: auto;
+    }
+
+    .ck-content .image {
+        clear: both;
+        display: table;
+        margin: 0.9em auto;
+        min-width: 50px;
+        text-align: center;
+    }
+
+    .ck-content .image-style-side {
+        margin-top: 0;
+        float: right;
+        max-width: 50%;
+    }
+
+    .ck-content img {
+        max-width: 100%;
+        max-height: 100%;
+    }
 </style>
 
 <div class="container-xl mt-5">
@@ -82,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Conteúdo da notícia</label>
-                    <div readonly class="form-control" style="width:100%; height:100%;"><?php echo $conteudo; ?></div>
+                    <div readonly class="form-control ck-content" style="width:100%; height:100%;"><?php echo $conteudo; ?></div>
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>

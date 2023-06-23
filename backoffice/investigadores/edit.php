@@ -13,10 +13,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         move_uploaded_file($_FILES["fotografia"]["tmp_name"], "../assets/investigadores/" . $target_file);
         $sql = "update investigadores set " .
             "nome = ?, email = ?, ciencia_id = ?, " .
-            "sobre = ?, tipo = ?, fotografia = ?, areasdeinteresse = ?, orcid = ?, scholar = ? " .
+            "sobre = ?, tipo = ?, fotografia = ?, areasdeinteresse = ?, orcid = ?, scholar = ?, research_gate=?, scopus_id=? " .
             "where  id  = ?";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, 'sssssssssi', $nome, $email, $ciencia_id, $sobre, $tipo, $fotografia, $areasdeinteresse, $orcid, $scholar, $id);
+        mysqli_stmt_bind_param($stmt, 'sssssssssssi', $nome, $email, $ciencia_id, $sobre, $tipo, $fotografia, $areasdeinteresse, $orcid, $scholar, $research_gate, $scopus_id, $id);
         $nome = $_POST["nome"];
         $email = $_POST["email"];
         $ciencia_id = $_POST["ciencia_id"];
@@ -27,13 +27,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $areasdeinteresse = $_POST["areasdeinteresse"];
         $orcid = $_POST["orcid"];
         $scholar = $_POST["scholar"];
+        $research_gate = $_POST["research_gate"];
+        $scopus_id = $_POST["scopus_id"];
     } else {
         $sql = "update investigadores set " .
             "nome = ?, email = ?, ciencia_id = ?, " .
-            "sobre = ?, tipo = ?, areasdeinteresse = ?, orcid = ?, scholar = ? " .
+            "sobre = ?, tipo = ?, areasdeinteresse = ?, orcid = ?, scholar = ?, research_gate=?, scopus_id=? " .
             "where  id  = ?";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, 'ssssssssi', $nome, $email, $ciencia_id, $sobre, $tipo, $areasdeinteresse, $orcid, $scholar, $id);
+        mysqli_stmt_bind_param($stmt, 'ssssssssssi', $nome, $email, $ciencia_id, $sobre, $tipo, $areasdeinteresse, $orcid, $scholar, $research_gate, $scopus_id, $id);
         $nome = $_POST["nome"];
         $email = $_POST["email"];
         $ciencia_id = $_POST["ciencia_id"];
@@ -43,6 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $areasdeinteresse = $_POST["areasdeinteresse"];
         $orcid = $_POST["orcid"];
         $scholar = $_POST["scholar"];
+        $research_gate = $_POST["research_gate"];
+        $scopus_id = $_POST["scopus_id"];
     }
     if (mysqli_stmt_execute($stmt)) {
         header('Location: index.php');
@@ -51,8 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $sql . mysqli_error($conn);
     }
 } else {
-
-    $sql = "select nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar from investigadores " .
+    $sql = "select nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar, research_gate, scopus_id from investigadores " .
         "where id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $id);
@@ -70,6 +73,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $areasdeinteresse = $row["areasdeinteresse"];
     $orcid = $row["orcid"];
     $scholar = $row["scholar"];
+    $research_gate = $row["research_gate"];
+    $scopus_id = $row["scopus_id"];
 }
 
 
@@ -162,11 +167,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Scholar</label>
-                    <input type="text" minlength="1" required maxlength="255" required data-error="Por favor introduza im ID válido" class="form-control" id="inputScholar" name="scholar" value="<?php echo $scholar; ?>">
+                    <input type="text" minlength="1" maxlength="255" data-error="Por favor introduza im ID válido" class="form-control" id="inputScholar" name="scholar" value="<?php echo $scholar; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
-
+                <div class="form-group">
+                    <label for="research_gate">ResearchGate: </label>
+                    <input type="text" class="form-control" name="research_gate" id="research_gate" value="<?= $research_gate ?>">
+                </div>
+                <div class="form-group">
+                    <label for="research_gate">ScopusID: </label>
+                    <input type="text" class="form-control" name="scopus_id" id="scopus_id" value="<?= $scopus_id ?>">
+                </div>
                 <div class="form-group">
                     <label>Fotografia</label>
                     <input type="file" minlength="1" maxlength="100" class="form-control" id="inputFotografia" name="fotografia" value="<?php echo $fotografia; ?>">

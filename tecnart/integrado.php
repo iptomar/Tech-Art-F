@@ -17,22 +17,36 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
     <div class="totall">
         <div class="barraesquerda">
             <h3
-                style="font-family: 'Merriweather Sans', sans-serif; font-size: 38px; margin-bottom: 20px; color:#333f50; padding-top: 60px; padding-left: 60px; word-wrap: break-word;">
+                class="heading_h3" style="font-size: 38px; margin-bottom: 20px; padding-top: 60px; padding-right: 10px; padding-left: 60px; word-wrap: break-word;">
                 <?= $investigadores['nome'] ?>
             </h3>
+            <div class="canvasEmail" style="height:150px; padding-right: 10px;">
 
-            <h5 class="canvasEmail">
+                <div class="emailScroll">
+                    <canvas id="canvas" ></canvas>
+                    <script>
+                        const ratio = Math.ceil(window.devicePixelRatio);
+                        const canvas = document.getElementById("canvas");
+                        const txt= "<?= $investigadores['email'] ?>";
+                        const context = canvas.getContext("2d");
+                        context.font = "15px 'Montserrat', sans-serif";
 
-                <canvas id="e"></canvas>
-                <script>
-                    var canvas = document.getElementById("e");
-                    var context = canvas.getContext("2d");
-                    context.fillStyle = "#060633";
-                    context.font = "17px Arial Narrow, sans-serif";
-                    context.fillText("<?= $investigadores['email'] ?>", 60, 20);
-                </script>
+                        width = context.measureText(txt).width+5
+                        height = canvas.offsetHeight
 
-            </h5>
+                        canvas.width = width * ratio;
+                        canvas.height = height * ratio;
+                        canvas.style.width = `${width}px`;
+                        canvas.style.height = `${height}px`;
+
+                        context.font = "15px 'Montserrat', sans-serif";
+                        context.fillStyle = "#060633";
+                        context.setTransform(ratio, 0, 0, ratio, 0, 0);
+                        context.fillText(txt, 0, 20);
+                    </script>
+                </div>
+            </div>
+
 
 
             <button class="divbotao" id="showit">
@@ -64,24 +78,23 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
             </h5>
 
             <div class="alinhado">
-                <a href="<?= $investigadores['orcid'] ?>"><span class="dot"></span></a>
-                <a href="<?= $investigadores['scholar'] ?>"><span class="dot2"></span></a>
+                <?= !empty(trim($investigadores['orcid'])."") ? "<a target='_blank' class='link_externo orcid' href='https://orcid.org/" . $investigadores['orcid'] . "'></a>" : "" ?>
+                <?= !empty(trim($investigadores['ciencia_id'])."") ? "<a target='_blank' class='link_externo ciencia_id' href='https://www.cienciavitae.pt/" . $investigadores['ciencia_id'] . "'></a>" : "" ?>
+                <?= !empty(trim($investigadores['research_gate'])."") ? "<a target='_blank' class='link_externo research_gate' href=" . $investigadores['research_gate'] . "></a>" : "" ?> 
             </div>
-
         </div>
-
         <div id="resto" class="infoCorpo">
             <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px"
                 src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
 
             <h3
-                style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 30px; padding-left: 50px;">
+                class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 30px; padding-right: 10px; padding-left: 50px;">
                 <?= change_lang("about-tab-title-class") ?>
             </h3>
 
-            <h5 class="textInfo" style="padding-bottom: 80px;">
+            <div class="textInfo" style="padding-bottom: 80px;">
                 <?= $investigadores['sobre'] ?>
-            </h5>
+            </div>
 
         </div>
 
@@ -90,23 +103,13 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
                 src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
 
             <h3
-                style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 30px; padding-left: 50px;">
+                class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 30px; padding-left: 50px;">
                 <?= change_lang("areas-tab-title-class") ?>
             </h3>
 
-            <h5 class="textInfo" style="padding-bottom: 40px;">
+            <div class="textInfo" style="padding-bottom: 40px;">
                 <?= $investigadores['areasdeinteresse'] ?>
-            </h5>
-
-            <!--                         <h5 class="textInfo" style="padding-bottom: 40px;">
-                        Phasellus non accumsan est. Sed eu nibh quis mauris finibus viverra ac sit amet eros. Nullam vel sagittis massa. Quisque faucibus egestas aliquet. 
-                        Duis facilisis ipsum ut convallis egestas. Nam aliquam risus dictu.
-                        </h5>
-                    
-                        <h5 class="textInfo" style="padding-bottom: 40px;">
-                        Duis facilisis ipsum ut convallis egestas. Nam aliquam risus dictum erat aliquam egestas. Quisque et orci ut nulla accumsan congue ut et eros. 
-                        Praesent vitae ipsum vel enim rutrum volutpat et non tortor. Donec egestas vene.
-                        </h5> -->
+            </div>
 
         </div>
 
@@ -115,7 +118,7 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
                 src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
 
             <h3
-                style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 30px; padding-left: 50px;">
+                class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 30px; padding-left: 50px;">
                 <?= change_lang("publications-tab-title-class") ?>
             </h3>
 
@@ -164,7 +167,7 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 
-                        echo "<h5 class='textInfo' style='padding-bottom: 10px;'>";
+                        echo "<div class='textInfo' style='padding-bottom: 10px;'>";
                         echo str_replace(";", " & ", $book->{"authors"}->{"citation"});
 
                         echo ". (" . $book->{$publication_year} . "). ";
@@ -179,7 +182,7 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
                             echo ", " . $book->{"number-of-pages"};
                         }
 
-                        echo "<br>" . "</h5>";
+                        echo "<br>" . "</div>";
 
                     }
 
@@ -191,10 +194,6 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 ?>
 
-            <!--                         <h5 class="textInfo" style="padding-bottom: 20px;">
-                            Phasellus non accumsan est.
-                        </h5> -->
-
 
         </div>
 
@@ -203,7 +202,7 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
                 src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
 
             <h3
-                style="font-family: 'Merriweather Sans', sans-serif; font-size: 30px; margin-bottom: 20px; color:#333f50; padding-top: 30px; padding-left: 50px;">
+                class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 30px; padding-left: 50px;">
                 <?= change_lang("projects-tab-title-class") ?>
             </h3>
 
@@ -222,7 +221,7 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
 
                                     <div class="ml-5 imgList">
                                         <a href="projeto.php?projeto=<?= $projeto['id'] ?>">
-                                            <div class="image">
+                                            <div class="image_default">
                                                 <img class="centrare" style="object-fit: cover; width:225px; height:280px;"
                                                     src="../backoffice/assets/projetos/<?= $projeto['fotografia'] ?>" alt="">
                                                 <div class="imgText justify-content-center m-auto">

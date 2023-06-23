@@ -25,8 +25,8 @@ $result = mysqli_query($con, $sql);
 <section class='product_section layout_padding'>
     <div style='padding-top: 50px; padding-bottom: 30px;'>
         <div class='container'>
-            <div class='heading_container2 heading_center2'>
-                <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 33px; color:#333f50; text-transform: uppercase;">
+            <div class='heading_container3'>
+                <h3 class="heading_h3" style="text-transform: uppercase;">
                     <?= change_lang("publications-page-heading") ?>
                 </h3><br><br>
 

@@ -12,6 +12,10 @@ function ret_dic_pt(){
 
     $dic_pt = array(
 
+        //dates
+        "day-name" => array('Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'),
+        "date-of" => " de ",
+        "month-name" => array('Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'),
         //::::::IMAGEM DO SITE EM DESENVOLVIMENTO::::::
 
         "img-site-development" => "./assets/images/developmentWarningPT.png",
@@ -26,13 +30,16 @@ function ret_dic_pt(){
         "research-axes-option" => "Eixos de Investigação",
         "org-struct-option" => "Estrutura Orgânica",
         "opportunities-option" => "Oportunidades",
-        //Separador 'Projetos'
+        "funding-option" => "Financiamento",
+        //Drop-down 'Projetos'
         "projects-tab" => "Projetos",
+        "ongoing-option" => "Em Curso",
+        "finished-option" => "Concluídos",
         //Drop-down 'Investigadores/as'
-        "researchers-drop-down" => "Investigadores",
-        "integrated-option" => "Integrados",
-        "collaborators-option" => "Colaboradores",
-        "students-option" => "Aluno",
+        "researchers-drop-down" => "Investigadores/as",
+        "integrated-option" => "Integrados/as",
+        "collaborators-option" => "Colaboradores/as",
+        "students-option" => "Estudantes Colaboradores/as",
         "admission-option" => "Novas admissões",
         //Separador 'Noticias'
         "news-tab" => "Notícias",
@@ -74,8 +81,6 @@ function ret_dic_pt(){
         "know-more-btn-txt-slider" => "SAIBA MAIS",
         //Etiqueta 'Video Institucional'
         "institutional-video-heading" => "VÍDEO INSTITUCIONAL",
-        //Descricao do video institucional
-        "institutional-video-heading-desc" => "TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE ",
         //Etiqueta 'Projetos I&D'
         "rd-projects-heading" => "PROJETOS I&D",
         //botao 'Ver Todos'
@@ -90,7 +95,7 @@ function ret_dic_pt(){
         //Titulo 'Sobre o Techn&Art'
         "about-technart-page-heading" => "Sobre o TECHN&ART",
         //Subitulo página 'Sobre o Techn&Art'
-        "about-technart-page-subtitle" => "Cras massa velit, vehicula nec tincidunt at, aliquet porttitor ligula. Nullam faucibus est nunc, at tincidunt odio efficitur eget. Pellentesque justo ex, tristique sed sapien ac, tempor venenatis odio liquet tincidun.  ",
+        "about-technart-page-subtitle" => "O <b>TECHN&ART - Centro de Tecnologia, Restauro e Valorização das Artes</b> - é uma unidade de investigação e desenvolvimento do Instituto Politécnico de Tomar. O TECHN&ART reúne investigadores/as de múltiplas áreas disciplinares, com a missão de desenvolver estratégias e metodologias de investigação no âmbito da <b>Salvaguarda e Valorização do Património Artístico e Cultural</b>, nas suas diversas formas de expressão. Este trabalho desenvolve-se numa abordagem que se pretende sustentável, holística e transdisciplinar, com o propósito de ligar o presente ao passado. Este trabalho desenvolve-se numa abordagem que se pretende sustentável, holística e transdisciplinar, com o propósito de ligar o presente ao passado.",
         //Legenda 'Missao e Objetivos'
         "mission-and-goals-caption" => "MISSÃO E OBJETIVOS",
         //Legenda 'Eixos de Investigacao'
@@ -106,16 +111,14 @@ function ret_dic_pt(){
 
         //Titulo 'Missao e Objetivos'
         "mission-and-goals-page-heading" => "Missão e Objetivos",
-        //Subtitulo
-        "mission-and-goals-page-subtitle" => "Subtítulo",
         //ponto 1
-        "mission-and-goals-page-point-one" => "O Techn&Art desenvolve investigação nos domínios da Salvaguarda do Património e da Valorização do Património, quer em desenvolvimento experimental, quer em investigação aplicada.",
+        "mission-and-goals-page-point-one" => "O TECHN&ART desenvolve investigação nos domínios da Salvaguarda do Património e da sua Valorização, quer em desenvolvimento experimental, quer em investigação aplicada.",
         //ponto 2
-        "mission-and-goals-page-point-two" => "Adicionalmente, o Techn&Art tem por missão:",
+        "mission-and-goals-page-point-two" => "Esta unidade de I&D tem por missão:",
         //ponto 2, alinea a)
         "mission-and-goals-page-a-txt" => "Contribuir para a consolidação dos programas de formação do IPT enquadrados nos domínios científicos listados;",
         //ponto 2, alinea b)
-        "mission-and-goals-page-b-txt" => "Contribuir para a sólida formação dos alunos estreitando a colaboração entre os trabalhos de investigação científica desenvolvidos pelos investigadores TechnArt;",
+        "mission-and-goals-page-b-txt" => "Contribuir para a sólida formação das/os alunas/os estreitando a colaboração entre os trabalhos de investigação científica desenvolvidos pelas/os investigadoras/es TECHN&ART;",
         //ponto 2, alinea c)
         "mission-and-goals-page-c-txt" => "Difundir a cultura científica, tecnológica e artística através da organização de conferências, colóquios, seminários, exposições e sessões culturais;",
         //ponto 2, alinea d)
@@ -128,61 +131,67 @@ function ret_dic_pt(){
         "mission-and-goals-page-g-txt" => "Prestar serviços à comunidade no âmbito das suas atividades.",
         //legenda da imagem
         //LEGENDA DA IMAGEM AQUI
-        
+
         //::::::eixos.php::::::
 
         //Título 'Eixos de Investigacao'
         "axes-page-heading" => "Eixos de Investigação",
-        //Subtitulo
-        "axes-page-subtitle" => "Subtítulo",
         //Descricao / texto da pagina 'Eixos de investigacao', logo abaixo do subtitulo
-        "axes-page-description" => "O Centro de Tecnologia, Restauro e Valorização das Artes (Techn&Art) tem como missão o desenvolvimento de estratégias e metodologias de investigação no âmbito de duas linhas temáticas:",
+        "axes-page-p1-txt" => "O Centro de Tecnologia, Restauro e Valorização das Artes desenvolve estratégias e metodologias de investigação no âmbito de duas linhas temáticas:",
         //alinea a)
         "axes-page-a-txt" => "Salvaguarda",
-        //alinea a1)
-        "axes-page-a-one-txt" => "Conservação e Restauro",
-        // alinea a2)
-        "axes-page-a-two-txt" => "Caraterização e Contextualização do Património",
         //alinea b)
         "axes-page-b-txt" => "Valorização do Património Artístico e Cultural",
+        //paragrafo após o a e b
+        "axes-page-p2-txt" => "A linha temática da <b>Salvaguarda</b> é constituída por duas linhas de ação: <b>a1) Conservação e Restauro</b> e <b>a2) Caraterização e Contextualização do Património</b>:",
+        //alinea a1)
+        "axes-page-a-one-txt" => "<b>Conservação e Restauro –</b> esta linha de investigação sustenta-se nos estudos de na intervenção de conservação e restauro no património artístico móvel e integrado, e onde as questões relacionadas com as metodologias, materiais, tecnologia e ética estão sistematicamente em discussão. Esta linha reúne conservadores restauradores e investigadores que direta ou indiretamente participam nos projetos de investigação, desenvolvimento e intervenção para a salvaguarda do património artístico e cultural;",
+        // alinea a2)
+        "axes-page-a-two-txt" => "<b>Caraterização e Contextualização do Património –</b> esta linha de investigação sustenta-se nos estudos culturais, arqueológicos, históricos, artísticos, literários e também de caraterização física, química e biológica dos materiais e da respetiva alteração e alterabilidade da compatibilidade química e estrutural dos suportes a preservar e dos novos materiais a aplicar, considerando o meio de proveniência e também da sua preservação. Esta linha reúne investigadores de diferentes formações que estudam, contextualizam e caracterizam o património material, imaterial e natural.",
+        //parágrafo após o a1 e a2 antes do b1 e b2
+        "axes-page-p3-txt" => "A linha temática da <b>Valorização do Património Artístico e Cultural</b> reúne as linhas de ação:<b> b1) Didática, Tecnologia e Comunicação</b> e <b>b2) Design e Inovação:</b>",
         //alinea b1)
-        "axes-page-b-one-txt" => "Didática, Tecnologia e Comunicação",
+        "axes-page-b-one-txt" => "<b>Didática, Tecnologia e Comunicação</b> – esta linha de investigação sustenta-se nos estudos da educação, sensibilização e difusão do património cultural e artístico e respetiva preservação, a diferentes escalas. No quadro da didática, pretende-se uma simbiose entre o património, a interpretação patrimonial e o turismo numa lógica sustentável. Visa-se, assim, proporcionar aprendizagens ativas e integradas através da interpretação das manifestações do património cultural (material e imaterial), com elevado valor científico, didático, patrimonial e turístico. A gestão patrimonial na ótica da fruição proporcionará conhecimentos sobre as dinâmicas sociais e culturais da contemporaneidade. Assim, esta linha de investigação, pode ser integrada na interação entre contextos de promoção da aprendizagem através da exploração de conexões didáticas, tecnológicas e comunicacionais. Estas metodologias e estratégias <i>englobam e-learning, mobile-learning</i>, objetos de aprendizagem, bibliotecas e repositórios de conteúdos digitais e <i> gamification</i>. Incluem-se ainda os ambientes imersivos, realidade aumentada, realidade virtual, sistemas de informação, sistemas multimédia e hipermédia, apps. Esta linha de ação reúne investigadores no âmbito do turismo cultural, do cinema e vídeo documental, do design e da informática;",
         //alinea b2)
-        "axes-page-b-two-txt" => "Design e Inovação",
+        "axes-page-b-two-txt" => "<b>Design e Inovação</b> – respeita à componente criativa, responde às funções estéticas, práticas e simbólicas dos produtos ou projetos e tem compromisso com a sociedade e sua envolvente de forma sustentável, inclusiva e inovadora. Esta linha considera aspetos tecnológicos, sociais, económicos e culturais, e trabalha com a forma e a função, tanto na comunicação como no produto, agindo em consonância com as necessidades materiais e culturais da sociedade. Reporta também formas de expressão e manifestações artísticas e culturais, tangíveis e intangíveis; no sentido de perpetuar a memória, sintetizada nas diversas manifestações, bem como descodificar ou reinterpretar o património à luz dos entendimentos, conceitos e linguagens atuais.",
         //Texto do fundo da página
-        "bottom-text" => "Estas linhas de ação complementam-se e imbricam-se para que o todo que a missão do Techn&Art seja coerente e tire partido do visando a transferência de conhecimento, de competências e de experiências de todos os investigadores e colaboradores do nosso centro.",
-        //legenda da imagem
-        //LEGENDA DA IMAGEM AQUI
+        "bottom-text" => "Estas linhas de ação complementam-se e imbricam-se para que o todo que a missão do TECHN&ART seja coerente e tire partido do visando a transferência de conhecimento, de competências e de experiências de todas/os as/os investigadoras/es e colaboradoras/es do nosso centro.",
 
         //::::::estrutura.php::::::
 
         //Título 'Estrutura Organica'
         "org-struct-page-heading" => "Estrutura Orgânica",
-        //Subtitulo
-        "org-struct-page-subtitle" => "Subtítulo",
         //Descricao / texto da pagina 'Estrutura Organica', logo abaixo do subtitulo
         "org-struct-page-description" => "A atividade do Techn&Art é suportada pelos seguintes órgãos de direção, gestão e administração:",
         //Etiqueta 'Diretor'
         "org-struct-page-director-tag" => "Diretor",
+        "director" => "<a href='#'>Célio Gonçalo Marques</a>, Tecnologias de Informação e Comunicação",
         //Etiqueta 'Diretor adjunto'
-        "org-struct-page-deputy-director-tag" => "Diretor Adjunto",
+        "org-struct-page-deputy-director-tag" => "Diretora Adjunta",
+        "deputy-director" => "<a href='#'>Hermínia Maria Pimenta Ferreira Sol</a>, Literatura",
         //Etiqueta 'secretarios administrativos'
-        "org-struct-page-admin-directors-tag" => "Secretário Administrativo",
+        "org-struct-page-executive-secretary-tag" => "Secretário Administrativo",
+        "executive-secretary" => "Hirondina Alves São Pedro",
         //Etiqueta 'Conselho diretivo'
-        "org-struct-page-board-of-directors-tag" => "Conselho Diretivo",
-        "director-deputy-director" => "Composto pelo Diretor, Diretor Adjunto",
+        "org-struct-page-board-tag" => "Conselho Diretivo",
+        "board-composed" => "Composto pelo Diretor, pela Diretora Adjunta e por:",
+        "board-member1" => "<a href='#'>Ricardo Pereira Triães</a>, Conservação e Restauro",
+        "board-member2" => "<a href='#'>Eunice Ferreira Ramos Lopes</a>, Turismo",
+        "board-member3" => "<a href='#'>Regina Aparecida Delfino</a>, Artes Gráficas",
+        "board-member4" => "<a href='#'>Marta Margarida S. Dionísio</a>, Línguas",
+        "board-member5" => "<a href='#'>Ana Cláudia Pires da Silva</a>, Gestão",
         //Etiqueta 'Conselho cinetifico'
         "org-struct-page-scinetific-conucil-tag" => "Conselho Científico",
         "all-integrated-members" => "Composto por todos os membros integrados.",
         //Etiqueta 'Conselho consultivo'
-        "org-struct-page-advisory-board-tag" => "Conselho Consultivo",
+        "org-struct-page-advisory-council-tag" => "Conselho Consultivo",
         //Elementos integrantes do conselho consultivo
-        "advisory-board-one" => "Ana María Calvo Manuel, Faculdade de Belas Artes da Universidade Completense de Madrid, Espanha.",
-        "advisory-board-two" => "Chao Gejin, Instituto de Tradição Oral da Academia Chinesa de Ciências Sociais.",
-        "advisory-board-three" => "José Julio García Arranz, Universidade da Estremadura, Espanha.",
-        "advisory-board-four" => "Laurent Tissot, Universidade de Neuchântel, Suíça.",
-        "advisory-board-five" => "Maria Filomena Guerra, Universidade Panthéon Sorbonne, Nanterre, França.",
-        "advisory-board-six" => "Zoltán Somhegyi, Universidade Károli Gáspár, Budapeste, Hungria",
+        "advisory-council-one" => "Ana María Calvo Manuel, Faculdade de Belas Artes da Universidade Completense de Madrid, Espanha.",
+        "advisory-council-two" => "Chao Gejin, Instituto de Tradição Oral da Academia Chinesa de Ciências Sociais.",
+        "advisory-council-three" => "José Julio García Arranz, Universidade da Estremadura, Espanha.",
+        "advisory-council-four" => "Laurent Tissot, Universidade de Neuchântel, Suíça.",
+        "advisory-council-five" => "Maria Filomena Guerra, Universidade Panthéon Sorbonne, Nanterre, França.",
+        "advisory-council-six" => "Zoltán Somhegyi, Universidade Károli Gáspár, Budapeste, Hungria.",
 
         //::::::oportunidades.php::::::
 
@@ -190,16 +199,23 @@ function ret_dic_pt(){
         "opport-page-heading" => "oportunidades",
         //Subtitulo
         "opport-page-subtitle" => "subtítulo",
-        //legenda da imagem
-        //LEGENDA DA IMAGEM AQUI
-        //RESTO DO TEXTO DESTA PAGINA AINDA E SIMULADO
 
-        //::::::projetos.php::::::
+        //::::::oportunidade.php::::::
+        "opport-page-file" => "Ficheiros",
 
-        //Titulo 'Projetos'
-        "projects-page-heading" => "Projetos",
+        //::::::projetos_em_curso.php::::::
+
+        //Titulo 'Projetos em curso'
+        "projects-ongoing-page-heading" => "Projetos em Curso",
         //Descricao pagina 'Projetos'
-        "projects-page-description" => "TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE ",
+        "projects-ongoing-page-description" => "",
+
+        //::::::projetos_concluidos.php::::::
+
+        //Titulo 'Projetos concluídos'
+        "projects-finished-page-heading" => "Projetos Concluídos",
+        //Descricao pagina 'Projetos'
+        "projects-finished-page-description" => "",
 
         //::::::projeto.php::::::
 
@@ -212,11 +228,11 @@ function ret_dic_pt(){
         //Etiqueta de referencia do projeto
         "about-project-tab-reference-tag" => "Referência: ",
         //Etiqueta de area preferida do projeto
-        "about-project-tab-pref-area-tag" => "Área preferencial Techn&Art: ",
+        "about-project-tab-main-research-tag" => "Eixo principal de investigação: ",
         //Etiqueta de financiamento do projeto
         "about-project-tab-financing-tag" => "Financiamento: ",
         //Etiqueta de escopo do projeto
-        "about-project-tab-scope-tag" => "Escopo: ",
+        "about-project-tab-scope-tag" => "Âmbito: ",
         //Classe css para todos os botoes 'Equipa e Intervenientes'
         "team-steakholders-btn-class" => "equipa e intervenientes",
         //Classe css para todos os botoes 'Equipa e Intervenientes'
@@ -230,15 +246,15 @@ function ret_dic_pt(){
         //Titulo 'Investigadores/as Integrados/as'
         "integrated-researchers-page-heading" => "Investigadores/as Integrados/as",
         //Descricao de 'Investigadores/as Integrados/as'
-        "integrated-researchers-page-heading-desc" => "TESTE TESTE TESTE TESTE TESTE TESTE TESTE ",
+        "integrated-researchers-page-heading-desc" => "",
         //Titulo 'Investigadores/as Colaboradores/as'
         "colaborative-researchers-page-heading" => "Investigadores/as Colaboradores/as",
         //Descricao de 'Investigadores/as Integrados/as'
-        "colaborative-researchers-page-heading-desc" => "TESTE TESTE TESTE TESTE TESTE TESTE TESTE ",
+        "colaborative-researchers-page-heading-desc" => "",
         //Titulo 'Investigadores/as Alunos/as'
-        "student-researchers-page-heading" => "Investigadores/as Alunos/as",
+        "student-researchers-page-heading" => "Colaboradores/as Estudantes",
         //Descricao de 'Investigadores/as Alunos/as'
-        "student-researchers-page-heading-desc" => "TESTE TESTE TESTE TESTE TESTE TESTE TESTE ",
+        "student-researchers-page-heading-desc" => "",
 
         //::::::integrado.php/colaborador.php/aluno.php:::::
 
@@ -266,28 +282,30 @@ function ret_dic_pt(){
         //Titulo pagina 'Noticias'
         "news-page-heading" => "Notícias",
         //Descricao pagina noticias
-        "news-page-heading-desc" => "TESTE TESTE TESTE TESTE TESTE TESTE TESTE ",
+        "news-page-heading-desc" => "",
 
-        //::::::noticia.php::::::
-        
-        //Heading 'Conteúdo da noticia'
-        "news-content-heading" => "Conteúdo da Notícia",
+        //::::::oportunidades.php::::::
+
+        //Titulo pagina 'Oportunidades'
+        "opportunities-page-heading" => "Oportunidades",
+        //Descricao pagina Oportunidades
+        "opportunities-page-heading-desc" => "",
 
         //::::::publicacoes.php
 
         //Etiqueta 'Publicacoes'
 
         "publications-page-heading" => "Publicações",
-        
+
         //:::::novasadimssoes.php
         "new-admissions-title" => "Novas admissões",
-        "new-admissions-p1" => "A admissão de novos/as membros/as à equipa de investigação do TECHN&ART, integrados/as ou colaboradores/as, processa-se através de proposta ao conselho científico. O/A candidado/a deve preencher o formulário com as informações e a documentação necessária.",
-        "new-admissions-p2" => "A admissão requerirá que o/a candidado/a seja proposto/a por um membro integrado do TEHN&ART, servindo para o efeito a carta de recomendação pedida no formulário.",
+        "new-admissions-p1" => "A admissão de novos membros à equipa de investigação do TECHN&ART, integrados ou colaboradores, processa-se através de proposta ao conselho científico. O/A candidado/a deve preencher o formulário com as informações e a documentação necessária.",
+        "new-admissions-p2" => "A admissão requererá que o/a candidado/a seja proposto/a por um membro integrado do TECHN&ART, servindo para o efeito a carta de recomendação pedida no formulário.",
         "new-admissions-regulations" => "O/A candidato deverá também consultar o",
         "new-admissions-regulations-link" => "regulamento geral do TECHN&ART.",
         "new-admissions-regulations-fill" => "Preencher Formulário",
-        
-        //:::admiissao.php
+
+        //:::admissao.php
         //Título
         "admission-title" => "Formulário de integração | TECHN&ART",
         //Mensagem informação após o título
@@ -324,10 +342,30 @@ function ret_dic_pt(){
         "admission-submit" => "Submeter",
         "admission-cancel" => "Cancelar",
         //Mensagens de Submissão
-        "admission-file-size-error" => "ERRO: O tamanho do ficheiro excede o limite máximo de ".MAX_FILE_SIZE."MB",
+        "admission-file-size-error" => "ERRO: O tamanho do ficheiro excede o limite máximo de " . MAX_FILE_SIZE . "MB",
         "admission-required-error" => "ERRO: Não foi possível obter os dados dos campos",
         "admission-send-error" => "ERRO Base de dados: Por favor, tente novamente mais tarde",
-        "admission-successful" => "O formulário foi enviado com sucesso"
+        "admission-successful" => "O formulário foi enviado com sucesso",
+
+        //::::::financiamento.php::::::
+        "funding-title" => "Financiamento",
+        "funding-p1" => "Financiamento atribuído ao Centro de investigação Centro de Tecnologia, Restauro e Valorização de Artes (TECHN&ART)",
+        "funding-table1-project" => "Projeto",
+        "funding-table1-project-name" => "Unidade de I&D <br>Centro de Tecnologia, Restauro e Valorização das Artes (TECHN&ART)",
+        "funding-table1-investigator" => "Investigador/Coordenador",
+        "funding-table1-promoter" => "Promotor",
+        "funding-table1-date-celebration" => "Data de celebração/Termo de Aceitação",
+        "funding-table1-execution-period" => "Período de execução",
+        "funding-table1-start-date" => "Data de início",
+        "funding-table1-end-date" => "Data de fim",
+        "funding-table1-total-investment" => "Investimento Total",
+        "funding-table1-funding" => "Financiamento",
+        "funding-p2" => "O financiamento global do centro de investigação corresponde à soma de duas parcelas:",
+        "funding-title-2" => "Financiamento Base",
+        "funding-title-3" => "Financiamento Programático",
+        "funding-tables-universal-code" => "Código universal",
+        "funding-tables-funding" => "Financiamento",
+        "funding-tables-execution-period" => "Período de execução",
     );
 
     return $dic_pt;

@@ -977,11 +977,48 @@ a:focus {
   display: inline-block;
 }
 
+.heading_container3 h3{
+  position: relative;
+  margin-bottom: 15px;
+  display: inline-block;
+  font-family: 'Merriweather Sans', sans-serif !important; 
+  font-size: 33px;  
+  color:#333f50; 
+
+}
+
+.heading_h3{
+  font-family: 'Merriweather Sans', sans-serif !important; 
+  font-size: 33px;  
+  color:#333f50; 
+}
+
 .heading2_h5 {
-  font-family: 'Arial Narrow, sans-serif';
-  font-size: 16px;
-  padding-right: 55%;
+  font-size: 15px;
+  font-weight: 400;
+  padding-right: 35%;
   color: #060633;
+}
+
+.emailScroll{
+  overflow-x:auto;
+  overflow-y:hidden; 
+  height:45px;  
+  margin-left: 60px;
+}
+
+.emailScroll::-webkit-scrollbar {
+  width: 4px;
+  height: 10px;
+}
+
+.emailScroll::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 2px;
+}
+
+.emailScroll::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
 }
 
 li.nav-item ul {
@@ -1038,10 +1075,6 @@ footer {
 .logo-tech_footer{
   max-width:320px;
   width: 100%;
-}
-
-.align-logo{
-  margin-left: -35px;
 }
 
 .information_f p {
@@ -1590,9 +1623,10 @@ form input[type="submit"]:focus {
                               z-index:3 
                           }
 
-                          .image {
+                          .image_default {
                             position: relative;
-                            margin-right: 1.4rem;
+                            margin-right: 0.7rem;
+                            margin-left: 0.7rem;
                             margin-bottom: 3rem;
                             color: white;
                             z-index:1;
@@ -1600,7 +1634,7 @@ form input[type="submit"]:focus {
                             justify-content: center;
                           }
 
-                          .image::after{
+                          .image_default::after{
                             content:"";
                             position:absolute;
                             background: linear-gradient(0deg,        rgba(39,38,42,1) 0%, rgba(255,255,255,0)     60%);
@@ -1649,7 +1683,7 @@ form input[type="submit"]:focus {
                           }
                          
 
-                          #sobretechn:hover {
+                          #nav_drop:hover {
                             color: #333F50;
                             background-color: #ffffff;
                           }
@@ -1768,22 +1802,40 @@ form input[type="submit"]:focus {
                             display:block;
                            
                           }
-
-
-
-
-
+                          
                           .infoCorpo {
                             width: 78%;
                             margin: 0 auto;
                           }
 
                           .textInfo {
-                            font-family: 'Arial Narrow, sans-serif';
-                            font-size: 17px;
+                            font-size: 15px;
                             padding-right: 200px;
                             color: #060633;
                             padding-left: 50px;
+                          }
+
+                          .textInfo img {
+                            max-width: 100%;
+                            max-height: 100%;
+                          }
+
+                          .ck-content {
+                            overflow: auto;
+                          }
+
+                          .ck-content .image {
+                            clear: both;
+                            display: table;
+                            margin: 0.9em auto;
+                            min-width: 50px;
+                            text-align: center;
+                          }
+
+                          .ck-content .image-style-side {
+                            margin-top: 0;
+                            float: right;
+                            max-width: 50%;
                           }
 
                           .publicaInv {
@@ -1832,7 +1884,6 @@ form input[type="submit"]:focus {
                             position: absolute;
                             bottom: 0;
                             right: 0;
-                            font-family: 'Arial Narrow, sans-serif';
                             font-size: 17px;
                             color: #060633;
                             padding-bottom: 45px;
@@ -1848,22 +1899,39 @@ form input[type="submit"]:focus {
                             margin-right: 15px;
                           }
 
-                          .dot, .dot2{
-                            height: 20px;
-                            width: 20px;
-                            border-radius: 50%;
+                          .link_externo{
+                            height: 30px;
+                            width: 30px;
+                            background-size: 30px 30px;
                             display: block;
                             margin-right: 5px;
                             margin-bottom: 20px;
                           }
 
-                          .dot {
-                            background-color: #04d4ac;
+                          .ciencia_id{
+                            background-image: url("../images/CienciaID.png");
                           }
 
-                          .dot2 {
-                            background-color: #a6ce39;
+                          .orcid{
+                            background-image: url("../images/Orcid.png");
                           }
+
+                          .research_gate{
+                            background-image: url("../images/ResearchGate.png");
+                          }
+
+                          .site{
+                            background-image: url("../images/site.png");
+                          }
+
+                          .facebook{
+                            background-image: url("../images/facebook.png");
+                          }
+
+                          .dot, .dot2{
+                            border-radius: 50%;
+                          }
+
 
                           .divbotao{
                             width: 100%;

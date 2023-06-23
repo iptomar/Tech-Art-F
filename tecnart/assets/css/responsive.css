@@ -109,7 +109,7 @@
   }
 
   .canvasEmail{
-    height: 30px;
+    height: 30px !important;
   }
 
   .lastBtn{
@@ -123,6 +123,7 @@
 
   .textInfo{
     padding-right: 50px;
+    word-wrap: break-word;
   }
 
   .lang_nav{
@@ -147,7 +148,7 @@
 
   .logo_footer{
     margin-bottom: 10px;
-    margin-top: 30px;
+    margin-top: 10px;
   }
 
   .center_footer{
@@ -158,10 +159,6 @@
 
   .widget_menu{
     text-align: center;
-  }
-
-  .align-logo{
-    margin-left: auto;
   }
 
   .slider_bg_box img {

@@ -15,9 +15,8 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <!-- slider section -->
 <section class="home-slider owl-carousel">
    <div class="slider-item"
-      style="background-image:url('https://cdn.pixabay.com/photo/2021/08/25/20/42/field-6574455__480.jpg');">
+      style="background-image:url('./assets/images/slider-index-1.jpg');">
       <div class="overlay"></div>
-
       <div class="row no-gutters slider-text justify-content-start"
          style="position: relative; height: 100%; max-width:100%;" data-scrollax-parent="true">
          <div class="align-text-slider">
@@ -38,7 +37,7 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
    </div>
 
    <div class="slider-item"
-      style="background-image:url('https://i0.wp.com/multarte.com.br/wp-content/uploads/2015/08/imagens-amor.jpg?fit=1680%2C1050&ssl=1');">
+   style="background-image:url('./assets/images/slider-index-2.jpg');">
       <div class="overlay"></div>
 
       <div class="row no-gutters slider-text justify-content-start"
@@ -61,7 +60,7 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
    </div>
 
    <div class="slider-item"
-      style="background-image:url('https://www.2net.com.br//Repositorio/251/Publicacoes/23883/3c2fd25f-c.jpg');">
+      style="background-image:url('./assets/images/slider-index-3.jpg');">
       <div class="overlay"></div>
       <div class="row no-gutters slider-text justify-content-start"
          style="position: relative; height: 100%; max-width:100%;" data-scrollax-parent="true">
@@ -92,15 +91,10 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
          <h3>
             <?= change_lang("institutional-video-heading"); ?>
          </h3>
-         <div class="mx-auto text-center" style="max-width: 800px;">
-            <h5>
-               <?= change_lang("institutional-video-heading-desc"); ?>
-            </h5>
-         </div>
       </div>
-      <div class="pt-5">
+      <div class="pt-3">
          <div class="embed-responsive embed-responsive-16by9 mx-auto" style="max-width: 800px;">
-            <video src="./assets/images/TheRangeTechnology.mp4" controls height="500"></video>
+         <iframe src="https://www.youtube.com/embed/pzXQaQe3pBw"> </iframe>
          </div>
       </div>
    </div>
@@ -123,14 +117,14 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             <a style="display: inline-block; padding: 5px 25px; background-color:#333F50; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
                      -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;"
-               href="projetos.php">
+               href="projetos_em_curso.php">
                <?= change_lang("see-all-btn-rd-projects"); ?>
             </a>
 
          </div>
          <div class="row">
             <?php
-            $sql = "SELECT id, nome, descricao, fotografia FROM projetos ORDER BY id DESC limit 4";
+            $sql = "SELECT id, nome, descricao, fotografia FROM projetos where concluido=0 ORDER BY id DESC limit 4";
             $stmt = $pdo->prepare($sql);
             $stmt->execute();
             $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -155,7 +149,11 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
                      </div>
                      <div style="padding-left: 30px; text-align: center; width:210px;">
                         <h6>
-                           <?= substr($row["descricao"], 0, 150); ?>...
+                           <?=
+                              strlen($row["descricao"]) > 145 ? 
+                              preg_split("/\s+(?=\S*+$)/", substr($row["descricao"], 0, 150))[0]."..."
+                              :$row["descricao"]; 
+                           ?>                              
                         </h6>
                      </div>
                   </div>
@@ -197,28 +195,34 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
                <div class="card-product">
                   <div class="absoluto">
                      <a href="noticia.php?noticia=<?= $noticia['id'] ?>">
-                        <div style="z-index: 1;" class="image">
+                        <div style="z-index: 1;" class="image_default">
                            <img class="img-fluid" src="../backoffice/assets/noticias/<?= $noticia['imagem'] ?>" alt="">
                            <div class="text-block">
                               <h5 style="font-size: 20px; text-transform: uppercase; font-weight: 600;">
-                                 <?=
-                                    //Limitar o título a 35 caracteres e cortar pelo último espaço
-                                    $titulo = preg_split("/\s+(?=\S*+$)/", substr($noticia['titulo'], 0, 35))[0];
-                                 echo ($titulo != $noticia['titulo']) ? "..." : "";
+                                 <?php
+                                 //Limitar o título a 35 caracteres e cortar pelo último espaço
+                                 $titulo = trim($noticia['titulo']);
+                                 if (strlen($noticia['titulo']) > 35) {
+                                    $titulo = preg_split("/\s+(?=\S*+$)/", substr($noticia['titulo'], 0, 40))[0];
+                                 }
+                                 echo ($titulo !=  trim($noticia['titulo'])) ? $titulo . "..." : $titulo;
                                  ?>
                               </h5>
                               <h6 style="font-size: 14px; font-weight: 100;">
                                  <?php
                                  //Adicionar espaços antes das etiquetas html,
-                                 $spaces = str_replace('<', ' <', $noticia['conteudo']);
-                                 //remover as etiquetas de html e limitar a string a 100 caracteres
-                                 $textNoticia = substr(strip_tags($spaces), 0, 100);
+                                 $espacos = str_replace('<', ' <', $noticia['conteudo']);
+                                 // Remover as etiquetas de HTML e realizar o trim para remover espaços extras, incluindo &nbsp;
+                                 $textNoticiaOrig = trim(str_replace('&nbsp;', '', strip_tags($espacos)));
+                                 // Verificar se o texto tem mais de 100 caracteres
+                                 if (strlen($textNoticiaOrig) > 100) {
+                                    $textNoticia = preg_split("/\s+(?=\S*+$)/", substr($textNoticiaOrig, 0, 105))[0];
+                                 }else{
+                                    $textNoticia = $textNoticiaOrig;
+                                 }
                                  //Se o texto da notícia foi cortado, imprimir com reticencias
-                                 echo ($textNoticia != strip_tags($spaces)) ? $textNoticia . "..." : $textNoticia;
+                                 echo ($textNoticia != $textNoticiaOrig) ? $textNoticia . "..." : $textNoticia;
                                  ?>
-                              </h6>
-                              <h6 style="font-size: 11px; font-weight: 100;">
-                                 <?= date("d.m.Y", strtotime($noticia['data'])) ?>
                               </h6>
                            </div>
                         </div>

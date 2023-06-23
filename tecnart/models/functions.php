@@ -208,7 +208,7 @@ $lang_values_array = array(
                             <!-- Main navbar -->
                             <nav style="padding-top: 0px;" class="navbar navbar-expand-lg custom_nav-container ">
                                 
-                                <div id="logo" style="max-width:300px; width:85%;">
+                                <div id="logo" style="max-width:350px; width:85%;">
                                 <a class="navbar-brand" href="index.php"><img class="w-100"  src=$lang_values_array[1] alt="#" /></a> <!--Logo que redireciona para o index.html-->
                                 </div>
 
@@ -220,25 +220,30 @@ $lang_values_array = array(
                                 <ul class="navbar-nav">
 
                                 <li class="nav-item dropdown">
-                                        <a class="nav-link" id="sobretechn" href="sobre.php" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">$lang_values_array[2]<span class="caret"></span></a>
+                                        <a class="nav-link" id="nav_drop" href="sobre.php" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">$lang_values_array[2]<span class="caret"></span></a>
                                         <div class="dropdown-content">
                                             <a href="missao.php">$lang_values_array[3]</a>
                                             <a href="eixos.php">$lang_values_array[4]</a>
                                             <a href="estrutura.php">$lang_values_array[5]</a>
+                                            <a href="financiamento.php">{$change_lang("funding-option")}</a>
                                             <a href="oportunidades.php">$lang_values_array[6]</a>
                                     </div>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="projetos.php">$lang_values_array[7]</a>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link" id="nav_drop" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"><span class="nav-label">{$change_lang("projects-tab")}<span class="caret"></span></a>
+                                        <div class="dropdown-content">
+                                          <a href="projetos_em_curso.php">{$change_lang("ongoing-option")}</a>
+                                          <a href="projetos_concluidos.php">{$change_lang("finished-option")}</a>
+                                        </div>
                                     </li>
                                     <li class="nav-item dropdown">
-                                        <a class="nav-link" id="sobretechn" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">$lang_values_array[8]<span class="caret"></span></a>
+                                        <a class="nav-link" id="nav_drop" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">$lang_values_array[8]<span class="caret"></span></a>
                                         <div class="dropdown-content">
                                             <a href="integrados.php">$lang_values_array[9]</a>
                                             <a href="colaboradores.php">$lang_values_array[10]</a>
                                             <a href="alunos.php">$lang_values_array[11]</a>
                                             <a href="novasadmissoes.php">{$change_lang("admission-option")}</a>
-                                    </div>
+                                        </div>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="noticias.php">$lang_values_array[12]</a>
@@ -330,17 +335,18 @@ $lang_values_array = array(
                                     <br><ul><li><a style="color: white;"><strong>$lang_values_array[3]</strong></a></li></ul>
                                 </div>
                                 <div class="widget_menu">
-                                    <span><a href="https://www.facebook.com"><i id ="fateste" class="fab fa-facebook-f"></i>&nbsp</a></span>
-                                    <span><a style="color: white; font-size: 19px;" href="https://www.youtube.com"><i class="fab fa-youtube"></i></a></span>
+                                    <span><a target="_blank"href="https://www.facebook.com/Techn.Art.IPT/"><i id ="fateste" class="fab fa-facebook-f"></i>&nbsp</a></span>
+                                    <span><a target="_blank" style="color: white; font-size: 19px;" href="https://www.youtube.com/channel/UC3w94LwkXczhZ12WYINYKzA"><i class="fab fa-youtube"></i></a></span>
                                 </div>
                             </div> 
 
                             <div class="col-md-5 center_footer">
-                            <div class="logo_footer">
-                                    <a href="#"><img width="210" src="./assets/images/politecnico-de-tomar-verde.png" alt="#" /></a>
+                            <!-- adicionar margin-left ao logotipo do ipt de forma aos logatipos ficaram alinhados-->
+                            <div class="logo_footer" style="margin-left: -10px">
+                                    <a target="_blank"href="https://www.ipt.pt/"><img height="100" src="./assets/images/IPT_i_1-vertical-branco-img-para-fundo-escuro.png" alt="#" /></a>
                                 </div>
-                                <div class="logo_footer align-logo">
-                                    <a href="#"><img width="270" src="./assets/images/2017_FCT_H_branco.png" alt="#" /></a>
+                                <div class="logo_footer">
+                                    <a target="_blank"href="https://www.fct.pt/"><img height="80" src="./assets/images/2022_FCT_Logo_A_horizontal_branco.png" alt="#" /></a>
                                 </div>
                                 <div class="information_f">
                                     <p style="color: white; font-size: 13px;">$lang_values_array[4]</p>
