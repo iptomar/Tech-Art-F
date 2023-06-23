@@ -43,7 +43,7 @@ $result = mysqli_query($conn, $sql);
 						<?php
 						if ($_SESSION["autenticado"] == "administrador") {
 							echo '<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i>';
-							echo '<span>Adiconar Nova Notícia</span></a>';
+							echo '<span>Adicionar Nova Notícia</span></a>';
 						}
 						?>
 					</div>

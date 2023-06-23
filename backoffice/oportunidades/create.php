@@ -85,7 +85,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         min-height: 200px;
     }
 </style>
+<script type="text/javascript">
+    function previewImg(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#preview').attr('src', e.target.result);
+                $('#preview').show();
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            $('#preview').attr('src', '');
+            $('#preview').hide(); 
+        }
+    }
 
+    function showFileName(input) {
+        var fileListDiv = $('#fileList');
+        fileListDiv.empty();
+
+        var selectedFiles = input.files;
+        if (selectedFiles.length > 0) {
+            var fileNames = Array.from(selectedFiles).map(function(file) {
+                return file.name;
+            });
+
+
+            fileNames.forEach(function(fileName) {
+                var paragraph = '<li class="list-group-item">' + fileName + '<br>' + '</li>'
+                fileListDiv.append(paragraph);
+            });
+        }
+    }
+</script>
 <div class="container-xl mt-5">
     <div class="card">
         <h5 class="card-header text-center">Adicionar Oportunidade</h5>
@@ -113,15 +145,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="form-group">
                     <label>Imagem</label>
-                    <input accept="image/*" type="file" required data-error="Por favor adicione uma imagem válida" class="form-control" id="inputImage" name="imagem">
+                    <input accept="image/*" type="file"  onchange="previewImg(this);" required data-error="Por favor adicione uma imagem válida" class="form-control" id="inputImage" name="imagem">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
+                <img id="preview" style="display: none;" width='100px' height='100px' class="mb-3" />
+
                 <div class="form-group">
                     <label>Ficheiros</label>
-                    <input type="file" multiple class="form-control" id="ficheiros" name="ficheiros[]">
+                    <input type="file" onchange="showFileName(this)" multiple class="form-control" id="ficheiros" name="ficheiros[]">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
+                    <ul id="fileList" class="mb-3 list-group" style="font-size: 14px;"></ul>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block">Gravar</button>

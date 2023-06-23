@@ -31,7 +31,7 @@ $result = mysqli_query($conn, $sql);
 							<h2>Projetos</h2>
 						</div>
 						<div class="col-sm-6">
-							<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Adiconar
+							<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Adicionar
 									Novo Projeto</span></a>
 						</div>
 					</div>

@@ -37,30 +37,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (mysqli_stmt_execute($stmt)) {
-        if (isset($_FILES['ficheiros']) && !empty($_FILES['ficheiros']['name'][0])) {
+        $filesDir = "../assets/oportunidades/ficheiros_$id/";
+        if (!is_dir($filesDir)) {
+            mkdir($filesDir, 0777, true);
+        }
+        $folderFiles = scandir($filesDir);
+        $folderFiles = array_diff($folderFiles, array('.', '..'));
+        if(isset($_POST['selectedFiles']))
+            $selectedFiles = $_POST['selectedFiles'];
+        else{
+            $selectedFiles = [];
+        }
+        // Apaga ficheiros da pasta não selecionados
+        foreach ($folderFiles as $file) {
+            if (!in_array($file, $selectedFiles)) {
+                unlink($filesDir . '/' . $file);
+            }
+        }
 
-            $uploadDir = "../assets/oportunidades/ficheiros_$id/";
-            //Apagar os ficheiros antigos
-            if (is_dir($uploadDir)) {
-                array_map('unlink', glob("$uploadDir/*"));
-            }
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0777, true);
-            }
-            $files = $_FILES['ficheiros'];
-            for ($i = 0; $i < count($files['name']); $i++) {
-                $fileName = $files['name'][$i];
-                $fileTmp = $files['tmp_name'][$i];
-                $fileSize = $files['size'][$i];
-                $destination = $uploadDir . $fileName;
-                if (!move_uploaded_file($fileTmp, $destination)) {
-                    echo    "<script>
-                                alert('Um erro ocurreu a inserir os ficheiros " . $_FILES["ficheiros"]["error"][$i] . "');
-                                window.location.href = 'edit.php?id=" . $id . "';
-                            </script>";
-                    exit;
-                } else {
+        // Upload and move the inserted files to the folder
+        if (isset($_FILES['ficheiros']) && !empty($_FILES['ficheiros']['name'][0])) {
+            $fileCount = count($_FILES['ficheiros']['name']);
+
+            for ($i = 0; $i < $fileCount; $i++) {
+                $tmpFilePath = $_FILES['ficheiros']['tmp_name'][$i];
+                $newFilePath = $filesDir . '/' . $_FILES['ficheiros']['name'][$i];
+
+                if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                    $selectedFiles[] = $_FILES['ficheiros']['name'][$i];
                     header('Location: index.php');
+                } else {
+                    echo    "<script>
+                        alert('Um erro ocurreu a inserir os ficheiros " . $_FILES["ficheiros"]["error"][$i] . "');
+                        window.location.href = 'edit.php?id=" . $id . "';
+                        </script>";
                 }
             }
         } else {
@@ -87,6 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $imagem = $row["imagem"];
         $visivel = $row["visivel"] ? "checked" : "";
         $filesDir = "../assets/oportunidades/ficheiros_$id/";
+        $files = [];
         if (is_dir($filesDir)) {
             $files = scandir($filesDir);
             $files = array_diff($files, array('.', '..'));
@@ -103,7 +114,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
 <script type="text/javascript">
     function previewImg(input) {
-        console.log("IMAGE")
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function(e) {
@@ -127,20 +137,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
             fileNames.forEach(function(fileName) {
-                var paragraph = fileName + '<br>'
+                var paragraph = '<li class="list-group-item">' + fileName + '<br>' + '</li>'
                 fileListDiv.append(paragraph);
             });
-        } else {
-            <?php
-            if (isset($files)) {
-                echo "fileListDiv.append(`";
-
-                foreach ($files as $file) {
-                    echo '<li>' . $file . '</li>';
-                }
-                echo "`);";
-            }
-            ?>
         }
     }
 </script>
@@ -198,21 +197,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Imagem</label>
-                    <input accept="image/*" type="file" minlength="1" maxlength="100" class="form-control" id="inputImage" name="imagem" onchange="previewImg(this);" value="<?php echo $imagem; ?>">
+                    <input accept="image/*" type="file" class="form-control" id="inputImage" name="imagem" onchange="previewImg(this);" value="<?php echo $imagem; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
-                <img id="preview" src="<?php echo "../assets/oportunidades/" . $imagem; ?>" width='100px' height='100px' /><br><br>
+                <img id="preview" src="<?php echo "../assets/oportunidades/" . $imagem; ?>" width='100px' height='100px' class="mb-2" />
 
                 <div class="form-group">
-                    <label>Substituir Ficheiros</label>
-                    <input onchange="showFileName(this)" type="file" multiple class="form-control" id="ficheiros" name="ficheiros[]">
+                    <label>Adicionar Ficheiros</label>
+
+                    <input type="file" onchange="showFileName(this)" multiple class="form-control" id="ficheiros" name="ficheiros[]">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
-                </div>
-                <b>Ficheiros: </b>
-                <ul id="fileList" class="mb-3"></ul>
+                    <ul id="fileList" class="mb-3 list-group" style="font-size: 14px;"></ul>
 
+                </div>
+
+                Ficheiros atuais:
+                <p style="font-size: 14px;" class="mb-1">Os ficheiros não selecionados serão eliminados permanentemente</p>
+                <div id="conflictMessage" style="color: red; display:none; font-size: 14px;">AVISO - Existem ficheiros que vão ser substituidos pelos ficheiros adicionados</div> <!-- Conflict Message -->
+
+                <div id="folderFilesList" class="mb-3 pl-4">
+                    <?php
+                    // Display the list of files in the folder with checkboxes
+                    foreach ($files as $file) {
+                        echo '
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="selectedFiles[]" value="' . $file . '" checked id="' . $file . '">
+                                <label class="form-check-label" for="' . $file . '">
+                                    <a href="' . $filesDir . '/' . $file . '" target="_blank">' . $file . '</a>
+                                </label>
+                            </div>
+                            ';
+                    }
+                    ?>
+                </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block">Gravar</button>
                 </div>
@@ -239,17 +258,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             window.editor = editor;
         })
 
-    window.addEventListener('DOMContentLoaded', function() {
-        var fileInput = document.getElementById('ficheiros');
-
-        // Call showFileName on page load
-        showFileName(fileInput);
-
-        // Bind showFileName to change event of the file input
-        fileInput.addEventListener('change', function() {
-            showFileName(this);
-        });
-    });
     <?php require "../../tecnart/config/configurations.php"; ?>
     $("#ficheiros").on("change", function(e) {
         var totalSize = 0;
@@ -271,6 +279,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (valid) {
             e.currentTarget.setCustomValidity('');
         }
+        var selectedFiles = Array.from(this.files);
+        var checkboxes = document.querySelectorAll('input[name="selectedFiles[]"]');
+        var conflictMessage = document.getElementById('conflictMessage');
+        var hasConflicts = false;
+
+        checkboxes.forEach(function(checkbox) {
+            var checkboxValue = checkbox.value;
+            var matchingFile = selectedFiles.find(function(file) {
+                return file.name === checkboxValue;
+            });
+
+            if (matchingFile) {
+                checkbox.nextElementSibling.querySelector('a').style.color = 'red';
+                if (!checkbox.dataset.initialState) {
+                    checkbox.dataset.initialState = checkbox.checked;
+                }
+                checkbox.disabled = true;
+                checkbox.checked = false;
+                hasConflicts = true;
+            } else {
+                checkbox.nextElementSibling.querySelector('a').style.color = '';
+                if (checkbox.dataset.initialState !== undefined) {
+                    checkbox.checked = checkbox.dataset.initialState === 'true';
+                    delete checkbox.dataset.initialState;
+                }
+                checkbox.disabled = false;
+            }
+        });
+
+        if (hasConflicts) {
+            conflictMessage.style.display = 'block';
+        } else {
+            conflictMessage.style.display = 'none';
+        }
+
     });
 </script>
 

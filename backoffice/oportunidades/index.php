@@ -43,7 +43,7 @@ $result = mysqli_query($conn, $sql);
 						<?php
 						if ($_SESSION["autenticado"] == "administrador") {
 							echo '<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i>';
-							echo '<span>Adiconar Nova Oportunidade</span></a>';
+							echo '<span>Adicionar Nova Oportunidade</span></a>';
 						}
 						?>
 					</div>
@@ -54,8 +54,6 @@ $result = mysqli_query($conn, $sql);
 					<tr>
 						<th>Imagem</th>
 						<th>Título</th>
-						<th>Conteúdo</th>
-						<th>Ficheiros</th>
 						<th>Visível</th>
 					</tr>
 				</thead>
@@ -76,16 +74,6 @@ $result = mysqli_query($conn, $sql);
 							echo "<tr>";
 							echo "<td><img src='../assets/oportunidades/" . $row["imagem"] . "' width = '100px' height = '100px'></td>";
 							echo "<td style='width:250px;'>" . $row["titulo"] . "</td>";
-							echo "<td style='width:500px; height:100px;'>" . "<div class='div-textarea' style='width:100%; height:100%;'>" . $row["conteudo"] . "</div>" . "</td>";
-							echo "<td style='min-width:200px;'>";
-							echo '<ul>';
-							if(!empty($files)){
-								foreach ($files as $file) {
-									echo '<li>' . $file . '</li>';
-								}
-							}
-							echo '</ul>';
-							echo "</td>";
 							echo "<td style='width:250px;'>" . $row["visivel"] . "</td>";
 							if ($_SESSION["autenticado"] == "administrador") {
 								echo "<td><a href='edit.php?id=" . $row["id"] . "' class='btn btn-primary'><span>Alterar</span></a></td>";
@@ -100,7 +88,3 @@ $result = mysqli_query($conn, $sql);
 		</div>
 	</div>
 </div>
-
-<?php
-mysqli_close($conn);
-?>

@@ -45,7 +45,7 @@ $files = array_diff($files, array('.', '..'));
 
                 <?php
                 foreach ($files as $file) {
-                    echo '<a href="' . $filesDir . '/' . $file . '" download>' . $file . '</a><br>';
+                    echo '<a href="' . $filesDir . '/' . $file . '" target="_blank">' . $file . '</a><br>';
                 }
                 ?>
             </div>
