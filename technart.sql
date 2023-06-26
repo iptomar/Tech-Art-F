@@ -193,3 +193,71 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+
+-- Estrutura da tabela `noticias`
+--
+
+CREATE TABLE `noticias` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `titulo` VARCHAR(100) NOT NULL,
+  `conteudo` mediumtext NOT NULL,
+  `imagem` VARCHAR(100) NOT NULL,
+  `data` DATE  NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dados da tabela `noticias`
+--
+INSERT INTO `noticias` (`id`, `titulo`, `conteudo`, `imagem`, `data`) VALUES
+(1,"Visita do Prof. Dr. Silviu Marian Miloiu, Vice-Reitor da Valahia Targoviste University na Roménia", "O TECHN&ART recebeu a visita do Prof. Dr. Silviu Marian Miloiu, Vice-Reitor da Valahia Targoviste University na Roménia. A visita realizou-se no seguimento da reunião transnacional no âmbito da KreativEU, Knowledge and Creativity European University, liderada pelo Instituto Politécnico de Tomar", "310055055_584688733449528_4008002950286842705_n.jpg", "2022-10-03"),
+(2,"OPExCATer na Roda de conversa sobre Ruralidade do Museu Agrícola de Riachos", "Na passada 5ª feira, dia 21 de julho, decorreu no Museu Agrícola de Riachos (entidade parceira do projeto OPExCATer) uma atividade denominada “Roda de conversa sobre Ruralidade”. Contou com a presença de Mário Antunes (coordenador da Reserva da Biosfera do Paul do Boquilobo e parceiro do Projeto), José Cunha Barros e Carlos Simões Nuno (antropólogos) e Luiz Oosterbeek ( coordenador da Cátedra UNESCO de Humanidades e Paisagens Culturais). A sessão foi dinamizada por Luís Mota Figueira – investigador encarregue da Tarefa 3 do referido projeto. Também esteve integrada nos trabalhos a Investigadora responsável – Cecília Baptista.", "20220721_203209.jpg", "2022-07-25")
+
+
+CREATE TABLE `admissoes` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `nome_completo` VARCHAR(255) NOT NULL,
+    `nome_profissional` VARCHAR(255) NOT NULL,
+    `ciencia_id` VARCHAR(100) NOT NULL,
+    `orcid` VARCHAR(255) NOT NULL,
+    `email` VARCHAR(100) NOT NULL,
+    `telefone` VARCHAR(20) NOT NULL,
+    `grau_academico` VARCHAR(255) NOT NULL,
+    `ano_conclusao_academico` VARCHAR(255) NOT NULL,
+    `area_academico` VARCHAR(255) NOT NULL,
+    `area_investigacao` VARCHAR(255) NOT NULL,
+    `instituicao_vinculo` VARCHAR(255) NOT NULL,
+    `percentagem_dedicacao` VARCHAR(255) NOT NULL,
+    `pertencer_outro` boolean NOT NULL,
+    `outro_texto` TEXT,
+    `biografia` TEXT NOT NULL,
+    `ficheiro_motivacao` varchar(255) NOT NULL,
+    `ficheiro_recomendacao` varchar(255) NOT NULL,
+    `ficheiro_cv` varchar(255) NOT NULL,
+    `ficheiro_fotografia` varchar(255) NOT NULL,
+    `data_criacao` TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+ALTER TABLE `investigadores`
+ADD `research_gate` NOT NULL VARCHAR(255) AFTER `scholar`,
+ADD `scopus_id` NOT NULL VARCHAR(255) AFTER `research_gate`;
+
+
+ALTER TABLE `projetos` ADD `concluido` boolean NOT NULL default false;
+
+ALTER TABLE `projetos`
+ADD `site` VARCHAR(255) NOT NULL AFTER `ambito`,
+ADD `facebook` VARCHAR(255) NOT NULL AFTER `site`;
+
+CREATE TABLE `oportunidades` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `imagem` VARCHAR(100) NOT NULL,
+  `titulo` VARCHAR(255) NOT NULL,
+  `conteudo` MEDIUMTEXT NOT NULL,
+  `visivel` boolean NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;

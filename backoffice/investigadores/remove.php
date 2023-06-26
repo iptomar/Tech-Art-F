@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
 } else {
-    $sql = "select nome, email, ciencia_id, sobre, tipo, areasdeinteresse, orcid, scholar, fotografia from investigadores " .
+    $sql = "select nome, email, ciencia_id, sobre, tipo, areasdeinteresse, orcid, scholar, fotografia,research_gate, scopus_id from investigadores " .
         "where id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $id);
@@ -38,6 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $areasdeinteresse = $row["areasdeinteresse"];
     $orcid = $row["orcid"];
     $scholar = $row["scholar"];
+    $research_gate = $row["research_gate"];
+    $scopus_id = $row["scopus_id"];
 }
 
 
@@ -120,6 +122,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="text" class="form-control" id="inputScholar" name="scholar" readonly value="<?php echo $scholar; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="research_gate">ResearchGate: </label>
+                    <input type="text" class="form-control" id="research_gate" value="<?= $research_gate ?>" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="research_gate">ScopusID: </label>
+                    <input type="text" class="form-control" id="scopus_id" value="<?= $scopus_id ?>" readonly>
                 </div>
 
                 <div class="form-group">

@@ -17,10 +17,10 @@ if ($_SESSION["autenticado"] != 'administrador') {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $target_file = $_FILES["fotografia"]["name"];
     move_uploaded_file($_FILES["fotografia"]["tmp_name"], "../assets/investigadores/" . $target_file);
-    $sql = "INSERT INTO investigadores (nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar, password) " .
-        "VALUES (?,?,?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO investigadores (nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar, research_gate, scopus_id, password) " .
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 'ssssssssss', $nome, $email, $ciencia_id, $sobre, $tipo, $fotografia, $areasdeinteresse, $orcid, $scholar, $password);
+    mysqli_stmt_bind_param($stmt, 'ssssssssssss', $nome, $email, $ciencia_id, $sobre, $tipo, $fotografia, $areasdeinteresse, $orcid, $scholar, $research_gate, $scopus_id, $password);
     $nome = $_POST["nome"];
     $email = $_POST["email"];
     $ciencia_id = $_POST["ciencia_id"];
@@ -30,6 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $areasdeinteresse = $_POST["areasdeinteresse"];
     $orcid = $_POST["orcid"];
     $scholar = $_POST["scholar"];
+    $research_gate = $_POST["research_gate"];
+    $scopus_id = $_POST["scopus_id"];
     $password = md5($_POST["password"]);
     if (mysqli_stmt_execute($stmt)) {
         header('Location: index.php');
@@ -133,14 +135,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Scholar</label>
-                    <input type="text" minlength="1" required maxlength="255" required data-error="Por favor introduza um ID válido" class="form-control" id="inputScholar" placeholder="Scholar" name="scholar">
+                    <input type="text" minlength="1" maxlength="255" data-error="Por favor introduza um ID válido" class="form-control" id="inputScholar" placeholder="Scholar" name="scholar">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
-
+                <div class="form-group">
+                    <label for="research_gate">ResearchGate: </label>
+                    <input placeholder="ResearchGate" name="research_gate" type="text" class="form-control" id="research_gate">
+                </div>
+                <div class="form-group">
+                    <label for="scopus_id">ScopusID: </label>
+                    <input placeholder="scopus_id" name="scopus_id" type="text" class="form-control" id="scopus_id">
+                </div>
                 <div class="form-group">
                     <label>Fotografia</label>
-                    <input type="file" minlength="1" required maxlength="100" required data-error="Por favor adicione uma fotografia válida" class="form-control" id="inputFotografia" placeholder="Fotografia" name="fotografia">
+                    <input type="file" minlength="1" maxlength="100" required data-error="Por favor adicione uma fotografia válida" class="form-control" id="inputFotografia" placeholder="Fotografia" name="fotografia">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
