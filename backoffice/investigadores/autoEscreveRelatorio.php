@@ -1,5 +1,6 @@
 <?php
 
+include "./locaisPortugueses.php";
 include '../../libraries/vendor/phpoffice/phpexcel/Classes/PHPExcel.php';
 require "../verifica.php";
 require "../config/basedados.php";
@@ -8,6 +9,16 @@ require "../config/basedados.php";
 if ($_SESSION["autenticado"] != 'administrador' && $_SESSION["autenticado"] != $_GET["id"]) {
     header("Location: index.php");
 }
+
+//ano
+$year = 2023;
+
+//array de carateres nao reconhecidos
+$unwanted_array = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
+                            'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U',
+                            'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c',
+                            'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o',
+                            'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y' );
 
 //credenciais para acesso ao swagger UI da API da cienciaVitae
 $login = 'IPT_ADMIN';
@@ -58,9 +69,9 @@ $url = "https://qa.cienciavitae.pt/api/v1.1/curriculum/" . $ciencia_id . "/perso
 //adicionar url ao handler cURL
 curl_setopt($ch, CURLOPT_URL, $url);
 
-$result_curl = curl_exec($ch); //executar cURL e armazenar resultado
+echo curl_error($ch); //mostrar erros do cURL
 
-echo curl_error($ch);
+$result_curl = curl_exec($ch); //executar cURL e armazenar resultado
 
 curl_close($ch); //fechar handler
 $data = json_decode($result_curl); //descodificar JSON da resposta
@@ -69,13 +80,6 @@ $data = json_decode($result_curl); //descodificar JSON da resposta
 $nome = $data->{"full-name"};
 $nomeArray = explode(" ", $nome);
 
-//array de carateres nao reconhecidos
-$unwanted_array = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
-                            'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U',
-                            'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c',
-                            'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o',
-                            'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y' );
-
 //ultimo nome
 $lastName = $nomeArray[count($nomeArray)-1];
 $lastName = strtr($lastName, $unwanted_array);
@@ -83,9 +87,6 @@ $lastName = strtr($lastName, $unwanted_array);
 //primeiro nome
 $firstName = $nomeArray[0];
 $firstName = strtr($firstName, $unwanted_array);
-
-//ano
-$year = 2023;
 
 //nome do novo relatorio
 $novoRelatorio = "./".strtoupper($lastName)."_".strtolower($firstName)."_".$year.".xlsx";
@@ -130,7 +131,7 @@ $rows = mysqli_fetch_all($result); //obter colunas como um array
 $startChar = "C";
 $startNumber = 14;
 
-echo chr(ord($startChar)+1);
+//echo chr(ord($startChar)+1);
 
 $spreadsheet->setActiveSheetIndex(1);
 
@@ -142,6 +143,76 @@ foreach($rows as $row){
 
 // 3. Publicações
 
+//categorias de publicação
+
+$outputCategory = array(
+
+);
+
+//iniciar sessao cURL
+$ch = curl_init();
+$headers = array(
+    "Content-Type: application/json",
+    "Accept: application/json",
+);
+
+curl_setopt($ch, CURLOPT_FAILONERROR, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); //adicionar cabecalhos
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //retornar transferencia ativada
+curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC); //autenticacao cURL basica ativada
+curl_setopt($ch, CURLOPT_USERPWD, "$login:$password"); //user e password para o swagger UI
+
+$url = "https://qa.cienciavitae.pt/api/v1.1/curriculum/" . $ciencia_id . "/output?lang=User%20defined";
+
+//adicionar url ao handler cURL
+curl_setopt($ch, CURLOPT_URL, $url);
+
+//mostrar erros
+echo curl_error($ch);
+
+//resultado
+$result_curl = curl_exec($ch); //executar cURL e armazenar resultado
+
+curl_close($ch); //fechar handler
+$data = json_decode($result_curl); //descodificar JSON da resposta
+
+//echo json_encode($data);
+
+//::::::::::::ESCREVER NO EXCEL::::::::::::
+
+//Letra e numero de comeco
+$startChar = "A";
+$startNumber = 12;
+
+//echo chr(ord($startChar)+1);
+
+$configurations = array(
+    
+);
+
+$configs = '"';
+foreach($configurations as $config) {
+    $configs .= $config->configuration_name . ', ';
+}
+$configs .= '"';
+
+$spreadsheet->setActiveSheetIndex(2);
+
+foreach($rows as $row){
+    $objValidation = $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->getDataValidation();  //setValue($row[1]);    //1 - Indice da coluna com o acronimo
+    $objValidation->setType( PHPExcel_Cell_DataValidation::TYPE_LIST );
+    $objValidation->setErrorStyle( PHPExcel_Cell_DataValidation::STYLE_INFORMATION );
+    $objValidation->setAllowBlank(false);
+    $objValidation->setShowInputMessage(true);
+    $objValidation->setShowErrorMessage(true);
+    $objValidation->setShowDropDown(true);
+    $objValidation->setErrorTitle('Input error');
+    $objValidation->setError('Value is not in list.');
+    $objValidation->setPromptTitle('Pick from list');
+//$objValidation->setPrompt('Please pick a value from the drop-down list.');
+$objValidation->setFormula1($configs);
+    $startNumber++;
+}
 
 
 // 4. Enventos e conferências
