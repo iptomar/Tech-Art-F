@@ -3,24 +3,39 @@ require "../verifica.php";
 require "../config/basedados.php";
 require "bloqueador.php";
 
+$mainDir = "../assets/noticias/";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST["id"];
     $titulo = $_POST["titulo"];
     $conteudo = $_POST["conteudo"];
+    $titulo_en = $_POST["titulo_en"];
+    $conteudo_en = $_POST["conteudo_en"];
     $data = $_POST["data"];
-    //Se foi selecionada uma nova imagem, guardar na pasta dos assets
-    if ($_FILES["imagem"]["size"] != 0) {
-        $target_file = $_FILES["imagem"]["name"];
-        move_uploaded_file($_FILES["imagem"]["tmp_name"], "../assets/noticias/" . $target_file);
-        $sql = "UPDATE noticias SET titulo = ?, conteudo = ?, imagem = ?, data = ? WHERE id  = ?";
-        $stmt = mysqli_prepare($conn, $sql);
-        $imagem = $target_file;
-        mysqli_stmt_bind_param($stmt, 'ssssi', $titulo, $conteudo, $imagem, $data, $id);
-    } else {
-        $sql = "UPDATE noticias SET titulo = ?, conteudo = ?, data = ? WHERE id  = ?";
-        $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, 'sssi', $titulo, $conteudo, $data, $id);
+
+
+
+    $imagem_exists = isset($_FILES["imagem"]) && $_FILES["imagem"]["size"] != 0;
+
+
+    $sql = "UPDATE noticias SET titulo = ?, conteudo = ?, titulo_en = ?, conteudo_en = ?, data = ?";
+    $params = [$titulo, $conteudo, $titulo_en, $conteudo_en, $data];
+
+    // Check if the 'imagem' file exists and update the SQL query and parameters accordingly
+    if ($imagem_exists) {
+        $imagem = uniqid() . '_' .  $_FILES["imagem"]["name"];
+        $sql .= ", imagem = ? ";
+        $params[] = $imagem;
+        move_uploaded_file($_FILES["imagem"]["tmp_name"], $mainDir . $imagem);
     }
+
+
+    $sql .= " WHERE id = ?";
+    $params[] = $id;
+    $stmt = mysqli_prepare($conn, $sql);
+    $param_types = str_repeat('s', count($params) - 1) . 'i';
+
+    mysqli_stmt_bind_param($stmt, $param_types, ...$params);
+
 
     if (mysqli_stmt_execute($stmt)) {
         header('Location: index.php');
@@ -31,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
 
     //Se o request não for um post, selecionar os dados da base de dados para mostrar 
-    $sql = "SELECT titulo, conteudo, imagem, data FROM noticias WHERE id = ?";
+    $sql = "SELECT titulo, titulo_en, conteudo, conteudo_en, imagem, data FROM noticias WHERE id = ?";
     $id = $_GET["id"];
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $id);
@@ -42,6 +57,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conteudo = $row["conteudo"];
     $data = $row["data"];
     $imagem = $row["imagem"];
+    $titulo_en = $row["titulo_en"];
+    $conteudo_en = $row["conteudo_en"];
 }
 
 
@@ -59,6 +76,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $('#preview').attr('src', e.target.result);
             }
             reader.readAsDataURL(input.files[0]);
+        } else {
+            $('#preview').attr('src', '<?= $mainDir . $imagem ?>');
         }
     }
 </script>
@@ -83,6 +102,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     .ck-editor__editable {
         min-height: 200px;
     }
+
+    .halfCol {
+        max-width: 50%;
+        display: inline-block;
+        vertical-align: top;
+        height: fit-content;
+    }
 </style>
 
 <div class="container-xl mt-5">
@@ -93,34 +119,65 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <input type="hidden" name="id" value=<?php echo $id; ?>>
                 <div class="form-group">
-                    <label>Título</label>
-                    <input type="text" minlength="1" required maxlength="100" required name="titulo" class="form-control" data-error="Por favor adicione um título válido" id="inputTitle" placeholder="Título" value="<?php echo $titulo; ?>">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
-                </div>
-
-                <div class="form-group">
-                    <label>Conteúdo da notícia</label>
-                    <textarea class="form-control" minlength="1" required cols="30" rows="5" data-error="Por favor adicione o conteudo da noticia" id="inputContent" name="conteudo"><?php echo $conteudo; ?></textarea>
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
-                </div>
-
-                <div class="form-group">
                     <label>Data da notícia</label>
-                    <input type="date" class="form-control" id="inputDate" name="data" value="<?php echo $data ?>">
+                    <input type="date" required class="form-control" id="inputDate" name="data" value="<?php echo $data ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Titulo</label>
+                            <input type="text" minlength="1" required maxlength="100" name="titulo" class="form-control" data-error="Por favor adicione um titulo válido" id="inputTitle" placeholder="Titulo" value="<?php echo $titulo; ?>">
+                            <!-- Error -->
+                            <div class=" help-block with-errors">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Titulo (Inglês)</label>
+                            <input type="text" maxlength="100" name="titulo_en" class="form-control" placeholder="Titulo (Inglês)" value="<?php echo $titulo_en; ?>">
+                            <!-- Error -->
+                            <div class=" help-block with-errors">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col halfCol">
+                        <div class="form-group">
+                            <label>Conteúdo da notícia</label>
+                            <textarea class="form-control ck_replace" cols="30" rows="5" data-error="Por favor adicione o conteudo da noticia" id="inputContent" name="conteudo"><?php echo $conteudo; ?></textarea>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+
+                    </div>
+                    <div class="col halfCol">
+                        <div class="form-group">
+                            <label>Conteúdo (Inglês)</label>
+                            <textarea class="form-control ck_replace" cols="30" rows="5" id="inputContentEn" name="conteudo_en"><?php echo $conteudo_en; ?></textarea>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label>Imagem</label>
-                    <input type="file" minlength="1" maxlength="100" class="form-control" id="inputImage" name="imagem" onchange="previewImg(this);" value="<?php echo $imagem; ?>">
+                    <input type="file" accept="image/*" onchange="previewImg(this);" data-error="Por favor adicione uma imagem" class="form-control" id="inputImage" name="imagem">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
+                <img id="preview" src="<?php echo $mainDir . $imagem; ?>" width='100px' height='100px' class="mb-3" />
 
-                <img id="preview" src="<?php echo "../assets/noticias/" . $imagem; ?>" width='100px' height='100px' /><br><br>
+
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block">Gravar</button>
@@ -137,16 +194,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!--Criar o CKEditor 5-->
 <script src="../ckeditor5/build/ckeditor.js"></script>
 <script>
-    ClassicEditor
-        .create(document.querySelector('#inputContent'), {
-            licenseKey: '',
-            simpleUpload: {
-                uploadUrl: '../ckeditor5/upload_image.php'
-            }
-        })
-        .then(editor => {
-            window.editor = editor;
-        })
+    $(document).ready(function() {
+        $('.ck_replace').each(function() {
+            ClassicEditor.create(this, {
+                licenseKey: '',
+                simpleUpload: {
+                    uploadUrl: '../ckeditor5/upload_image.php'
+                }
+            }).then(editor => {
+                window.editor = editor;
+            });
+        });
+    });
+
+    $('#inputDate').on("change", function(e) {
+        var inputDate = $(this).val();
+        console.log("TESTING")
+        // Check if the input value is a valid date
+        if (!isValidDate(inputDate)) {
+            console.log("NOT VALID")
+
+            e.currentTarget.setCustomValidity('Por favor adicione uma data válida');
+        } else {
+
+            e.currentTarget.setCustomValidity('');
+        }
+    });
+
+    function isValidDate(dateString) {
+        var dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+        if (!dateRegex.test(dateString)) {
+            return false;
+        }
+        var date = new Date(dateString);
+        if (isNaN(date.getTime())) {
+            return false;
+        }
+        return true;
+    }
 </script>
 
 <?php

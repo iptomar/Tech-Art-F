@@ -2,7 +2,7 @@
 require "../verifica.php";
 require "../config/basedados.php";
 //Selecionar os dados das oportunidades da base de dados
-$sql = "SELECT id, titulo, conteudo, imagem,visivel FROM oportunidades ORDER BY visivel DESC, id DESC";
+$sql = "SELECT id, titulo,titulo_en, imagem,visivel FROM oportunidades ORDER BY visivel DESC, id DESC";
 $result = mysqli_query($conn, $sql);
 ?>
 
@@ -52,9 +52,10 @@ $result = mysqli_query($conn, $sql);
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
-						<th>Imagem</th>
-						<th>Título</th>
-						<th>Visível</th>
+						<th style='width:100px;'>Visível</th>
+						<th style='width:110px;'>Imagem</th>
+						<th style='width:250px;'>Título</th>
+						<th style='width:200px;'>Título EN</th>
 					</tr>
 				</thead>
 
@@ -72,12 +73,15 @@ $result = mysqli_query($conn, $sql);
 
 							$row["visivel"] = $row["visivel"] ? "Sim" : "Não";
 							echo "<tr>";
+							echo "<td>" . $row["visivel"] . "</td>";
+
 							echo "<td><img src='../assets/oportunidades/" . $row["imagem"] . "' width = '100px' height = '100px'></td>";
-							echo "<td style='width:250px;'>" . $row["titulo"] . "</td>";
-							echo "<td style='width:250px;'>" . $row["visivel"] . "</td>";
+							echo "<td>" . $row["titulo"] . "</td>";
+
+							echo "<td>" . $row["titulo_en"] . "</td>";
 							if ($_SESSION["autenticado"] == "administrador") {
-								echo "<td><a href='edit.php?id=" . $row["id"] . "' class='btn btn-primary'><span>Alterar</span></a></td>";
-								echo "<td><a href='remove.php?id=" . $row["id"] . "' class='btn btn-danger'><span>Apagar</span></a></td>";
+								echo "<td style='width:40px;'><a href='edit.php?id=" . $row["id"] . "' class='btn btn-primary'><span>Alterar</span></a></td>";
+								echo "<td style='width:40px;'><a href='remove.php?id=" . $row["id"] . "' class='btn btn-danger'><span>Apagar</span></a></td>";
 							}
 							echo "</tr>";
 						}

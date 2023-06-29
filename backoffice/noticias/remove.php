@@ -2,6 +2,7 @@
 require "../verifica.php";
 require "../config/basedados.php";
 
+$mainDir = "../assets/noticias/";
 if ($_SESSION["autenticado"] != 'administrador') {
     // Usuário não tem permissão para eliminar noticias redireciona para o index das noticias
     header("Location: index.php");
@@ -19,7 +20,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
 } else {
-    $sql = "SELECT titulo, conteudo, imagem, data FROM noticias WHERE id = ?";
+    //Se o request não for um post, selecionar os dados da base de dados para mostrar 
+    $sql = "SELECT titulo, titulo_en, conteudo, conteudo_en, imagem, data FROM noticias WHERE id = ?";
     $id = $_GET["id"];
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $id);
@@ -28,11 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $row = mysqli_fetch_assoc($result);
     $titulo = $row["titulo"];
     $conteudo = $row["conteudo"];
-    $imagem = $row["imagem"];
     $data = $row["data"];
+    $imagem = $row["imagem"];
+    $titulo_en = $row["titulo_en"];
+    $conteudo_en = $row["conteudo_en"];
 }
-
-
 ?>
 
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -56,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         padding: 4px 0 0;
         color: red;
     }
-    
+
     .ck-content {
         overflow: auto;
     }
@@ -79,6 +81,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         max-width: 100%;
         max-height: 100%;
     }
+
+    .halfCol {
+        max-width: 50%;
+        display: inline-block;
+        vertical-align: top;
+        height: fit-content;
+    }
 </style>
 
 <div class="container-xl mt-5">
@@ -86,31 +95,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h5 class="card-header text-center">Remover Notícia</h5>
         <div class="card-body">
             <form role="form" data-toggle="validator" action="remove.php" method="post" enctype="multipart/form-data">
-
                 <input type="hidden" name="id" value=<?php echo $id; ?>>
                 <div class="form-group">
-                    <label>Título</label>
-                    <input readonly type="text" name="titulo" class="form-control" id="inputTitle" value="<?php echo $titulo; ?>">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
-                </div>
-
-                <div class="form-group">
                     <label>Data da notícia</label>
-                    <input readonly type="date" class="form-control" id="inputDate" name="data" value="<?php echo $data ?>">
+                    <input type="date" readonly class="form-control" id="inputDate" name="data" value="<?php echo $data ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <div class="form-group">
-                    <label>Conteúdo da notícia</label>
-                    <div readonly class="form-control ck-content" style="width:100%; height:100%;"><?php echo $conteudo; ?></div>
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Titulo</label>
+                            <input type="text" readonly name="titulo" class="form-control" data-error="Por favor adicione um titulo válido" id="inputTitle" placeholder="Titulo" value="<?php echo $titulo; ?>">
+                            <!-- Error -->
+                            <div class=" help-block with-errors">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Titulo (Inglês)</label>
+                            <input type="text" readonly name="titulo_en" class="form-control" placeholder="Titulo (Inglês)" value="<?php echo $titulo_en; ?>">
+                            <!-- Error -->
+                            <div class=" help-block with-errors">
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
+                <div class="row">
+                    <div class="col halfCol">
+                        <div class="form-group" style="height: fit-content;">
+                            <label>Conteúdo da notícia</label>
+                            <div readonly class="form-control ck-content" style="width:100%; height:100%;"><?php echo $conteudo; ?></div>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
 
-                <img id="preview" src="<?php echo "../assets/noticias/" . $imagem; ?>" width='100px' height='100px' /><br><br>
+                    </div>
+                    <div class="col halfCol" style="height: fit-content;">
+                        <div class="form-group">
+                            <label>Conteúdo (Inglês)</label>
+                            <div readonly class="form-control ck-content" style="width:100%; height:100%;"><?php echo $conteudo_en; ?></div>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
 
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <img id="preview" src="<?php echo $mainDir . $imagem; ?>" width='100px' height='100px' /><br><br>
+                </div>
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block">Confirmar</button>

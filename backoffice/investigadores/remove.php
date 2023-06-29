@@ -3,12 +3,14 @@ require "../verifica.php";
 require "../config/basedados.php";
 
 if ($_SESSION["autenticado"] != 'administrador') {
-    // Usuário não tem permissão para eliminar investigadores Redireciona para a página de login 
+    // Utilizador não tem permissão para eliminar investigadores Redireciona para a página de login 
     header("Location: index.php");
     exit;
 }
+$filesDir = "../assets/investigadores/";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST["id"];
+
     $sql = "DELETE FROM investigadores_projetos WHERE investigadores_id = " . $id;
     mysqli_query($conn, $sql);
     $sql = "delete from investigadores where id = ?";
@@ -21,8 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
 } else {
-    $sql = "select nome, email, ciencia_id, sobre, tipo, areasdeinteresse, orcid, scholar, fotografia,research_gate, scopus_id from investigadores " .
-        "where id = ?";
+    $sql = "SELECT nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar, research_gate, scopus_id, sobre_en, areasdeinteresse_en from investigadores WHERE id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $id);
     $id = $_GET["id"];
@@ -40,6 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $scholar = $row["scholar"];
     $research_gate = $row["research_gate"];
     $scopus_id = $row["scopus_id"];
+    $sobre_en = $row["sobre_en"];
+    $areasdeinteresse_en = $row["areasdeinteresse_en"];
 }
 
 
@@ -66,6 +69,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         padding: 4px 0 0;
         color: red;
     }
+
+    .halfCol {
+        max-width: 50%;
+        display: inline-block;
+        vertical-align: top;
+        height: fit-content;
+    }
 </style>
 
 <div class="container-xl mt-5">
@@ -77,76 +87,95 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="hidden" name="id" value=<?php echo $id; ?>>
                 <div class="form-group">
                     <label>Nome</label>
-                    <input type="text" name="nome" class="form-control" id="inputName" readonly value="<?php echo $nome; ?>">
+                    <input type="text" readonly name="nome" class="form-control" id="inputName" value="<?php echo $nome; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" class="form-control" id="inputEmail" name="email" readonly value="<?php echo $email; ?>">
+                    <input type="email" readonly required class="form-control" id="inputEmail" name="email" value="<?php echo $email; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <div class="form-group">
-                    <label>CiênciaVitae ID</label>
-                    <input type="text" class="form-control" id="inputCienciaid" name="ciencia_id" readonly value="<?php echo $ciencia_id; ?>">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
+                <div class="row">
+                    <div class="col halfCol">
+                        <div class="form-group">
+                            <label>Sobre</label>
+                            <textarea type="text" readonly class="form-control" id="inputSobre" name="sobre"><?php echo $sobre; ?></textarea>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col halfCol">
+                        <div class="form-group">
+                            <label>Sobre (Inglês)</label>
+                            <textarea type="text" readonly class="form-control" id="inputSobre" name="sobre_en"><?php echo $sobre_en; ?></textarea>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Áreas de interesse</label>
+                            <textarea type="text" readonly class="form-control" id="inputAreasdeInteresse" name="areasdeinteresse"><?php echo $areasdeinteresse; ?></textarea>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Áreas de interesse (Inglês)</label>
+                            <textarea type="text" readonly class="form-control" id="inputAreasdeInteresseEn" name="areasdeinteresse_en"><?php echo $areasdeinteresse_en; ?></textarea>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Sobre</label>
-                    <input type="sobre" class="form-control" id="inputSobre" name="sobre" readonly value="<?php echo $sobre; ?>">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
-                </div>
-
-                <div class="form-group">
-                    <label>Áreas de interesse</label>
-                    <input type="text" class="form-control" id="inputAreasdeInteresse" name="areasdeinteresse" readonly value="<?php echo $areasdeinteresse; ?>">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
-                </div>
-
-                <div class="form-group">
-                    <label>Orcid</label>
-                    <input type="text" maxlength="255" required class="form-control" id="inputOrcid" name="orcid" readonly value="<?php echo $orcid; ?>">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
-                </div>
-
-                <div class="form-group">
-                    <label>Scholar</label>
-                    <input type="text" class="form-control" id="inputScholar" name="scholar" readonly value="<?php echo $scholar; ?>">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
-                </div>
-
-                <div class="form-group">
-                    <label for="research_gate">ResearchGate: </label>
-                    <input type="text" class="form-control" id="research_gate" value="<?= $research_gate ?>" readonly>
-                </div>
-
-                <div class="form-group">
-                    <label for="research_gate">ScopusID: </label>
-                    <input type="text" class="form-control" id="scopus_id" value="<?= $scopus_id ?>" readonly>
-                </div>
-
-                <div class="form-group">
-                    <label>Tipo</label>
+                    <label>Tipo</label><br>
                     <input type="text" class="form-control" id="inputTipo" name="tipo" readonly value="<?php echo $tipo; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
-                    <label>Fotografia</label>
-                    <input type="text" class="form-control" id="inputFotografia" name="fotografia" readonly value="<?php echo "../assets/projetos/" . $fotografia; ?>">
+                    <label>CiênciaVitae ID</label>
+                    <input type="text" readonly class="form-control" id="inputCienciaid" name="ciencia_id" value="<?php echo $ciencia_id; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
+
+                <div class="form-group">
+                    <label>Orcid</label>
+                    <input type="text" readonly class="form-control" id="inputOrcid" name="orcid" value="<?php echo $orcid; ?>">
+                    <!-- Error -->
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Scholar</label>
+                    <input type="text" readonly class="form-control" id="inputScholar" name="scholar" value="<?php echo $scholar; ?>">
+                    <!-- Error -->
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group">
+                    <label for="research_gate">ResearchGate: </label>
+                    <input type="text" readonly class="form-control" name="research_gate" id="research_gate" value="<?= $research_gate ?>">
+                </div>
+                <div class="form-group">
+                    <label for="research_gate">ScopusID: </label>
+                    <input type="text" readonly class="form-control" name="scopus_id" id="scopus_id" value="<?= $scopus_id ?>">
+                </div>
+
+                <input type="hidden" name="fotografia" value=<?php echo $fotografia; ?>>
+                <img id="preview" src="<?php echo "../assets/investigadores/" . $fotografia; ?>" width='100px' height='100px' class="mb-2 mt-3" /><br>
+
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block">Confirmar</button>

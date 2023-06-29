@@ -7,27 +7,26 @@ if ($_SESSION["autenticado"] != "administrador") {
     header("Location: index.php");
     exit;
 }
-
-if ($_SESSION["autenticado"] != 'administrador') {
-    // Usuário não logado! Redireciona para a página de login 
-    header("Location: index.php");
-    exit;
-}
+$filesDir = "../assets/investigadores/";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $target_file = $_FILES["fotografia"]["name"];
-    move_uploaded_file($_FILES["fotografia"]["tmp_name"], "../assets/investigadores/" . $target_file);
-    $sql = "INSERT INTO investigadores (nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar, research_gate, scopus_id, password) " .
-        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+    $target_file = uniqid() . '_' . $_FILES["fotografia"]["name"];
+    //transferir a imagem para a pasta de assets
+    move_uploaded_file($_FILES["fotografia"]["tmp_name"], $filesDir . $target_file);
+
+    $sql = "INSERT INTO investigadores (nome, email, ciencia_id, sobre, sobre_en, tipo, fotografia, areasdeinteresse,areasdeinteresse_en, orcid, scholar, research_gate, scopus_id, password) " .
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 'ssssssssssss', $nome, $email, $ciencia_id, $sobre, $tipo, $fotografia, $areasdeinteresse, $orcid, $scholar, $research_gate, $scopus_id, $password);
+    mysqli_stmt_bind_param($stmt, 'ssssssssssssss', $nome, $email, $ciencia_id, $sobre, $sobre_en, $tipo, $fotografia, $areasdeinteresse, $areasdeinteresse_en, $orcid, $scholar, $research_gate, $scopus_id, $password);
     $nome = $_POST["nome"];
     $email = $_POST["email"];
     $ciencia_id = $_POST["ciencia_id"];
     $sobre = $_POST["sobre"];
+    $sobre_en = $_POST["sobre_en"];
     $tipo = $_POST["tipo"];
     $fotografia = $target_file;
     $areasdeinteresse = $_POST["areasdeinteresse"];
+    $areasdeinteresse_en = $_POST["areasdeinteresse_en"];
     $orcid = $_POST["orcid"];
     $scholar = $_POST["scholar"];
     $research_gate = $_POST["research_gate"];
@@ -46,6 +45,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </link>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+<script type="text/javascript">
+    function previewImg(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#preview').attr('src', e.target.result);
+                $('#preview').show();
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            $('#preview').attr('src', '');
+            $('#preview').hide();
+        }
+    }
+</script>
 <style>
     .container {
         max-width: 550px;
@@ -62,6 +76,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         font-size: 13px;
         padding: 4px 0 0;
         color: red;
+    }
+
+    textarea {
+        min-height: 100px;
     }
 </style>
 
@@ -93,23 +111,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <div class="form-group">
-                    <label>CiênciaVitae ID</label>
-                    <input type="text" minlength="1" required maxlength="100" required data-error="Por favor introduza un ID válido" class="form-control" id="inputCienciaid" placeholder="CiênciaVitae ID" name="ciencia_id">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
+                <div class="row">
+                    <div class="col halfCol">
+                        <div class="form-group">
+                            <label>Sobre</label>
+                            <textarea type="text" minlength="1" required data-error="Por favor introduza uma descrição sobre si" class="form-control" id="inputSobre" placeholder="Sobre" name="sobre"></textarea>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col halfCol">
+                        <div class="form-group">
+                            <label>Sobre (Inglês)</label>
+                            <textarea type="text" class="form-control" id="inputSobre" placeholder="Sobre (Inglês)" name="sobre_en"></textarea>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Sobre</label>
-                    <input type="text" minlength="1" required data-error="Por favor introduza uma descrição sobre si" class="form-control" id="inputSobre" placeholder="Sobre" name="sobre">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Áreas de interesse</label>
+                            <textarea type="text" minlength="1" required data-error="Por favor introduza as suas áreas de interesse" class="form-control" id="inputAreasdeInteresse" placeholder="Áreas de interesse" name="areasdeinteresse"></textarea>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Áreas de interesse (Inglês)</label>
+                            <textarea type="text" class="form-control" id="inputAreasdeInteresseEn" placeholder="Áreas de interesse (Inglês)" name="areasdeinteresse_en"></textarea>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
                 </div>
+
 
                 <div class="form-group">
                     <label>Tipo</label><br>
-                    <select name="tipo">
+                    <select name="tipo" required>
                         <option value="">--Select--</option>
                         <option value="Colaborador">Colaborador</option>
                         <option value="Integrado">Integrado</option>
@@ -120,8 +163,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="form-group">
-                    <label>Áreas de interesse</label>
-                    <input type="text" minlength="1" required data-error="Por favor introduza as suas áreas de interesse" class="form-control" id="inputAreasdeInteresse" placeholder="Áreas de interesse" name="areasdeinteresse">
+                    <label>CiênciaVitae ID</label>
+                    <input type="text" minlength="1" required maxlength="100" required data-error="Por favor introduza un ID válido" class="form-control" id="inputCienciaid" placeholder="CiênciaVitae ID" name="ciencia_id">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
@@ -145,14 +188,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="form-group">
                     <label for="scopus_id">ScopusID: </label>
-                    <input placeholder="scopus_id" name="scopus_id" type="text" class="form-control" id="scopus_id">
+                    <input placeholder="ScopusID" name="scopus_id" type="text" class="form-control" id="scopus_id">
                 </div>
                 <div class="form-group">
                     <label>Fotografia</label>
-                    <input type="file" minlength="1" maxlength="100" required data-error="Por favor adicione uma fotografia válida" class="form-control" id="inputFotografia" placeholder="Fotografia" name="fotografia">
+                    <input type="file" accept="image/*" onchange="previewImg(this);" minlength="1" maxlength="100" required data-error="Por favor adicione uma fotografia válida" class="form-control" id="inputFotografia" placeholder="Fotografia" name="fotografia">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
+                <img id="preview" style="display: none;" width='100px' height='100px' class="mb-3" />
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block">Gravar</button>

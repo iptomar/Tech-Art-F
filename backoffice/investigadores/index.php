@@ -4,20 +4,10 @@ require "../config/basedados.php";
 
 $find = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	$sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar FROM investigadores" .
-		"where nome like ? ";
-	$stmt = mysqli_prepare($conn, $sql);
-	mysqli_stmt_bind_param($stmt, 's', $nome);
 
-	$find = $_POST["find"];
-	$nome = "%" . $find . "%";
-	mysqli_stmt_execute($stmt);
-	$result = mysqli_stmt_get_result($stmt);
-} else {
-	$sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar FROM investigadores";
-	$result = mysqli_query($conn, $sql);
-}
+$sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar FROM investigadores ORDER BY nome";
+$result = mysqli_query($conn, $sql);
+
 ?>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
@@ -44,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					</div>
 					<?php if ($_SESSION["autenticado"] == 'administrador') { ?>
 						<div class="col-sm-6">
-							<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Adiconar
+							<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Adicionar
 									Novo Investigador</span></a>
 						</div>
 					<?php } ?>
