@@ -11,7 +11,13 @@ if ($_SESSION["autenticado"] != 'administrador' && $_SESSION["autenticado"] != $
 }
 
 //ano
-$year = 2023;
+$year = date("Y");
+$year = 2011;
+
+//opcoes do select de cada pagina folha de calculo
+//(apenas a contar da segunda pagina)
+$activePageSelectOptions = array();
+
 
 //array de carateres nao reconhecidos
 $unwanted_array = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
@@ -136,6 +142,9 @@ $startNumber = 14;
 $spreadsheet->setActiveSheetIndex(1);
 
 foreach($rows as $row){
+
+    //letra de comeco
+    $startChar = "C";
     $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->setValue($row[1]);    //1 - Indice da coluna com o acronimo
     $startNumber++;
 }
@@ -143,11 +152,7 @@ foreach($rows as $row){
 
 // 3. Publicações
 
-//categorias de publicação
-
-$outputCategory = array(
-
-);
+//categorias de publicacao
 
 //iniciar sessao cURL
 $ch = curl_init();
@@ -180,44 +185,235 @@ $data = json_decode($result_curl); //descodificar JSON da resposta
 
 //::::::::::::ESCREVER NO EXCEL::::::::::::
 
+//tipo de publicacao
+$outputType ="";
+
+//localização de publicação
+$outputLocation;
+
+//atributo associado ao tipo de publicacao
+$outputAttr = (object)[];
+
+//categoria na folha de calculo
+$excelOutCategory = "";
+
 //Letra e numero de comeco
 $startChar = "A";
 $startNumber = 12;
 
 //echo chr(ord($startChar)+1);
 
-$configurations = array(
-    
-);
-
-$configs = '"';
-foreach($configurations as $config) {
-    $configs .= $config->configuration_name . ', ';
-}
-$configs .= '"';
-
 $spreadsheet->setActiveSheetIndex(2);
 
-foreach($rows as $row){
-    $objValidation = $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->getDataValidation();  //setValue($row[1]);    //1 - Indice da coluna com o acronimo
-    $objValidation->setType( PHPExcel_Cell_DataValidation::TYPE_LIST );
-    $objValidation->setErrorStyle( PHPExcel_Cell_DataValidation::STYLE_INFORMATION );
-    $objValidation->setAllowBlank(false);
-    $objValidation->setShowInputMessage(true);
-    $objValidation->setShowErrorMessage(true);
-    $objValidation->setShowDropDown(true);
-    $objValidation->setErrorTitle('Input error');
-    $objValidation->setError('Value is not in list.');
-    $objValidation->setPromptTitle('Pick from list');
-//$objValidation->setPrompt('Please pick a value from the drop-down list.');
-$objValidation->setFormula1($configs);
-    $startNumber++;
+//opcoes da lista pendente
+for($opc = 1; $opc <= 22; $opc++){
+
+    $activePageSelectOptions[$opc-1] = $spreadsheet->getActiveSheet()->getCell("J".$opc)->getFormattedValue();
+
+}
+
+//echo implode("</br>",$activePageSelectOptions);
+
+//echo json_encode($data);
+
+foreach($data->{"output"} as $row){
+
+    //letra de comeco
+    $startChar = "A";
+
+    //iterador
+    $i = 0;
+
+    //::::::categoria de publicacao::::::
+    $outputType = $row->{"output-type"}->{"value"};
+
+    //encontrar a propriedade nao nula correspondente à categoria de publicacao
+    foreach($row as $attr){
+        if($attr != null && $i >= 2){
+            $outputAttr = $attr;
+            break;
+        }
+        $i++;
+    }
+
+    if(@$outputAttr->{"publication-year"} == $year."" || @$outputAttr->{"publication-date"}->{"year"} == $year.""){
+        //local de publicacao
+        $outputLocation = @$outputAttr->{"publication-location"}->{"country"}->{"value"};
+
+        if (is_null($outputLocation)) {
+            $outputLocation = @$outputAttr->{"publication-location"}->{"city"};
+            //echo $outputLocation." here</br>";
+            if ($outputLocation != "") {
+                for ($i = 0; $i < count($localizacoesPortuguesas); $i++) {
+                    if ($outputLocation == $localizacoesPortuguesas[$i]) {
+                        $outputLocation = "Portugal";
+                        break;
+                    } else if ($i + 1 == count($localizacoesPortuguesas)) {
+                        $outputLocation = "Estrangeiro";
+                    }
+                }
+            } else {
+                $outputLocation = "Local Desconhecido";
+            }
+        } else {
+            if ($outputLocation != "Portugal") {
+                $outputLocation = "Estrangeiro";
+            }
+        }
+
+        //!!!!!!!!!!! SUBSTITUIR POR SWITCH PARA AS OPÇÕES POSSIVEIS !!!!!!!!!
+        $excelOutCategory = $outputType . ": " . $outputLocation;
+
+        switch($excelOutCategory){
+            case "Livro: Portugal":
+                $excelOutCategory = $activePageSelectOptions[0];
+                break;
+            case "Livro: Estrangeiro":
+                $excelOutCategory = $activePageSelectOptions[1];
+                break;
+            case "Capítulo de livro: Portugal":
+                $excelOutCategory = $activePageSelectOptions[4];
+                break;
+            case "Capítulo de livro: Estrangeiro":
+                $excelOutCategory = $activePageSelectOptions[6];
+                break;
+            case "Artigo em revista: Portugal":
+                $excelOutCategory = $activePageSelectOptions[8];
+                break;
+            case "Artigo em revista: Estrangeiro":
+                $excelOutCategory = $activePageSelectOptions[10];
+                break;
+        }
+
+        $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->setValue($excelOutCategory);
+
+        //::::::referencia bibliografica::::::
+
+        //caracter de comeco
+        $startChar = chr(ord($startChar) + 1);
+
+        //URL para referencia
+        $doi = @$outputAttr->{"url"};
+
+        //echo $url."</br>";
+
+        $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->setValue($doi);
+
+        //::::::URL, DOI::::::
+
+        //caracter de comeco
+        $startChar = chr(ord($startChar) + 1);
+
+        $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->setValue($doi);
+
+        $startNumber++;
+    } 
 }
 
 
 // 4. Enventos e conferências
 
+//iniciar sessao cURL
+$ch = curl_init();
+$headers = array(
+    "Content-Type: application/json",
+    "Accept: application/json",
+);
 
+curl_setopt($ch, CURLOPT_FAILONERROR, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); //adicionar cabecalhos
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //retornar transferencia ativada
+curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC); //autenticacao cURL basica ativada
+curl_setopt($ch, CURLOPT_USERPWD, "$login:$password"); //user e password para o swagger UI
+
+$url = "https://qa.cienciavitae.pt/api/v1.1/curriculum/" . $ciencia_id . "/service?lang=User%20defined";
+
+//adicionar url ao handler cURL
+curl_setopt($ch, CURLOPT_URL, $url);
+
+//mostrar erros
+echo curl_error($ch);
+
+//resultado
+$result_curl = curl_exec($ch); //executar cURL e armazenar resultado
+
+curl_close($ch); //fechar handler
+$data = json_decode($result_curl); //descodificar JSON da resposta
+
+//::::::::::::ESCREVER NO EXCEL::::::::::::
+
+//categoria de servico
+$serviceCategory = "";
+
+//atributo do servico
+$serviceAttr = (object)[];
+
+//dados para escrever na folha
+
+$categoriaEvento = "";
+
+$refBibliografica = "";
+
+$spreadsheet->setActiveSheetIndex(3);
+
+//opcoes da lista pendente
+
+$activePageSelectOptions = array();
+
+for($opc = 1; $opc <= 15; $opc++){
+
+    $activePageSelectOptions[$opc-1] = $spreadsheet->getActiveSheet()->getCell("H".$opc)->getFormattedValue();
+
+}
+
+echo implode("</br>",$activePageSelectOptions);
+
+foreach($data->{"service"} as $row){
+
+    //letra de comeco
+    $startChar = "A";
+
+    //iterador
+    $i = 0;
+
+    //encontrar a propriedade nao nula correspondente ao tipo de servico
+    foreach($row as $attr){
+        if($attr != null && $i >= 1){
+            $serviceAttr = $attr;
+            break;
+        }
+        $i++;
+    }
+
+    /*if(@$row->{"service-category"} != null && 
+    @$row->{"service-category"}->{"value"} == "Orientação")*/
+    if(@$row->{"service-category"} != null && 
+    (@$row->{"service-category"}->{"value"} == "Participação em evento" || 
+    @$row->{"service-category"}->{"value"} == "Organização de evento") && 
+    (@$serviceAttr->{"end-date"}->{"year"} == $year . "" ||
+    @$serviceAttr->{"start-date"}->{"year"} == $year . "")){
+
+
+        //::::::categoria do evento::::::
+        $serviceCategory = @$row->{"service-category"}->{"value"};
+
+        $categoriaEvento = $serviceCategory.": ".@$serviceAttr->{"end-date"}->{"year"};
+        
+        $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->setValue($categoriaEvento);
+
+        //::::::referencia bibliografica::::::
+
+        $startChar = chr(ord($startChar) + 1);
+
+        $refBibliografica = @$serviceAttr->{"event-description"};
+
+        $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->setValue($refBibliografica);
+
+        $startNumber++;        
+
+    }
+
+}
 
 // 5. Patentes
 
@@ -225,77 +421,258 @@ $objValidation->setFormula1($configs);
 
 // 6. Trabalho de orientação
 
+//iniciar sessao cURL
+$ch = curl_init();
+$headers = array(
+    "Content-Type: application/json",
+    "Accept: application/json",
+);
+
+curl_setopt($ch, CURLOPT_FAILONERROR, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); //adicionar cabecalhos
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //retornar transferencia ativada
+curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC); //autenticacao cURL basica ativada
+curl_setopt($ch, CURLOPT_USERPWD, "$login:$password"); //user e password para o swagger UI
+
+$url = "https://qa.cienciavitae.pt/api/v1.1/curriculum/" . $ciencia_id . "/service?lang=User%20defined";
+
+//adicionar url ao handler cURL
+curl_setopt($ch, CURLOPT_URL, $url);
+
+//mostrar erros
+echo curl_error($ch);
+
+//resultado
+$result_curl = curl_exec($ch); //executar cURL e armazenar resultado
+
+curl_close($ch); //fechar handler
+$data = json_decode($result_curl); //descodificar JSON da resposta
+
+//::::::::::::ESCREVER NO EXCEL::::::::::::
+
+//categoria de servico
+$serviceCategory = "";
+
+//atributo do servico
+$serviceAttr = (object)[];
+
+//tipo de graduacao
+$degreeType = "";
+
+//:::dados a escrever:::
+
+$tipologiaOrientacao = "";
+
+$nomeAluno = "";
+
+$tituloProjeto = "";
+
+$instituicao = "";
+
+$spreadsheet->setActiveSheetIndex(5);
+
+//opcoes da lista pendente
+
+$activePageSelectOptions = array();
+
+for($opc = 1; $opc <= 5; $opc++){
+
+    $activePageSelectOptions[$opc-1] = $spreadsheet->getActiveSheet()->getCell("G".$opc)->getFormattedValue();
+
+}
+
+//Letra e numero de comeco
+$startChar = "A";
+$startNumber = 14;
+
+foreach($data->{"service"} as $row){
+
+    //letra de comeco
+    $startChar = "A";
+
+    //iterador
+    $i = 0;
+
+    //encontrar a propriedade nao nula correspondente ao tipo de servico
+    foreach($row as $attr){
+        if($attr != null && $i >= 1){
+            $serviceAttr = $attr;
+            break;
+        }
+        $i++;
+    }
+
+    /*if(@$row->{"service-category"} != null && 
+    @$row->{"service-category"}->{"value"} == "Orientação")*/
+    if(@$row->{"service-category"} != null && 
+    @$row->{"service-category"}->{"value"} == "Orientação" && 
+    (@$serviceAttr->{"end-date"}->{"year"} == $year . "" ||
+    @$serviceAttr->{"start-date"}->{"year"} == $year . "")){
+
+        //::::::tipologia de orientacao::::::
+
+        $serviceCategory = @$row->{"service-category"}->{"value"};
+        $degreeType = $serviceAttr->{"degree-type"}->{"value"};
+
+        //!!!!!!!!!!! SUBSTITUIR POR SWITCH PARA AS OPÇÕES POSSIVEIS !!!!!!!!!
+
+        $tipologiaOrientacao = $serviceCategory . ": " . $degreeType.": fim em ".$serviceAttr->{"end-date"}->{"year"};
+
+        switch($tipologiaOrientacao){
+
+            case "Orientação: Mestrado: fim em ".$year:
+                $tipologiaOrientacao = $activePageSelectOptions[0];
+                break;
+            case "Orientação: Mestrado: fim em ":
+                $tipologiaOrientacao = $activePageSelectOptions[1];
+                break;
+            case "Orientação: Doutoramento: fim em ".$year:
+                $tipologiaOrientacao = $activePageSelectOptions[2];
+                break;
+            case "Orientação: Doutoramento: fim em ":
+                $tipologiaOrientacao = $activePageSelectOptions[3];
+                break;
+            default:
+                $tipologiaOrientacao = $activePageSelectOptions[4];
+                break;
+
+        }
+
+        $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->setValue($tipologiaOrientacao);
+
+        //::::::nome do aluno::::::
+
+        $startChar = chr(ord($startChar) + 1);
+
+        $nomeAluno = @$serviceAttr->{"student-name"}->{"value"};
+
+        $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->setValue($nomeAluno);
+
+        //::::::titulo do projeto::::::
+
+        $startChar = chr(ord($startChar) + 1);
+
+        $tituloProjeto = @$serviceAttr->{"thesis-title"};
+
+        $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->setValue($tituloProjeto);
+
+        //::::::instituicao::::::
+
+        $startChar = chr(ord($startChar) + 1);
+
+        $instituicao = @$serviceAttr->{"academic-institutions"}->{"institution"}[0]->{"institution-name"};
+
+        $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->setValue($instituicao);
+
+        $startNumber++;
+    }
+}
 
 
 // 7. Prémios e distinções
 
+//iniciar sessao cURL
+$ch = curl_init();
+$headers = array(
+    "Content-Type: application/json",
+    "Accept: application/json",
+);
 
+curl_setopt($ch, CURLOPT_FAILONERROR, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); //adicionar cabecalhos
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //retornar transferencia ativada
+curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC); //autenticacao cURL basica ativada
+curl_setopt($ch, CURLOPT_USERPWD, "$login:$password"); //user e password para o swagger UI
+
+$url = "https://qa.cienciavitae.pt/api/v1.1/curriculum/" . $ciencia_id . "/distinction?lang=User%20defined";
+
+//adicionar url ao handler cURL
+curl_setopt($ch, CURLOPT_URL, $url);
+
+//mostrar erros
+echo curl_error($ch);
+
+//resultado
+$result_curl = curl_exec($ch); //executar cURL e armazenar resultado
+
+curl_close($ch); //fechar handler
+$data = json_decode($result_curl); //descodificar JSON da resposta
+
+//::::::::::::ESCREVER NO EXCEL::::::::::::
+
+//dados para escrever na folha
+
+$categoriaPremio = "";
+
+$descricao = "";
+
+$spreadsheet->setActiveSheetIndex(6);
+
+//Letra e numero de comeco
+$startChar = "A";
+$startNumber = 16;
+
+//opcoes da lista pendente
+
+$activePageSelectOptions = array();
+
+for($opc = 1; $opc <= 3; $opc++){
+
+    $activePageSelectOptions[$opc-1] = $spreadsheet->getActiveSheet()->getCell("C".$opc)->getFormattedValue();
+
+}
+
+foreach($data->{"distinction"} as $row){
+
+    $startChar = "A";
+
+    if(@$row->{"effective-date"} != null && 
+    @$row->{"effective-date"} == "".$year){
+
+        //:::categoria do premio:::
+        $categoriaPremio = @$row->{"distinction-type"}->{"value"};
+
+        $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->setValue($categoriaPremio);
+
+        //:::descricao/nome:::
+
+        $startChar = chr(ord($startChar) + 1);
+
+        $descricao = @$row->{"distinction-name"};
+
+        $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->setValue($descricao);
+
+        $startNumber++;
+
+    }
+
+    
+
+}
 
 // 8. Outras atividades
 
 
-
 //::::::::::::GUARDAR RELATORIO::::::::::::
-//header('Content-Type: application/vnd.ms-excel');
-//header('Content-Disposition: attachment;filename="'.$novoRelatorio.'"');
-//header('Cache-Control: max-age=0');
 $writer->save($novoRelatorio);
 
-?>
+//::::::::::::DESCARREGAR RELATORIO::::::::::::
 
-<?php
+$finfo = finfo_open(FILEINFO_MIME_TYPE); 
+$mime =  finfo_file($finfo, basename($novoRelatorio));
+finfo_close($finfo);
 
-/*if ($result->num_rows > 0) {
-    $a = array();
-    while ($row = $result->fetch_assoc()) {
+header('Content-Type: '.$mime);
+header('Content-Disposition: attachment;  filename="'.basename($novoRelatorio).'"');
+header('Content-Length: ' . filesize(basename($novoRelatorio)));
+header('Expires: 0');
+header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 
-        $variable = $row["ciencia_id"];
-    
-
-        //echo json_encode($data);
-
-        //$name = $row["nome"]; 
-
-        if (isset($data->{"output"}))
-
-            foreach ($data->{"output"} as $key) {
-                $person = $key->{""};
-
-                if (isset($book)) {
-
-                    array_push($a, $person);
-                }
-            }
-
-        echo $a[0];
-    }
-
-    function cb($x, $y)
-    {
-        return $x->{'publication-year'} <= $y->{'publication-year'};
-    }
-    usort($a, 'cb');
-    $ano = '';
-    foreach ($a as $book) {
+ob_get_clean();
+echo file_get_contents(basename($novoRelatorio));
+ob_end_flush();
 
 
-        echo $name.", ";
-        echo "<p>";
-        echo str_replace(";", " & ", $book->{"authors"}->{"citation"});
-
-        echo ". (" . $book->{'publication-year'} . "). ";
-
-        echo $book->{"title"};
-
-        if (isset($book->{"volume"})) {
-            echo ", " . $book->{"volume"};
-        }
-
-        if (isset($book->{"number-of-pages"})) {
-            echo ", " . $book->{"number-of-pages"};
-        }
-        echo "</p>";
-    }
-}*/
-
+//::::::::::::APAGAR RELATORIO DO SERVIDOR::::::::::::
+unlink($novoRelatorio);
 ?>
