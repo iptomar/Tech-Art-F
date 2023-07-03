@@ -4,14 +4,26 @@ include 'models/functions.php';
 
 $pdo = pdo_connect_mysql();
 
-$stmt = $pdo->prepare('SELECT * FROM oportunidades WHERE id=? and visivel=true');
+$language = ($_SESSION["lang"] == "en") ? "_en" : "";
+$query = "SELECT id, imagem, visivel,
+COALESCE(NULLIF(titulo{$language}, ''), titulo) AS titulo, 
+COALESCE(NULLIF(conteudo{$language}, ''), conteudo) AS conteudo FROM oportunidades WHERE id=? and visivel=true";
+
+$stmt = $pdo->prepare($query);
 $stmt->bindParam(1, $_GET["oportunidade"], PDO::PARAM_INT);
 $stmt->execute();
 $oportunidades = $stmt->fetch(PDO::FETCH_ASSOC);
 $id = $oportunidades['id'];
-$filesDir = "../backoffice/assets/oportunidades/ficheiros_$id/";
-$files = scandir($filesDir);
-$files = array_diff($files, array('.', '..'));
+$filesDir = "../backoffice/assets/oportunidades/ficheiros_$id/" . $_SESSION["lang"] . "/";
+if (is_dir($filesDir)) {
+    $files = scandir($filesDir);
+    $files = array_diff($files, array('.', '..'));
+    if (empty($files)) {
+        $filesDir = "../backoffice/assets/oportunidades/ficheiros_$id/pt/";;
+        $files = scandir($filesDir);
+        $files = array_diff($files, array('.', '..'));
+    }
+}
 
 ?>
 
@@ -35,21 +47,18 @@ $files = array_diff($files, array('.', '..'));
 
 
             </div>
-
-
-
-            <h3 class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 30px; padding-right: 10px; padding-left: 50px;">
-                <?= change_lang("opport-page-file") ?>
-            </h3>
-            <div class="textInfo" style="padding-bottom: 80px;">
-
                 <?php
-                foreach ($files as $file) {
-                    echo '<a href="' . $filesDir . '/' . $file . '" target="_blank">' . $file . '</a><br>';
-                }
-                ?>
-            </div>
 
+                if(isset($files)){
+                    echo '<h3 class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 30px; padding-right: 10px; padding-left: 50px;">
+                    '.change_lang("opport-page-file").'</h3>
+                <div class="textInfo" style="padding-bottom: 80px;">';
+                    foreach ($files as $file) {
+                        echo '<a href="' . $filesDir . '/' . $file . '" target="_blank">' . $file . '</a><br>';
+                    }
+                }
+                echo '</div>';
+                ?>
         </div>
 
 

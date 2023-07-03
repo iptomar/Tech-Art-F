@@ -2,10 +2,7 @@
 include 'config/dbconnection.php';
 include 'models/functions.php';
 $pdo = pdo_connect_mysql();
-
-$stmt = $pdo->prepare('SELECT * FROM investigadores');
-$stmt->execute();
-$investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$language = ($_SESSION["lang"] == "en") ? "_en" : "";
 ?>
 
 <!DOCTYPE html>
@@ -14,11 +11,9 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <?= template_header('Index'); ?>
 <!-- slider section -->
 <section class="home-slider owl-carousel">
-   <div class="slider-item"
-      style="background-image:url('./assets/images/slider-index-1.jpg');">
+   <div class="slider-item" style="background-image:url('./assets/images/slider-index-1.jpg');">
       <div class="overlay"></div>
-      <div class="row no-gutters slider-text justify-content-start"
-         style="position: relative; height: 100%; max-width:100%;" data-scrollax-parent="true">
+      <div class="row no-gutters slider-text justify-content-start" style="position: relative; height: 100%; max-width:100%;" data-scrollax-parent="true">
          <div class="align-text-slider">
             <div class="col-md-7 mobile_adjust ftco-animate mb-md-5">
                <h1 class="mb-4">
@@ -36,12 +31,10 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
    </div>
    </div>
 
-   <div class="slider-item"
-   style="background-image:url('./assets/images/slider-index-2.jpg');">
+   <div class="slider-item" style="background-image:url('./assets/images/slider-index-2.jpg');">
       <div class="overlay"></div>
 
-      <div class="row no-gutters slider-text justify-content-start"
-         style="position: relative; height: 100%; max-width:100%;" data-scrollax-parent="true">
+      <div class="row no-gutters slider-text justify-content-start" style="position: relative; height: 100%; max-width:100%;" data-scrollax-parent="true">
          <div class="align-text-slider">
             <div class="col-md-7 mobile_adjust ftco-animate mb-md-5">
                <h1 class="mb-4">
@@ -59,11 +52,9 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
    </div>
    </div>
 
-   <div class="slider-item"
-      style="background-image:url('./assets/images/slider-index-3.jpg');">
+   <div class="slider-item" style="background-image:url('./assets/images/slider-index-3.jpg');">
       <div class="overlay"></div>
-      <div class="row no-gutters slider-text justify-content-start"
-         style="position: relative; height: 100%; max-width:100%;" data-scrollax-parent="true">
+      <div class="row no-gutters slider-text justify-content-start" style="position: relative; height: 100%; max-width:100%;" data-scrollax-parent="true">
          <div class="align-text-slider">
             <div class="col-md-7 mobile_adjust ftco-animate mb-md-5">
                <h1 class="mb-4">
@@ -94,7 +85,7 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
       </div>
       <div class="pt-3">
          <div class="embed-responsive embed-responsive-16by9 mx-auto" style="max-width: 800px;">
-         <iframe src="https://www.youtube.com/embed/pzXQaQe3pBw"> </iframe>
+            <iframe src="https://www.youtube.com/embed/pzXQaQe3pBw"> </iframe>
          </div>
       </div>
    </div>
@@ -116,26 +107,27 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </h3>
 
             <a style="display: inline-block; padding: 5px 25px; background-color:#333F50; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
-                     -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;"
-               href="projetos_em_curso.php">
+                     -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;" href="projetos_em_curso.php">
                <?= change_lang("see-all-btn-rd-projects"); ?>
             </a>
 
          </div>
          <div class="row">
             <?php
-            $sql = "SELECT id, nome, descricao, fotografia FROM projetos where concluido=0 ORDER BY id DESC limit 4";
+            $sql = "SELECT id,
+                     COALESCE(NULLIF(nome{$language}, ''), nome) AS nome,
+                     COALESCE(NULLIF(descricao{$language}, ''), descricao) AS descricao,
+                     fotografia FROM projetos WHERE concluido = 0 ORDER BY id DESC LIMIT 4";
             $stmt = $pdo->prepare($sql);
             $stmt->execute();
             $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             foreach ($projetos as $row) {
-               ?>
+            ?>
                <div class="col">
                   <div style="padding-top: 40px">
                      <div class="img-box">
                         <a href="projeto.php?projeto=<?= $row["id"]; ?>">
-                           <img style="object-fit: cover; width:230px; height:230px;"
-                              src="../backoffice/assets/projetos/<?= $row["fotografia"]; ?>" alt="">
+                           <img style="object-fit: cover; width:230px; height:230px;" src="../backoffice/assets/projetos/<?= $row["fotografia"]; ?>" alt="">
                         </a>
                      </div>
                   </div>
@@ -150,15 +142,15 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
                      <div style="padding-left: 30px; text-align: center; width:210px;">
                         <h6>
                            <?=
-                              strlen($row["descricao"]) > 145 ? 
-                              preg_split("/\s+(?=\S*+$)/", substr($row["descricao"], 0, 150))[0]."..."
-                              :$row["descricao"]; 
-                           ?>                              
+                           strlen($row["descricao"]) > 145 ?
+                              preg_split("/\s+(?=\S*+$)/", substr($row["descricao"], 0, 150))[0] . "..."
+                              : $row["descricao"];
+                           ?>
                         </h6>
                      </div>
                   </div>
                </div>
-               <?php
+            <?php
             }
 
             ?>
@@ -179,7 +171,7 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="container">
          <div class="section-intro pb-60px">
             <h2 style="font-family: 'Quicksand', sans-serif; padding-bottom: 20px; padding-left: 50px;">
-            <?= change_lang("latest-news-heading") ?>
+               <?= change_lang("latest-news-heading") ?>
             </h2>
          </div>
 
@@ -187,11 +179,16 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php
             $pdo = pdo_connect_mysql();
             //Selecionar no máximo 6 notícias, ordenadas pela data mais recente, e que tenham data anterior ou igual à atual
-            $stmt = $pdo->prepare('SELECT id, imagem, titulo, conteudo, data FROM noticias WHERE data<=NOW() ORDER BY DATA DESC LIMIT 6;');
+            $query = "SELECT id,
+            COALESCE(NULLIF(titulo{$language}, ''), titulo) AS titulo,
+            COALESCE(NULLIF(conteudo{$language}, ''), conteudo) AS conteudo,
+            imagem,data
+            FROM noticias WHERE data<=NOW() ORDER BY DATA DESC LIMIT 6";
+            $stmt = $pdo->prepare($query);
             $stmt->execute();
             $noticias = $stmt->fetchAll(PDO::FETCH_ASSOC);
             ?>
-            <?php foreach ($noticias as $noticia): ?>
+            <?php foreach ($noticias as $noticia) : ?>
                <div class="card-product">
                   <div class="absoluto">
                      <a href="noticia.php?noticia=<?= $noticia['id'] ?>">
@@ -217,7 +214,7 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                  // Verificar se o texto tem mais de 100 caracteres
                                  if (strlen($textNoticiaOrig) > 100) {
                                     $textNoticia = preg_split("/\s+(?=\S*+$)/", substr($textNoticiaOrig, 0, 105))[0];
-                                 }else{
+                                 } else {
                                     $textNoticia = $textNoticiaOrig;
                                  }
                                  //Se o texto da notícia foi cortado, imprimir com reticencias
@@ -235,8 +232,7 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
          <div class="text-center">
             <a style="display: inline-block; padding: 5px 25px; background-color:#333F50; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
-                     -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;"
-               href="noticias.php">
+                     -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;" href="noticias.php">
                <?= change_lang("see-all-btn-latest-news") ?>
             </a>
          </div>

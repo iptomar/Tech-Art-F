@@ -5,10 +5,19 @@ error_reporting(E_ALL);
 
 include 'config/dbconnection.php';
 include 'models/functions.php';
-
+$language = ($_SESSION["lang"] == "en") ? "_en" : "";
 $pdo = pdo_connect_mysql();
-
-$stmt = $pdo->prepare('SELECT * FROM projetos WHERE id=?');
+$query = "SELECT id, COALESCE(NULLIF(nome{$language}, ''), nome) AS nome, 
+            COALESCE(NULLIF(descricao{$language}, ''), descricao) AS descricao, 
+            COALESCE(NULLIF(sobreprojeto{$language}, ''), sobreprojeto) AS sobreprojeto,
+            COALESCE(NULLIF(referencia{$language}, ''), referencia) AS referencia, 
+            COALESCE(NULLIF(areapreferencial{$language}, ''), areapreferencial) AS areapreferencial, 
+            COALESCE(NULLIF(financiamento{$language}, ''), financiamento) AS financiamento, 
+            COALESCE(NULLIF(ambito{$language}, ''), ambito) AS ambito, 
+            COALESCE(NULLIF(site{$language}, ''), site) AS site,
+            COALESCE(NULLIF(facebook{$language}, ''), facebook) AS facebook, 
+            fotografia, concluido FROM projetos Where id = ?";
+$stmt = $pdo->prepare($query);
 $stmt->bindParam(1, $_GET["projeto"], PDO::PARAM_INT);
 $stmt->execute();
 $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -68,8 +77,8 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
             </h5>
 
             <div class="alinhado">
-                <?= !empty(trim($projetos['site']."")) ? "<a target='_blank' class='link_externo site' href='".$projetos['site'] . "'></a>" : ""; ?>
-                <?= !empty(trim($projetos['facebook']."")) ? "<a target='_blank' class='link_externo facebook' href='".$projetos['facebook'] . "'></a>" : ""; ?>
+                <?= !empty(trim($projetos['site'] . "")) ? "<a target='_blank' class='link_externo site' href='" . $projetos['site'] . "'></a>" : ""; ?>
+                <?= !empty(trim($projetos['facebook'] . "")) ? "<a target='_blank' class='link_externo facebook' href='" . $projetos['facebook'] . "'></a>" : ""; ?>
             </div>
 
         </div>

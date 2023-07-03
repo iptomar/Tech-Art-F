@@ -4,7 +4,14 @@ include 'models/functions.php';
 
 $pdo = pdo_connect_mysql();
 
-$stmt = $pdo->prepare('SELECT * FROM noticias WHERE data<=NOW() ORDER BY DATA DESC;');
+$language = ($_SESSION["lang"] == "en") ? "_en" : "";
+
+$query = "SELECT id,
+        COALESCE(NULLIF(titulo{$language}, ''), titulo) AS titulo,
+        COALESCE(NULLIF(conteudo{$language}, ''), conteudo) AS conteudo,
+        imagem,data
+        FROM noticias WHERE data<=NOW() ORDER BY DATA DESC;";
+$stmt = $pdo->prepare($query);
 $stmt->execute();
 $noticias = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>

@@ -4,8 +4,13 @@ include 'config/dbconnection.php';
 include 'models/functions.php';
 
 $pdo = pdo_connect_mysql();
-
-$stmt = $pdo->prepare('SELECT * FROM investigadores WHERE tipo = "Colaborador"');
+$language = ($_SESSION["lang"] == "en") ? "_en" : "";
+$query = "SELECT id, email, nome,
+        COALESCE(NULLIF(sobre{$language}, ''), sobre) AS sobre,
+        COALESCE(NULLIF(areasdeinteresse{$language}, ''), areasdeinteresse) AS areasdeinteresse,
+        ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id
+        FROM investigadores WHERE tipo = \"Colaborador\"";
+$stmt = $pdo->prepare($query);
 $stmt->execute();
 $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>

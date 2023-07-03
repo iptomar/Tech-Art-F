@@ -3,8 +3,10 @@ include 'config/dbconnection.php';
 include 'models/functions.php';
 
 $pdo = pdo_connect_mysql();
+$language = ($_SESSION["lang"] == "en") ? "_en" : "";
 
-$stmt = $pdo->prepare('SELECT id,titulo,visivel,imagem FROM oportunidades WHERE visivel=true ORDER BY ID DESC');
+$query = "SELECT id,COALESCE(NULLIF(titulo{$language}, ''), titulo) AS titulo,visivel,imagem FROM oportunidades WHERE visivel=true ORDER BY ID DESC";
+$stmt = $pdo->prepare($query);
 $stmt->execute();
 $oportunidades = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>

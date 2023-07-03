@@ -3,8 +3,13 @@ include 'config/dbconnection.php';
 include 'models/functions.php';
 
 $pdo = pdo_connect_mysql();
-
-$stmt = $pdo->prepare('SELECT * FROM investigadores WHERE id=?');
+$language = ($_SESSION["lang"] == "en") ? "_en" : "";
+$query = "SELECT id, email, nome,
+        COALESCE(NULLIF(sobre{$language}, ''), sobre) AS sobre,
+        COALESCE(NULLIF(areasdeinteresse{$language}, ''), areasdeinteresse) AS areasdeinteresse,
+        ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id
+        FROM investigadores WHERE id=? and tipo = \"Integrado\"";
+$stmt = $pdo->prepare($query);
 $stmt->bindParam(1, $_GET["integrado"], PDO::PARAM_INT);
 $stmt->execute();
 $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -16,22 +21,21 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
 <section>
     <div class="totall">
         <div class="barraesquerda">
-            <h3
-                class="heading_h3" style="font-size: 38px; margin-bottom: 20px; padding-top: 60px; padding-right: 10px; padding-left: 60px; word-wrap: break-word;">
+            <h3 class="heading_h3" style="font-size: 38px; margin-bottom: 20px; padding-top: 60px; padding-right: 10px; padding-left: 60px; word-wrap: break-word;">
                 <?= $investigadores['nome'] ?>
             </h3>
             <div class="canvasEmail" style="height:150px; padding-right: 10px;">
 
                 <div class="emailScroll">
-                    <canvas id="canvas" ></canvas>
+                    <canvas id="canvas"></canvas>
                     <script>
                         const ratio = Math.ceil(window.devicePixelRatio);
                         const canvas = document.getElementById("canvas");
-                        const txt= "<?= $investigadores['email'] ?>";
+                        const txt = "<?= $investigadores['email'] ?>";
                         const context = canvas.getContext("2d");
                         context.font = "15px 'Montserrat', sans-serif";
 
-                        width = context.measureText(txt).width+5
+                        width = context.measureText(txt).width + 5
                         height = canvas.offsetHeight
 
                         canvas.width = width * ratio;
@@ -78,17 +82,15 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
             </h5>
 
             <div class="alinhado">
-                <?= !empty(trim($investigadores['orcid'])."") ? "<a target='_blank' class='link_externo orcid' href='https://orcid.org/" . $investigadores['orcid'] . "'></a>" : "" ?>
-                <?= !empty(trim($investigadores['ciencia_id'])."") ? "<a target='_blank' class='link_externo ciencia_id' href='https://www.cienciavitae.pt/" . $investigadores['ciencia_id'] . "'></a>" : "" ?>
-                <?= !empty(trim($investigadores['research_gate'])."") ? "<a target='_blank' class='link_externo research_gate' href=" . $investigadores['research_gate'] . "></a>" : "" ?> 
+                <?= !empty(trim($investigadores['orcid']) . "") ? "<a target='_blank' class='link_externo orcid' href='https://orcid.org/" . $investigadores['orcid'] . "'></a>" : "" ?>
+                <?= !empty(trim($investigadores['ciencia_id']) . "") ? "<a target='_blank' class='link_externo ciencia_id' href='https://www.cienciavitae.pt/" . $investigadores['ciencia_id'] . "'></a>" : "" ?>
+                <?= !empty(trim($investigadores['research_gate']) . "") ? "<a target='_blank' class='link_externo research_gate' href=" . $investigadores['research_gate'] . "></a>" : "" ?>
             </div>
         </div>
         <div id="resto" class="infoCorpo">
-            <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px"
-                src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
+            <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
 
-            <h3
-                class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 30px; padding-right: 10px; padding-left: 50px;">
+            <h3 class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 30px; padding-right: 10px; padding-left: 50px;">
                 <?= change_lang("about-tab-title-class") ?>
             </h3>
 
@@ -99,11 +101,9 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
         </div>
 
         <div id="resto2" class="infoCorpo" style="display: none;">
-            <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px"
-                src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
+            <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
 
-            <h3
-                class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 30px; padding-left: 50px;">
+            <h3 class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 30px; padding-left: 50px;">
                 <?= change_lang("areas-tab-title-class") ?>
             </h3>
 
@@ -114,11 +114,9 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
         </div>
 
         <div id="resto3" class="infoCorpo" style="display: none;">
-            <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px"
-                src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
+            <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
 
-            <h3
-                class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 30px; padding-left: 50px;">
+            <h3 class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 30px; padding-left: 50px;">
                 <?= change_lang("publications-tab-title-class") ?>
             </h3>
 
@@ -183,32 +181,31 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
                         }
 
                         echo "<br>" . "</div>";
-
                     }
-
-
-
                 }
 
             echo "<br><br><br>"
 
-                ?>
+            ?>
 
 
         </div>
 
         <div id="resto4" class="infoCorpo" style="display: none;">
-            <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px"
-                src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
+            <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
 
-            <h3
-                class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 30px; padding-left: 50px;">
+            <h3 class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 30px; padding-left: 50px;">
                 <?= change_lang("projects-tab-title-class") ?>
             </h3>
 
             <div class="textInfo" style="padding-bottom: 20px;">
                 <?php
-                $stmt = $pdo->prepare('SELECT p.* FROM investigadores_projetos ip INNER JOIN projetos p ON p.id = ip.projetos_id Where ip.investigadores_id = ?');
+
+                $query = "SELECT p.id, COALESCE(NULLIF(p.nome{$language}, ''), p.nome) AS nome, p.fotografia 
+                            FROM investigadores_projetos ip 
+                            INNER JOIN projetos p ON p.id = ip.projetos_id 
+                            WHERE ip.investigadores_id = ?";
+                $stmt = $pdo->prepare($query);
                 $stmt->bindParam(1, $_GET["integrado"], PDO::PARAM_INT);
                 $stmt->execute();
                 $projetos = $stmt->fetchall(PDO::FETCH_ASSOC);
@@ -217,13 +214,12 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
                     <div style="padding-top: 20px;">
                         <div class="container">
                             <div class="row justify-content-center mt-3">
-                                <?php foreach ($projetos as $projeto): ?>
+                                <?php foreach ($projetos as $projeto) : ?>
 
                                     <div class="ml-5 imgList">
                                         <a href="projeto.php?projeto=<?= $projeto['id'] ?>">
                                             <div class="image_default">
-                                                <img class="centrare" style="object-fit: cover; width:225px; height:280px;"
-                                                    src="../backoffice/assets/projetos/<?= $projeto['fotografia'] ?>" alt="">
+                                                <img class="centrare" style="object-fit: cover; width:225px; height:280px;" src="../backoffice/assets/projetos/<?= $projeto['fotografia'] ?>" alt="">
                                                 <div class="imgText justify-content-center m-auto">
                                                     <?= $projeto['nome'] ?>
                                                 </div>
@@ -253,30 +249,30 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
 <?= template_footer(); ?>
 
 <script>
-    $(function () {
+    $(function() {
 
-        $('button#showit').on('click', function () {
+        $('button#showit').on('click', function() {
             $('#resto').show();
             $('#resto2').hide();
             $('#resto3').hide();
             $('#resto4').hide();
         });
 
-        $('button#showit2').on('click', function () {
+        $('button#showit2').on('click', function() {
             $('#resto2').show();
             $('#resto').hide();
             $('#resto3').hide();
             $('#resto4').hide();
         });
 
-        $('button#showit3').on('click', function () {
+        $('button#showit3').on('click', function() {
             $('#resto3').show();
             $('#resto').hide();
             $('#resto2').hide();
             $('#resto4').hide();
         });
 
-        $('button#showit4').on('click', function () {
+        $('button#showit4').on('click', function() {
             $('#resto4').show();
             $('#resto').hide();
             $('#resto3').hide();
@@ -284,7 +280,6 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
         });
 
     });
-
 </script>
 </body>
 
