@@ -64,7 +64,6 @@ $localizacoesPortuguesas = array(
     "Vinhais",
     "Castelo Branco",
     "Belmonte",
-    "Castelo Branco",
     "Covilhã",
     "Fundão",
     "Idanha-a-Nova",

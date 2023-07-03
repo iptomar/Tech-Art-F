@@ -12,7 +12,7 @@ if ($_SESSION["autenticado"] != 'administrador' && $_SESSION["autenticado"] != $
 
 //ano
 $year = date("Y");
-$year = 2011;
+//$year = 2011;
 
 //opcoes do select de cada pagina folha de calculo
 //(apenas a contar da segunda pagina)
@@ -61,21 +61,12 @@ $orcid = $rows["orcid"]; //orcid
 $relatorioModelo = "./relatorio.xlsx";
 $aux = "./auxiliar.xlsx";
 
-//se nao exitir, criar ficheiro do novo relatorio
-/*if(!file_exists($novoRelatorio)){
-    $handle = @fopen($novoRelatorio, "w+");
-    fclose($handle);
-    if(!copy($relatorioModelo, $novoRelatorio)){
-        echo "Não foi possível copiar $relatorioModelo...</br>";
-    }
-}*/
-
 $url = "https://qa.cienciavitae.pt/api/v1.1/curriculum/" . $ciencia_id . "/person-info?lang=User%20defined";
 
 //adicionar url ao handler cURL
 curl_setopt($ch, CURLOPT_URL, $url);
 
-echo curl_error($ch); //mostrar erros do cURL
+//echo curl_error($ch); //mostrar erros do cURL
 
 $result_curl = curl_exec($ch); //executar cURL e armazenar resultado
 
@@ -97,9 +88,9 @@ $firstName = strtr($firstName, $unwanted_array);
 //nome do novo relatorio
 $novoRelatorio = "./".strtoupper($lastName)."_".strtolower($firstName)."_".$year.".xlsx";
 
-echo $novoRelatorio."</br>";
+//echo $novoRelatorio."</br>";
 
-echo "$nome</br>";
+//echo "$nome</br>";
 
 //::::::::::::ESCREVER NO EXCEL::::::::::::
 
@@ -173,7 +164,7 @@ $url = "https://qa.cienciavitae.pt/api/v1.1/curriculum/" . $ciencia_id . "/outpu
 curl_setopt($ch, CURLOPT_URL, $url);
 
 //mostrar erros
-echo curl_error($ch);
+//echo curl_error($ch);
 
 //resultado
 $result_curl = curl_exec($ch); //executar cURL e armazenar resultado
@@ -188,7 +179,7 @@ $data = json_decode($result_curl); //descodificar JSON da resposta
 //tipo de publicacao
 $outputType ="";
 
-//localização de publicação
+//localização de publicacao
 $outputLocation;
 
 //atributo associado ao tipo de publicacao
@@ -227,7 +218,7 @@ foreach($data->{"output"} as $row){
     //::::::categoria de publicacao::::::
     $outputType = $row->{"output-type"}->{"value"};
 
-    //encontrar a propriedade nao nula correspondente à categoria de publicacao
+    //encontrar a propriedade nao nula correspondente a categoria de publicacao
     foreach($row as $attr){
         if($attr != null && $i >= 2){
             $outputAttr = $attr;
@@ -261,7 +252,7 @@ foreach($data->{"output"} as $row){
             }
         }
 
-        //!!!!!!!!!!! SUBSTITUIR POR SWITCH PARA AS OPÇÕES POSSIVEIS !!!!!!!!!
+        //!!!!!!!!!!! SUBSTITUIR POR SWITCH PARA AS OPCOES POSSIVEIS !!!!!!!!!
         $excelOutCategory = $outputType . ": " . $outputLocation;
 
         switch($excelOutCategory){
@@ -311,7 +302,7 @@ foreach($data->{"output"} as $row){
 }
 
 
-// 4. Enventos e conferências
+// 4. Enventos e conferencias
 
 //iniciar sessao cURL
 $ch = curl_init();
@@ -332,7 +323,7 @@ $url = "https://qa.cienciavitae.pt/api/v1.1/curriculum/" . $ciencia_id . "/servi
 curl_setopt($ch, CURLOPT_URL, $url);
 
 //mostrar erros
-echo curl_error($ch);
+//echo curl_error($ch);
 
 //resultado
 $result_curl = curl_exec($ch); //executar cURL e armazenar resultado
@@ -366,7 +357,7 @@ for($opc = 1; $opc <= 15; $opc++){
 
 }
 
-echo implode("</br>",$activePageSelectOptions);
+//echo implode("</br>",$activePageSelectOptions);
 
 foreach($data->{"service"} as $row){
 
@@ -440,7 +431,7 @@ $url = "https://qa.cienciavitae.pt/api/v1.1/curriculum/" . $ciencia_id . "/servi
 curl_setopt($ch, CURLOPT_URL, $url);
 
 //mostrar erros
-echo curl_error($ch);
+//echo curl_error($ch);
 
 //resultado
 $result_curl = curl_exec($ch); //executar cURL e armazenar resultado
@@ -590,7 +581,7 @@ $url = "https://qa.cienciavitae.pt/api/v1.1/curriculum/" . $ciencia_id . "/disti
 curl_setopt($ch, CURLOPT_URL, $url);
 
 //mostrar erros
-echo curl_error($ch);
+//echo curl_error($ch);
 
 //resultado
 $result_curl = curl_exec($ch); //executar cURL e armazenar resultado
