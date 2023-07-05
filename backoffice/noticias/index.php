@@ -2,7 +2,7 @@
 require "../verifica.php";
 require "../config/basedados.php";
 //Selecionar os dados das noticias da base de dados
-$sql = "SELECT id, titulo, conteudo, data, imagem FROM noticias ORDER BY DATA DESC";
+$sql = "SELECT id, titulo, conteudo, data, imagem FROM noticias ORDER BY DATA DESC, titulo";
 $result = mysqli_query($conn, $sql);
 ?>
 

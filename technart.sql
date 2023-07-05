@@ -261,3 +261,28 @@ CREATE TABLE `oportunidades` (
   `visivel` boolean NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+ALTER TABLE `investigadores`
+ADD COLUMN `sobre_en` mediumtext NOT NULL AFTER `sobre`,
+ADD COLUMN `areasdeinteresse_en` mediumtext NOT NULL AFTER `areasdeinteresse`;
+
+ALTER TABLE `projetos`
+ADD COLUMN `nome_en` varchar(100) NOT NULL AFTER `nome`,
+ADD COLUMN `descricao_en` mediumtext NOT NULL AFTER `descricao`,
+ADD COLUMN `sobreprojeto_en` mediumtext NOT NULL AFTER `sobreprojeto`,
+ADD COLUMN `referencia_en` varchar(100) NOT NULL AFTER `referencia`,
+ADD COLUMN `areapreferencial_en` varchar(255) NOT NULL AFTER `areapreferencial`,
+ADD COLUMN `financiamento_en` varchar(20) NOT NULL AFTER `financiamento`,
+ADD COLUMN `ambito_en` varchar(100) NOT NULL AFTER `ambito`,
+ADD COLUMN `site_en` varchar(100) NOT NULL AFTER `site`,
+ADD COLUMN `facebook_en` varchar(100) NOT NULL AFTER `facebook`;
+
+
+ALTER TABLE `noticias`
+ADD COLUMN `titulo_en` VARCHAR(100) NOT NULL AFTER `titulo`,
+ADD COLUMN `conteudo_en` MEDIUMTEXT NOT NULL AFTER `conteudo`;
+
+
+ALTER TABLE `oportunidades`
+ADD COLUMN `titulo_en` VARCHAR(255) NOT NULL AFTER `titulo`,
+ADD COLUMN `conteudo_en` MEDIUMTEXT NOT NULL AFTER `conteudo`;

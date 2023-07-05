@@ -3,6 +3,12 @@
 $uploadDirectory = '../assets/imgs_texto/';
 $url = get_absolute_from_relative('../assets/imgs_texto/');
 
+// Check if the directory exists
+if (!is_dir($uploadDirectory)) {
+    // Create the directory
+    mkdir($uploadDirectory, 0777, true);
+}
+
 // Get the uploaded file
 $uploadedFile = $_FILES['upload'];
 

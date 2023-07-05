@@ -3,36 +3,37 @@ require "../verifica.php";
 require "../config/basedados.php";
 require "bloqueador.php";
 
+$mainDir = "../assets/oportunidades/";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $uploadImg = "../assets/oportunidades/";
-    if (!is_dir($uploadImg)) {
-        mkdir($uploadImg, 0777, true);
+    if (!is_dir($mainDir)) {
+        mkdir($mainDir, 0777, true);
     }
     $fileName =  uniqid() . '_' . $_FILES["imagem"]["name"];
 
-    move_uploaded_file($_FILES["imagem"]["tmp_name"], $uploadImg . $fileName);
+    move_uploaded_file($_FILES["imagem"]["tmp_name"], $mainDir . $fileName);
 
-    $sql = "INSERT INTO oportunidades (titulo, conteudo, imagem,visivel) " .
-        "VALUES (?,?,?,?)";
+
+    $sql = "INSERT INTO oportunidades (titulo, titulo_en, conteudo, conteudo_en, imagem, visivel) " .
+        "VALUES (?,?,?,?,?,?)";
     $stmt = mysqli_prepare($conn, $sql);
     $titulo = $_POST["titulo"];
+    $titulo_en = $_POST["titulo_en"];
     $conteudo = $_POST["conteudo"];
+    $conteudo_en = $_POST["conteudo_en"];
     $imagem = $fileName;
+
     $visivel = isset($_POST["visivel"]) ? 1 : 0;
-    mysqli_stmt_bind_param($stmt, 'sssi', $titulo, $conteudo, $imagem, $visivel);
+    mysqli_stmt_bind_param($stmt, 'sssssi', $titulo, $titulo_en, $conteudo, $conteudo_en, $imagem, $visivel);
     if (mysqli_stmt_execute($stmt)) {
         if (isset($_FILES['ficheiros']) && !empty($_FILES['ficheiros']['name'][0])) {
-
             $id = mysqli_insert_id($conn);
-            $uploadDir = "../assets/oportunidades/ficheiros_$id/";
-
+            $uploadDir = $mainDir."ficheiros_$id/pt/";
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
             }
-
             $files = $_FILES['ficheiros'];
-
             for ($i = 0; $i < count($files['name']); $i++) {
                 $fileName = $files['name'][$i];
                 $fileTmp = $files['tmp_name'][$i];
@@ -45,13 +46,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     window.location.href = 'edit.php?id=" . $id . "';
                     </script>";
                     exit;
-                } else {
-                    header('Location: index.php');
                 }
             }
-        } else {
-            header('Location: index.php');
         }
+        if (isset($_FILES['ficheiros_en']) && !empty($_FILES['ficheiros_en']['name'][0])) {
+            $id = mysqli_insert_id($conn);
+            $uploadDirEn = $mainDir."ficheiros_$id/en/";
+            if (!is_dir($uploadDirEn)) {
+                mkdir($uploadDirEn, 0777, true);
+            }
+            $filesEn = $_FILES['ficheiros_en'];
+            for ($i = 0; $i < count($filesEn['name']); $i++) {
+                $fileNameEn = $filesEn['name'][$i];
+                $fileTmpEn = $filesEn['tmp_name'][$i];
+                $fileSizeEn = $filesEn['size'][$i];
+                $uniqueFileNameEn = $fileNameEn;
+                $destinationEn = $uploadDirEn . $uniqueFileNameEn;
+                if (!move_uploaded_file($fileTmpEn, $destinationEn)) {
+                    echo "<script>
+                        alert('Um erro ocurreu a inserir os ficheiros (inglês): " . $_FILES["file"]["error"][$i] . "');
+                        window.location.href = 'edit.php?id=" . $id . "';
+                        </script>";
+                    exit;
+                } 
+            }
+        }
+        header('Location: index.php');
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
@@ -84,6 +104,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     .ck-editor__editable {
         min-height: 200px;
     }
+
+    .halfCol {
+        max-width: 50%;
+        display: inline-block;
+        vertical-align: top;
+        height: fit-content;
+    }
 </style>
 <script type="text/javascript">
     function previewImg(input) {
@@ -96,12 +123,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             reader.readAsDataURL(input.files[0]);
         } else {
             $('#preview').attr('src', '');
-            $('#preview').hide(); 
+            $('#preview').hide();
         }
     }
 
-    function showFileName(input) {
-        var fileListDiv = $('#fileList');
+    function showFileNames(input, fileListId) {
+        var fileListDiv = $('#' + fileListId);
         fileListDiv.empty();
 
         var selectedFiles = input.files;
@@ -109,7 +136,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             var fileNames = Array.from(selectedFiles).map(function(file) {
                 return file.name;
             });
-
 
             fileNames.forEach(function(fileName) {
                 var paragraph = '<li class="list-group-item">' + fileName + '<br>' + '</li>'
@@ -131,35 +157,77 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </label>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>Titulo</label>
-                    <input type="text" minlength="1" required maxlength="100" required name="titulo" class="form-control" data-error="Por favor adicione um titulo válido" id="inputTitle" placeholder="Nome">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Titulo</label>
+                            <input type="text" minlength="1" required maxlength="100" required name="titulo" class="form-control" data-error="Por favor adicione um titulo válido" id="inputTitle" placeholder="Titulo">
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Titulo (Inglês)</label>
+                            <input type="text" maxlength="100" name="titulo_en" class="form-control" data-error="Please enter a valid English title" id="inputTitleEn" placeholder="Titulo (Inglês)">
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Conteúdo da oportunidade</label>
-                    <textarea class="form-control" cols="30" rows="5" id="inputContent" name="conteudo"></textarea>
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
+                <div class="row">
+                    <div class="col halfCol">
+                        <div class="form-group">
+
+                            <label class="col-form-label">Conteúdo da oportunidade</label>
+                            <textarea class="form-control ck_replace" id="inputContent" name="conteudo"></textarea>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col halfCol">
+                        <div class="form-group">
+                            <label class="col-form-label">Conteúdo (Inglês)</label>
+                            <textarea class="form-control ck_replace" id="inputContentEn" name="conteudo_en"></textarea>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
                 </div>
+
+
+                <div class="row">
+                    <div class="col halfCol">
+                        <div class="form-group">
+                            <label>Ficheiros</label>
+                            <input type="file" onchange="showFileNames(this, 'fileList')" multiple class="form-control" id="ficheiros" name="ficheiros[]">
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                            <ul id="fileList" class="mb-3 list-group" style="font-size: 14px;"></ul>
+                        </div>
+                    </div>
+                    <div class="col halfCol">
+                        <div class="form-group">
+                            <label>Ficheiros (Inglês)</label>
+                            <input type="file" onchange="showFileNames(this, 'fileList_en')" multiple class="form-control" id="ficheiros_en" name="ficheiros_en[]">
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                            <ul id="fileList_en" class="mb-3 list-group" style="font-size: 14px;"></ul>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label>Imagem</label>
-                    <input accept="image/*" type="file"  onchange="previewImg(this);" required data-error="Por favor adicione uma imagem válida" class="form-control" id="inputImage" name="imagem">
+                    <input accept="image/*" type="file" onchange="previewImg(this);" required data-error="Por favor adicione uma imagem válida" class="form-control" id="inputImage" name="imagem">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
                 <img id="preview" style="display: none;" width='100px' height='100px' class="mb-3" />
 
+
                 <div class="form-group">
-                    <label>Ficheiros</label>
-                    <input type="file" onchange="showFileName(this)" multiple class="form-control" id="ficheiros" name="ficheiros[]">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
-                    <ul id="fileList" class="mb-3 list-group" style="font-size: 14px;"></ul>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block">Gravar</button>
+                    <button type="submit" class="btn btn-primary btn-block">Criar</button>
                 </div>
                 <div class="form-group">
                     <button type="button" onclick="window.location.href = 'index.php'" class="btn btn-danger btn-block">Cancelar</button>
@@ -172,22 +240,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!--Criar o CKEditor 5-->
 <script src="../ckeditor5/build/ckeditor.js"></script>
 <script>
-    ClassicEditor
-        .create(document.querySelector('#inputContent'), {
-            licenseKey: '',
-
-            simpleUpload: {
-                uploadUrl: '../ckeditor5/upload_image.php'
-            }
-        })
-        .then(editor => {
-            window.editor = editor;
-        })
+    $(document).ready(function() {
+        $('.ck_replace').each(function() {
+            ClassicEditor.create(this, {
+                licenseKey: '',
+                simpleUpload: {
+                    uploadUrl: '../ckeditor5/upload_image.php'
+                }
+            }).then(editor => {
+                window.editor = editor;
+            });
+        });
+    });
     <?php require "../../tecnart/config/configurations.php"; ?>
-    $("#ficheiros").on("change", function(e) {
+
+    function handleFileChange(e) {
         var totalSize = 0;
         var files = e.currentTarget.files;
-        valid = true;
+        var valid = true;
         var filesize = 0;
         for (let i = 0; i < files.length; i++) {
             filesize = ((files[i].size / 1024) / 1024);
@@ -198,13 +268,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 e.currentTarget.setCustomValidity('O tamanho do ficheiro "' + files[i].name + '" é maior que o máximo de <?= MAX_FILE_SIZE ?>MB');
             } else if (totalSize > <?= MAX_FILES_TOTAL ?>) {
                 valid = false;
-                e.currentTarget.setCustomValidity('Tamanho total de todos os ficheiros é maior  que o máximo de  <?= MAX_FILES_TOTAL ?>MB')
+                e.currentTarget.setCustomValidity('Tamanho total de todos os ficheiros é maior que o máximo de <?= MAX_FILES_TOTAL ?>MB');
             }
         }
         if (valid) {
             e.currentTarget.setCustomValidity('');
         }
-    });
+    }
+
+    $("#ficheiros").on("change", handleFileChange);
+    $("#ficheiros_en").on("change", handleFileChange);
 </script>
 
 <?php

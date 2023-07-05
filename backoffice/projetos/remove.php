@@ -2,6 +2,9 @@
 require "../verifica.php";
 require "../config/basedados.php";
 require "bloqueador.php";
+
+$mainDir = "../assets/projetos/";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST["id"];
     $sql = "DELETE FROM investigadores_projetos WHERE projetos_id = " . $id;
@@ -16,8 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
 } else {
-    $sql = "select nome, descricao, sobreprojeto, referencia, areapreferencial, financiamento, ambito, fotografia, concluido, site, facebook from projetos " .
-        "where id = ?";
+    $sql = "SELECT * from projetos where id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $id);
     $id = $_GET["id"];
@@ -35,6 +37,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $concluido = $row["concluido"] ? "checked" : "";
     $site = $row["site"];
     $facebook = $row["facebook"];
+    $nome_en = $row["nome_en"];
+    $descricao_en = $row["descricao_en"];
+    $sobreprojeto_en = $row["sobreprojeto_en"];
+    $referencia_en = $row["referencia_en"];
+    $areapreferencial_en = $row["areapreferencial_en"];
+    $financiamento_en = $row["financiamento_en"];
+    $ambito_en = $row["ambito_en"];
+    $site_en = $row["site_en"];
+    $facebook_en = $row["facebook_en"];
 }
 
 
@@ -85,6 +96,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         max-width: 100%;
         max-height: 100%;
     }
+
+    .halfCol {
+        max-width: 50%;
+        display: inline-block;
+        vertical-align: top;
+        height: fit-content;
+    }
 </style>
 
 <div class="container-xl mt-5">
@@ -102,74 +120,177 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </label>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>Nome</label>
-                    <input type="text" name="nome" class="form-control" data-error="Tu deves ter um nome." id="inputName" readonly value="<?php echo $nome; ?>">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Nome</label>
+                            <input type="text" name="nome" class="form-control" id="inputName" value="<?php echo $nome; ?>" readonly>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Nome (Inglês)</label>
+                            <input type="text" name="nome_en" class="form-control" id="inputNameEn" value="<?php echo $nome_en; ?>" readonly>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Descrição</label>
-                    <input type="text" class="form-control" id="inputDescricao" name="descricao" readonly value="<?php echo $descricao; ?>">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Descrição</label>
+                            <textarea class="form-control" id="inputDescricao" name="descricao" readonly><?php echo $descricao; ?></textarea>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Descrição (Inglês)</label>
+                            <textarea class="form-control" id="inputDescricaoEn" name="descricao_en" readonly><?php echo $descricao_en; ?></textarea>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Sobre Projeto</label>
-                    <div readonly class="form-control ck-content" style="width:100%; height:100%;"><?php echo $sobreprojeto; ?></div>
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
+                <div class="row">
+                    <div class="col halfCol">
+                        <div class="form-group">
+                            <label>Sobre Projeto</label>
+                            <div readonly class="form-control ck-content" style="width:100%; height:100%;"><?php echo $sobreprojeto; ?></div>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col halfCol">
+                        <div class="form-group">
+                            <label>Sobre Projeto (Inglês)</label>
+                            <div readonly class="form-control ck-content" style="width:100%; height:100%;"><?php echo $sobreprojeto_en; ?></div>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Referência</label>
-                    <input type="text" class="form-control" id="inputReferencia" name="referencia" readonly value="<?php echo $referencia; ?>">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Referência</label>
+                            <input type="text" class="form-control" id="inputReferencia" name="referencia" value="<?php echo $referencia; ?>" readonly>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Referência (Inglês)</label>
+                            <input type="text" class="form-control" id="inputReferenciaEn" name="referencia_en" value="<?php echo $referencia_en; ?>" readonly>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Techn&Art área preferencial</label>
-                    <input type="text" class="form-control" id="inputAreaPreferencial" name="areapreferencial" readonly value="<?php echo $areapreferencial; ?>">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Techn&Art área preferencial</label>
+                            <input type="text" class="form-control" id="inputAreaPreferencial" name="areapreferencial" value="<?php echo $areapreferencial; ?>" readonly>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Techn&Art área preferencial (Inglês)</label>
+                            <input type="text" class="form-control" id="inputAreaPreferencialEn" name="areapreferencial_en" value="<?php echo $areapreferencial_en; ?>" readonly>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Financiamento</label>
-                    <input type="text" class="form-control" id="inputFinanciamento" name="financiamento" readonly value="<?php echo $financiamento; ?>">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Financiamento</label>
+                            <input type="text" class="form-control" id="inputFinanciamento" name="financiamento" value="<?php echo $financiamento; ?>" readonly>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Financiamento (Inglês)</label>
+                            <input type="text" class="form-control" id="inputFinanciamentoEn" name="financiamento_en" value="<?php echo $financiamento_en; ?>" readonly>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Âmbito</label>
+                            <input type="text" class="form-control" id="inputAmbito" name="ambito" value="<?php echo $ambito; ?>" readonly>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Âmbito (Inglês)</label>
+                            <input type="text" class="form-control" id="inputAmbitoEn" name="ambito_en" value="<?php echo $ambito_en; ?>" readonly>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Âmbito</label>
-                    <input type="text" class="form-control" id="inputAmbito" name="ambito" readonly value="<?php echo $ambito; ?>">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Site</label>
+                            <input type="text" class="form-control" id="inputSite" name="site" value="<?php echo $site; ?>" readonly>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Site (Inglês)</label>
+                            <input type="text" class="form-control" id="inputSiteEn" name="site_en" value="<?php echo $site_en; ?>" readonly>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Site</label>
-                    <input type="text" minlength="1" readonly maxlength="100" data-error="Por favor introduza um site válido" class="form-control" id="inputSite" name="site" value="<?php echo $site; ?>">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Facebook</label>
+                            <input type="text" class="form-control" id="inputFace" name="facebook" value="<?php echo $facebook; ?>" readonly>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Facebook (Inglês)</label>
+                            <input type="text" class="form-control" id="inputFaceEn" name="facebook_en" value="<?php echo $facebook_en; ?>" readonly>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Facebook</label>
-                    <input type="text" minlength="1" readonly maxlength="100" data-error="Por favor introduza um facebook válido" class="form-control" id="inputFace" name="facebook" value="<?php echo $facebook; ?>">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
-                </div>
-                <div class="form-group">
-                    <label>Fotografia</label>
-                    <input type="text" class="form-control" id="inputFotografia" name="fotografia" readonly value="<?php echo "../assets/projetos/" . $fotografia; ?>">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
-                </div>
+                <img id="preview" src="<?php echo $mainDir . $fotografia; ?>" width='100px' height='100px' class="mb-2 mt-3" /><br>
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block">Confirmar</button>

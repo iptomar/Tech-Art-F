@@ -2,7 +2,7 @@
 require "../verifica.php";
 require "../config/basedados.php";
 
-$sql = "SELECT id, nome, referencia, areapreferencial, financiamento,fotografia, concluido FROM projetos";
+$sql = "SELECT id, nome, referencia, areapreferencial, financiamento,fotografia, concluido FROM projetos ORDER BY nome";
 $result = mysqli_query($conn, $sql);
 
 ?>

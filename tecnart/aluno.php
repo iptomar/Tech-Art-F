@@ -3,8 +3,13 @@ include 'config/dbconnection.php';
 include 'models/functions.php';
 
 $pdo = pdo_connect_mysql();
-
-$stmt = $pdo->prepare('SELECT * FROM investigadores WHERE id=?');
+$language = ($_SESSION["lang"] == "en") ? "_en" : "";
+$query = "SELECT id, email, nome,
+        COALESCE(NULLIF(sobre{$language}, ''), sobre) AS sobre,
+        COALESCE(NULLIF(areasdeinteresse{$language}, ''), areasdeinteresse) AS areasdeinteresse,
+        ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id
+        FROM investigadores WHERE id=? and tipo = \"Aluno\"";
+$stmt = $pdo->prepare($query);
 $stmt->bindParam(1, $_GET["aluno"], PDO::PARAM_INT);
 $stmt->execute();
 $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -76,9 +81,9 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
             </h5>
 
             <div class="alinhado">
-                <?= !empty(trim($investigadores['orcid'])."") ? "<a target='_blank' class='link_externo orcid' href='https://orcid.org/" . $investigadores['orcid'] . "'></a>" : "" ?>
-                <?= !empty(trim($investigadores['ciencia_id'])."") ? "<a target='_blank' class='link_externo ciencia_id' href='https://www.cienciavitae.pt/" . $investigadores['ciencia_id'] . "'></a>" : "" ?>
-                <?= !empty(trim($investigadores['research_gate'])."") ? "<a target='_blank' class='link_externo research_gate' href=" . $investigadores['research_gate'] . "></a>" : "" ?> 
+                <?= !empty(trim($investigadores['orcid']) . "") ? "<a target='_blank' class='link_externo orcid' href='https://orcid.org/" . $investigadores['orcid'] . "'></a>" : "" ?>
+                <?= !empty(trim($investigadores['ciencia_id']) . "") ? "<a target='_blank' class='link_externo ciencia_id' href='https://www.cienciavitae.pt/" . $investigadores['ciencia_id'] . "'></a>" : "" ?>
+                <?= !empty(trim($investigadores['research_gate']) . "") ? "<a target='_blank' class='link_externo research_gate' href=" . $investigadores['research_gate'] . "></a>" : "" ?>
             </div>
 
         </div>
@@ -190,7 +195,11 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
 
             <div class="textInfo" style="padding-bottom: 20px;">
                 <?php
-                $stmt = $pdo->prepare('SELECT p.* FROM investigadores_projetos ip INNER JOIN projetos p ON p.id = ip.projetos_id Where ip.investigadores_id = ?');
+                $query = "SELECT p.id, COALESCE(NULLIF(p.nome{$language}, ''), p.nome) AS nome, p.fotografia 
+                        FROM investigadores_projetos ip 
+                        INNER JOIN projetos p ON p.id = ip.projetos_id 
+                        WHERE ip.investigadores_id = ?";
+                $stmt = $pdo->prepare($query);
                 $stmt->bindParam(1, $_GET["aluno"], PDO::PARAM_INT);
                 $stmt->execute();
                 $projetos = $stmt->fetchall(PDO::FETCH_ASSOC);

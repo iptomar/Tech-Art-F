@@ -8,16 +8,6 @@ $stmt = $pdo->prepare('SELECT * FROM investigadores');
 $stmt->execute();
 $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "technart";
-
-$con = mysqli_connect($servername, $username, $password, $dbname);
-$sql = "SELECT * FROM investigadores";
-$result = mysqli_query($con, $sql);
-
-
 ?>
 
 <?= template_header('Publicações'); ?>
@@ -35,11 +25,9 @@ $result = mysqli_query($con, $sql);
                 $login = 'IPT_ADMIN';
                 $password = 'U6-km(jD8a68r';
 
-
-                if ($result->num_rows > 0) {
+                if (count($investigadores) > 0) {
                     $a = array();
-                    while ($row = $result->fetch_assoc()) {
-
+                    foreach ($investigadores as $row) {
                         $variable = $row["ciencia_id"];
                         $url = "https://qa.cienciavitae.pt/api/v1.1/curriculum/" . $variable . "/output?lang=User%20defined";
 

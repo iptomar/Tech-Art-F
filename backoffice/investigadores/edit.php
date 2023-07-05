@@ -5,49 +5,42 @@ require "../config/basedados.php";
 if ($_SESSION["autenticado"] != 'administrador' && $_SESSION["autenticado"] != $_GET["id"]) {
     header("Location: index.php");
 }
+$filesDir = "../assets/investigadores/";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nome = $_POST["nome"];
+    $email = $_POST["email"];
+    $ciencia_id = $_POST["ciencia_id"];
+    $sobre = $_POST["sobre"];
+    $sobre_en = $_POST["sobre_en"];
+    $tipo = $_POST["tipo"];
+    $id = $_POST["id"];
+    $areasdeinteresse = $_POST["areasdeinteresse"];
+    $areasdeinteresse_en = $_POST["areasdeinteresse_en"];
+    $orcid = $_POST["orcid"];
+    $scholar = $_POST["scholar"];
+    $research_gate = $_POST["research_gate"];
+    $scopus_id = $_POST["scopus_id"];
 
 
-    if ($_FILES["fotografia"]["size"] != 0) {
-        $target_file = $_FILES["fotografia"]["name"];
-        move_uploaded_file($_FILES["fotografia"]["tmp_name"], "../assets/investigadores/" . $target_file);
-        $sql = "update investigadores set " .
-            "nome = ?, email = ?, ciencia_id = ?, " .
-            "sobre = ?, tipo = ?, fotografia = ?, areasdeinteresse = ?, orcid = ?, scholar = ?, research_gate=?, scopus_id=? " .
-            "where  id  = ?";
-        $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, 'sssssssssssi', $nome, $email, $ciencia_id, $sobre, $tipo, $fotografia, $areasdeinteresse, $orcid, $scholar, $research_gate, $scopus_id, $id);
-        $nome = $_POST["nome"];
-        $email = $_POST["email"];
-        $ciencia_id = $_POST["ciencia_id"];
-        $sobre = $_POST["sobre"];
-        $tipo = $_POST["tipo"];
-        $fotografia = $target_file;
-        $id = $_POST["id"];
-        $areasdeinteresse = $_POST["areasdeinteresse"];
-        $orcid = $_POST["orcid"];
-        $scholar = $_POST["scholar"];
-        $research_gate = $_POST["research_gate"];
-        $scopus_id = $_POST["scopus_id"];
-    } else {
-        $sql = "update investigadores set " .
-            "nome = ?, email = ?, ciencia_id = ?, " .
-            "sobre = ?, tipo = ?, areasdeinteresse = ?, orcid = ?, scholar = ?, research_gate=?, scopus_id=? " .
-            "where  id  = ?";
-        $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, 'ssssssssssi', $nome, $email, $ciencia_id, $sobre, $tipo, $areasdeinteresse, $orcid, $scholar, $research_gate, $scopus_id, $id);
-        $nome = $_POST["nome"];
-        $email = $_POST["email"];
-        $ciencia_id = $_POST["ciencia_id"];
-        $sobre = $_POST["sobre"];
-        $tipo = $_POST["tipo"];
-        $id = $_POST["id"];
-        $areasdeinteresse = $_POST["areasdeinteresse"];
-        $orcid = $_POST["orcid"];
-        $scholar = $_POST["scholar"];
-        $research_gate = $_POST["research_gate"];
-        $scopus_id = $_POST["scopus_id"];
+    $sql = "UPDATE investigadores set nome = ?, email = ?, ciencia_id = ?, sobre = ?, sobre_en = ?, areasdeinteresse = ?, areasdeinteresse_en = ?, tipo = ?, orcid = ?, scholar = ?, research_gate=?, scopus_id=?";
+    $params = [$nome, $email, $ciencia_id, $sobre, $sobre_en,  $areasdeinteresse, $areasdeinteresse_en, $tipo, $orcid, $scholar, $research_gate, $scopus_id];
+    $fotografia_exists = isset($_FILES["fotografia"]) && $_FILES["fotografia"]["size"] != 0;
+    if ($fotografia_exists) {
+
+        $fotografia = uniqid() . '_' . $_FILES["fotografia"]["name"];
+        $sql .= ", fotografia = ? ";
+        $params[] = $fotografia;
+        move_uploaded_file($_FILES["fotografia"]["tmp_name"], $filesDir . $fotografia);
     }
+
+    $sql .= " WHERE id = ?";
+    $params[] = $id;
+    $stmt = mysqli_prepare($conn, $sql);
+    $param_types = str_repeat('s', count($params) - 1) . 'i';
+
+    mysqli_stmt_bind_param($stmt, $param_types, ...$params);
+
     if (mysqli_stmt_execute($stmt)) {
         header('Location: index.php');
         exit;
@@ -55,8 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $sql . mysqli_error($conn);
     }
 } else {
-    $sql = "select nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar, research_gate, scopus_id from investigadores " .
-        "where id = ?";
+    $sql = "SELECT nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar, research_gate, scopus_id, sobre_en, areasdeinteresse_en from investigadores WHERE id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $id);
     $id = $_GET["id"];
@@ -75,6 +67,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $scholar = $row["scholar"];
     $research_gate = $row["research_gate"];
     $scopus_id = $row["scopus_id"];
+    $sobre_en = $row["sobre_en"];
+    $areasdeinteresse_en = $row["areasdeinteresse_en"];
 }
 
 
@@ -85,6 +79,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </link>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+<script type="text/javascript">
+    function previewImg(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#preview').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            $('#preview').attr('src', '<?= $filesDir . $fotografia ?>');
+        }
+    }
+</script>
 <style>
     .container {
         max-width: 550px;
@@ -101,6 +108,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         font-size: 13px;
         padding: 4px 0 0;
         color: red;
+    }
+
+    textarea {
+        min-height: 100px;
+    }
+
+    .halfCol {
+        max-width: 50%;
+        display: inline-block;
+        vertical-align: top;
+        height: fit-content;
     }
 </style>
 
@@ -125,18 +143,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <div class="form-group">
-                    <label>CiênciaVitae ID</label>
-                    <input type="text" minlength="1" required maxlength="100" required class="form-control" data-error="Por favor introduza um ID válido" id="inputCienciaid" name="ciencia_id" value="<?php echo $ciencia_id; ?>">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
+                <div class="row">
+                    <div class="col halfCol">
+                        <div class="form-group">
+                            <label>Sobre</label>
+                            <textarea type="text" minlength="1" required data-error="Por favor introduza uma descrição sobre si" class="form-control" id="inputSobre" placeholder="Sobre" name="sobre"><?php echo $sobre; ?></textarea>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col halfCol">
+                        <div class="form-group">
+                            <label>Sobre (Inglês)</label>
+                            <textarea type="text" class="form-control" id="inputSobre" placeholder="Sobre (Inglês)" name="sobre_en"><?php echo $sobre_en; ?></textarea>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Sobre</label>
-                    <input type="text" minlength="1" required data-error="Por favor introduza uma descrição sobre si" class="form-control" id="inputSobre" name="sobre" value="<?php echo $sobre; ?>">
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Áreas de interesse</label>
+                            <textarea type="text" minlength="1" required data-error="Por favor introduza as suas áreas de interesse" class="form-control" id="inputAreasdeInteresse" placeholder="Áreas de interesse" name="areasdeinteresse"><?php echo $areasdeinteresse; ?></textarea>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Áreas de interesse (Inglês)</label>
+                            <textarea type="text" class="form-control" id="inputAreasdeInteresseEn" placeholder="Áreas de interesse (Inglês)" name="areasdeinteresse_en"><?php echo $areasdeinteresse_en; ?></textarea>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -152,8 +194,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="form-group">
-                    <label>Áreas de interesse</label>
-                    <input type="text" minlength="1" required data-error="Por favor introduza as suas áreas de interesse" class="form-control" id="inputAreasdeInteresse" name="areasdeinteresse" value="<?php echo $areasdeinteresse; ?>">
+                    <label>CiênciaVitae ID</label>
+                    <input type="text" minlength="1" required maxlength="100" required class="form-control" data-error="Por favor introduza um ID válido" id="inputCienciaid" name="ciencia_id" value="<?php echo $ciencia_id; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
@@ -181,12 +223,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="form-group">
                     <label>Fotografia</label>
-                    <input type="file" minlength="1" maxlength="100" class="form-control" id="inputFotografia" name="fotografia" value="<?php echo $fotografia; ?>">
+                    <input type="file" accept="image/*" onchange="previewImg(this);" class="form-control" id="fotografia" name="fotografia" value="<?php echo $fotografia; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
+                <img id="preview" src="<?php echo $filesDir . $fotografia; ?>" width='100px' height='100px' class="mb-3" />
 
-                <img src="<?php echo "../assets/investigadores/" . $fotografia; ?>" width='100px' height='100px' /><br><br>
 
 
                 <div class="form-group">

@@ -63,6 +63,9 @@ $lang_values_array = array(
 
 );
 
+  $ptWeight= $_SESSION["lang"] == "pt" ? "bold" : "normal";
+  $enWeight= $_SESSION["lang"] == "en" ? "bold" :  "normal";
+
   $change_lang =  function ($key) {
     return  change_lang($key);
   };
@@ -193,8 +196,8 @@ $lang_values_array = array(
                                         <ul class="navbar-nav">
                                             <li style="margin-top: 40px; overflow:visible;" class="nav-item">
                                               <div>
-                                                  <a class="translationOption" href="session_var_pt.php" >PT</a>
-                                                  <a class="translationOption" href="session_var_en.php" >EN</a>
+                                                  <a class="translationOption" style="font-weight: $ptWeight" href="session_var_pt.php" >PT</a>
+                                                  <a class="translationOption" style="font-weight: $enWeight" href="session_var_en.php" >EN</a>
                                               </div>
                                             </li>
                                         

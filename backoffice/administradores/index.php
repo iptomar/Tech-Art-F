@@ -3,7 +3,7 @@ require "../verifica.php";
 require "../config/basedados.php";
 require "bloqueador.php";
 
-$sql = "SELECT id, nome, email FROM administradores";
+$sql = "SELECT id, nome, email FROM administradores ORDER BY nome";
 $result = mysqli_query($conn, $sql);
 ?>
 
@@ -31,7 +31,7 @@ $result = mysqli_query($conn, $sql);
 					</div>
 					<div class="col-sm-6">
 						<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i>
-							<span>Adiconar Novo Administrador</span></a>
+							<span>Adicionar Novo Administrador</span></a>
 					</div>
 				</div>
 			</div>
