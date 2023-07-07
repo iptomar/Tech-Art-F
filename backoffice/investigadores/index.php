@@ -8,11 +8,16 @@ $find = "";
 $sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar FROM investigadores ORDER BY nome";
 $result = mysqli_query($conn, $sql);
 
+if (isset($_POST["anoRelatorio"])) {
+	$_SESSION["anoRelatorio"] = $_POST["anoRelatorio"];
+}
+
 ?>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
@@ -23,6 +28,41 @@ $result = mysqli_query($conn, $sql);
 	echo $css;
 	?>
 </style>
+
+<div class="container mt-3">
+	<form action="./index.php" method="post">
+		<input name="anoRelatorio" type="text" placeholder="Ano do relatório" />
+		<input type="submit" value="Submeter Ano" class="btn btn-success" />
+		<?php if ($_SESSION["autenticado"] == 'administrador') { ?>
+
+			<span class='text-danger text-align'>
+
+
+				<?php
+				if (isset($_SESSION["anoRelatorio"])) {
+					if (@$_SESSION["anoRelatorio"] != "") {
+
+				?>
+
+						<i class="material-icons-round ml-3">&#xE002;</i><span class="ml-2">Foi submetido o ano <?= $_SESSION["anoRelatorio"] ?>!</span>
+
+					<?php
+					} else {
+					?>
+
+						<i class="material-icons-round ml-3">&#xE002;</i><span class="ml-2">Cuidado! Campo vazio! (Ano = <?= date("Y") ?>)</span>
+
+					<?php
+					}
+
+					?>
+
+			</span>
+
+	<?php }
+			} ?>
+	</form>
+</div>
 
 <div class="container-xl">
 	<div class="table-responsive">
@@ -91,5 +131,6 @@ $result = mysqli_query($conn, $sql);
 </div>
 
 <?php
+
 mysqli_close($conn);
 ?>

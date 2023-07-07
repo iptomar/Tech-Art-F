@@ -11,7 +11,13 @@ if ($_SESSION["autenticado"] != 'administrador' && $_SESSION["autenticado"] != $
 }
 
 //ano
-$year = date("Y");
+if(isset($_SESSION["anoRelatorio"])){
+	$year = $_SESSION["anoRelatorio"];
+}else{
+    $year = date("Y");
+}
+
+
 //$year = 2011;
 
 //opcoes do select de cada pagina folha de calculo
