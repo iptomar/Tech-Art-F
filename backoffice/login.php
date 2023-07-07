@@ -15,6 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"]) && isset($_PO
   if (mysqli_num_rows($result) == 1) {
     //Se for um admisnistrador guardar este facto nas variaveis de sessão
     $_SESSION["autenticado"] = 'administrador';
+    $row = mysqli_fetch_assoc($result);
+    $_SESSION["adminid"] =  $row["id"];
     header("Location: projetos/index.php");
   } else {
     // se não for um administrador verificar se os dados pertencem a um investigador

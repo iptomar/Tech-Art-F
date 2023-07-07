@@ -14,18 +14,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     move_uploaded_file($_FILES["imagem"]["tmp_name"], $mainDir . $fileName);
 
-
-    $sql = "INSERT INTO oportunidades (titulo, titulo_en, conteudo, conteudo_en, imagem, visivel) " .
-        "VALUES (?,?,?,?,?,?)";
+    $sql = "INSERT INTO oportunidades (titulo, titulo_en, conteudo, conteudo_en, imagem, visivel, ultimo_editor) " .
+    "VALUES (?,?,?,?,?,?,?)"; 
     $stmt = mysqli_prepare($conn, $sql);
     $titulo = $_POST["titulo"];
     $titulo_en = $_POST["titulo_en"];
     $conteudo = $_POST["conteudo"];
     $conteudo_en = $_POST["conteudo_en"];
     $imagem = $fileName;
+    $ultimo_editor = $_SESSION["adminid"];
 
     $visivel = isset($_POST["visivel"]) ? 1 : 0;
-    mysqli_stmt_bind_param($stmt, 'sssssi', $titulo, $titulo_en, $conteudo, $conteudo_en, $imagem, $visivel);
+    mysqli_stmt_bind_param($stmt, 'sssssii', $titulo, $titulo_en, $conteudo, $conteudo_en, $imagem, $visivel, $ultimo_editor);
     if (mysqli_stmt_execute($stmt)) {
         if (isset($_FILES['ficheiros']) && !empty($_FILES['ficheiros']['name'][0])) {
             $id = mysqli_insert_id($conn);

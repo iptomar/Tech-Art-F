@@ -243,8 +243,8 @@ CREATE TABLE `admissoes` (
 
 
 ALTER TABLE `investigadores`
-ADD `research_gate` NOT NULL VARCHAR(255) AFTER `scholar`,
-ADD `scopus_id` NOT NULL VARCHAR(255) AFTER `research_gate`;
+ADD `research_gate` VARCHAR(255) NOT NULL AFTER `scholar`,
+ADD `scopus_id` VARCHAR(255)  NOT NULL AFTER `research_gate`;
 
 
 ALTER TABLE `projetos` ADD `concluido` boolean NOT NULL default false;
@@ -286,3 +286,13 @@ ADD COLUMN `conteudo_en` MEDIUMTEXT NOT NULL AFTER `conteudo`;
 ALTER TABLE `oportunidades`
 ADD COLUMN `titulo_en` VARCHAR(255) NOT NULL AFTER `titulo`,
 ADD COLUMN `conteudo_en` MEDIUMTEXT NOT NULL AFTER `conteudo`;
+
+ALTER TABLE `noticias`
+ADD COLUMN `ultimo_editor` INT(11) NULL,
+ADD COLUMN `timestamp_editado` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ADD CONSTRAINT `noticias_administrador_ibfk_1` FOREIGN KEY (`ultimo_editor`) REFERENCES `administradores` (`id`) ON DELETE SET NULL;
+
+ALTER TABLE `oportunidades`
+ADD COLUMN `ultimo_editor` INT(11) NULL,
+ADD COLUMN `timestamp_editado` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ADD CONSTRAINT `oportunidades_administrador_ibfk_1` FOREIGN KEY (`ultimo_editor`) REFERENCES `administradores` (`id`) ON DELETE SET NULL;
