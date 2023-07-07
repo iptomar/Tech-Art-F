@@ -35,32 +35,38 @@ if (isset($_POST["anoRelatorio"])) {
 		<input type="submit" value="Submeter Ano" class="btn btn-success" />
 		<?php if ($_SESSION["autenticado"] == 'administrador') { ?>
 
-			<span class='text-danger text-align'>
-
-
-				<?php
-				if (isset($_SESSION["anoRelatorio"])) {
+			<?php
+			if (isset($_SESSION["anoRelatorio"])) {
+			?>
+				<span class='text-danger'>
+					<?php
 					if (@$_SESSION["anoRelatorio"] != "") {
 
-				?>
+					?>
 
-						<i class="material-icons-round ml-3">&#xE002;</i><span class="ml-2">Foi submetido o ano <?= $_SESSION["anoRelatorio"] ?>!</span>
+						<span class="material-icons-round ml-3" style="font-size:16px;">&#xE002;</span><span class="ml-2">Foi submetido o ano <?= $_SESSION["anoRelatorio"] ?>!</span>
 
 					<?php
 					} else {
 					?>
 
-						<i class="material-icons-round ml-3">&#xE002;</i><span class="ml-2">Cuidado! Campo vazio! (Ano = <?= date("Y") ?>)</span>
+						<span class="material-icons-round ml-3" style="font-size:16px;">&#xE002;</span><span class="ml-2">Cuidado! Campo submetido vazio! (Ano: <?= date("Y") ?>)</span>
 
 					<?php
 					}
 
 					?>
 
-			</span>
+				</span>
 
-	<?php }
-			} ?>
+			<?php } else {
+			?>
+				<span class="text-info">
+					<span class="material-icons-round ml-3" style="font-size:16px;">&#xE88E;</span><span class="ml-2"> Ano Atual: <?= date("Y") ?></span>
+				</span>
+		<?php
+			}
+		} ?>
 	</form>
 </div>
 

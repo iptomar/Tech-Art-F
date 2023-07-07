@@ -11,7 +11,7 @@ if ($_SESSION["autenticado"] != 'administrador' && $_SESSION["autenticado"] != $
 }
 
 //ano
-if(isset($_SESSION["anoRelatorio"])){
+if($_SESSION["anoRelatorio"] != ""){
 	$year = $_SESSION["anoRelatorio"];
 }else{
     $year = date("Y");
