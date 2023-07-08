@@ -21,7 +21,7 @@ include 'models/functions.php';
                 <div class="flex-container mobile_reverse">
                     <div class="flex-left">
                         <figure class="imgfigura">
-                            <img class="imgestrutura w-100" style="max-width:330px;" src="./assets/images/estrutura.JPG" alt="Boat">
+                            <img class="imgestrutura w-100" style="max-width:330px;" src="./assets/images/estrutura.jpg" alt="Boat">
                             <figcaption class="imgs"></figcaption>
                         </figure>
                     </div>
