@@ -151,7 +151,8 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
                                 <?php foreach ($investigadores as $investigador) : ?>
 
                                     <div class="ml-5 imgList">
-                                        <a href="integrado.php?integrado=<?= $investigador['id'] ?>">
+                                    <?php $tipo =  strtolower($investigador['tipo']) ?>
+                                        <a href="<?=$tipo?>.php?<?=$tipo?>=<?= $investigador['id'] ?>">
                                             <div class="image_default">
                                                 <img class="centrare" style="object-fit: cover; width:225px; height:280px;" src="../backoffice/assets/investigadores/<?= $investigador['fotografia'] ?>" alt="">
                                                 <div class="imgText justify-content-center m-auto">
