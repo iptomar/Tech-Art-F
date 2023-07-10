@@ -11,11 +11,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mkdir($mainDir, 0777, true);
     }
     $fileName =  uniqid() . '_' . $_FILES["imagem"]["name"];
-
-    move_uploaded_file($_FILES["imagem"]["tmp_name"], $mainDir . $fileName);
+    if (!move_uploaded_file($_FILES["imagem"]["tmp_name"], $mainDir . $fileName)) {
+        echo 'Um erro ocorreu ao inserir a imagem ' . $_FILES["imagem"]["tmp_name"] . ' em '.$mainDir . $fileName ;
+        exit;
+    }
 
     $sql = "INSERT INTO oportunidades (titulo, titulo_en, conteudo, conteudo_en, imagem, visivel, ultimo_editor) " .
-    "VALUES (?,?,?,?,?,?,?)"; 
+        "VALUES (?,?,?,?,?,?,?)";
     $stmt = mysqli_prepare($conn, $sql);
     $titulo = $_POST["titulo"];
     $titulo_en = $_POST["titulo_en"];
@@ -29,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (mysqli_stmt_execute($stmt)) {
         if (isset($_FILES['ficheiros']) && !empty($_FILES['ficheiros']['name'][0])) {
             $id = mysqli_insert_id($conn);
-            $uploadDir = $mainDir."ficheiros_$id/pt/";
+            $uploadDir = $mainDir . "ficheiros_$id/pt/";
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
             }
@@ -51,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         if (isset($_FILES['ficheiros_en']) && !empty($_FILES['ficheiros_en']['name'][0])) {
             $id = mysqli_insert_id($conn);
-            $uploadDirEn = $mainDir."ficheiros_$id/en/";
+            $uploadDirEn = $mainDir . "ficheiros_$id/en/";
             if (!is_dir($uploadDirEn)) {
                 mkdir($uploadDirEn, 0777, true);
             }
@@ -68,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         window.location.href = 'edit.php?id=" . $id . "';
                         </script>";
                     exit;
-                } 
+                }
             }
         }
         header('Location: index.php');
