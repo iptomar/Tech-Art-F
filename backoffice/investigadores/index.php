@@ -33,7 +33,6 @@ if (isset($_POST["anoRelatorio"])) {
 	<form action="./index.php" method="post">
 		<input name="anoRelatorio" type="text" placeholder="Ano do relatório" />
 		<input type="submit" value="Submeter Ano" class="btn btn-success" />
-		<?php if ($_SESSION["autenticado"] == 'administrador') { ?>
 
 			<?php
 			if (isset($_SESSION["anoRelatorio"])) {
@@ -65,8 +64,7 @@ if (isset($_POST["anoRelatorio"])) {
 					<span class="material-icons-round ml-3" style="font-size:16px;">&#xE88E;</span><span class="ml-2"> Ano Atual: <?= date("Y") ?></span>
 				</span>
 		<?php
-			}
-		} ?>
+			}?>
 	</form>
 </div>
 
