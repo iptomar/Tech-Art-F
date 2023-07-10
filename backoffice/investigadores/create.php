@@ -10,33 +10,38 @@ if ($_SESSION["autenticado"] != "administrador") {
 $filesDir = "../assets/investigadores/";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $target_file = uniqid() . '_' . $_FILES["fotografia"]["name"];
-    //transferir a imagem para a pasta de assets
-    move_uploaded_file($_FILES["fotografia"]["tmp_name"], $filesDir . $target_file);
+    if ($_POST['password'] == $_POST['repeatPassword']) {
 
-    $sql = "INSERT INTO investigadores (nome, email, ciencia_id, sobre, sobre_en, tipo, fotografia, areasdeinteresse,areasdeinteresse_en, orcid, scholar, research_gate, scopus_id, password) " .
-        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 'ssssssssssssss', $nome, $email, $ciencia_id, $sobre, $sobre_en, $tipo, $fotografia, $areasdeinteresse, $areasdeinteresse_en, $orcid, $scholar, $research_gate, $scopus_id, $password);
-    $nome = $_POST["nome"];
-    $email = $_POST["email"];
-    $ciencia_id = $_POST["ciencia_id"];
-    $sobre = $_POST["sobre"];
-    $sobre_en = $_POST["sobre_en"];
-    $tipo = $_POST["tipo"];
-    $fotografia = $target_file;
-    $areasdeinteresse = $_POST["areasdeinteresse"];
-    $areasdeinteresse_en = $_POST["areasdeinteresse_en"];
-    $orcid = $_POST["orcid"];
-    $scholar = $_POST["scholar"];
-    $research_gate = $_POST["research_gate"];
-    $scopus_id = $_POST["scopus_id"];
-    $password = md5($_POST["password"]);
-    if (mysqli_stmt_execute($stmt)) {
-        header('Location: index.php');
-        exit;
+        $target_file = uniqid() . '_' . $_FILES["fotografia"]["name"];
+        //transferir a imagem para a pasta de assets
+        move_uploaded_file($_FILES["fotografia"]["tmp_name"], $filesDir . $target_file);
+
+        $sql = "INSERT INTO investigadores (nome, email, ciencia_id, sobre, sobre_en, tipo, fotografia, areasdeinteresse,areasdeinteresse_en, orcid, scholar, research_gate, scopus_id, password) " .
+            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, 'ssssssssssssss', $nome, $email, $ciencia_id, $sobre, $sobre_en, $tipo, $fotografia, $areasdeinteresse, $areasdeinteresse_en, $orcid, $scholar, $research_gate, $scopus_id, $password);
+        $nome = $_POST["nome"];
+        $email = $_POST["email"];
+        $ciencia_id = $_POST["ciencia_id"];
+        $sobre = $_POST["sobre"];
+        $sobre_en = $_POST["sobre_en"];
+        $tipo = $_POST["tipo"];
+        $fotografia = $target_file;
+        $areasdeinteresse = $_POST["areasdeinteresse"];
+        $areasdeinteresse_en = $_POST["areasdeinteresse_en"];
+        $orcid = $_POST["orcid"];
+        $scholar = $_POST["scholar"];
+        $research_gate = $_POST["research_gate"];
+        $scopus_id = $_POST["scopus_id"];
+        $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+        if (mysqli_stmt_execute($stmt)) {
+            header('Location: index.php');
+            exit;
+        } else {
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        }
     } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        echo "Error: Passwords não são iguais";
     }
 }
 ?>
@@ -106,8 +111,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" minlength="1" required maxlength="255" required class="form-control" id="inputPassword" placeholder="Password" name="password">
+                    <input type="password" minlength="5" required maxlength="255" required data-error="Por favor introduza uma password com mínimo de 5 caracteres" class="form-control" id="inputPassword" placeholder="Password" name="password">
                     <!-- Error -->
+                    <div class="help-block with-errors"></div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="repeatPassword">Repetir a Password</label>
+                    <input type="password" class="form-control" id="repeatPassword" placeholder="Repetir Password" required name="repeatPassword" data-error="As Passwords são diferentes">
                     <div class="help-block with-errors"></div>
                 </div>
 
@@ -209,7 +221,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </div>
+<script>
+    //Ao retirar o foco do input de password repetida, verifique se ao input corresponde ao input de password
+    $("#repeatPassword").focusout(function() {
+        var input = document.getElementById('repeatPassword');
+        if (input.value != document.getElementById('inputPassword').value) {
+            input.setCustomValidity("The Passwords don't match");
+            input.setCustomValidity("The Passwords don't match");
 
+        } else {
+            input.setCustomValidity('');
+        }
+    });
+</script>
 
 
 <?php

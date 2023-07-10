@@ -121,7 +121,7 @@ if (isset($_POST["anoRelatorio"])) {
 								if ($_SESSION["autenticado"] == 'administrador') {
 									echo "<td><a href='remove.php?id=" . $row["id"] . "' class='btn btn-danger'><span>Apagar</span></a></td>";
 								}
-								echo "<td><a href='resetpassword.php?id=" . $row["id"] . "' class='btn btn-warning'><span>Reset Password</span></a></td>";
+								echo "<td><a href='resetpassword.php?id=" . $row["id"] . "' class='btn btn-warning'><span>Alterar Password</span></a></td>";
 								echo "<td><a href='autoEscreveRelatorio.php?id=" . $row["id"] . "' class='btn btn-info'><span>Gerar Relatório</span></a></td>";
 								echo "</tr>";
 							}

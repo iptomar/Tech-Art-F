@@ -3,7 +3,7 @@ require "../verifica.php";
 require "../config/basedados.php";
 require "bloqueador.php";
 
-$sql = "SELECT id, nome, email FROM administradores ORDER BY nome";
+$sql = "SELECT id, nome, email FROM administradores ORDER BY id";
 $result = mysqli_query($conn, $sql);
 ?>
 
@@ -53,7 +53,7 @@ $result = mysqli_query($conn, $sql);
 							echo "<td>" . $row["email"] . "</td>";
 							echo "<td><a href='edit.php?id=" . $row["id"] . "' class='btn btn-primary'><span>Alterar</span></a></td>";
 							echo "<td><a href='remove.php?id=" . $row["id"] . "' class='btn btn-danger'><span>Apagar</span></a></td>";
-							echo "<td><a href='resetpassword.php?id=" . $row["id"] . "' class='btn btn-warning'><span>Reset Password</span></a></td>";
+							echo "<td><a href='resetpassword.php?id=" . $row["id"] . "' class='btn btn-warning'><span>Alterar Password</span></a></td>";
 							echo "</tr>";
 						}
 					}

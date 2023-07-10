@@ -39,8 +39,8 @@ CREATE TABLE `administradores` (
 --
 
 INSERT INTO `administradores` (`id`, `nome`, `email`, `password`) VALUES
-(1, 'Admin_teste', 'admin@admin.pt', 'aa1bf4646de67fd9086cf6c79007026c'),
-(7, 'Admin2', 'admin2@admin.com', '09151a42659cfc08aff86820f973f640');
+(1, 'Admin_teste', 'admin@admin.pt', '$2y$10$MH.i8UlpN1khB48yDkfby.a.nI9KjPEO8SH6N4NC/MOR2D.oYcGW2'),
+(7, 'Admin2', 'admin2@admin.com', '$2y$10$bH.1jT89ydQAU8UFVwKQ..UOOw6deHjNPY5v9UM8y1szBq5M4GAae'); 
 
 -- --------------------------------------------------------
 
@@ -68,9 +68,9 @@ CREATE TABLE `investigadores` (
 --
 
 INSERT INTO `investigadores` (`id`, `nome`, `email`, `ciencia_id`, `sobre`, `tipo`, `fotografia`, `areasdeinteresse`, `orcid`, `scholar`, `password`, `ultimologin`) VALUES
-(11, 'Joana', 'R.micaela@live.com.pt', '0C1F-9648-2A48', 'miniin inininii ununun ininini', 'Integrado', 'FotoRapariga.png', 'xcvbnmuexrcfvgbhnjmkrxrcvgbhnjm', 'https://noticias.uc.pt/artigos/estudo-da-universidade-de-coimbra-aponta-desigualdades-sociais-no-acesso-a-ciclovias-e-sistema-de-bicicletas-partilhadas-de/', 'https://www.uc.pt/estudantes', '698dc19d489c4e4db73e28a713eab07b', NULL),
+(11, 'Joana', 'R.micaela@live.com.pt', '0C1F-9648-2A48', 'miniin inininii ununun ininini', 'Integrado', 'FotoRapariga.png', 'xcvbnmuexrcfvgbhnjmkrxrcvgbhnjm', 'https://noticias.uc.pt/artigos/estudo-da-universidade-de-coimbra-aponta-desigualdades-sociais-no-acesso-a-ciclovias-e-sistema-de-bicicletas-partilhadas-de/', 'https://www.uc.pt/estudantes', ' $2y$10$2SLVhIPbYFAyoczEuL4vUeoJKE5S/um4Qy8fs1lc2tu9Yj7p9/uRm', NULL),
 (12, 'Berto', 'berto_bertinho@gmail.com', '2A13-632C-D743', 'a', 'Integrado', '480006581462697f48b6ff44be2ea3d141def7edr1-334-441v2_uhq.jpg', '', '', '', '', NULL),
-(19, 'Marta', 'marta@hotmail.com', '2A13-632C-D743', 'nao', 'Aluno', 'o_exorcista_remake.jpg', 'Ciências da natureza', 'https://noticias.uc.pt/artigos/estudo-da-universidade-de-coimbra-aponta-desigualdades-sociais-no-acesso-a-ciclovias-e-sistema-de-bicicletas-partilhadas-de/', 'https://www.uc.pt/estudantes', 'a763a66f984948ca463b081bf0f0e6d0', NULL);
+(19, 'Marta', 'marta@hotmail.com', '2A13-632C-D743', 'nao', 'Aluno', 'o_exorcista_remake.jpg', 'Ciências da natureza', 'https://noticias.uc.pt/artigos/estudo-da-universidade-de-coimbra-aponta-desigualdades-sociais-no-acesso-a-ciclovias-e-sistema-de-bicicletas-partilhadas-de/', 'https://www.uc.pt/estudantes', '$2y$10$vJmmYnaGTRcHw7X.bLYC1e9GQC5wG4as1ikXUgaZYP592x0n46D7S', NULL); 
 
 -- --------------------------------------------------------
 
@@ -296,3 +296,11 @@ ALTER TABLE `oportunidades`
 ADD COLUMN `ultimo_editor` INT(11) NULL,
 ADD COLUMN `timestamp_editado` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 ADD CONSTRAINT `oportunidades_administrador_ibfk_1` FOREIGN KEY (`ultimo_editor`) REFERENCES `administradores` (`id`) ON DELETE SET NULL;
+
+
+UPDATE `administradores` SET `password` = '$2y$10$MH.i8UlpN1khB48yDkfby.a.nI9KjPEO8SH6N4NC/MOR2D.oYcGW2' WHERE `id` = 1;
+UPDATE `administradores` SET `password` = '$2y$10$bH.1jT89ydQAU8UFVwKQ..UOOw6deHjNPY5v9UM8y1szBq5M4GAae' WHERE `id` = 7;
+
+UPDATE `investigadores` SET `password` = '$2y$10$2SLVhIPbYFAyoczEuL4vUeoJKE5S/um4Qy8fs1lc2tu9Yj7p9/uRm' WHERE `id` = 11;
+UPDATE `investigadores` SET `password` = '$2y$10$vJmmYnaGTRcHw7X.bLYC1e9GQC5wG4as1ikXUgaZYP592x0n46D7S' WHERE `id` = 19;
+
