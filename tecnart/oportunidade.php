@@ -32,7 +32,7 @@ if (is_dir($filesDir)) {
 <section>
     <div class="totall">
         <div class="barraesquerda">
-            <h3 class="heading_h3" style="margin-bottom: 20px; padding-top: 60px; padding-right: 10px; padding-left: 45px; word-wrap: break-word;">
+            <h3 class="heading_h3 pb-5" style="margin-bottom: 20px; padding-top: 60px; padding-right: 10px; padding-left: 45px; word-wrap: break-word;">
                 <?= $oportunidades['titulo'] ?>
             </h3>
         </div>
