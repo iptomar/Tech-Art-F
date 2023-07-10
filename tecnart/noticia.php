@@ -38,7 +38,7 @@ $noticias = $stmt->fetch(PDO::FETCH_ASSOC);
         </div>
 
         <div class="infoCorpo">
-            <img style="object-fit: cover; height:350px; padding-left: 50px; padding-top: 50px;margin-bottom: 30px; " src="../backoffice/assets/noticias/<?= $noticias['imagem'] ?>" alt="">
+            <img style="object-fit: cover; height:350px; padding-left: 50px; padding-top: 50px;margin-bottom: 30px; max-width: calc(100% - 50px);" src="../backoffice/assets/noticias/<?= $noticias['imagem'] ?>" alt="">
 
             <div class="textInfo" style="padding-bottom: 80px;">
                 <div class="ck-content">
