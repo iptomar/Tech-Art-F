@@ -40,7 +40,7 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
     <div class="totall">
         <div class="barraesquerda">
 
-            <h3 class="heading_h3" style="font-size: 38px; margin-bottom: 20px; padding-top: 60px; padding-right: 10px; padding-left: 45px;  text-transform: uppercase;">
+            <h3 class="heading_h3" style="font-size: 38px; margin-bottom: 20px; padding-top: 60px; padding-right: 10px; padding-left: 45px;  text-transform: uppercase; word-wrap: break-word;">
                 <?= $projetos['nome'] ?>
             </h3>
             <div style="font-size: 15px; color:#060633; padding-left: 45px; padding-right: 10px; padding-bottom: 50px; padding-right:20px;">
