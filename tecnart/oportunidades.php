@@ -47,7 +47,15 @@ $oportunidades = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <a href="oportunidade.php?oportunidade=<?= $oportunidade['id'] ?>">
                      <div class="image_default">
                         <img class="centrare" style="object-fit: cover; width:225px; height:280px;" src="../backoffice/assets/oportunidades/<?= $oportunidade['imagem'] ?>" alt="">
-                        <div class="imgText justify-content-center m-auto"><?= $oportunidade['titulo'] ?></div>
+                        <div class="imgText justify-content-center m-auto" style="top:75%">
+                           <?php
+                           $titulo = trim($oportunidade['titulo']);
+                           if (strlen($oportunidade['titulo']) > 35) {
+                              $titulo = preg_split("/\s+(?=\S*+$)/", substr($oportunidade['titulo'], 0, 35))[0];
+                           }
+                           echo ($titulo !=  trim($oportunidade['titulo'])) ? $titulo . "..." : $titulo;
+                           ?>
+                        </div>
                      </div>
                   </a>
                </div>

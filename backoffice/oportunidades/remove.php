@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $files = scandir($filesDir);
             $files = array_diff($files, array('.', '..'));
         }
-        $filesDirEn = $mainDir . ".ficheiros_$id/en/";
+        $filesDirEn = $mainDir . "ficheiros_$id/en/";
         $filesEn = [];
         if (is_dir($filesDirEn)) {
             $filesEn = scandir($filesDirEn);

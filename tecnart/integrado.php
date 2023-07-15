@@ -114,7 +114,7 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
         </div>
 
         <div id="resto3" class="infoCorpo" style="display: none;">
-            <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
+            <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px; max-width: calc(100% - 50px);" src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
 
             <h3 class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 30px; padding-left: 50px;">
                 <?= change_lang("publications-tab-title-class") ?>

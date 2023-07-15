@@ -32,13 +32,13 @@ if (is_dir($filesDir)) {
 <section>
     <div class="totall">
         <div class="barraesquerda">
-            <h3 class="heading_h3" style="margin-bottom: 20px; padding-top: 60px; padding-right: 10px; padding-left: 45px; word-wrap: break-word;">
+            <h3 class="heading_h3 pb-5" style="margin-bottom: 20px; padding-top: 60px; padding-right: 10px; padding-left: 45px; word-wrap: break-word;">
                 <?= $oportunidades['titulo'] ?>
             </h3>
         </div>
 
         <div class="infoCorpo">
-            <img style="object-fit: cover; height:350px; padding-left: 50px; padding-top: 50px;margin-bottom: 30px; " src="../backoffice/assets/oportunidades/<?= $oportunidades['imagem'] ?>" alt="">
+            <img style="object-fit: cover; height:350px; padding-left: 50px; padding-top: 50px;margin-bottom: 30px; max-width: calc(100% - 50px);" src="../backoffice/assets/oportunidades/<?= $oportunidades['imagem'] ?>" alt="">
 
             <div class="textInfo">
                 <div class="ck-content">

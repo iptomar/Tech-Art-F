@@ -40,7 +40,7 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
     <div class="totall">
         <div class="barraesquerda">
 
-            <h3 class="heading_h3" style="font-size: 38px; margin-bottom: 20px; padding-top: 60px; padding-right: 10px; padding-left: 45px;  text-transform: uppercase;">
+            <h3 class="heading_h3" style="font-size: 38px; margin-bottom: 20px; padding-top: 60px; padding-right: 10px; padding-left: 45px;  text-transform: uppercase; word-wrap: break-word;">
                 <?= $projetos['nome'] ?>
             </h3>
             <div style="font-size: 15px; color:#060633; padding-left: 45px; padding-right: 10px; padding-bottom: 50px; padding-right:20px;">
@@ -151,7 +151,8 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
                                 <?php foreach ($investigadores as $investigador) : ?>
 
                                     <div class="ml-5 imgList">
-                                        <a href="integrado.php?integrado=<?= $investigador['id'] ?>">
+                                    <?php $tipo =  strtolower($investigador['tipo']) ?>
+                                        <a href="<?=$tipo?>.php?<?=$tipo?>=<?= $investigador['id'] ?>">
                                             <div class="image_default">
                                                 <img class="centrare" style="object-fit: cover; width:225px; height:280px;" src="../backoffice/assets/investigadores/<?= $investigador['fotografia'] ?>" alt="">
                                                 <div class="imgText justify-content-center m-auto">

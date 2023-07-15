@@ -39,8 +39,8 @@ CREATE TABLE `administradores` (
 --
 
 INSERT INTO `administradores` (`id`, `nome`, `email`, `password`) VALUES
-(1, 'Admin_teste', 'admin@admin.pt', 'aa1bf4646de67fd9086cf6c79007026c'),
-(7, 'Admin2', 'admin2@admin.com', '09151a42659cfc08aff86820f973f640');
+(1, 'Admin_teste', 'admin@admin.pt', '$2y$10$MH.i8UlpN1khB48yDkfby.a.nI9KjPEO8SH6N4NC/MOR2D.oYcGW2'),
+(7, 'Admin2', 'admin2@admin.com', '$2y$10$bH.1jT89ydQAU8UFVwKQ..UOOw6deHjNPY5v9UM8y1szBq5M4GAae'); 
 
 -- --------------------------------------------------------
 
@@ -68,9 +68,9 @@ CREATE TABLE `investigadores` (
 --
 
 INSERT INTO `investigadores` (`id`, `nome`, `email`, `ciencia_id`, `sobre`, `tipo`, `fotografia`, `areasdeinteresse`, `orcid`, `scholar`, `password`, `ultimologin`) VALUES
-(11, 'Joana', 'R.micaela@live.com.pt', '0C1F-9648-2A48', 'miniin inininii ununun ininini', 'Integrado', 'FotoRapariga.png', 'xcvbnmuexrcfvgbhnjmkrxrcvgbhnjm', 'https://noticias.uc.pt/artigos/estudo-da-universidade-de-coimbra-aponta-desigualdades-sociais-no-acesso-a-ciclovias-e-sistema-de-bicicletas-partilhadas-de/', 'https://www.uc.pt/estudantes', '698dc19d489c4e4db73e28a713eab07b', NULL),
+(11, 'Joana', 'R.micaela@live.com.pt', '0C1F-9648-2A48', 'miniin inininii ununun ininini', 'Integrado', 'FotoRapariga.png', 'xcvbnmuexrcfvgbhnjmkrxrcvgbhnjm', 'https://noticias.uc.pt/artigos/estudo-da-universidade-de-coimbra-aponta-desigualdades-sociais-no-acesso-a-ciclovias-e-sistema-de-bicicletas-partilhadas-de/', 'https://www.uc.pt/estudantes', ' $2y$10$2SLVhIPbYFAyoczEuL4vUeoJKE5S/um4Qy8fs1lc2tu9Yj7p9/uRm', NULL),
 (12, 'Berto', 'berto_bertinho@gmail.com', '2A13-632C-D743', 'a', 'Integrado', '480006581462697f48b6ff44be2ea3d141def7edr1-334-441v2_uhq.jpg', '', '', '', '', NULL),
-(19, 'Marta', 'marta@hotmail.com', '2A13-632C-D743', 'nao', 'Aluno', 'o_exorcista_remake.jpg', 'Ciências da natureza', 'https://noticias.uc.pt/artigos/estudo-da-universidade-de-coimbra-aponta-desigualdades-sociais-no-acesso-a-ciclovias-e-sistema-de-bicicletas-partilhadas-de/', 'https://www.uc.pt/estudantes', 'a763a66f984948ca463b081bf0f0e6d0', NULL);
+(19, 'Marta', 'marta@hotmail.com', '2A13-632C-D743', 'nao', 'Aluno', 'o_exorcista_remake.jpg', 'Ciências da natureza', 'https://noticias.uc.pt/artigos/estudo-da-universidade-de-coimbra-aponta-desigualdades-sociais-no-acesso-a-ciclovias-e-sistema-de-bicicletas-partilhadas-de/', 'https://www.uc.pt/estudantes', '$2y$10$vJmmYnaGTRcHw7X.bLYC1e9GQC5wG4as1ikXUgaZYP592x0n46D7S', NULL); 
 
 -- --------------------------------------------------------
 
@@ -243,8 +243,8 @@ CREATE TABLE `admissoes` (
 
 
 ALTER TABLE `investigadores`
-ADD `research_gate` NOT NULL VARCHAR(255) AFTER `scholar`,
-ADD `scopus_id` NOT NULL VARCHAR(255) AFTER `research_gate`;
+ADD `research_gate` VARCHAR(255) NOT NULL AFTER `scholar`,
+ADD `scopus_id` VARCHAR(255)  NOT NULL AFTER `research_gate`;
 
 
 ALTER TABLE `projetos` ADD `concluido` boolean NOT NULL default false;
@@ -286,3 +286,29 @@ ADD COLUMN `conteudo_en` MEDIUMTEXT NOT NULL AFTER `conteudo`;
 ALTER TABLE `oportunidades`
 ADD COLUMN `titulo_en` VARCHAR(255) NOT NULL AFTER `titulo`,
 ADD COLUMN `conteudo_en` MEDIUMTEXT NOT NULL AFTER `conteudo`;
+
+ALTER TABLE `noticias`
+ADD COLUMN `ultimo_editor` INT(11) NULL,
+ADD COLUMN `timestamp_editado` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ADD CONSTRAINT `noticias_administrador_ibfk_1` FOREIGN KEY (`ultimo_editor`) REFERENCES `administradores` (`id`) ON DELETE SET NULL;
+
+ALTER TABLE `oportunidades`
+ADD COLUMN `ultimo_editor` INT(11) NULL,
+ADD COLUMN `timestamp_editado` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ADD CONSTRAINT `oportunidades_administrador_ibfk_1` FOREIGN KEY (`ultimo_editor`) REFERENCES `administradores` (`id`) ON DELETE SET NULL;
+
+
+UPDATE `administradores` SET `password` = '$2y$10$MH.i8UlpN1khB48yDkfby.a.nI9KjPEO8SH6N4NC/MOR2D.oYcGW2' WHERE `id` = 1;
+UPDATE `administradores` SET `password` = '$2y$10$bH.1jT89ydQAU8UFVwKQ..UOOw6deHjNPY5v9UM8y1szBq5M4GAae' WHERE `id` = 7;
+
+UPDATE `investigadores` SET `password` = '$2y$10$2SLVhIPbYFAyoczEuL4vUeoJKE5S/um4Qy8fs1lc2tu9Yj7p9/uRm' WHERE `id` = 11;
+UPDATE `investigadores` SET `password` = '$2y$10$vJmmYnaGTRcHw7X.bLYC1e9GQC5wG4as1ikXUgaZYP592x0n46D7S' WHERE `id` = 19;
+
+
+INSERT INTO `oportunidades` (`id`, `imagem`, `titulo`, `titulo_en`, `conteudo`, `conteudo_en`, `visivel`, `ultimo_editor`, `timestamp_editado`) VALUES
+(1, '64ac9a2d5beec_investigacao.jpg', 'Bolsa de Investigação em Conservação de Obras de Arte', 'Research Fellowship in Art Conservation', '<p>A unidade TECHN&amp;ART está oferecendo uma bolsa de pesquisa para a conservação de obras de arte. Como bolsista de pesquisa, você trabalhará em estreita colaboração com nossos pesquisadores, aplicando metodologias avançadas para preservar e restaurar obras de arte. Seu trabalho contribuirá para a valorização do patrimônio artístico e cultural, garantindo a sua preservação para as futuras gerações.</p>', '<p>The TECHN&amp;ART unit is offering a research fellowship in art conservation. As a research fellow, you will work closely with our researchers, applying advanced methodologies to preserve and restore artworks. Your work will contribute to the enhancement of artistic and cultural heritage, ensuring its preservation for future generations.</p>', 1, 1, '2023-07-10 23:54:21'),
+(2, '64ac9a6d1e566_repair.jpg', 'Estágio em Tecnologia Aplicada à Conservação de Patrimônio', 'Internship in Technology Applied to Heritage Conservation', '<p>Estamos em busca de estagiários entusiasmados em aplicar tecnologia à conservação de patrimônio. Como estagiário, você terá a oportunidade de trabalhar em projetos emocionantes que combinam arte, ciência e tecnologia. Colabore com nossa equipe multidisciplinar para desenvolver soluções inovadoras que preservem e valorizem o patrimônio artístico e cultural, utilizando ferramentas e técnicas de última geração.</p>', '<p>We are looking for enthusiastic interns to apply technology to heritage conservation. As an intern, you will have the opportunity to work on exciting projects that combine art, science, and technology. Collaborate with our multidisciplinary team to develop innovative solutions that preserve and enhance artistic and cultural heritage, using state-of-the-art tools and techniques.</p>', 0, 1, '2023-07-10 23:55:25'),
+(3, '64ac9a68070ab_img.jpg', 'Bolsa de Pesquisa em Patrimônio Cultural Imaterial', 'Research Fellowship in Intangible Cultural Heritage', '<p>O TECHN&amp;ART oferece uma bolsa de pesquisa em patrimônio cultural imaterial. Como pesquisador, você terá a oportunidade de investigar e documentar tradições culturais intangíveis, preservando-as para as futuras gerações. Contribua para a valorização e divulgação desses elementos culturais únicos, promovendo a sua compreensão e apreciação na sociedade contemporânea.</p>', '<p>TECHN&amp;ART offers a research fellowship in intangible cultural heritage. As a researcher, you will have the opportunity to investigate and document intangible cultural traditions, preserving them for future generations. Contribute to the enhancement and dissemination of these unique cultural elements, promoting their understanding and appreciation in contemporary society.</p>', 1, 1, '2023-07-10 23:57:54');
+
+
+UPDATE `investigadores` SET `fotografia` = '64ae620054719_55918.jpg' WHERE `id` = 19;

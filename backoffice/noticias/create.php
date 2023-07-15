@@ -9,8 +9,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     move_uploaded_file($_FILES["imagem"]["tmp_name"], $mainDir . $target_file);
 
 
-    $sql = "INSERT INTO noticias (titulo, titulo_en, conteudo, conteudo_en, imagem, data) " .
-        "VALUES (?,?,?,?,?,?)";
+    $sql = "INSERT INTO noticias (titulo, titulo_en, conteudo, conteudo_en, imagem, data, ultimo_editor) " .
+        "VALUES (?,?,?,?,?,?,?)";
     $stmt = mysqli_prepare($conn, $sql);
     $titulo = $_POST["titulo"];
     $titulo_en = $_POST["titulo_en"];
@@ -20,7 +20,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $imagem = $target_file;
     $data = $_POST["data"];
-    mysqli_stmt_bind_param($stmt, 'ssssss', $titulo, $titulo_en, $conteudo, $conteudo_en, $imagem, $data);
+    $ultimo_editor = $_SESSION["adminid"];
+
+    mysqli_stmt_bind_param($stmt, 'ssssssi', $titulo, $titulo_en, $conteudo, $conteudo_en, $imagem, $data, $ultimo_editor);
     if (mysqli_stmt_execute($stmt)) {
         header('Location: index.php');
         exit;

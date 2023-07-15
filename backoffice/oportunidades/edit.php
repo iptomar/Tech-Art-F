@@ -27,7 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $imagem_exists = isset($_FILES["imagem"]) && $_FILES["imagem"]["size"] != 0;
 
 
-    $sql = "UPDATE oportunidades SET titulo = ?, conteudo = ?, titulo_en = ?, conteudo_en = ?";
+    $sql = "UPDATE oportunidades SET ultimo_editor = " . $_SESSION["adminid"] . ", timestamp_editado = CURRENT_TIMESTAMP, " .
+        "titulo = ?, conteudo = ?, titulo_en = ?, conteudo_en = ?";
     $params = [$titulo, $conteudo, $titulo_en, $conteudo_en];
 
     // Check if the 'imagem' file exists and update the SQL query and parameters accordingly
@@ -157,7 +158,7 @@ function getLanguageName($fieldName)
             }
             reader.readAsDataURL(input.files[0]);
         } else {
-            $('#preview').attr('src', '<?= $mainDir.$imagem ?>');
+            $('#preview').attr('src', '<?= $mainDir . $imagem ?>');
         }
     }
 

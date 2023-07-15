@@ -4,20 +4,25 @@ require "../config/basedados.php";
 require "bloqueador.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $sql = "INSERT INTO administradores (nome, email, password) " .
-        "VALUES (?,?,?)";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 'sss', $nome, $email, $password);
-    $nome = $_POST["nome"];
-    $email = $_POST["email"];
-    $password = md5($_POST["password"]);
-    if (mysqli_stmt_execute($stmt)) {
-        header('Location: index.php');
-        exit;
+    if ($_POST['password'] == $_POST['repeatPassword']) {
+        $sql = "INSERT INTO administradores (nome, email, password) " .
+            "VALUES (?,?,?)";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, 'sss', $nome, $email, $password);
+        $nome = $_POST["nome"];
+        $email = $_POST["email"];
+        $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+        if (mysqli_stmt_execute($stmt)) {
+            header('Location: index.php');
+            exit;
+        } else {
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        }
     } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        echo "Error: Passwords não são iguais";
     }
 }
+
 ?>
 
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -66,8 +71,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" minlength="1" required maxlength="255" required class="form-control" id="inputPassword" placeholder="Password" name="password">
+                    <input type="password" minlength="5" required maxlength="255" required data-error="Por favor introduza uma password com mínimo de 5 caracteres" class="form-control" id="inputPassword" placeholder="Password" name="password">
                     <!-- Error -->
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="repeatPassword">Repetir a Password</label>
+                    <input type="password" class="form-control" id="repeatPassword" required name="repeatPassword" placeholder="Repetir Password" data-error="As Passwords são diferentes">
                     <div class="help-block with-errors"></div>
                 </div>
 
@@ -82,7 +93,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </div>
+<script>
+    //Ao retirar o foco do input de password repetida, verifique se ao input corresponde ao input de password
+    //Ao retirar o foco do input de password repetida, verifique se ao input corresponde ao input de password
+    $("#repeatPassword").focusout(function() {
+        var input = document.getElementById('repeatPassword');
+        if (input.value != document.getElementById('inputPassword').value) {
+            input.setCustomValidity("The Passwords don't match");
+            input.setCustomValidity("The Passwords don't match");
 
+        } else {
+            input.setCustomValidity('');
+        }
+    });
+</script>
 <?php
 mysqli_close($conn);
 ?>
