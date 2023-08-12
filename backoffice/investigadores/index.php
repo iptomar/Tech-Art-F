@@ -98,9 +98,7 @@ if (isset($_POST["anoRelatorio"])) {
 						<th>Fotografia</th>
 						<th>Ações</th>
 					</tr>
-
 				</thead>
-
 				<tbody>
 					<?php
 					if (mysqli_num_rows($result) > 0) {
@@ -117,12 +115,14 @@ if (isset($_POST["anoRelatorio"])) {
 								echo "<td>".$row["scholar"]."</td>";
 								*/
 								echo "<td><img src='../assets/investigadores/$row[fotografia]' width = '100px' height = '100px'></td>";
-								echo "<td><a href='edit.php?id=" . $row["id"] . "' class='btn btn-primary'><span>Alterar</span></a></td>";
+								echo "<td style='min-width:250px;'><a href='edit.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-primary'><span>Alterar</span></a>";
 								if ($_SESSION["autenticado"] == 'administrador') {
-									echo "<td><a href='remove.php?id=" . $row["id"] . "' class='btn btn-danger'><span>Apagar</span></a></td>";
+									echo "<a href='remove.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-danger'><span>Apagar</span></a><br>";
 								}
-								echo "<td><a href='resetpassword.php?id=" . $row["id"] . "' class='btn btn-warning'><span>Alterar Password</span></a></td>";
-								echo "<td><a href='autoEscreveRelatorio.php?id=" . $row["id"] . "' class='btn btn-info'><span>Gerar Relatório</span></a></td>";
+								echo "<a href='resetpassword.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-warning'><span>Alterar Password</span></a><br>";
+								echo "<a href='autoEscreveRelatorio.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-info'><span>Gerar Relatório</span></a><br>";
+								echo "<a href='publicacoes.php?ciencia_id=" . $row["ciencia_id"] . "' class='w-100 mb-1 btn btn-secondary'><span>Selecionar Publicações</span></a><br>";
+								echo "</td>";
 								echo "</tr>";
 							}
 						}
