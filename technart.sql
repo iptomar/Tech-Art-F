@@ -312,3 +312,22 @@ INSERT INTO `oportunidades` (`id`, `imagem`, `titulo`, `titulo_en`, `conteudo`, 
 
 
 UPDATE `investigadores` SET `fotografia` = '64ae620054719_55918.jpg' WHERE `id` = 19;
+
+CREATE TABLE `publicacoes` (
+  `idPublicacao` VARCHAR(50) NOT NULL,
+  `dados` TEXT NOT NULL,
+  `data` DATE,
+  `pais` VARCHAR(100),
+  `cidade` VARCHAR(100),
+  `tipo` VARCHAR(100) NOT NULL,
+  `visivel` BOOLEAN NOT NULL,
+  PRIMARY KEY (`idPublicacao`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+CREATE TABLE `publicacoes_investigadores` (
+  `publicacao` VARCHAR(50) NOT NULL,
+  `investigador` INT(11) NOT NULL,
+  PRIMARY KEY (`publicacao`, `investigador`),
+  FOREIGN KEY (`publicacao`) REFERENCES `publicacoes` (`idPublicacao`) ON DELETE CASCADE,
+  FOREIGN KEY (`investigador`) REFERENCES `investigadores` (`id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;

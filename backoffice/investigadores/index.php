@@ -121,7 +121,7 @@ if (isset($_POST["anoRelatorio"])) {
 								}
 								echo "<a href='resetpassword.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-warning'><span>Alterar Password</span></a><br>";
 								echo "<a href='autoEscreveRelatorio.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-info'><span>Gerar Relatório</span></a><br>";
-								echo "<a href='publicacoes.php?ciencia_id=" . $row["ciencia_id"] . "' class='w-100 mb-1 btn btn-secondary'><span>Selecionar Publicações</span></a><br>";
+								echo "<a href='publicacoes.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-secondary'><span>Selecionar Publicações</span></a><br>";
 								echo "</td>";
 								echo "</tr>";
 							}

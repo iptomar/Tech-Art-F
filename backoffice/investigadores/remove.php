@@ -17,7 +17,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $id);
     if (mysqli_stmt_execute($stmt)) {
-        header('Location: index.php');
+        // Criar um comnado para eliminar registos da tabela publicacoes que não têm entrada correspondente em publicacoes_investigadores
+        $deleteQuery = "DELETE FROM publicacoes WHERE idPublicacao NOT IN (SELECT publicacao FROM publicacoes_investigadores)";
+        $deleteResult = mysqli_query($conn, $deleteQuery);
+        if (!$deleteResult) {
+            echo "Erro ao eliminar registos da tabela publicacoes: " . mysqli_error($conn) . "<br>";
+        } else {
+            header('Location: index.php');
+        }
         exit;
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
