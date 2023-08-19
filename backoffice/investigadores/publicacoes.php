@@ -2,8 +2,8 @@
 require "../verifica.php";
 require "../config/basedados.php";
 require_once "../config/credentials.php";
-//Se o utilizador não é um administrador não tem permissão para alterar as publicações
-if ($_SESSION["autenticado"] != 'administrador') {
+//Se o utilizador não é um administrador ou o proprio não tem permissão para alterar as publicações
+if ($_SESSION["autenticado"] != 'administrador' && $_SESSION["autenticado"] != $_GET["id"]) {
     header("Location: index.php");
 }
 
@@ -63,7 +63,7 @@ function generatePublicationEntry($type,  $id, $fields)
 {
     $formattedFields = [];
     foreach ($fields as $fieldName => $fieldValue) {
-        $formattedFields[] = "  $fieldName = {" . addslashes($fieldValue) . "}";
+        $formattedFields[] = "  $fieldName = {" . addcslashes(addslashes($fieldValue), '{}') . "}";
     }
     return "@" . getFormatType($type) . "{" . $id . "," . implode(", ", $formattedFields) . "}";
 }
@@ -507,6 +507,33 @@ mysqli_stmt_close($stmt);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    if (isset($_POST["publicacao"]) && is_array($_POST["publicacao"])) {
+        // Preparar comando SQL
+        $sql = "UPDATE publicacoes SET visivel = ? WHERE idPublicacao = ?";
+        $stmt = mysqli_prepare($conn, $sql);
+
+        // Vincular parâmetros
+        mysqli_stmt_bind_param($stmt, "is", $visibility, $checkboxId);
+
+        //Obter as os ids de todas as publicações do investigador
+        $existingIds = array_keys($publications);
+
+        // Percorrer publicações existentes
+        foreach ($existingIds as $checkboxId) {
+            // Verificar se o idCheckbox está presente nos dados POST
+            if (isset($_POST["publicacao"][$checkboxId])) {
+                // Checkbox está selecionado, definir visivel como 1
+                $visibility = 1;
+            } else {
+                // Checkbox não está selecionado, definir visivel como 0
+                $visibility = 0;
+            }
+            mysqli_stmt_execute($stmt);
+        }
+        mysqli_stmt_close($stmt);
+    }
+
+
     if (isset($_POST['updateData'])) {
         //Login e password da API da Ciência Vitae definidos em ../config/credentials.php
         $loginAPI = USERCIENCIA;
@@ -624,7 +651,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             mysqli_stmt_bind_param($stmt, $bindTypes, ...$bindValues);
                             if (!mysqli_stmt_execute($stmt)) {
                                 echo "Erro ao atualizar registro " . $publicId . " em publicacoes " . mysqli_error($conn) . "<br>";
-                            } 
+                            }
                             mysqli_stmt_close($stmt);
                         }
                         unset($result);
@@ -679,4 +706,133 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
+
+// Consulta para buscar todas as publicações do investigador
+$sql = "SELECT p.idPublicacao, p.dados, p.visivel 
+        FROM publicacoes p
+        INNER JOIN publicacoes_investigadores pi ON p.idPublicacao = pi.publicacao
+        WHERE pi.investigador = ?";
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "i", $id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+// Preencher o array $publicacoesData diretamente com os resultados da consulta
+$publicacoesData = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+// Fechar a conexão com o banco de dados
+mysqli_stmt_close($stmt);
+mysqli_close($conn);
 ?>
+
+
+
+
+<style>
+    .container {
+        max-width: 550px;
+    }
+
+    label {
+        overflow: auto;
+        max-width: 100%;
+    }
+
+
+    .has-error label,
+    .has-error input,
+    .has-error textarea {
+        color: red;
+        border-color: red;
+    }
+
+    .list-unstyled li {
+        font-size: 13px;
+        padding: 4px 0 0;
+        color: red;
+    }
+
+    textarea {
+        min-height: 100px;
+    }
+</style>
+
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</link>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+<script src="../assets/js/citation-js-0.6.8.js"></script>
+
+<div class="container-xl mt-5">
+    <div class="card">
+        <h5 class="card-header text-center">Selecionar Publicações do Investigador <?php echo $nome ?></h5>
+        <div class="card-body">
+
+            <!-- Botão de Atualizar Dados com a API -->
+            <form id="updateForm" method="post">
+                <button type="submit" name="updateData" class="btn btn-warning btn-block">Atualizar Dados</button>
+            </form>
+
+            <form method="post">
+                <div class="mb-3" id="publicacoes">
+
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Gravar</button>
+                </div>
+
+                <div class="form-group">
+                    <button type="button" onclick="window.location.href = 'index.php'" class="btn btn-danger btn-block">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    const Cite = require('citation-js');
+
+    function getAPA(data) {
+        // Lógica de processamento do "citacion.js"
+        return new Cite(data).format('bibliography', {
+            format: 'html',
+            template: 'apa',
+            lang: 'en-US'
+        });;
+    }
+
+    var publicacoesData = <?php echo json_encode($publicacoesData); ?>;
+
+    var publicacoesDiv = document.getElementById('publicacoes');
+
+    for (var i = 0; i < publicacoesData.length; i++) {
+        var publicacao = publicacoesData[i];
+
+        // Criar um contentor div para cada publicação
+        var container = document.createElement('div');
+        container.classList.add('form-check', 'mb-3');
+
+        // Criar o input checkbox
+        var checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.name = 'publicacao[' + publicacao.idPublicacao + ']';
+        checkbox.value = publicacao.idPublicacao; 
+        checkbox.checked = publicacao.visivel;
+        checkbox.classList.add('form-check-input');
+
+        // Criar um div para o conteudo
+        var contentDiv = document.createElement('div');
+        contentDiv.innerHTML = getAPA(publicacao.dados);
+        contentDiv.classList.add('form-check-label');
+
+        // Append checkbox and content to container
+        container.appendChild(checkbox);
+        container.appendChild(contentDiv);
+
+        publicacoesDiv.appendChild(container);
+    }
+</script>
