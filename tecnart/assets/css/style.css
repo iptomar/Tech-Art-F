@@ -2025,6 +2025,12 @@ form input[type="submit"]:focus {
   font-weight: 300;
 }
 
+#publications{
+    overflow: auto;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
 
 
 
