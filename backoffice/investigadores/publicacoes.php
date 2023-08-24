@@ -820,7 +820,7 @@ mysqli_close($conn);
         var checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.name = 'publicacao[' + publicacao.idPublicacao + ']';
-        checkbox.value = publicacao.idPublicacao; 
+        checkbox.value = publicacao.idPublicacao;
         checkbox.checked = publicacao.visivel;
         checkbox.classList.add('form-check-input');
 
@@ -835,4 +835,28 @@ mysqli_close($conn);
 
         publicacoesDiv.appendChild(container);
     }
+
+    window.addEventListener('DOMContentLoaded', function() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        let lastChecked;
+
+        function handleCheck(event) {
+            if (event.shiftKey) {
+                let start = Array.from(checkboxes).indexOf(this);
+                let end = Array.from(checkboxes).indexOf(lastChecked);
+                if (start > end) {
+                    [start, end] = [end, start];
+                }
+                checkboxes.forEach((checkbox, index) => {
+                    if (index >= start && index <= end) {
+                        checkbox.checked = this.checked;
+                    }
+                });
+            }
+
+            lastChecked = this;
+        }
+
+        checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck));
+    });
 </script>
