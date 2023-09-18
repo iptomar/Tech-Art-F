@@ -708,17 +708,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Consulta para buscar todas as publicações do investigador
-$sql = "SELECT p.idPublicacao, p.dados, p.visivel 
+$sql = "SELECT p.idPublicacao, p.dados, p.visivel, p.tipo, p.data
         FROM publicacoes p
         INNER JOIN publicacoes_investigadores pi ON p.idPublicacao = pi.publicacao
-        WHERE pi.investigador = ?";
+        WHERE pi.investigador = ? ORDER BY p.tipo ASC, p.data DESC";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
-// Preencher o array $publicacoesData diretamente com os resultados da consulta
-$publicacoesData = mysqli_fetch_all($result, MYSQLI_ASSOC);
+// Preencher o array $publicacoesInfo diretamente com os resultados da consulta
+$publicacoesInfo = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 // Fechar a conexão com o banco de dados
 mysqli_stmt_close($stmt);
@@ -805,36 +805,73 @@ mysqli_close($conn);
         });;
     }
 
-    var publicacoesData = <?php echo json_encode($publicacoesData); ?>;
+    var publicacoesInfo = <?php echo json_encode($publicacoesInfo); ?>;
 
     var publicacoesDiv = document.getElementById('publicacoes');
 
-    for (var i = 0; i < publicacoesData.length; i++) {
-        var publicacao = publicacoesData[i];
+    // Criar um objeto para agrupar as publicações por "tipo"
+    var publicationsByTipo = {};
 
-        // Criar um contentor div para cada publicação
-        var container = document.createElement('div');
-        container.classList.add('form-check', 'mb-3');
+    // Iterar pelas publicações e agrupá-las por "tipo"
+    for (var i = 0; i < publicacoesInfo.length; i++) {
+        var publicacao = publicacoesInfo[i];
+        var tipo = publicacao.tipo;
 
-        // Criar o input checkbox
-        var checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.name = 'publicacao[' + publicacao.idPublicacao + ']';
-        checkbox.value = publicacao.idPublicacao;
-        checkbox.checked = publicacao.visivel;
-        checkbox.classList.add('form-check-input');
+        if (!publicationsByTipo[tipo]) {
+            publicationsByTipo[tipo] = [];
+        }
 
-        // Criar um div para o conteudo
-        var contentDiv = document.createElement('div');
-        contentDiv.innerHTML = getAPA(publicacao.dados);
-        contentDiv.classList.add('form-check-label');
-
-        // Append checkbox and content to container
-        container.appendChild(checkbox);
-        container.appendChild(contentDiv);
-
-        publicacoesDiv.appendChild(container);
+        publicationsByTipo[tipo].push(publicacao);
     }
+
+    // Iterar pelas publicações agrupadas e exibi-las
+    for (var tipo in publicationsByTipo) {
+        if (publicationsByTipo.hasOwnProperty(tipo)) {
+            // Criar um contentor div para o tipo de publicação
+            var tipoContainer = document.createElement('div');
+            tipoContainer.classList.add('tipo-publicacao');
+
+            // Criar um cabeçalho para o tipo de publicação
+            var tipoHeading = document.createElement('h5');
+            tipoHeading.classList.add('mt-4'); 
+            tipoHeading.classList.add('mb-2'); 
+            tipoHeading.textContent = tipo;
+            tipoContainer.appendChild(tipoHeading);
+
+            // Iterar pelas publicações ordenadas e exibi-las
+            for (var j = 0; j < publicationsByTipo[tipo].length; j++) {
+                var publicacao = publicationsByTipo[tipo][j];
+
+                // Criar um contentor div para cada publicação
+                var container = document.createElement('div');
+                container.classList.add('form-check', 'mb-3');
+
+                // Criar a caixa de seleção
+                var checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.name = 'publicacao[' + publicacao.idPublicacao + ']';
+                checkbox.value = publicacao.idPublicacao;
+                checkbox.checked = publicacao.visivel;
+                checkbox.classList.add('form-check-input');
+
+                // Criar um div para o conteúdo
+                var contentDiv = document.createElement('div');
+                contentDiv.innerHTML = getAPA(publicacao.dados);
+                contentDiv.classList.add('form-check-label');
+
+                // Anexar a caixa de seleção e o conteúdo ao contentor
+                container.appendChild(checkbox);
+                container.appendChild(contentDiv);
+
+                // Anexar o contentor da publicação ao contentor do tipo
+                tipoContainer.appendChild(container);
+            }
+
+            // Anexar o contentor do tipo ao contentor principal
+            publicacoesDiv.appendChild(tipoContainer);
+        }
+    }
+
 
     window.addEventListener('DOMContentLoaded', function() {
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
