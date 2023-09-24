@@ -23,49 +23,16 @@ function formatAuthors($authors)
 }
 
 
-function getFormatType($type)
-{
-    //Obter o tipo correspondente para tornar a publicação numa referência APA com citation.js
-    $aliases = array(
-        'journal-article' => 'article',
-        'journal-issue' => 'periodical',
-        'book' => 'book',
-        'edited-book' => 'book',
-        'book-chapter' => 'inbook',
-        'book-review' => 'review',
-        'translation' => 'book',
-        'dissertation' => 'thesis',
-        'newspapper-article' => 'article',
-        'newsletter-article' => 'article',
-        'encyclopedia-entry' => 'inreference',
-        'magazine-article' => 'article',
-        'dictionary-entry' => 'inreference',
-        'report' => 'report',
-        'working-paper' => 'report',
-        'manual' => 'book',
-        'online-resource' => 'online',
-        'test' => 'misc',
-        'website' => 'online',
-        'conference-paper' => 'inproceedings',
-        'conference-abstract' => 'article',
-        'conference-poster' => 'inproceedings',
-        'exhibition-catalogue' => 'book',
-        'preface-postface' => 'incollection',
-        'preprint' => 'article'
-    );
-
-    $entryStyle = isset($aliases[$type]) ? $aliases[$type] : 'misc';
-    return $entryStyle;
-}
-
 // Função para gerar a publicação formartada de forma a poder utilizar o citacion.js para criar a referençia APA
-function generatePublicationEntry($type,  $id, $fields)
+function generatePublicationEntry($id, $fields)
 {
     $formattedFields = [];
+    $type = $fields["typeName"];
+    unset($fields["typeName"]);
     foreach ($fields as $fieldName => $fieldValue) {
         $formattedFields[] = "  $fieldName = {" . addcslashes(addslashes($fieldValue), '{}') . "}";
     }
-    return "@" . getFormatType($type) . "{" . $id . "," . implode(", ", $formattedFields) . "}";
+    return "@" . $type . "{" . $id . "," . implode(", ", $formattedFields) . "}";
 }
 
 function generatePageRange($dataOutput, $fromField, $toField)
@@ -88,6 +55,7 @@ function getPublicationInfo($dataOutput, $typeOutput)
     switch ($typeOutput) {
         case 'journal-article':
             $formatedData = array(
+                "typeName" => 'article',
                 "title" => $dataOutput->{"article-title"},
                 "journal" => $dataOutput->journal,
                 "volume" => $dataOutput->volume,
@@ -96,12 +64,12 @@ function getPublicationInfo($dataOutput, $typeOutput)
                 "year" => isset($dataOutput->{"publication-date"}) ? $dataOutput->{"publication-date"}->year : "",
                 "url" => $dataOutput->{"url"},
                 "author" => formatAuthors($dataOutput->{"authors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
 
             break;
         case 'journal-issue':
             $formatedData = array(
+                "typeName" => 'periodical',
                 "title" => addslashes($dataOutput->{"issue-title"}),
                 "journal" => addslashes($dataOutput->journal),
                 "volume" => $dataOutput->volume,
@@ -110,7 +78,6 @@ function getPublicationInfo($dataOutput, $typeOutput)
                 "year" => isset($dataOutput->{"publication-date"}) ? $dataOutput->{"publication-date"}->year : "",
                 "editor" => formatAuthors($dataOutput->{"editors"}),
                 "url" => $dataOutput->{"url"},
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             if (isset($dataOutput->{"publication-date"}->day)) {
                 $data["date"] = $dataOutput->{"publication-date"}->year  . "-" . $dataOutput->{"publication-date"}->month . "-" . $dataOutput->{"publication-date"}->day;
@@ -118,6 +85,7 @@ function getPublicationInfo($dataOutput, $typeOutput)
             break;
         case 'book':
             $formatedData = array(
+                "typeName" => 'book',
                 "title" => $dataOutput->{"title"},
                 "volume" => $dataOutput->volume,
                 "edition" => $dataOutput->edition,
@@ -127,11 +95,11 @@ function getPublicationInfo($dataOutput, $typeOutput)
                 "url" => $dataOutput->{"url"},
                 "author" => formatAuthors($dataOutput->{"authors"}),
                 "editor" => formatAuthors($dataOutput->{"editors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             break;
         case 'edited-book':
             $formatedData = array(
+                "typeName" => 'book',
                 "title" => $dataOutput->{"title"},
                 "volume" => $dataOutput->volume,
                 "edition" => $dataOutput->edition,
@@ -141,11 +109,11 @@ function getPublicationInfo($dataOutput, $typeOutput)
                 "url" => addslashes($dataOutput->url),
                 "author" => formatAuthors($dataOutput->{"authors"}),
                 "editor" => formatAuthors($dataOutput->{"editors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             break;
         case 'book-chapter':
             $formatedData = array(
+                "typeName" => 'inbook',
                 "title" => addslashes($dataOutput->{"chapter-title"}),
                 "booktitle" => addslashes($dataOutput->{"book-title"}),
                 "volume" => $dataOutput->{"book-volume"},
@@ -156,13 +124,13 @@ function getPublicationInfo($dataOutput, $typeOutput)
                 "url" => $dataOutput->url,
                 "author" => formatAuthors($dataOutput->{"authors"}),
                 "editor" => formatAuthors($dataOutput->{"editors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             break;
         case 'book-review':
             $date = $dataOutput->{"date-of-review-publication"};
             $location = $dataOutput->{"book-publication-location"};
             $formatedData = array(
+                "typeName" => 'review',
                 "title" => addslashes($dataOutput->{"review-title"}),
                 "journal" => addslashes($dataOutput->{"published-in"}),
                 "volume" => $dataOutput->{"review-volume"},
@@ -173,11 +141,11 @@ function getPublicationInfo($dataOutput, $typeOutput)
                 "url" => $dataOutput->url,
                 "booktitle" => addslashes($dataOutput->{"book-title"}),
                 "author" => formatAuthors($dataOutput->{"authors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             break;
         case 'translation':
             $formatedData = array(
+                "typeName" => 'book',
                 "title" => $dataOutput->{"title"},
                 "booktitle" => addslashes($dataOutput->{"series-title"}),
                 "volume" => $dataOutput->{"volume"},
@@ -187,7 +155,6 @@ function getPublicationInfo($dataOutput, $typeOutput)
                 "publisher" => $dataOutput->{"publisher"},
                 "url" => $dataOutput->url,
                 "author" => formatAuthors($dataOutput->{"authors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             break;
         case 'dissertation':
@@ -197,6 +164,7 @@ function getPublicationInfo($dataOutput, $typeOutput)
             $location = isset($institution) ? $institution->{'institution-address'} : null;
 
             $formatedData = array(
+                "typeName" => 'thesis',
                 "title" => $dataOutput->{"title"},
                 "school" => implode(' and ', array_map(function ($institution) {
                     return $institution->{"institution-name"};
@@ -206,11 +174,11 @@ function getPublicationInfo($dataOutput, $typeOutput)
                 "type" => isset($dataOutput->{"degree-type"}) ? $dataOutput->{"degree-type"}->value : "",
                 "url" => $dataOutput->url,
                 "author" => formatAuthors($dataOutput->{"authors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             break;
         case 'newspapper-article':
             $formatedData = array(
+                "typeName" => 'article',
                 "title" => $dataOutput->{"article-title"},
                 "journal" => $dataOutput->{"newspaper"},
                 "volume" => $dataOutput->{"volume"},
@@ -219,11 +187,11 @@ function getPublicationInfo($dataOutput, $typeOutput)
                 "year" => isset($dataOutput->{"publication-date"}) ? $dataOutput->{"publication-date"}->year : "",
                 "url" => $dataOutput->url,
                 "author" => formatAuthors($dataOutput->{"authors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             break;
         case 'newsletter-article':
             $formatedData = array(
+                "typeName" => 'article',
                 "title" => $dataOutput->{"article-title"},
                 "journal" => $dataOutput->{"newsletter"},
                 "volume" => $dataOutput->{"volume"},
@@ -232,11 +200,11 @@ function getPublicationInfo($dataOutput, $typeOutput)
                 "year" => isset($dataOutput->{"publication-date"}) ? $dataOutput->{"publication-date"}->year : "",
                 "url" => $dataOutput->url,
                 "author" => formatAuthors($dataOutput->{"authors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             break;
         case 'encyclopedia-entry':
             $formatedData = array(
+                "typeName" => 'inreference',
                 "title" => $dataOutput->{"entry-title"},
                 "booktitle" => addslashes($dataOutput->{"encyclopedia-title"}),
                 "volume" => $dataOutput->{"volume"},
@@ -247,11 +215,11 @@ function getPublicationInfo($dataOutput, $typeOutput)
                 "url" => $dataOutput->url,
                 "author" => formatAuthors($dataOutput->{"authors"}),
                 "editor" => formatAuthors($dataOutput->{"editors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             break;
         case 'magazine-article':
             $formatedData = array(
+                "typeName" => 'article',
                 "title" => $dataOutput->{"article-title"},
                 "journal" => $dataOutput->{"magazine"},
                 "volume" => $dataOutput->{"volume"},
@@ -261,11 +229,11 @@ function getPublicationInfo($dataOutput, $typeOutput)
                 "url" => $dataOutput->url,
                 "author" => formatAuthors($dataOutput->{"authors"}),
                 "editor" => formatAuthors($dataOutput->{"editors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             break;
         case 'dictionary-entry':
             $formatedData = array(
+                "typeName" => 'inreference',
                 "title" => $dataOutput->{"entry-title"},
                 "booktitle" => $dataOutput->{"dictionary-title"},
                 "volume" => $dataOutput->{"volume"},
@@ -274,16 +242,14 @@ function getPublicationInfo($dataOutput, $typeOutput)
                 "url" => $dataOutput->url,
                 "author" => formatAuthors($dataOutput->{"authors"}),
                 "editor" => formatAuthors($dataOutput->{"editors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             break;
         case 'report':
             $date = $dataOutput->{"date-submitted"};
             //Obter a localização da primeira instituição
             $institution = isset($dataOutput->institutions) ?  $dataOutput->institutions->institution[0] : null;
-            $location = isset($institution) ? $institution->{'institution-address'} : null;
-
             $formatedData = array(
+                "typeName" => 'report',
                 "title" => $dataOutput->{"report-title"},
                 "volume" => $dataOutput->{"volume"},
                 "pages" => $dataOutput->{"number-of-pages"},
@@ -293,79 +259,78 @@ function getPublicationInfo($dataOutput, $typeOutput)
                 "year" => isset($dataOutput->{"date-submitted"}) ? $dataOutput->{"date-submitted"}->year : "",
                 "author" => formatAuthors($dataOutput->{"authors"}),
                 "url" => $dataOutput->url,
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             break;
         case 'working-paper':
             $formatedData = array(
+                "typeName" => 'report',
                 "title" => $dataOutput->{"title"},
                 "volume" => $dataOutput->volume,
                 "year" => isset($dataOutput->{"publication-date"}) ? $dataOutput->{"publication-date"}->year : "",
                 "month" => isset($dataOutput->{"publication-date"}) ? $dataOutput->{"publication-date"}->month : "",
                 "url" => $dataOutput->url,
                 "author" => formatAuthors($dataOutput->{"authors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             break;
         case 'manual':
             $formatedData = array(
+                "typeName" => 'book',
                 "title" => $dataOutput->{"title"},
                 "series" => $dataOutput->{"series-title"},
                 "volume" => $dataOutput->volume,
                 "edition" => $dataOutput->edition,
                 "pages" => $dataOutput->{"number-of-pages"},
                 "year" => $dataOutput->{"publication-year"},
-                "address" => isset($dataOutput->{"publication-location"}) ? ($dataOutput->{"publication-location"}->city . ", " . $dataOutput->{"publication-location"}->country->value) : "",
+                //"address" => isset($dataOutput->{"publication-location"}) ? ($dataOutput->{"publication-location"}->city . ", " . $dataOutput->{"publication-location"}->country->value) : "",
                 "publisher" => $dataOutput->publisher,
                 "url" => $dataOutput->url,
                 "author" => formatAuthors($dataOutput->{"authors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             break;
         case 'online-resource':
             $date = $dataOutput->{"creation-date"};
             $formatedData = array(
+                "typeName" => 'online',
                 "title" => $dataOutput->{"title"},
                 "year" => isset($dataOutput->{"creation-date"}) ? $dataOutput->{"creation-date"}->year : "",
                 "month" => isset($dataOutput->{"creation-date"}) ? $dataOutput->{"creation-date"}->month : "",
                 "url" => $dataOutput->url,
                 "author" => formatAuthors($dataOutput->{"authors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             break;
         case 'test':
             $date = $dataOutput->{"date-first-used"};
             $formatedData = array(
+                "typeName" => 'misc',
                 "title" => $dataOutput->{"title"},
                 "year" => isset($dataOutput->{"date-first-used"}) ? $dataOutput->{"date-first-used"}->year : "",
                 "month" => isset($dataOutput->{"date-first-used"}) ? $dataOutput->{"date-first-used"}->month : "",
                 "author" => formatAuthors($dataOutput->{"authors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             break;
         case 'website':
             $date = $dataOutput->{"launch-date"};
             $formatedData = array(
+                "typeName" => 'online',
                 "title" => $dataOutput->{"title"},
                 "description" => $dataOutput->description,
                 "year" => isset($dataOutput->{"launch-date"}) ? $dataOutput->{"launch-date"}->year : "",
                 "month" => isset($dataOutput->{"launch-date"}) ? $dataOutput->{"launch-date"}->month : "",
                 "url" => $dataOutput->url,
                 "author" => formatAuthors($dataOutput->{"authors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             break;
         case 'conference-paper':
             $date = $dataOutput->{"conference-date"};
             $location = $dataOutput->{"conference-location"};
             $formatedData = array(
+                "typeName" => 'inproceedings',
                 "title" => $dataOutput->{"paper-title"},
                 "booktitle" => addslashes($dataOutput->{"proceedings-title"}),
                 "year" => isset($dataOutput->{"conference-date"}) ? $dataOutput->{"conference-date"}->year : "",
                 "pages" => generatePageRange($dataOutput, "page-range-from", "page-range-to"),
                 "publisher" => $dataOutput->{"proceedings-publisher"},
                 "author" => formatAuthors($dataOutput->{"authors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             if (isset($dataOutput->{"conference-name"})) {
                 $data["maintitle"] = $dataOutput->{"conference-name"};
@@ -375,6 +340,7 @@ function getPublicationInfo($dataOutput, $typeOutput)
             $date = $dataOutput->{"publication-date"};
             $location = $dataOutput->{"conference-location"};
             $formatedData = array(
+                "typeName" => 'article',
                 "title" => $dataOutput->{"article-title"},
                 "journal" => $dataOutput->{"conference-name"},
                 "volume" => $dataOutput->{"volume"},
@@ -382,31 +348,31 @@ function getPublicationInfo($dataOutput, $typeOutput)
                 "pages" => generatePageRange($dataOutput, "page-range-from", "page-range-to"),
                 "year" => isset($dataOutput->{"publication-date"}) ? $dataOutput->{"publication-date"}->year : "",
                 "author" => formatAuthors($dataOutput->{"authors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             break;
         case 'conference-poster':
             $date = $dataOutput->{"conference-date"};
             $formatedData = array(
+                "typeName" => 'inproceedings',
                 "title" => $dataOutput->{"title"},
                 "booktitle" => $dataOutput->{"conference-name"},
                 "year" => isset($dataOutput->{"conference-date"}) ? $dataOutput->{"conference-date"}->year : "",
                 "author" => formatAuthors($dataOutput->{"authors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             break;
         case 'exhibition-catalogue':
             $formatedData = array(
+                "typeName" => 'book',
                 "title" => $dataOutput->{"title"},
                 "pages" => $dataOutput->{"number-of-pages"},
                 "year" => $dataOutput->{"publication-year"},
                 "publisher" => addslashes($dataOutput->{"gallery-or-publisher"}),
                 "author" => formatAuthors($dataOutput->{"authors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             break;
         case 'preface-postface':
             $formatedData = array(
+                "typeName" => 'incollection',
                 "title" => addslashes($dataOutput->{"preface-postface-title"}),
                 "booktitle" => addslashes($dataOutput->{"book-title"}),
                 "volume" => $dataOutput->{"book-volume"},
@@ -419,13 +385,13 @@ function getPublicationInfo($dataOutput, $typeOutput)
                 "url" => $dataOutput->url,
                 "author" => formatAuthors($dataOutput->{"authors"}),
                 "editor" => formatAuthors($dataOutput->{"editors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
             );
             break;
         case 'preprint':
             $date = $dataOutput->{"date-submitted"};
             $location = $dataOutput->{"submission-location"};
             $formatedData = array(
+                "typeName" => 'article',
                 "title" => $dataOutput->title,
                 "volume" => $dataOutput->volume,
                 "journal" => $dataOutput->journal,
@@ -433,12 +399,214 @@ function getPublicationInfo($dataOutput, $typeOutput)
                 "year" => isset($dataOutput->{"date-submitted"}) ? $dataOutput->{"date-submitted"}->year : "",
                 "url" => $dataOutput->url,
                 "author" => formatAuthors($dataOutput->{"authors"}),
-                "keywords" => implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array())
+            );
+            break;
+        case 'artistic-exhibition':
+            $date = $dataOutput->{"date-of-first-performance"};
+            $institution = isset($dataOutput->institutions) ?  $dataOutput->institutions->institution[0] : null;
+            $formatedData = array(
+                "typeName" => 'misc',
+                "title" => $dataOutput->{"the-title-of-work"},
+                "year" => isset($date) ? $date->year : "",
+                "type" => "Exhibition",
+                "institution" => implode(" and ", array_map(function ($institution) {
+                    return $institution->{"institution-name"};
+                }, isset($dataOutput->{"institutions"}->institution) ? $dataOutput->{"institutions"}->institution : array())),
+                "author" => formatAuthors($dataOutput->{"authors"}) . " and " . formatAuthors($dataOutput->{"collaborators"}),
+                "venue" => implode(', ', isset($dataOutput->{"venues"}->{"venue"}) ? $dataOutput->{"venues"}->{"venue"} : array()),
+            );
+            break;
+        case 'audio-recording':
+            $date = $dataOutput->{"release-date"};
+            $author = formatAuthors($dataOutput->{"performers"});
+            if ($author == '') {
+                $author = $dataOutput->producer;
+            }
+            $formatedData = array(
+                "typeName" => 'music',
+                "title" => $dataOutput->{"piece-title"},
+                "year" => isset($date) ? $date->year : "",
+                "type" => "Audio Recording",
+                "booktitle" => $dataOutput->{"album-title"},
+                "author" => $author,
+                "publisher" => $dataOutput->{"distributor"},
+            );
+            break;
+        case "musical-composition":
+            $date = $dataOutput->{"composition-date"};
+            $formatedData = array(
+                "typeName" => 'music',
+                "title" => $dataOutput->{"title"},
+                //"pages" => $dataOutput->{"number-of-pages"},
+                "year" => isset($date) ? $date->year : "",
+                "author" => formatAuthors($dataOutput->{"composers"}),
+                "publisher" => $dataOutput->{"publisher"},
+            );
+            break;
+        case "musical-performance":
+            $date = $dataOutput->{"date-of-first-performance"};
+            $formatedData = array(
+                //performance-role
+                "typeName" => "music",
+                "title" => $dataOutput->{"the-title-of-work"},
+                "year" => isset($date) ? $date->year : "",
+                "type" => $dataOutput->{"performance-role"}->value,
+                // "booktitle" => $dataOutput->{"album-title"},
+                "author" => formatAuthors($dataOutput->{"authors"}) . " and " . formatAuthors($dataOutput->{"collaborators"}),
+                "venue" => implode(', ', isset($dataOutput->{"venues"}->{"venue"}) ? $dataOutput->{"venues"}->{"venue"} : array()),
+            );
+            break;
+        case "radio-tv-program":
+            $date = $dataOutput->{"broadcast-date"};
+            $programTitle = isset($dataOutput->{"series-title"}) && isset($dataOutput->{"program-title"})
+                ? $dataOutput->{"program-title"} . ': ' . $dataOutput->{"series-title"} : (isset($dataOutput->{"program-title"})
+                    ? $dataOutput->{"program-title"} : (isset($dataOutput->{"series-title"})
+                        ? $dataOutput->{"series-title"} : ''));
+            $formatedData = array(
+                //performance-role
+                "typeName" => "audio",
+                "title" => $dataOutput->{"episode-title"},
+                "booktitle" => $programTitle,
+                "year" => isset($date) ? $date->year : "",
+                "author" => formatAuthors($dataOutput->{"creators"}),
+                "publisher" => $dataOutput->{"publisher"},
+            );
+            break;
+        case "short-fiction":
+            $date = $dataOutput->{"publication-date"};
+            $formatedData = array(
+                "typeName" => "book",
+                "title" => $dataOutput->{"title"},
+                "booktitle" => $dataOutput->{"appeared-in"},
+                "year" => isset($date) ? $date->year : "",
+                "author" => formatAuthors($dataOutput->{"authors"}),
+                "editor" => $dataOutput->{"editors"},
+                "volume" => $dataOutput->{"volume"},
+                "number" => $dataOutput->{"issue"},
+                "publisher" => $dataOutput->{"publisher"},
+                "pages" => generatePageRange($dataOutput, "page-range-from", "page-range-to"),
+
+            );
+            break;
+        case "theatric":
+            $date = $dataOutput->{"date-of-first-performance"};
+            $formatedData = array(
+                //author
+                "typeName" => "play",
+                "title" =>  $dataOutput->{"the-title-of-work"},
+                "author" => $dataOutput->{"producer"},
+                "year" => isset($date) ? $date->year : "",
+                "author" => formatAuthors($dataOutput->{"authors"}) . " and " . formatAuthors($dataOutput->{"collaborators"}),
+                "venue" => implode(', ', isset($dataOutput->{"venues"}->{"venue"}) ? $dataOutput->{"venues"}->{"venue"} : array()),
+            );
+            break;
+        case "video-recording":
+            $date = $dataOutput->{"release-date"};
+            $formatedData = array(
+                //performers ???
+                "typeName" => "video",
+                "title" => $dataOutput->{"title"},
+                "series" => $dataOutput->{"series-title"},
+                "director" => $dataOutput->{"director"},
+                "author" => $dataOutput->{"producer"},
+                "type" => "Video",
+                "publisher" => $dataOutput->{"distributor"},
+                "year" => isset($date) ? $date->year : "",
+                // ??? "author" => formatAuthors($dataOutput->{"performers"}),
+            );
+            break;
+        case "visual-artwork":
+            $formatedData = array(
+                "typeName" => "artwork",
+                "title" => $dataOutput->{"title"},
+                "author" => formatAuthors($dataOutput->{"artists"}),
+                "type" => "Visual Artwork",
+            );
+
+            break;
+        case "choreography":
+            //keyCollaborators
+            //principalDancers
+            $date = $dataOutput->{"premier-date"};
+            $formatedData = array(
+                "typeName" => "misc",
+                "title" => $dataOutput->{"show-title"},
+                "year" => isset($date) ? $date->year : "",
+                "bookauthor" =>  $dataOutput->{"composer"},
+                "author" => formatAuthors($dataOutput->{"authors"}),
+                "organization" => $dataOutput->{"company"},
+            );
+            break;
+        case "curatorial-museum-exhibition":
+            //artists
+            //datesOfSubsequentExhibitions
+            //exhibitionCatalogueTitle
+            $date = $dataOutput->{"date"};
+            $formatedData = array(
+                "typeName" => "misc",
+                "title" => $dataOutput->{"exhibition-title"},
+                "type" => "Exhibition",
+                "year" => isset($date) ? $date->year : "",
+                "author" => formatAuthors($dataOutput->{"authors"}),
+                "venue" => implode(', ', isset($dataOutput->{"venues"}->{"venue"}) ? $dataOutput->{"venues"}->{"venue"} : array()),
+            );
+            break;
+        case "performance-art":
+            //keyCollaborators
+            //datesOfSubsequentPerformances
+            $date = $dataOutput->{"performance-date"};
+            $formatedData = array(
+                "typeName" => "misc",
+                "year" => isset($date) ? $date->year : "",
+                "publisher" => $dataOutput->venue, //?
+                "author" => formatAuthors($dataOutput->{"authors"}),
+            );
+            break;
+        case "patent":
+            $country = isset($dataOutput->{"country"}) ? $dataOutput->country->value : '';
+            $date = $dataOutput->{"date-issued"};
+            $formatedData = array(
+                //owner
+                "typeName" => "patent",
+                "title" => $dataOutput->{"patent-title"},
+                "year" => isset($date) ? $date->year : "",
+                "number" =>  $dataOutput->{"patent-number"},
+                "address" => $country,
+                "author" => formatAuthors($dataOutput->{"authors"}),
+            );
+            break;
+            //Legal proceeding	??????
+        case "litigation":
+            $formatedData = array(
+                "typeName" => "misc",
+                "title" => $dataOutput->{"case-name"},
+                "year" => $dataOutput->year,
+                "author" => formatAuthors($dataOutput->{"authors"}),
+                "publisher" => $dataOutput->court
+            );
+            break;
+        case "software":
+            $institutions = isset($dataOutput->institutions) ? $dataOutput->institutions : null;
+            $date = $dataOutput->{"publication-date"};
+            $formatedData = array(
+                "typeName" => "software",
+                "title" => $dataOutput->{"title"} . " " . $dataOutput->{"description"},
+                "version" => $dataOutput->{"version"},
+                "year" => isset($date) ? $date->year : "",
+                "type" => $dataOutput->{"platform"},
+                "author" => formatAuthors($dataOutput->{"authors"}),
+                
+                "institution" => implode(' and ', array_map(function ($institution) {
+                    return $institution->{"institution-name"};
+                }, isset($institutions->institution) ? $institutions->institution : array()))
+                
             );
             break;
         default:
             return null;
     }
+    //Adicionar as keywords
+    $formatedData["keywords"] =   implode(', ', isset($dataOutput->{"keywords"}->{"keyword"}) ? $dataOutput->{"keywords"}->{"keyword"} : array());
     if ($date == null && isset($dataOutput->{"publication-date"})) {
         $date = $dataOutput->{"publication-date"};
     }
@@ -459,12 +627,22 @@ function getPublicationInfo($dataOutput, $typeOutput)
         $fullDate = "$year-$month-$day";
     }
 
-    $country = null;
-    $city = null;
+    if (!isset($country)) {
+        $country = null;
+    }
+    if (!isset($city)) {
+        $city = null;
+    }
     if (isset($location)) {
         $country = isset($location->country) ? $location->country->value : null;
         $city = $location->city;
     }
+
+    //Se o typeName n
+    if (!isset($formatedData["typeName"])) {
+        $formatedData["typeName"] = "misc";
+    }
+    //Retorna os dados da publicação já preparados para inserir no comando SQL, com o nome do campo na tabela SQL como chave 
     $result = [
         "data" => $fullDate,
         "dados" => $formatedData,
@@ -507,6 +685,7 @@ mysqli_stmt_close($stmt);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    //Guardar os resultados da publicacoes selecionadas como visiveis 
     if (isset($_POST["publicacao"]) && is_array($_POST["publicacao"])) {
         // Preparar comando SQL
         $sql = "UPDATE publicacoes SET visivel = ? WHERE idPublicacao = ?";
@@ -534,7 +713,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 
+    //Atualizar os dados da base de dados com o da Ciencia Vitae usando a API
     if (isset($_POST['updateData'])) {
+        $validTypes = array(
+            "journal-article", "journal-issue", "book", "edited-book", "book-chapter", "book-review", "translation", "dissertation", "newspapper-article", "newsletter-article", "encyclopedia-entry", "magazine-article", "dictionary-entry", "report", "working-paper", "manual", "online-resource", "test", "website", "conference-paper", "conference-abstract", "conference-poster", "exhibition-catalogue", "preface-postface", "preprint",
+            "artistic-exhibition", "audio-recording", "musical-composition", "musical-performance", "radio-tv-program", "short-fiction", "theatric", "video-recording", "visual-artwork", "choreography", "curatorial-museum-exhibition", "performance-art",
+            "patent", "litigation", "software"
+        );
         //Login e password da API da Ciência Vitae definidos em ../config/credentials.php
         $loginAPI = USERCIENCIA;
         $passwordAPI = PASSWORDCIENCIA;
@@ -557,11 +742,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $idPublicAPI = array();
             foreach ($data->{"output"} as $output) {
-                //Se o output não for uma publicação, definida por P1, passa para a próxima iteração
-                if (!(isset($output->{"output-category"}) && isset($output->{"output-category"}->{"code"}) && $output->{"output-category"}->{"code"} === "P1")) {
-                    continue;
-                }
-
                 //Encontrar o campo que contém os dados da publicação
                 foreach ($output as $field => $value) {
                     if ($field !== "output-category" && $field !== "output-type" && !is_null($value)) {
@@ -570,6 +750,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         break;
                     }
                 }
+                //Se não é um tipo de publicação valído 
+                if (!in_array($typeOutput, $validTypes)) {
+                    continue;
+                }
+
                 //Se foi encontrado a publicação sem ocorrer nenhum erro
                 if (!(isset($typeOutput) && isset($dataOutput))) {
                     echo "ERRO: Não foram encontrados os dados da publicação";
@@ -586,7 +771,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     }
                     $result = getPublicationInfo($dataOutput, $typeOutput);
                     if (isset($result)) {
-                        $result['dados'] = generatePublicationEntry($typeOutput, $publicId, $result['dados']);
+                        $result['dados'] = generatePublicationEntry($publicId, $result['dados']);
                         $result['idPublicacao'] = $publicId;
                         $idPublicAPI[] = $publicId;
 
@@ -657,7 +842,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         unset($result);
                         //print_r($result);
                     } else {
-                        echo "$typeOutput não é um tipo de publicação reconhecido";
+                        echo "$typeOutput não é um tipo de publicação reconhecido<br>";
                     }
                 }
             }
@@ -833,8 +1018,8 @@ mysqli_close($conn);
 
             // Criar um cabeçalho para o tipo de publicação
             var tipoHeading = document.createElement('h5');
-            tipoHeading.classList.add('mt-4'); 
-            tipoHeading.classList.add('mb-2'); 
+            tipoHeading.classList.add('mt-4');
+            tipoHeading.classList.add('mb-2');
             tipoHeading.textContent = tipo;
             tipoContainer.appendChild(tipoHeading);
 

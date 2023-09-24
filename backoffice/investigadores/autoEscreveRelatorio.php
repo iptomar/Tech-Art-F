@@ -185,39 +185,33 @@ for($opc = 1; $opc <= 22; $opc++){
     // echo "<br> ".($opc-1)." => ".$spreadsheet->getActiveSheet()->getCell("J".$opc)->getFormattedValue();
 }
 */
-/*
-0 => Publicação de livros em Portugal
-1 => Publicação de livros no estrangeiro
-2 => Autor ou coautor de catálogo em Portugal
-3 => Autor ou coautor de catálogo no estrangeiro
-4 => Publicação de capítulos em obras coletivas em Portugal (com revisão por pares)
-5 => Publicação de capítulos em obras coletivas em Portugal (sem revisão por pares)
-6 => Publicação de capítulos em obras coletivas no estrangeiro (com revisão por pares)
-7 => Publicação de capítulos em obras coletivas no estrangeiro (sem revisão por pares)
-8 => Publicação de artigos em revistas científicas/artísticas em Portugal (com revisão por pares)
-9 => Publicação de artigos em revistas científicas/artísticas em Portugal (sem revisão por pares)
-10 => Publicação de artigos em revistas científicas/artísticas no estrangeiro (com revisão por pares)
-11 => Publicação de artigos em revistas científicas/artísticas no estrangeiro (sem revisão por pares)
-12 => Recensões
-13 => Relatórios
-14 => Pareceres
-15 => Traduções
-16 => Artigos de opinião publicados na imprensa
-17 => Contributos para blogs
-18 => Intervenções nos meios de comunicação social
-19 => Participação em conselhos editoriais ou científicos de revistas académicas
-20 => Edição de volume de revista como editor convidado (guest-editor)
-21 => Avaliação de artigos para publicação
-*/
+//opcoes da lista excel
+$excelOptions = array(
+    "livros" => "Publicação de livros",
+    "catálogo" => "Autor ou coautor de catálogo",
+    "coletivas"=> "Publicação de capítulos em obras coletivas",
+    "revistas" => "Publicação de artigos em revistas científicas/artísticas",
+    "recensões" => "Recensões",
+    "relatórios" => "Relatórios",
+    "pareceres" => "Pareceres",
+    "traduções" => "Traduções",
+    "opinião" => "Artigos de opinião publicados na imprensa",
+    "blogs" => "Contributos para blogs",
+    "social" => "Intervenções nos meios de comunicação social",
+    "conselhos" => "Participação em conselhos editoriais ou científicos de revistas académicas",
+    "edição" => "Edição de volume de revista como editor convidado (guest-editor)",
+    "avaliação" => "Avaliação de artigos para publicação"
+);
 
-$aliases = array(
-    'journal-article' => 'Publicação de artigos em revistas científicas/artísticas',
+//Alinhar os tipos de publicações vindo da api com o do excel, usando as chaves do array excelOptions
+$typeAPI = array(
+    'journal-article' => 'revistas',
    // 'journal-issue' => '', 
-    'book' => 'Publicação de livros',
+    'book' => 'livros',
    // 'edited-book' => '', 
-    'book-chapter' => 'Publicação de capítulos em obras coletivas',
+    'book-chapter' => 'coletivas',
    // 'book-review' => '', 
-    'translation' => 'Traduções',
+    'translation' => 'traduções',
    /* 'dissertation' => '',
     'newspapper-article' => '',
     'newsletter-article' => '',
@@ -237,8 +231,10 @@ $aliases = array(
     'preface-postface' => '', 
     'preprint' => '',*/
 );
-$addLocation = ['journal-article', 'book-chapter', 'book']; 
-$addRevisao = ['journal-article', 'book-chapter']; 
+
+$addLocation = ["livros", "catálogo", "coletivas", "revistas"]; 
+$addRevisao = ["coletivas", "revistas"]; 
+
 
 $jsonData = $_POST['publicacoes'];
 $dataArray = json_decode($jsonData, true);
@@ -253,18 +249,19 @@ foreach ($dataArray as $item) {
     $tipo = $item['tipo'];
 
     if ($pais == "Portugal" || in_array($cidade, $localizacoesPortuguesas)) {
-        $outputLocation = "em Portugal";
+        $outputLocation = " em Portugal";
     } else {
-        $outputLocation = "no estrangeiro";
+        $outputLocation = " no estrangeiro";
     }
     $excelOutCategory = '';
-    if(isset($aliases[$tipo])){
-        $excelOutCategory = $aliases[$tipo];
-        if (in_array($tipo, $addLocation)) {
+    if(isset($typeAPI[$tipo])){
+        $tipoExcel = $typeAPI[$tipo];
+
+        $excelOutCategory = $excelOptions[$tipoExcel];
+        if (in_array( $tipoExcel , $addLocation)) {
             $excelOutCategory .= " $outputLocation";
         }
-        
-        if (in_array($tipo, $addRevisao)) {
+        if (in_array( $tipoExcel, $addRevisao)) {
             $excelOutCategory .= " (sem revisão por pares)";
         }
     }else{
@@ -665,6 +662,8 @@ foreach($data->{"distinction"} as $row){
 
 // 8. Outras atividades
 
+//Voltar à primeira pagina antes de guardar
+$spreadsheet->setActiveSheetIndex(0);
 
 //::::::::::::GUARDAR RELATORIO::::::::::::
 $writer->save($novoRelatorio);
