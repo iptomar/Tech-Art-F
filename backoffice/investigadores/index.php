@@ -13,6 +13,8 @@ if (isset($_POST["anoRelatorio"])) {
 }
 
 ?>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</link>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -22,51 +24,53 @@ if (isset($_POST["anoRelatorio"])) {
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="../assets/js/citation-js-0.6.8.js"></script>
+
 <style type="text/css">
 	<?php
 	$css = file_get_contents('../styleBackoffices.css');
 	echo $css;
 	?>
 </style>
-
+<?php
+if (@$_SESSION["anoRelatorio"] != "") {
+	$anoAtual = $_SESSION["anoRelatorio"];
+} else {
+	$anoAtual = date("Y");
+}
+?>
 <div class="container mt-3">
-	<form action="./index.php" method="post">
-		<input name="anoRelatorio" type="text" placeholder="Ano do relatório" />
-		<input type="submit" value="Submeter Ano" class="btn btn-success" />
+	<form id="formAnoRelatorio">
+
+		<input required name="anoRelatorio" type="number" class="form-control mr-2" placeholder="Ano do relatório" min="1950" max="2999" step="1" pattern="\d{4}" data-error="Por favor insira um ano válido" style="max-width: 200px; min-width: 160px; display: inline-block;" value="<?= $anoAtual ?>" />
+		<input type="submit" value="Selecionar Ano" class="btn btn-success" />
 
 		<?php
 		if (isset($_SESSION["anoRelatorio"])) {
+			$class = "text-danger";
+			$symbol = "&#xE002;";
+			if (@$_SESSION["anoRelatorio"] != "") {
+				$msg = "Foi selecionado o ano " . $_SESSION["anoRelatorio"];
+			} else {
+				$_SESSION["anoRelatorio"] = date("Y");
+				$msg = " Campo submetido vazio! (Ano: " . $_SESSION["anoRelatorio"] . ")";
+			}
+		} else {
+			$class = "text-info";
+			$symbol = "&#xE88E;";
+			$msg = "Ano Atual: " . date("Y");
+		}
 		?>
-			<span class='text-danger'>
-				<?php
-				if (@$_SESSION["anoRelatorio"] != "") {
 
-				?>
+		<span id="anoSpan" class="<?= $class ?>" style="height:20px; display: inline-block; vertical-align: middle;">
+			<span id="anoSymbol" class="material-icons ml-3" style="font-size: 18px; vertical-align: middle;"><?= $symbol ?></span>
+			<span class="ml-2" id="anoSubmit" id="anoSubmit" style="font-size:15px;"><?= $msg ?></span>
+		</span>
 
-					<span class="material-icons-round ml-3" style="font-size:16px;">&#xE002;</span><span class="ml-2">Foi submetido o ano <?= $_SESSION["anoRelatorio"] ?>!</span>
-
-				<?php
-				} else {
-				?>
-
-					<span class="material-icons-round ml-3" style="font-size:16px;">&#xE002;</span><span class="ml-2">Cuidado! Campo submetido vazio! (Ano: <?= date("Y") ?>)</span>
-
-				<?php
-				}
-
-				?>
-
-			</span>
-
-		<?php } else {
-		?>
-			<span class="text-info">
-				<span class="material-icons-round ml-3" style="font-size:16px;">&#xE88E;</span><span class="ml-2"> Ano Atual: <?= date("Y") ?></span>
-			</span>
-		<?php
-		} ?>
 	</form>
+
 </div>
+
 
 <div class="container-xl">
 	<div class="table-responsive">
@@ -120,7 +124,7 @@ if (isset($_POST["anoRelatorio"])) {
 									echo "<a href='remove.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-danger'><span>Apagar</span></a><br>";
 								}
 								echo "<a href='resetpassword.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-warning'><span>Alterar Password</span></a><br>";
-								echo "<a onclick='gerarRelatorio(" . $row["id"] . ")' class='w-100 mb-1 btn btn-info'><span>Gerar Relatório</span></a><br>";
+								echo "<a data-id='" . $row["id"] . "' class='gerarRelatorio w-100 mb-1 btn btn-info'><span>Gerar Relatório</span></a><br>";
 								echo "<a href='publicacoes.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-secondary'><span>Selecionar Publicações</span></a><br>";
 								echo "</td>";
 								echo "</tr>";
@@ -135,221 +139,121 @@ if (isset($_POST["anoRelatorio"])) {
 </div>
 
 <script>
-	//Criar um formulário com o id do investigador a gerar o relátorio e submeter para fazer POST com o gerar e ativar o php
-	function gerarRelatorio(id) {
-		const form = document.createElement("form");
-		form.action = "index.php";
-		form.method = "post";
+	const Cite = require('citation-js');
+	// Quando o documento estiver totalmente carregado
+	$(document).ready(function() {
+		// Quando um elemento com o id 'formAnoRelatorio' for submetido
+		$("#formAnoRelatorio").submit(function(event) {
+			// Prevenir a submissão 
+			event.preventDefault();
+			//Verificar se o formulário é valido
+			if (this.checkValidity() === true) {
+				//Obter o ano colocado no input
+				var anoRelatorio = $("input[name='anoRelatorio']").val();
+				//Actualizar a variavel de sessão usando AJAX
+				$.ajax({
+					type: "POST",
+					url: "ajax.php",
+					data: {
+						anoRelatorio: anoRelatorio
+					},
+					success: function(response) {
+						$("input[name='anoRelatorio']").val(response.ano);
 
-		const input = document.createElement("input");
-		input.type = "hidden";
-		input.name = "gerar";
-		input.value = id;
+						var anoSpan = document.getElementById("anoSpan");
+						if (anoSpan.className = "text-info") {
+							// Update the class and content
+							anoSpan.className = "text-danger"; // Change the class
+							$("#anoSymbol").html("&#xE002;");
 
-		form.appendChild(input);
+						}
 
-		document.body.appendChild(form);
+						$("#anoSubmit").html(response.msg);
 
-		form.submit();
-	}
-</script>
+					},
+					error: function(xhr, status, error) {
+						console.error(xhr, status, error);
+					}
+				});
+			}
+		});
 
-<?php
-if (isset($_POST['gerar'])) {
-// Verifica se a variável de sessão "anoRelatorio" está definida
-if (isset($_SESSION["anoRelatorio"])) {
-    // Se estiver definida, utiliza o ano da variável de sessão
-    $year = $_SESSION["anoRelatorio"];
-} else {
-    // Caso contrário, usa o ano atual
-    $year = date("Y");
-}
+		// Quando um elemento com a classe 'gerarRelatorio' for clicado
+		$('.gerarRelatorio').on('click', function(e) {
 
-// Consulta SQL para obter publicações do investigador para o ano especificado
-$sql = "SELECT p.idPublicacao, p.dados, p.data, p.pais, p.cidade, p.tipo
-        FROM publicacoes p
-        INNER JOIN publicacoes_investigadores pi ON p.idPublicacao = pi.publicacao
-        WHERE pi.investigador = ? and visivel=1 and YEAR(data) = $year";
+			e.preventDefault(); // Impede o comportamento padrão do link
 
-// Prepara a consulta SQL
-$stmt = mysqli_prepare($conn, $sql);
-$investigatorId = $_POST["gerar"];
-mysqli_stmt_bind_param($stmt, "i", $investigatorId);
+			// Obter o ID do investigador a partir do atributo de dados
+			var investigatorId = $(this).data('id');
 
-// Executa a consulta SQL
-if (!mysqli_stmt_execute($stmt)) {
-    die("Executar falhou: " . mysqli_error($conn));
-}
+			// Fazer um pedido AJAX para iniciar a geração do relatório
+			$.ajax({
+				type: 'POST',
+				url: 'ajax.php',
+				data: {
+					idGerar: investigatorId
+				},
+				success: function(response) {
 
-// Obtém o resultado da consulta
-$result = mysqli_stmt_get_result($stmt);
-$publicacoes = mysqli_fetch_all($result, MYSQLI_ASSOC);
+					var reportData = response;
+					// Aceder aos dados 'publicacoes' e 'patents' de reportData
+					var publications = reportData.publicacoes;
+					var patents = reportData.patents;
 
-// Fecha a consulta SQL
-mysqli_stmt_close($stmt);
+					// Obter a referência APA das publicações
+					for (var i = 0; i < publications.length; i++) {
+						var APAreference = processarAPA(publications[i].dados);
+						publications[i].dados = APAreference;
+					}
 
-// Obtém o ciencia_id do investigador a partir do banco de dados
-$stmt = mysqli_prepare($conn, "SELECT ciencia_id FROM investigadores WHERE id = ?");
-mysqli_stmt_bind_param($stmt, "i", $investigatorId);
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
-$row = mysqli_fetch_assoc($result);
-$cienciaId = $row['ciencia_id'];
+					// Obter a referência APA das patentes
+					for (var i = 0; i < patents.length; i++) {
+						var APAreference = processarAPA(patents[i]);
+						patents[i].dados = APAreference;
+					}
 
-// Define login e senha para a API da Ciência Vitae
-$loginAPI = USERCIENCIA;
-$passwordAPI = PASSWORDCIENCIA;
+					function processarAPA(data) {
+						// Lógica de processamento do "citation.js"
+						var htmlContent = new Cite(data).format('bibliography', {
+							format: 'html',
+							template: 'apa',
+							lang: 'en-US'
+						});
+						return htmlContent;
+					}
 
-// URL da API da Ciência Vitae para obter informações do currículo do investigador
-$url = "https://qa.cienciavitae.pt/api/v1.1/curriculum/" . $cienciaId . "/output?lang=User%20defined";
+					// Criar um elemento de formulário
+					var form = document.createElement('form');
+					form.method = 'POST';
+					form.action = 'autoEscreveRelatorio.php?id=' + investigatorId;
 
-// Inicializa uma sessão cURL
-$ch = curl_init();
+					// Criar um elemento de input para armazenar as publicações
+					var input = document.createElement('input');
+					input.type = 'hidden';
+					input.name = 'publicacoes';
+					input.value = JSON.stringify(publications);
 
-// Define os cabeçalhos da requisição cURL
-$headers = array(
-    "Content-Type: application/json",
-    "Accept: application/json",
-);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+					// Anexar o input 'publicacoes' ao formulário
+					form.appendChild(input);
 
-// Define as credenciais de autenticação para a API da Ciência Vitae
-curl_setopt($ch, CURLOPT_USERPWD, "$loginAPI:$passwordAPI");
+					var inputPat = document.createElement('input');
+					inputPat.type = 'hidden';
+					inputPat.name = 'patentes';
+					inputPat.value = JSON.stringify(patents);
 
-// Executa a requisição cURL e obtém a resposta
-$result_curl = curl_exec($ch);
+					// Anexar o input 'patentes' ao formulário
+					form.appendChild(inputPat);
 
-// Fecha a sessão cURL
-curl_close($ch);
+					// Anexar o formulário ao corpo do documento
+					document.body.appendChild(form);
 
-// Decodifica o JSON da resposta em um objeto PHP
-$data = json_decode($result_curl);
-
-
-// URL da API da Ciência Vitae para obter informações sobre patentes
-$url = "https://qa.cienciavitae.pt/api/v1.1/curriculum/" . $cienciaId . "/output?lang=User%20defined";
-
-// Inicializa outra sessão cURL
-$ch = curl_init();
-
-// Define os cabeçalhos da requisição cURL novamente
-$headers = array(
-    "Content-Type: application/json",
-    "Accept: application/json",
-);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-
-// Define as credenciais de autenticação para a API da Ciência Vitae novamente
-curl_setopt($ch, CURLOPT_USERPWD, "$loginAPI:$passwordAPI");
-
-// Executa a segunda requisição cURL e obtém a resposta
-$result_curl = curl_exec($ch);
-
-// Fecha a segunda sessão cURL
-curl_close($ch);
-
-// Decodifica o JSON da segunda resposta em um objeto PHP
-$data = json_decode($result_curl);
-
-// Usa array_filter para filtrar apenas as patentes no ano especificado
-$filteredData = array_filter($data->output, function ($item) use ($year) {
-    return isset($item->{"output-type"}->code) && $item->{"output-type"}->code === "P401"
-        && isset($item->patent->{"date-issued"}->year) && $item->patent->{"date-issued"}->year === $year;
-});
-
-// Função para gerar entradas BibTeX a partir dos dados das patentes filtradas
-function generateEntry($dataArray)
-{
-    $bibtexArray = [];
-
-    foreach ($dataArray as $data) {
-        if (!is_object($data) || !isset($data->patent)) {
-            continue;
-        }
-
-        $bibtexEntry = "@patent{" . $data->patent->identifiers->identifier[0]->identifier . ",\n" .
-            "  title = {" . $data->patent->{"patent-title"} . "},\n" .
-            "  year = {" . $data->patent->{"date-issued"}->year . "},\n" .
-            "  author = {" . $data->patent->authors->citation . "}" .
-            (isset($data->patent->country->value) ? ",\n  location = {" . $data->patent->country->value . "}" : "") .
-            "\n}";
-
-        $bibtexArray[] = $bibtexEntry;
-    }
-
-    return $bibtexArray;
-}
-
-// Gera entradas em BibTeX a partir dos dados das patentes filtradas
-$patents = generateEntry($filteredData);
-
-// Inclui a biblioteca jQuery através de um link externo
-echo '<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-	<script src="../assets/js/citation-js-0.6.8.js"></script>
-	<script>
-		const Cite = require(\'citation-js\');
-		var publications = ' . json_encode($publicacoes) . ';
-		var patentes = ' . json_encode($patents) . ';
-
-
-		// Obter a referência APA das publicações 
-		for (var i = 0; i < publications.length; i++) {
-			var APAreference = processarAPA(publications[i].dados);
-			publications[i].dados = APAreference;
-		}
-
-		// Obter a referência APA das patentes 
-		for (var i = 0; i < patentes.length; i++) {
-			var APAreference = processarAPA(patentes[i]);
-			patentes[i] = APAreference;
-		}
-		
-		function processarAPA(data) {
-			// Lógica de processamento do "citation.js"
-			var htmlContent = new Cite(data).format(\'bibliography\', {
-				format: \'html\',
-				template: \'apa\',
-				lang: \'en-US\'
+					// Submeter o formulário
+					form.submit();
+				},
+				error: function(xhr, status, error) {
+					console.error(xhr.responseText);
+				}
 			});
-			return htmlContent;
-		}
-		
-		// Criar um elemento de formulário
-		var form = document.createElement(\'form\');
-		form.method = \'POST\';
-		form.action = \'autoEscreveRelatorio.php?id=\' + ' . $investigatorId . ';
-		
-		// Criar um elemento de input para armazenar as publicações
-		var input = document.createElement(\'input\');
-		input.type = \'hidden\';
-		input.name = \'publicacoes\';
-		input.value = JSON.stringify(publications);
-
-		// Anexar o input publicacoes ao formulário
-		form.appendChild(input);
-
-		var inputPat = document.createElement(\'input\');
-		inputPat.type = \'hidden\';
-		inputPat.name = \'patentes\';
-		inputPat.value = JSON.stringify(patentes);
-
-		// Anexar o input patentes ao formulário
-		form.appendChild(inputPat);
-		
-		// Anexar o formulário ao documento
-		document.body.appendChild(form);
-		
-		// Submeter o formulário
-		form.submit();
-	</script>';
-}
-
-mysqli_close($conn);
-?>
+		});
+	});
+</script>
