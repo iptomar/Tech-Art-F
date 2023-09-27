@@ -136,6 +136,9 @@ $id =  $_GET["colaborador"];
             $groupedPublicacoes = array();
             foreach ($publicacoes as $publicacao) {
                 $year = $publicacao['publication_year'];
+                if ($year == null) {
+                    $year = change_lang("year-unknown");
+                }
                 $groupedPublicacoes[$year][] = $publicacao['dados'];
             }
             ?>

@@ -22,6 +22,9 @@ include 'models/functions.php';
                 $groupedPublicacoes = array();
                 foreach ($publicacoes as $publicacao) {
                     $year = $publicacao['publication_year'];
+                    if ($year == null) {
+                        $year = change_lang("year-unknown");
+                    }
                     $groupedPublicacoes[$year][] = $publicacao['dados'];
                 } ?>
                 <script src="../backoffice/assets/js/citation-js-0.6.8.js"></script>
@@ -31,7 +34,7 @@ include 'models/functions.php';
 
                 <div id="publications">
                     <?php foreach ($groupedPublicacoes as $year => $publicacoes) : ?>
-                        <div class="mb-5"> 
+                        <div class="mb-5">
                             <b><?= $year ?></b><br>
                             <?php foreach ($publicacoes as $publicacao) : ?>
                                 <div style="margin-left: 20px;">
@@ -43,7 +46,7 @@ include 'models/functions.php';
                                         });;
                                         var citationContainer = document.createElement('div');
                                         citationContainer.innerHTML = formattedCitation;
-                                        citationContainer.classList.add('mb-3'); 
+                                        citationContainer.classList.add('mb-3');
                                         document.getElementById('publications').appendChild(citationContainer);
                                     </script>
                                 </div>

@@ -121,7 +121,7 @@ $id =  $_GET["aluno"];
                 <?= change_lang("publications-tab-title-class") ?>
             </h3>
 
-           <?php
+            <?php
             $pdo = pdo_connect_mysql();
             $query = "SELECT p.dados, YEAR(p.data) AS publication_year 
                 FROM publicacoes AS p
@@ -137,6 +137,9 @@ $id =  $_GET["aluno"];
             $groupedPublicacoes = array();
             foreach ($publicacoes as $publicacao) {
                 $year = $publicacao['publication_year'];
+                if ($year == null) {
+                    $year = change_lang("year-unknown");
+                }
                 $groupedPublicacoes[$year][] = $publicacao['dados'];
             }
             ?>
@@ -147,7 +150,7 @@ $id =  $_GET["aluno"];
 
             <div id="publications" class='textInfo' style='padding-bottom: 10px;'>
                 <?php foreach ($groupedPublicacoes as $year => $publicacoes) : ?>
-                    <div class="mb-5"> 
+                    <div class="mb-5">
                         <b><?= $year ?></b><br>
                         <?php foreach ($publicacoes as $publicacao) : ?>
                             <div style="margin-left: 20px;">
@@ -156,10 +159,10 @@ $id =  $_GET["aluno"];
                                         format: 'html',
                                         template: 'apa',
                                         lang: 'en-US'
-                                    });; 
+                                    });;
                                     var citationContainer = document.createElement('div');
                                     citationContainer.innerHTML = formattedCitation;
-                                    citationContainer.classList.add('mb-3'); 
+                                    citationContainer.classList.add('mb-3');
                                     document.getElementById('publications').appendChild(citationContainer);
                                 </script>
                             </div>

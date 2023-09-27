@@ -296,6 +296,8 @@ function ret_dic_en(){
         //Etiqueta 'Publicacoes'
 
         "publications-page-heading" => "Publications",
+        //Texto 'Ano Desconhecido'
+        "year-unknown" => "Unknown",
 
         //:::::novasadimssoes.php
         "new-admissions-title" => "New admissions",
