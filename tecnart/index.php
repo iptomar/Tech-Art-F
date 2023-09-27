@@ -17,10 +17,10 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
          <div class="align-text-slider">
             <div class="col-md-7 mobile_adjust ftco-animate mb-md-5">
                <h1 class="mb-4">
-                  <?= change_lang("about-technart-slider"); ?>
+                  <?= change_lang("index-first-slide"); ?>
                </h1>
                <span class="subheading">
-                  <?= change_lang("about-technart-slider-desc"); ?>
+                  <?= change_lang("index-first-slide-desc"); ?>
                </span>
                <div><a href="sobre.php" class="btn btn-primary px-4 py-3 mt-3 btn_no_left">
                      <?= change_lang("know-more-btn-txt-slider") ?>
@@ -38,12 +38,12 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
          <div class="align-text-slider">
             <div class="col-md-7 mobile_adjust ftco-animate mb-md-5">
                <h1 class="mb-4">
-                  <?= change_lang("we-help-grow-slider"); ?>
+                  <?= change_lang("index-second-slide"); ?>
                </h1>
                <span class="subheading">
-                  <?= change_lang("we-help-grow-slider-desc"); ?>
+                  <?= change_lang("index-second-slide-desc"); ?>
                </span>
-               <div><a href="sobre.php" class="btn btn-primary px-4 py-3 mt-3 btn_no_left">
+               <div><a href="integrados.php" class="btn btn-primary px-4 py-3 mt-3 btn_no_left">
                      <?= change_lang("know-more-btn-txt-slider") ?>
                   </a></div>
             </div>
@@ -58,12 +58,12 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
          <div class="align-text-slider">
             <div class="col-md-7 mobile_adjust ftco-animate mb-md-5">
                <h1 class="mb-4">
-                  <?= change_lang("best-consulting-agency-slider"); ?>
+                  <?= change_lang("index-third-slide-slider"); ?>
                </h1>
                <span class="subheading">
-                  <?= change_lang("best-consulting-agency-slider-desc"); ?>
+                  <?= change_lang("index-third-slide-slider-desc"); ?>
                </span>
-               <div><a href="sobre.php" class="btn btn-primary px-4 py-3 mt-3 btn_no_left">
+               <div><a href="projetos_em_curso.php" class="btn btn-primary px-4 py-3 mt-3 btn_no_left">
                      <?= change_lang("know-more-btn-txt-slider") ?>
                   </a></div>
             </div>

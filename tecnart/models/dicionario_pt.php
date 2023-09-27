@@ -65,18 +65,18 @@ function ret_dic_pt(){
 
         //::::::index.php::::::
 
-        //Titulo 'SOBRE O TECHN&ART' do slider
-        "about-technart-slider" => "SOBRE O TECHN&ART",
-        //Breve descricao do item 'SOBRE O TECHN&ART'
-        "about-technart-slider-desc" => "TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE ",
-        //Titulo 'Ajudamos a Crescer o seu negocio' do slider
-        "we-help-grow-slider" => "Ajudamos a Crescer o seu Negócio",
-        //Breve descricao do item 'Somos a melhor agencia de consultoria'
-        "we-help-grow-slider-desc" => "TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE ",
-        //Titulo 'Somos a melhor agencia de consultoria' do slider
-        "best-consulting-agency-slider" => "Somos s Melhor Agência de Consultoria",
-        //Breve descricao do item 'Somos a melhor agencia de consultoria'
-        "best-consulting-agency-slider-desc" => "TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE ",
+        //Titulo do 1 slide
+        "index-first-slide" => "Sobre o TECHN&ART",
+        //Breve descricao do 1 slide
+        "index-first-slide-desc" => "Centro de investigação e desenvolvimento nos domínios da Salvaguarda do Património e da sua Valorização, experimental e aplicada.",
+        //Titulo do 2 slide
+        "index-second-slide" => "Tecnologia e interdisciplinaridade ao serviço do Património",
+        //Breve descricao do 2 slide
+        "index-second-slide-desc" => "O TECHN&ART une investigadores/as das mais diversas áreas disciplinares presentes no Instituto Politécnico de Tomar, das TIC às artes, das ciências sociais às ciências naturais",
+        //Titulo do 3 slide
+        "index-third-slide-slider" => "Investigação e desenvolvimento em rede",
+        //Breve descricao do 3 slide
+        "index-third-slide-slider-desc" => "O TECHN&ART acolhe e coordena projetos de I&D numa ampla rede de parceiros nacionais e internacionais, na linha da frente da salvaguarda e valorização patrimoniais",
         //botao 'Saiba mais' do slider
         "know-more-btn-txt-slider" => "SAIBA MAIS",
         //Etiqueta 'Video Institucional'
