@@ -49,7 +49,7 @@ if (isset($_POST["anoRelatorio"])) {
     $reportData = array();
 
     // Prepara e executa a consulta SQL para 'publicacoes'
-    $sql = "SELECT p.idPublicacao, p.dados, p.data, p.pais, p.cidade, p.tipo
+    $sql = "SELECT p.dados, p.pais, p.cidade, p.tipo
         FROM publicacoes p
         INNER JOIN publicacoes_investigadores pi ON p.idPublicacao = pi.publicacao
         WHERE pi.investigador = ? AND visivel = 1 AND YEAR(data) = ?";
@@ -69,7 +69,7 @@ if (isset($_POST["anoRelatorio"])) {
     }
 
     // Prepara e executa a consulta SQL para 'patent'
-    $sql = "SELECT p.idPublicacao, p.dados, p.data, p.pais, p.cidade, p.tipo
+    $sql = "SELECT p.dados
         FROM publicacoes p
         INNER JOIN publicacoes_investigadores pi ON p.idPublicacao = pi.publicacao
         WHERE pi.investigador = ? AND p.visivel = 1 AND YEAR(p.data) = ? AND p.tipo = 'patent'";

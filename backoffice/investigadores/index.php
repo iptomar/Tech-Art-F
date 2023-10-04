@@ -208,7 +208,7 @@ if (@$_SESSION["anoRelatorio"] != "") {
 
 					// Obter a referência APA das patentes
 					for (var i = 0; i < patents.length; i++) {
-						var APAreference = processarAPA(patents[i]);
+						var APAreference = processarAPA(patents[i].dados);
 						patents[i].dados = APAreference;
 					}
 
