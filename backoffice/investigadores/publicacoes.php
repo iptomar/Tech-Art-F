@@ -577,6 +577,7 @@ function getPublicationInfo($dataOutput, $typeOutput)
             break;
             //Legal proceeding	??????
         case "litigation":
+            $year = $dataOutput->year;
             $formatedData = array(
                 "typeName" => "misc",
                 "title" => $dataOutput->{"case-name"},
@@ -638,7 +639,7 @@ function getPublicationInfo($dataOutput, $typeOutput)
         $city = $location->city;
     }
 
-    //Se o typeName n
+    //Se o typeName não existir no array que corresponde os tipos do API com os do citacion.js colocar como misc
     if (!isset($formatedData["typeName"])) {
         $formatedData["typeName"] = "misc";
     }
