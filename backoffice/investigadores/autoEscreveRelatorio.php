@@ -673,24 +673,24 @@ foreach($data->{"service"} as $row){
         switch($tipologiaOrientacao){
 
             case "Orientação: Mestrado: fim em ".$year:
-                $tipologiaOrientacao = $activePageSelectOptions[0];
+                $pageOption = $activePageSelectOptions[0];
                 break;
             case "Orientação: Mestrado: fim em ":
-                $tipologiaOrientacao = $activePageSelectOptions[1];
+                $pageOption = $activePageSelectOptions[1];
                 break;
             case "Orientação: Doutoramento: fim em ".$year:
-                $tipologiaOrientacao = $activePageSelectOptions[2];
+                $pageOption = $activePageSelectOptions[2];
                 break;
             case "Orientação: Doutoramento: fim em ":
-                $tipologiaOrientacao = $activePageSelectOptions[3];
+                $pageOption = $activePageSelectOptions[3];
                 break;
             default:
-                $tipologiaOrientacao = $activePageSelectOptions[4];
+                $pageOption = $activePageSelectOptions[4];
                 break;
 
         }
 
-        $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->setValue($tipologiaOrientacao);
+        $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->setValue($pageOption);
 
         //::::::nome do aluno::::::
 
