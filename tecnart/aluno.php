@@ -1,4 +1,6 @@
 <?php
+header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found", true, 404);
+die;
 include 'config/dbconnection.php';
 include 'models/functions.php';
 

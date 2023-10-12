@@ -1,7 +1,8 @@
 <?php
+header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found", true, 404);
+die;
 include 'config/dbconnection.php';
 include 'models/functions.php';
-
 $pdo = pdo_connect_mysql();
 $language = ($_SESSION["lang"] == "en") ? "_en" : "";
 $query = "SELECT id, email, nome,
