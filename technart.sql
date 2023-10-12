@@ -331,3 +331,56 @@ CREATE TABLE `publicacoes_investigadores` (
   FOREIGN KEY (`publicacao`) REFERENCES `publicacoes` (`idPublicacao`) ON DELETE CASCADE,
   FOREIGN KEY (`investigador`) REFERENCES `investigadores` (`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+CREATE TABLE `publicacoes_tipos` (
+    `valor_API` VARCHAR(100) NOT NULL,
+    `valor_site_pt` VARCHAR(255) NOT NULL,
+    `valor_site_en` VARCHAR(255) NOT NULL,
+    PRIMARY KEY (`valor_API`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+
+INSERT INTO `publicacoes_tipos` (`valor_API`, `valor_site_pt`, `valor_site_en`)
+VALUES
+  ('journal-article', 'Artigos em revistas científicas/artísticas', 'Articles in scientific/artistic journals'),
+  ('journal-issue', 'Artigos em revistas científicas/artísticas', 'Articles in scientific/artistic journals'),
+  ('book', 'Autor/a ou coautor/a de obra completa/catálogo', 'Author or co-author of a complete work/catalog'),
+  ('edited-book', 'Editor/a ou coeditor/a de obra multiautor', 'Editor or co-editor of a multi-author work'),
+  ('book-chapter', 'Capítulos em obras coletivas', 'Chapters in collective works'),
+  ('book-review', 'Recensão', 'Book review'),
+  ('translation', 'Traduções', 'Translations'),
+  ('dissertation', 'Formação avançada', 'Advanced training'),
+  ('newspapper-article', 'Artigos de opinião publicados na imprensa', 'Opinion articles published in the press'),
+  ('newsletter-article', 'Outros', 'Others'),
+  ('encyclopedia-entry', 'Entrada em Enciclopédias e dicionários', 'Entry in encyclopedias and dictionaries'),
+  ('magazine-article', 'Outros', 'Others'),
+  ('dictionary-entry', 'Entrada em Enciclopédias e dicionários', 'Entry in encyclopedias and dictionaries'),
+  ('report', 'Relatórios', 'Reports'),
+  ('working-paper', 'Outros', 'Others'),
+  ('manual', 'Outros', 'Others'),
+  ('online-resource', 'Outros', 'Others'),
+  ('website', 'Outros', 'Others'),
+  ('conference-paper', 'Artigos em Proceedings', 'Articles in Proceedings'),
+  ('conference-abstract', 'Outros', 'Others'),
+  ('conference-poster', 'Outros', 'Others'),
+  ('exhibition-catalogue', 'Autor/a ou coautor/a de obra completa/catálogo', 'Author or co-author of a complete work/catalog'),
+  ('preface-postface', 'Prefácio ou Posfácio', 'Preface or Postface'),
+  ('preprint', 'Outros', 'Others'),
+  ('artistic-exhibition', 'Outros', 'Others'),
+  ('audio-recording', 'Outros', 'Others'),
+  ('musical-composition', 'Outros', 'Others'),
+  ('musical-performance', 'Outros', 'Others'),
+  ('radio-tv-program', 'Outros', 'Others'),
+  ('script', 'Outros', 'Others'),
+  ('short-fiction', 'Outros', 'Others'),
+  ('video-recording', 'Outros', 'Others'),
+  ('visual-artwork', 'Outros', 'Others'),
+  ('choreography', 'Outros', 'Others'),
+  ('curatorial-museum-exhibition', 'Outros', 'Others'),
+  ('performance-art', 'Outros', 'Others'),
+  ('patent', 'Patentes', 'Patents'),
+  ('software', 'Software', 'Software');
+
+ALTER TABLE `publicacoes`
+ADD CONSTRAINT `publicacoes_fk_tipo`
+FOREIGN KEY (`tipo`) REFERENCES `publicacoes_tipos`(`valor_API`);

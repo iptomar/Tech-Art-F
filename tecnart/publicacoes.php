@@ -14,7 +14,16 @@ include 'models/functions.php';
                 </h3><br><br>
                 <?php
                 $pdo = pdo_connect_mysql();
-                $query = "SELECT dados, YEAR(data) AS publication_year FROM publicacoes WHERE visivel = true ORDER BY data DESC";
+                if (!isset($_SESSION["lang"])) {
+                    $lang = "pt";
+                } else {
+                    $lang = $_SESSION["lang"];
+                }
+                $valorSiteName = "valor_site_$lang";
+                $query = "SELECT dados, YEAR(data) AS publication_year, p.tipo, pt.$valorSiteName FROM publicacoes p
+                                LEFT JOIN publicacoes_tipos pt ON p.tipo = pt.valor_API
+                                WHERE visivel = true
+                                ORDER BY publication_year DESC, pt.$valorSiteName, data DESC";
                 $stmt = $pdo->prepare($query);
                 $stmt->execute();
                 $publicacoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -25,30 +34,45 @@ include 'models/functions.php';
                     if ($year == null) {
                         $year = change_lang("year-unknown");
                     }
-                    $groupedPublicacoes[$year][] = $publicacao['dados'];
-                } ?>
+
+                    $site = $publicacao[$valorSiteName];
+
+                    if (!isset($groupedPublicacoes[$year])) {
+                        $groupedPublicacoes[$year] = array();
+                    }
+
+                    if (!isset($groupedPublicacoes[$year][$site])) {
+                        $groupedPublicacoes[$year][$site] = array();
+                    }
+
+                    $groupedPublicacoes[$year][$site][] = $publicacao['dados'];
+                }
+                ?>
                 <script src="../backoffice/assets/js/citation-js-0.6.8.js"></script>
                 <script>
                     const Cite = require('citation-js');
                 </script>
 
                 <div id="publications">
-                    <?php foreach ($groupedPublicacoes as $year => $publicacoes) : ?>
+                    <?php foreach ($groupedPublicacoes as $year => $yearPublica) : ?>
                         <div class="mb-5">
                             <b><?= $year ?></b><br>
-                            <?php foreach ($publicacoes as $publicacao) : ?>
-                                <div style="margin-left: 20px;">
-                                    <script>
-                                        var formattedCitation = new Cite(`<?= $publicacao ?>`).format('bibliography', {
-                                            format: 'html',
-                                            template: 'apa',
-                                            lang: 'en-US'
-                                        });;
-                                        var citationContainer = document.createElement('div');
-                                        citationContainer.innerHTML = formattedCitation;
-                                        citationContainer.classList.add('mb-3');
-                                        document.getElementById('publications').appendChild(citationContainer);
-                                    </script>
+                            <?php foreach ($yearPublica as $site => $publicacoes) : ?>
+                                <div style="margin-left: 10px;" class="mt-3"><b><?= $site ?></b><br></div>
+                                <div style="margin-left: 20px;" id="publications<?= $year ?><?= $site ?>">
+                                    <?php foreach ($publicacoes as $publicacao) : ?>
+                                        <script>
+                                            var formattedCitation = new Cite(`<?= $publicacao ?>`).format('bibliography', {
+                                                format: 'html',
+                                                template: 'apa',
+                                                lang: 'en-US'
+                                            });;
+                                            var citationContainer = document.createElement('div');
+                                            citationContainer.innerHTML = formattedCitation;
+                                            citationContainer.classList.add('mb-3');
+                                            document.getElementById('publications<?= $year ?><?= $site ?>').appendChild(citationContainer);
+                                        </script>
+                                    <?php endforeach; ?>
                                 </div>
                             <?php endforeach; ?>
                         </div><br>

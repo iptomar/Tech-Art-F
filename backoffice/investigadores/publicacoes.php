@@ -298,16 +298,6 @@ function getPublicationInfo($dataOutput, $typeOutput)
                 "author" => formatAuthors($dataOutput->{"authors"}),
             );
             break;
-        case 'test':
-            $date = $dataOutput->{"date-first-used"};
-            $formatedData = array(
-                "typeName" => 'misc',
-                "title" => $dataOutput->{"title"},
-                "year" => isset($dataOutput->{"date-first-used"}) ? $dataOutput->{"date-first-used"}->year : "",
-                "month" => isset($dataOutput->{"date-first-used"}) ? $dataOutput->{"date-first-used"}->month : "",
-                "author" => formatAuthors($dataOutput->{"authors"}),
-            );
-            break;
         case 'website':
             $date = $dataOutput->{"launch-date"};
             $formatedData = array(
@@ -488,18 +478,6 @@ function getPublicationInfo($dataOutput, $typeOutput)
 
             );
             break;
-        case "theatric":
-            $date = $dataOutput->{"date-of-first-performance"};
-            $formatedData = array(
-                //author
-                "typeName" => "play",
-                "title" =>  $dataOutput->{"the-title-of-work"},
-                "author" => $dataOutput->{"producer"},
-                "year" => isset($date) ? $date->year : "",
-                "author" => formatAuthors($dataOutput->{"authors"}) . " and " . formatAuthors($dataOutput->{"collaborators"}),
-                "venue" => implode(', ', isset($dataOutput->{"venues"}->{"venue"}) ? $dataOutput->{"venues"}->{"venue"} : array()),
-            );
-            break;
         case "video-recording":
             $date = $dataOutput->{"release-date"};
             $formatedData = array(
@@ -575,17 +553,6 @@ function getPublicationInfo($dataOutput, $typeOutput)
                 "author" => formatAuthors($dataOutput->{"authors"}),
             );
             break;
-            //Legal proceeding	??????
-        case "litigation":
-            $year = $dataOutput->year;
-            $formatedData = array(
-                "typeName" => "misc",
-                "title" => $dataOutput->{"case-name"},
-                "year" => $dataOutput->year,
-                "author" => formatAuthors($dataOutput->{"authors"}),
-                "publisher" => $dataOutput->court
-            );
-            break;
         case "software":
             $institutions = isset($dataOutput->institutions) ? $dataOutput->institutions : null;
             $date = $dataOutput->{"publication-date"};
@@ -596,11 +563,11 @@ function getPublicationInfo($dataOutput, $typeOutput)
                 "year" => isset($date) ? $date->year : "",
                 "type" => $dataOutput->{"platform"},
                 "author" => formatAuthors($dataOutput->{"authors"}),
-                
+
                 "institution" => implode(' and ', array_map(function ($institution) {
                     return $institution->{"institution-name"};
                 }, isset($institutions->institution) ? $institutions->institution : array()))
-                
+
             );
             break;
         default:
@@ -717,9 +684,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //Atualizar os dados da base de dados com o da Ciencia Vitae usando a API
     if (isset($_POST['updateData'])) {
         $validTypes = array(
-            "journal-article", "journal-issue", "book", "edited-book", "book-chapter", "book-review", "translation", "dissertation", "newspapper-article", "newsletter-article", "encyclopedia-entry", "magazine-article", "dictionary-entry", "report", "working-paper", "manual", "online-resource", "test", "website", "conference-paper", "conference-abstract", "conference-poster", "exhibition-catalogue", "preface-postface", "preprint",
-            "artistic-exhibition", "audio-recording", "musical-composition", "musical-performance", "radio-tv-program", "short-fiction", "theatric", "video-recording", "visual-artwork", "choreography", "curatorial-museum-exhibition", "performance-art",
-            "patent", "litigation", "software"
+            //newspapper-article é o tipo de output vindo da API do Ciencia Vitae, o erro ortográfico  é da API
+            "journal-article", "journal-issue", "book", "edited-book", "book-chapter", "book-review", "translation", "dissertation", "newspapper-article", "newsletter-article", "encyclopedia-entry", "magazine-article", "dictionary-entry", "report", "working-paper", "manual", "online-resource", "website", "conference-paper", "conference-abstract", "conference-poster", "exhibition-catalogue", "preface-postface", "preprint",
+            "artistic-exhibition", "audio-recording", "musical-composition", "musical-performance", "radio-tv-program", "short-fiction", "video-recording", "visual-artwork", "choreography", "curatorial-museum-exhibition", "performance-art",
+            "patent", "software"
         );
         //Login e password da API da Ciência Vitae definidos em ../config/credentials.php
         $loginAPI = USERCIENCIA;
@@ -868,14 +836,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 mysqli_stmt_bind_param($deleteStatement, $types, ...$idsToDelete);
 
                 if (mysqli_stmt_execute($deleteStatement)) {
-                    echo "Registos eliminados com sucesso.<br>";
+                    // echo "Registos eliminados com sucesso.<br>";
                 } else {
-                    echo "Erro ao eliminar registos: " . mysqli_error($conn) . "<br>";
+                    // echo "Erro ao eliminar registos: " . mysqli_error($conn) . "<br>";
                 }
 
                 mysqli_stmt_close($deleteStatement);
             } else {
-                echo "Erro ao preparar o comando de eliminação: " . mysqli_error($conn) . "<br>";
+                // echo "Erro ao preparar o comando de eliminação: " . mysqli_error($conn) . "<br>";
             }
         }
 
@@ -885,10 +853,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($deleteResult) {
             $numRowsAffected = mysqli_affected_rows($conn);
             if ($numRowsAffected > 0) {
-                echo "Registos eliminados com sucesso na tabela publicacoes. Foram eliminados $numRowsAffected registos.<br>";
+                //echo "Registos eliminados com sucesso na tabela publicacoes. Foram eliminados $numRowsAffected registos.<br>";
             }
         } else {
-            echo "Erro ao eliminar registos da tabela publicacoes: " . mysqli_error($conn) . "<br>";
+            // echo "Erro ao eliminar registos da tabela publicacoes: " . mysqli_error($conn) . "<br>";
         }
     }
 }
