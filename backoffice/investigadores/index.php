@@ -13,6 +13,8 @@ if (isset($_POST["anoRelatorio"])) {
 }
 
 ?>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</link>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -22,51 +24,53 @@ if (isset($_POST["anoRelatorio"])) {
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="../assets/js/citation-js-0.6.8.js"></script>
+
 <style type="text/css">
 	<?php
 	$css = file_get_contents('../styleBackoffices.css');
 	echo $css;
 	?>
 </style>
-
+<?php
+if (@$_SESSION["anoRelatorio"] != "") {
+	$anoAtual = $_SESSION["anoRelatorio"];
+} else {
+	$anoAtual = date("Y");
+}
+?>
 <div class="container mt-3">
-	<form action="./index.php" method="post">
-		<input name="anoRelatorio" type="text" placeholder="Ano do relatório" />
-		<input type="submit" value="Submeter Ano" class="btn btn-success" />
+	<form id="formAnoRelatorio">
 
-			<?php
-			if (isset($_SESSION["anoRelatorio"])) {
-			?>
-				<span class='text-danger'>
-					<?php
-					if (@$_SESSION["anoRelatorio"] != "") {
+		<input required name="anoRelatorio" type="number" class="form-control mr-2" placeholder="Ano do relatório" min="1950" max="2999" step="1" pattern="\d{4}" data-error="Por favor insira um ano válido" style="max-width: 200px; min-width: 160px; display: inline-block;" value="<?= $anoAtual ?>" />
+		<input type="submit" value="Selecionar Ano" class="btn btn-success" />
 
-					?>
-
-						<span class="material-icons-round ml-3" style="font-size:16px;">&#xE002;</span><span class="ml-2">Foi submetido o ano <?= $_SESSION["anoRelatorio"] ?>!</span>
-
-					<?php
-					} else {
-					?>
-
-						<span class="material-icons-round ml-3" style="font-size:16px;">&#xE002;</span><span class="ml-2">Cuidado! Campo submetido vazio! (Ano: <?= date("Y") ?>)</span>
-
-					<?php
-					}
-
-					?>
-
-				</span>
-
-			<?php } else {
-			?>
-				<span class="text-info">
-					<span class="material-icons-round ml-3" style="font-size:16px;">&#xE88E;</span><span class="ml-2"> Ano Atual: <?= date("Y") ?></span>
-				</span>
 		<?php
-			}?>
+		if (isset($_SESSION["anoRelatorio"])) {
+			$class = "text-danger";
+			$symbol = "&#xE002;";
+			if (@$_SESSION["anoRelatorio"] != "") {
+				$msg = "Foi selecionado o ano " . $_SESSION["anoRelatorio"];
+			} else {
+				$_SESSION["anoRelatorio"] = date("Y");
+				$msg = " Campo submetido vazio! (Ano: " . $_SESSION["anoRelatorio"] . ")";
+			}
+		} else {
+			$class = "text-info";
+			$symbol = "&#xE88E;";
+			$msg = "Ano Atual: " . date("Y");
+		}
+		?>
+
+		<span id="anoSpan" class="<?= $class ?>" style="height:20px; display: inline-block; vertical-align: middle;">
+			<span id="anoSymbol" class="material-icons ml-3" style="font-size: 18px; vertical-align: middle;"><?= $symbol ?></span>
+			<span class="ml-2" id="anoSubmit" id="anoSubmit" style="font-size:15px;"><?= $msg ?></span>
+		</span>
+
 	</form>
+
 </div>
+
 
 <div class="container-xl">
 	<div class="table-responsive">
@@ -98,9 +102,7 @@ if (isset($_POST["anoRelatorio"])) {
 						<th>Fotografia</th>
 						<th>Ações</th>
 					</tr>
-
 				</thead>
-
 				<tbody>
 					<?php
 					if (mysqli_num_rows($result) > 0) {
@@ -117,12 +119,14 @@ if (isset($_POST["anoRelatorio"])) {
 								echo "<td>".$row["scholar"]."</td>";
 								*/
 								echo "<td><img src='../assets/investigadores/$row[fotografia]' width = '100px' height = '100px'></td>";
-								echo "<td><a href='edit.php?id=" . $row["id"] . "' class='btn btn-primary'><span>Alterar</span></a></td>";
+								echo "<td style='min-width:250px;'><a href='edit.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-primary'><span>Alterar</span></a>";
 								if ($_SESSION["autenticado"] == 'administrador') {
-									echo "<td><a href='remove.php?id=" . $row["id"] . "' class='btn btn-danger'><span>Apagar</span></a></td>";
+									echo "<a href='remove.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-danger'><span>Apagar</span></a><br>";
 								}
-								echo "<td><a href='resetpassword.php?id=" . $row["id"] . "' class='btn btn-warning'><span>Alterar Password</span></a></td>";
-								echo "<td><a href='autoEscreveRelatorio.php?id=" . $row["id"] . "' class='btn btn-info'><span>Gerar Relatório</span></a></td>";
+								echo "<a href='resetpassword.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-warning'><span>Alterar Password</span></a><br>";
+								echo "<a data-id='" . $row["id"] . "' class='gerarRelatorio w-100 mb-1 btn btn-info'><span>Gerar Relatório</span></a><br>";
+								echo "<a href='publicacoes.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-secondary'><span>Selecionar Publicações</span></a><br>";
+								echo "</td>";
 								echo "</tr>";
 							}
 						}
@@ -134,7 +138,122 @@ if (isset($_POST["anoRelatorio"])) {
 	</div>
 </div>
 
-<?php
+<script>
+	const Cite = require('citation-js');
+	// Quando o documento estiver totalmente carregado
+	$(document).ready(function() {
+		// Quando um elemento com o id 'formAnoRelatorio' for submetido
+		$("#formAnoRelatorio").submit(function(event) {
+			// Prevenir a submissão 
+			event.preventDefault();
+			//Verificar se o formulário é valido
+			if (this.checkValidity() === true) {
+				//Obter o ano colocado no input
+				var anoRelatorio = $("input[name='anoRelatorio']").val();
+				//Actualizar a variavel de sessão usando AJAX
+				$.ajax({
+					type: "POST",
+					url: "ajax.php",
+					data: {
+						anoRelatorio: anoRelatorio
+					},
+					success: function(response) {
+						$("input[name='anoRelatorio']").val(response.ano);
 
-mysqli_close($conn);
-?>
+						var anoSpan = document.getElementById("anoSpan");
+						if (anoSpan.className = "text-info") {
+							// Update the class and content
+							anoSpan.className = "text-danger"; // Change the class
+							$("#anoSymbol").html("&#xE002;");
+
+						}
+
+						$("#anoSubmit").html(response.msg);
+
+					},
+					error: function(xhr, status, error) {
+						console.error(xhr, status, error);
+					}
+				});
+			}
+		});
+
+		// Quando um elemento com a classe 'gerarRelatorio' for clicado
+		$('.gerarRelatorio').on('click', function(e) {
+
+			e.preventDefault(); // Impede o comportamento padrão do link
+
+			// Obter o ID do investigador a partir do atributo de dados
+			var investigatorId = $(this).data('id');
+
+			// Fazer um pedido AJAX para iniciar a geração do relatório
+			$.ajax({
+				type: 'POST',
+				url: 'ajax.php',
+				data: {
+					idGerar: investigatorId
+				},
+				success: function(response) {
+
+					var reportData = response;
+					// Aceder aos dados 'publicacoes' e 'patents' de reportData
+					var publications = reportData.publicacoes;
+					var patents = reportData.patents;
+
+					// Obter a referência APA das publicações
+					for (var i = 0; i < publications.length; i++) {
+						var APAreference = processarAPA(publications[i].dados);
+						publications[i].dados = APAreference;
+					}
+
+					// Obter a referência APA das patentes
+					for (var i = 0; i < patents.length; i++) {
+						var APAreference = processarAPA(patents[i].dados);
+						patents[i].dados = APAreference;
+					}
+
+					function processarAPA(data) {
+						// Lógica de processamento do "citation.js"
+						var htmlContent = new Cite(data).format('bibliography', {
+							format: 'html',
+							template: 'apa',
+							lang: 'en-US'
+						});
+						return htmlContent;
+					}
+
+					// Criar um elemento de formulário
+					var form = document.createElement('form');
+					form.method = 'POST';
+					form.action = 'autoEscreveRelatorio.php?id=' + investigatorId;
+
+					// Criar um elemento de input para armazenar as publicações
+					var input = document.createElement('input');
+					input.type = 'hidden';
+					input.name = 'publicacoes';
+					input.value = JSON.stringify(publications);
+
+					// Anexar o input 'publicacoes' ao formulário
+					form.appendChild(input);
+
+					var inputPat = document.createElement('input');
+					inputPat.type = 'hidden';
+					inputPat.name = 'patentes';
+					inputPat.value = JSON.stringify(patents);
+
+					// Anexar o input 'patentes' ao formulário
+					form.appendChild(inputPat);
+
+					// Anexar o formulário ao corpo do documento
+					document.body.appendChild(form);
+
+					// Submeter o formulário
+					form.submit();
+				},
+				error: function(xhr, status, error) {
+					console.error(xhr.responseText);
+				}
+			});
+		});
+	});
+</script>

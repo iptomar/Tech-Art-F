@@ -8,10 +8,11 @@ require "../config/basedados.php";
 //verfica o tipo de sessão com base no utilizador
 if ($_SESSION["autenticado"] != 'administrador' && $_SESSION["autenticado"] != $_GET["id"]) {
     header("Location: index.php");
+    exit; 
 }
 
 //ano
-if($_SESSION["anoRelatorio"] != ""){
+if(isset($_SESSION["anoRelatorio"])){
 	$year = $_SESSION["anoRelatorio"];
 }else{
     $year = date("Y");
@@ -33,8 +34,8 @@ $unwanted_array = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A
                             'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y' );
 
 //credenciais para acesso ao swagger UI da API da cienciaVitae
-$login = 'IPT_ADMIN';
-$password = 'U6-km(jD8a68r';
+$login = USERCIENCIA;
+$password = PASSWORDCIENCIA;
 
 //iniciar sessao cURL
 $ch = curl_init();
@@ -49,7 +50,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //retornar transferencia ativada
 curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC); //autenticacao cURL basica ativada
 curl_setopt($ch, CURLOPT_USERPWD, "$login:$password"); //user e password para o swagger UI
 
-// 1. Informações
+// 1. Informações  --------------------------------------------------------------------------------------------
 
 //consulta a realizar
 $sql = "SELECT * FROM investigadores WHERE id = ?";
@@ -115,7 +116,7 @@ $spreadsheet->getActiveSheet()->getCell('B20')->setValue($nome);
 $spreadsheet->getActiveSheet()->getCell('B22')->setValue($ciencia_id);
 $spreadsheet->getActiveSheet()->getCell('B23')->setValue($orcid);
 
-// 2. Projetos de investigação
+// 2. Projetos de investigação  -------------------------------------------------------------------------------------------- --------------------------------------------------------------------------------------------
 
 //consluta a realizar
 $sql = "SELECT * FROM projetos AS p,investigadores_projetos AS ip WHERE ip.investigadores_id = ? AND p.id = ip.projetos_id";
@@ -147,43 +148,18 @@ foreach($rows as $row){
 }
 
 
-// 3. Publicações
+// 3. Publicações --------------------------------------------------------------------------------------------
 
-//categorias de publicacao
-
-//iniciar sessao cURL
-$ch = curl_init();
-$headers = array(
-    "Content-Type: application/json",
-    "Accept: application/json",
-);
-
-curl_setopt($ch, CURLOPT_FAILONERROR, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); //adicionar cabecalhos
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //retornar transferencia ativada
-curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC); //autenticacao cURL basica ativada
-curl_setopt($ch, CURLOPT_USERPWD, "$login:$password"); //user e password para o swagger UI
-
-$url = "https://qa.cienciavitae.pt/api/v1.1/curriculum/" . $ciencia_id . "/output?lang=User%20defined";
-
-//adicionar url ao handler cURL
-curl_setopt($ch, CURLOPT_URL, $url);
-
-//mostrar erros
-//echo curl_error($ch);
-
-//resultado
-$result_curl = curl_exec($ch); //executar cURL e armazenar resultado
-
-curl_close($ch); //fechar handler
-$data = json_decode($result_curl); //descodificar JSON da resposta
-
-//echo json_encode($data);
+$publicacoes = null;
+if (isset($_POST['publicacoes'])) {
+    $publicacoes = $_POST['publicacoes'];
+}
+$dataArray = json_decode($publicacoes, true);
 
 //::::::::::::ESCREVER NO EXCEL::::::::::::
 
 //tipo de publicacao
-$outputType ="";
+$outputType = "";
 
 //localização de publicacao
 $outputLocation;
@@ -202,113 +178,155 @@ $startNumber = 12;
 
 $spreadsheet->setActiveSheetIndex(2);
 
+
 //opcoes da lista pendente
+/*
 for($opc = 1; $opc <= 22; $opc++){
-
     $activePageSelectOptions[$opc-1] = $spreadsheet->getActiveSheet()->getCell("J".$opc)->getFormattedValue();
-
+    // echo "<br> ".($opc-1)." => ".$spreadsheet->getActiveSheet()->getCell("J".$opc)->getFormattedValue();
 }
+*/
+//opcoes da lista excel das pulicações
+$excelOptionsPub = array(
+    "livros" => "Publicação de livros",
+    "catálogo" => "Autor ou coautor de catálogo",
+    "coletivas" => "Publicação de capítulos em obras coletivas",
+    "revistas" => "Publicação de artigos em revistas científicas/artísticas",
+    "recensões" => "Recensões",
+    "relatórios" => "Relatórios",
+    "pareceres" => "Pareceres",
+    "traduções" => "Traduções",
+    "opinião" => "Artigos de opinião publicados na imprensa",
+    "blogs" => "Contributos para blogs",
+    "social" => "Intervenções nos meios de comunicação social",
+    "conselhos" => "Participação em conselhos editoriais ou científicos de revistas académicas",
+    "edição" => "Edição de volume de revista como editor convidado (guest-editor)",
+    "avaliação" => "Avaliação de artigos para publicação"
+);
 
-//echo implode("</br>",$activePageSelectOptions);
+//Array que define se a opção no excel contém a localização, "no estrangeiro/em Portugal"
+$addLocation = ["livros", "catálogo", "coletivas", "revistas"];
+//Arrays que definem se a opção no excel contém a revisão, "(sem revisão por pares)"
+$addRevision = ["coletivas", "revistas"];
 
-//echo json_encode($data);
 
-foreach($data->{"output"} as $row){
+//Alinhar os tipos de publicações vindo da API com os do excel, usando as chaves do array excelOptionsPub
+$APItoExceltypePub = array(
+    'journal-article' => $excelOptionsPub['revistas'],
+    // 'journal-issue' => '', 
+    'book' =>  $excelOptionsPub['livros'],
+    // 'edited-book' => '', 
+    'book-chapter' =>  $excelOptionsPub['coletivas'],
+    // 'book-review' => '', 
+    'translation' =>  $excelOptionsPub['traduções'],
+    /* 'dissertation' => '',
+    'newspapper-article' => '',
+    'newsletter-article' => '',
+    'encyclopedia-entry' => '',
+    'magazine-article' => '',
+    'dictionary-entry' => '',
+    'report' => '',
+    'working-paper' => '',
+    'manual' => '',
+    'online-resource' => '',
+    'test' => '',
+    'website' => '',
+    'conference-paper' => '',
+    'conference-abstract' => '',
+    'conference-poster' => '',
+    'exhibition-catalogue' => '',
+    'preface-postface' => '', 
+    'preprint' => '',
+    'artistic-exhibition' => '',
+    'audio-recording' => '',
+    'musical-composition' => '',
+    'musical-performance' => '',
+    'radio-tv-program' => '',
+    'short-fiction' => '',
+    'theatric' => '',
+    'video-recording' => '',
+    'visual-artwork' => '',
+    'choreography' => '',
+    'curatorial-museum-exhibition' => '',
+    'performance-art' => '',
+    'patent' => '',
+    'litigation' => '',
+    'software' => '',
+    */
+);
 
-    //letra de comeco
+foreach ($dataArray as $item) {
     $startChar = "A";
 
-    //iterador
-    $i = 0;
+    $referenceAPA = $item['dados'];
+    $pais = $item['pais'];
+    $cidade = $item['cidade'];
+    $tipo = $item['tipo'];
+    $excelOutCategory = '';
+    //Verificar se o tipo de publicação está no array APItoExceltypePub se estiver, logo for um tipo válido processá-lo para adicionar o que falta de dados
+    if (isset($APItoExceltypePub[$tipo])) {
 
-    //::::::categoria de publicacao::::::
-    $outputType = $row->{"output-type"}->{"value"};
+        $excelOutCategory =  $APItoExceltypePub[$tipo];
+        $excelArrayKey = array_search($excelOutCategory, $excelOptionsPub);;
 
-    //encontrar a propriedade nao nula correspondente a categoria de publicacao
-    foreach($row as $attr){
-        if($attr != null && $i >= 2){
-            $outputAttr = $attr;
-            break;
+        //Se estiver no array para colocar a localização, calcula e adiciona-a
+        if (in_array($excelArrayKey, $addLocation)) {
+            if ($pais == "Portugal" || in_array($cidade, $localizacoesPortuguesas)) {
+                $outputLocation = "em Portugal";
+            } else {
+                //Por default é no estrangeiro se não for colocada a localização
+                $outputLocation = "no estrangeiro";
+            }
+            $excelOutCategory .= " $outputLocation";
         }
-        $i++;
+        if (in_array($excelArrayKey, $addRevision)) {
+            //Adicionar sempre sem revisão por default porque os dados do ciencia vitae não tem divisão entre os que tem e não tem
+            $excelOutCategory .= " (sem revisão por pares)";
+        }
+    } else {
+        //Se o tipo não for válido passar à frente
+        continue;
+        //$excelOutCategory = $tipo;
     }
 
-    if(@$outputAttr->{"publication-year"} == $year."" || @$outputAttr->{"publication-date"}->{"year"} == $year.""){
-        //local de publicacao
-        $outputLocation = @$outputAttr->{"publication-location"}->{"country"}->{"value"};
+    $spreadsheet->getActiveSheet()->getCell($startChar . $startNumber)->setValue($excelOutCategory);
 
-        if (is_null($outputLocation)) {
-            $outputLocation = @$outputAttr->{"publication-location"}->{"city"};
-            //echo $outputLocation." here</br>";
-            if ($outputLocation != "") {
-                for ($i = 0; $i < count($localizacoesPortuguesas); $i++) {
-                    if ($outputLocation == $localizacoesPortuguesas[$i]) {
-                        $outputLocation = "Portugal";
-                        break;
-                    } else if ($i + 1 == count($localizacoesPortuguesas)) {
-                        $outputLocation = "Estrangeiro";
-                    }
-                }
-            } else {
-                $outputLocation = "Local Desconhecido";
-            }
-        } else {
-            if ($outputLocation != "Portugal") {
-                $outputLocation = "Estrangeiro";
-            }
-        }
+    //::::::referencia bibliografica::::::
 
-        //!!!!!!!!!!! SUBSTITUIR POR SWITCH PARA AS OPCOES POSSIVEIS !!!!!!!!!
-        $excelOutCategory = $outputType . ": " . $outputLocation;
+    //caracter de comeco
+    $startChar = chr(ord($startChar) + 1);
+    $wizard = new PHPExcel_Helper_HTML;
 
-        switch($excelOutCategory){
-            case "Livro: Portugal":
-                $excelOutCategory = $activePageSelectOptions[0];
-                break;
-            case "Livro: Estrangeiro":
-                $excelOutCategory = $activePageSelectOptions[1];
-                break;
-            case "Capítulo de livro: Portugal":
-                $excelOutCategory = $activePageSelectOptions[4];
-                break;
-            case "Capítulo de livro: Estrangeiro":
-                $excelOutCategory = $activePageSelectOptions[6];
-                break;
-            case "Artigo em revista: Portugal":
-                $excelOutCategory = $activePageSelectOptions[8];
-                break;
-            case "Artigo em revista: Estrangeiro":
-                $excelOutCategory = $activePageSelectOptions[10];
-                break;
-        }
+    //Transformar de HTML para Rich Text
+    $richTextAPA = $wizard->toRichTextObject(
+        mb_convert_encoding(html_entity_decode($referenceAPA), 'HTML-ENTITIES', 'UTF-8')
+    );
 
-        $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->setValue($excelOutCategory);
+    //URL para referencia
+    $spreadsheet->getActiveSheet()->getCell($startChar . $startNumber)->setValue($richTextAPA);
+    $spreadsheet->getActiveSheet()->getStyle($startChar . $startNumber)->getAlignment()->setWrapText(true);
 
-        //::::::referencia bibliografica::::::
+    //::::::URL, DOI::::::
 
-        //caracter de comeco
-        $startChar = chr(ord($startChar) + 1);
+    $pattern = '@((https?://)?([-\\w]+\\.[-\\w\\.]+)+\\w(:\\d+)?(/([-\\w/_\\.]*(\\?\\S+)?)?)*)@';
 
-        //URL para referencia
-        $doi = @$outputAttr->{"url"};
+    // Use preg_match to find the URL in the text
+    if (preg_match($pattern, urldecode($richTextAPA), $urls)) {
+        $urlPublic = $urls[0];
+    }else{
+        $urlPublic = '';
+    }
 
-        //echo $url."</br>";
+    //caracter de comeco
+    $startChar = chr(ord($startChar) + 1);
 
-        $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->setValue($doi);
+    $spreadsheet->getActiveSheet()->getCell($startChar . $startNumber)->setValue($urlPublic);
 
-        //::::::URL, DOI::::::
-
-        //caracter de comeco
-        $startChar = chr(ord($startChar) + 1);
-
-        $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->setValue($doi);
-
-        $startNumber++;
-    } 
+    $startNumber++;
 }
 
 
-// 4. Enventos e conferencias
+// 4. Eventos e conferencias  --------------------------------------------------------------------------------------------  
 
 //iniciar sessao cURL
 $ch = curl_init();
@@ -338,6 +356,8 @@ curl_close($ch); //fechar handler
 $data = json_decode($result_curl); //descodificar JSON da resposta
 
 //::::::::::::ESCREVER NO EXCEL::::::::::::
+$startNumber = 16;
+
 
 //categoria de servico
 $serviceCategory = "";
@@ -356,16 +376,131 @@ $spreadsheet->setActiveSheetIndex(3);
 //opcoes da lista pendente
 
 $activePageSelectOptions = array();
+/*
+for ($opc = 1; $opc <= 15; $opc++) {
 
-for($opc = 1; $opc <= 15; $opc++){
-
-    $activePageSelectOptions[$opc-1] = $spreadsheet->getActiveSheet()->getCell("H".$opc)->getFormattedValue();
-
+    $activePageSelectOptions[$opc - 1] = $spreadsheet->getActiveSheet()->getCell("H" . $opc)->getFormattedValue();
 }
+*/
+
+$excelOptionsConf = array(
+    "oradorprincipal" => "Comunicações em conferências nacionais/internacionais enquanto orador principal",
+    "revisaoporpares" => "Comunicações em conferências nacionais/internacionais com admissão sujeita a revisão por pares",
+    "convite" => "Comunicações em conferências nacionais/internacionais por convite",
+    "outras" => "Outras comunicações",
+    "organizacao" => "Organização de conferências de âmbito nacional/internacional",
+    "conselho" => "Participação no Conselho Científico de eventos científicos de âmbito nacional/internacional",
+    "organizacaoart" => "Criação/apresentação/organização de exposições e outros eventos artísticos de âmbito nacional/internacional",
+    "participacaoart" => "Participação em exposições e outros eventos artísticos de âmbito nacional/internacional",
+);
+$addLocationConf = ["oradorprincipal", "revisaoporpares", "convite", "organizacao", "conselho", "organizacaoart", "participacaoart"];
 
 //echo implode("</br>",$activePageSelectOptions);
 
-foreach($data->{"service"} as $row){
+//Alinhar os tipos de publicações vindo da API com os do excel, usando as chaves do array excelOptionsPub
+$APItoExceltypeConf = array(
+    // 'journal-issue' => '', 
+    // 'edited-book' => '', 
+    // 'book-review' => '', 
+    /* 'dissertation' => '',
+    'newspapper-article' => '',
+    'newsletter-article' => '',
+    'encyclopedia-entry' => '',
+    'magazine-article' => '',
+    'dictionary-entry' => '',
+    'report' => '',
+    'working-paper' => '',
+    'manual' => '',
+    'online-resource' => '',
+    'test' => '',
+    'website' => '',
+    'conference-paper' => '',
+    'conference-abstract' => '',
+    'conference-poster' => '',
+    'exhibition-catalogue' => '',
+    'preface-postface' => '', 
+    'preprint' => '',
+    'artistic-exhibition' => '',
+    'audio-recording' => '',
+    'musical-composition' => '',
+    'musical-performance' => '',*/
+    'radio-tv-program' => $excelOptionsConf['oradorprincipal'],
+    /*'short-fiction' => '',
+    'theatric' => '',
+    'video-recording' => '',
+    'visual-artwork' => '',
+    'choreography' => '',
+    'curatorial-museum-exhibition' => '',
+    'performance-art' => '',
+    'patent' => '',
+    'litigation' => '',
+    'software' => '',
+    */
+);
+ 
+$dataArray = json_decode($publicacoes, true);
+
+foreach ($dataArray as $item) {
+    $startChar = "A";
+
+    $referenceAPA = $item['dados'];
+    $pais = $item['pais'];
+    $cidade = $item['cidade'];
+    $tipo = $item['tipo'];
+    $excelOutCategory = '';
+    //Verificar se o tipo de evento ou conferência está no array APItoExceltypeConf se estiver, logo for um tipo válido processá-lo para adicionar o que falta de dados
+    if (isset($APItoExceltypeConf[$tipo])) {
+
+        $excelOutCategory =  $APItoExceltypeConf[$tipo];
+        $excelArrayKey = array_search($excelOutCategory, $excelOptionsConf);;
+
+        //Se estiver no array para colocar a localização, calcula e adiciona-a
+        if (in_array($excelArrayKey, $addLocationConf)) {
+            if ($pais == "Portugal" || in_array($cidade, $localizacoesPortuguesas)) {
+                $ambit = "nacional";
+            } else {
+                //Por default é no estrangeiro se não for colocada a localização
+                $ambit = "internacional";
+            }
+            str_replace("nacional/internacional", $ambit, $typeExcel);
+        }
+        if (in_array($excelArrayKey, $addRevision)) {
+            //Adicionar sempre sem revisão por default porque os dados do ciencia vitae não tem divisão entre os que tem e não tem
+            $excelOutCategory .= " (sem revisão por pares)";
+        }
+    } else {
+        //Se o tipo não for válido passar à frente
+        continue;
+        //$excelOutCategory = $tipo;
+    }
+
+    $spreadsheet->getActiveSheet()->getCell($startChar . $startNumber)->setValue($excelOutCategory);
+
+    //::::::referencia bibliografica::::::
+
+    //caracter de comeco
+    $startChar = chr(ord($startChar) + 1);
+    $wizard = new PHPExcel_Helper_HTML;
+
+    //Transformar de HTML para Rich Text
+    $richTextAPA = $wizard->toRichTextObject(
+        mb_convert_encoding(html_entity_decode($referenceAPA), 'HTML-ENTITIES', 'UTF-8')
+    );
+
+    //URL para referencia
+    $spreadsheet->getActiveSheet()->getCell($startChar . $startNumber)->setValue($richTextAPA);
+    $spreadsheet->getActiveSheet()->getStyle($startChar . $startNumber)->getAlignment()->setWrapText(true);
+
+    //caracter de comeco
+    $startChar = chr(ord($startChar) + 1);
+
+    $spreadsheet->getActiveSheet()->getCell($startChar . $startNumber)->setValue($urlPublic);
+
+    $startNumber++;
+}
+
+/*
+foreach ($data->{"service"} as $row) {
 
     //letra de comeco
     $startChar = "A";
@@ -374,16 +509,13 @@ foreach($data->{"service"} as $row){
     $i = 0;
 
     //encontrar a propriedade nao nula correspondente ao tipo de servico
-    foreach($row as $attr){
-        if($attr != null && $i >= 1){
+    foreach ($row as $attr) {
+        if ($attr != null && $i >= 1) {
             $serviceAttr = $attr;
             break;
         }
         $i++;
     }
-
-    /*if(@$row->{"service-category"} != null && 
-    @$row->{"service-category"}->{"value"} == "Orientação")*/
     if(@$row->{"service-category"} != null && 
     (@$row->{"service-category"}->{"value"} == "Participação em evento" || 
     @$row->{"service-category"}->{"value"} == "Organização de evento") && 
@@ -396,7 +528,7 @@ foreach($data->{"service"} as $row){
 
         $categoriaEvento = $serviceCategory.": ".@$serviceAttr->{"end-date"}->{"year"};
         
-        $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->setValue($categoriaEvento);
+        $spreadsheet->getActiveSheet()->getCell($startChar . $startNumber)->setValue($categoriaEvento);
 
         //::::::referencia bibliografica::::::
 
@@ -410,13 +542,36 @@ foreach($data->{"service"} as $row){
 
     }
 
+}*/
+
+// 5. Patentes  --------------------------------------------------------------------------------------------
+
+$patentes = null;
+if (isset($_POST['patentes'])) {
+    $patentes = $_POST['patentes'];
 }
 
-// 5. Patentes
+$spreadsheet->setActiveSheetIndex(4);
+
+$dataArray = json_decode($patentes, true);
+//letra de comeco
+$startChar = "A";
+$startNumber = 16;
+
+foreach ($dataArray as $item) {
+    $referenceAPA = $item['dados'];
+    $wizard = new PHPExcel_Helper_HTML;
+    //Transformar de HTML para Rich Text
+    $richTextAPA = $wizard->toRichTextObject(
+        mb_convert_encoding(html_entity_decode($referenceAPA), 'HTML-ENTITIES', 'UTF-8')
+    );
+
+    $spreadsheet->getActiveSheet()->getCell($startChar . $startNumber)->setValue($richTextAPA);
+    $startNumber++;
+}
 
 
-
-// 6. Trabalho de orientação
+// 6. Trabalho de orientação  --------------------------------------------------------------------------------------------
 
 //iniciar sessao cURL
 $ch = curl_init();
@@ -518,24 +673,24 @@ foreach($data->{"service"} as $row){
         switch($tipologiaOrientacao){
 
             case "Orientação: Mestrado: fim em ".$year:
-                $tipologiaOrientacao = $activePageSelectOptions[0];
+                $pageOption = $activePageSelectOptions[0];
                 break;
             case "Orientação: Mestrado: fim em ":
-                $tipologiaOrientacao = $activePageSelectOptions[1];
+                $pageOption = $activePageSelectOptions[1];
                 break;
             case "Orientação: Doutoramento: fim em ".$year:
-                $tipologiaOrientacao = $activePageSelectOptions[2];
+                $pageOption = $activePageSelectOptions[2];
                 break;
             case "Orientação: Doutoramento: fim em ":
-                $tipologiaOrientacao = $activePageSelectOptions[3];
+                $pageOption = $activePageSelectOptions[3];
                 break;
             default:
-                $tipologiaOrientacao = $activePageSelectOptions[4];
+                $pageOption = $activePageSelectOptions[4];
                 break;
 
         }
 
-        $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->setValue($tipologiaOrientacao);
+        $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->setValue($pageOption);
 
         //::::::nome do aluno::::::
 
@@ -566,7 +721,7 @@ foreach($data->{"service"} as $row){
 }
 
 
-// 7. Prémios e distinções
+// 7. Prémios e distinções  --------------------------------------------------------------------------------------------
 
 //iniciar sessao cURL
 $ch = curl_init();
@@ -647,8 +802,14 @@ foreach($data->{"distinction"} as $row){
 
 }
 
-// 8. Outras atividades
+//Obter as bolsas
 
+
+
+// 8. Outras atividades  --------------------------------------------------------------------------------------------
+
+//Voltar à primeira pagina antes de guardar
+$spreadsheet->setActiveSheetIndex(0);
 
 //::::::::::::GUARDAR RELATORIO::::::::::::
 $writer->save($novoRelatorio);
@@ -658,8 +819,7 @@ $writer->save($novoRelatorio);
 $finfo = finfo_open(FILEINFO_MIME_TYPE); 
 $mime =  finfo_file($finfo, basename($novoRelatorio));
 finfo_close($finfo);
-
-header('Content-Type: '.$mime);
+header('Content-Type: '.$mime.'; charset=UTF-8');
 header('Content-Disposition: attachment;  filename="'.basename($novoRelatorio).'"');
 header('Content-Length: ' . filesize(basename($novoRelatorio)));
 header('Expires: 0');
@@ -672,4 +832,3 @@ ob_end_flush();
 
 //::::::::::::APAGAR RELATORIO DO SERVIDOR::::::::::::
 unlink($novoRelatorio);
-?>

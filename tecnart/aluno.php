@@ -13,6 +13,7 @@ $stmt = $pdo->prepare($query);
 $stmt->bindParam(1, $_GET["aluno"], PDO::PARAM_INT);
 $stmt->execute();
 $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
+$id =  $_GET["aluno"];
 ?>
 
 <?= template_header('Aluno'); ?>
@@ -121,68 +122,54 @@ $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
             </h3>
 
             <?php
+            $pdo = pdo_connect_mysql();
+            $query = "SELECT p.dados, YEAR(p.data) AS publication_year 
+                FROM publicacoes AS p
+                INNER JOIN publicacoes_investigadores AS pi ON p.idPublicacao = pi.publicacao
+                WHERE p.visivel = true AND pi.investigador = :investigatorId
+                ORDER BY p.data DESC";
 
-            $login = 'IPT_ADMIN';
-            $password = 'U6-km(jD8a68r';
+            $stmt = $pdo->prepare($query);
+            $stmt->bindParam(':investigatorId', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $publicacoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
-            $variable = $investigadores['ciencia_id'];
-            $url = "https://qa.cienciavitae.pt/api/v1.1/curriculum/" . $variable . "/output?lang=User%20defined";
-
-            $ch = curl_init();
-
-            $headers = array(
-                "Content-Type: application/json",
-                "Accept: application/json",
-            );
-
-
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-            curl_setopt($ch, CURLOPT_USERPWD, "$login:$password");
-
-
-            $holder = "publication-year";
-            $result_curl = curl_exec($ch);
-            curl_close($ch);
-            $data = json_decode($result_curl);
-            $publication_year = "publication-year";
-
-            $name = $investigadores['nome'];
-
-            if (isset($data->{"output"}))
-
-                foreach ($data->{"output"} as $key) {
-                    $book = $key->{"book"};
-                    if (isset($book)) {
-
-
-
-
-                        echo "<div class='textInfo' style='padding-bottom: 10px;'>";
-                        echo str_replace(";", " & ", $book->{"authors"}->{"citation"});
-
-                        echo ". (" . $book->{$publication_year} . "). ";
-
-                        echo $book->{"title"};
-
-                        if (isset($book->{"volume"})) {
-                            echo ", " . $book->{"volume"};
-                        }
-
-                        if (isset($book->{"number-of-pages"})) {
-                            echo ", " . $book->{"number-of-pages"};
-                        }
-
-                        echo "<br>" . "</div>";
-                    }
+            $groupedPublicacoes = array();
+            foreach ($publicacoes as $publicacao) {
+                $year = $publicacao['publication_year'];
+                if ($year == null) {
+                    $year = change_lang("year-unknown");
                 }
-
-            echo "<br><br><br>"
-
+                $groupedPublicacoes[$year][] = $publicacao['dados'];
+            }
             ?>
+            <script src="../backoffice/assets/js/citation-js-0.6.8.js"></script>
+            <script>
+                const Cite = require('citation-js');
+            </script>
+
+            <div id="publications" class='textInfo' style='padding-bottom: 10px;'>
+                <?php foreach ($groupedPublicacoes as $year => $publicacoes) : ?>
+                    <div class="mb-5">
+                        <b><?= $year ?></b><br>
+                        <?php foreach ($publicacoes as $publicacao) : ?>
+                            <div style="margin-left: 20px;">
+                                <script>
+                                    var formattedCitation = new Cite(`<?= $publicacao ?>`).format('bibliography', {
+                                        format: 'html',
+                                        template: 'apa',
+                                        lang: 'en-US'
+                                    });;
+                                    var citationContainer = document.createElement('div');
+                                    citationContainer.innerHTML = formattedCitation;
+                                    citationContainer.classList.add('mb-3');
+                                    document.getElementById('publications').appendChild(citationContainer);
+                                </script>
+                            </div>
+                        <?php endforeach; ?>
+                    </div><br>
+                <?php endforeach; ?>
+            </div>
 
         </div>
 

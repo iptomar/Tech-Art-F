@@ -65,18 +65,18 @@ function ret_dic_en(){
 
         //::::::index.php::::::
 
-        //Titulo 'SOBRE O TECHN&ART' do slider
-        "about-technart-slider" => "ABOUT TECHN&ART",
-        //Breve descricao do item 'SOBRE O TECHN&ART'
-        "about-technart-slider-desc" => "TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST ",
-        //Titulo 'Ajudamos a Crescer o seu negocio' do slider
-        "we-help-grow-slider" => "We help grow your business",
-        //Breve descricao do item 'Somos a melhor agencia de consultoria'
-        "we-help-grow-slider-desc" => "TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST ",
-        //Titulo 'Somos a melhor agencia de consultoria' do slider
-        "best-consulting-agency-slider" => "We are the best consulting agency",
-        //Breve descricao do item 'Somos a melhor agencia de consultoria'
-        "best-consulting-agency-slider-desc" => "TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST ",
+        //Titulo do 1 slide
+        "index-first-slide" => "About TECHN&ART",
+        //Breve descricao do 1 slide
+        "index-first-slide-desc" => "A research and development centre focussed on the safeguard and enhancement of heritage, both experimental and applied",
+        //Titulo do 2 slide
+        "index-second-slide" => "Technology and interdisciplinarity in service of Heritage",
+        //Breve descricao do 2 slide
+        "index-second-slide-desc" => "TECHN&ART brings together researchers from a variety of fields in the Polytechnic University of Tomar, from ICT to the arts, from the social sciences to natural sciences",
+        //Titulo do 3 slide
+        "index-third-slide-slider" => "Research and development in network",
+        //Breve descricao do 3 slide
+        "index-third-slide-slider-desc" => "TECHN&ART hosts and leads R&D projects within a broad network of national and international partners, on the frontlines of heritage safeguard and enhancement",
         //botao 'Saiba mais' do slider
         "know-more-btn-txt-slider" => "KNOW MORE",
         //Etiqueta 'Video Institucional'
@@ -296,6 +296,8 @@ function ret_dic_en(){
         //Etiqueta 'Publicacoes'
 
         "publications-page-heading" => "Publications",
+        //Texto 'Ano Desconhecido'
+        "year-unknown" => "Unknown",
 
         //:::::novasadimssoes.php
         "new-admissions-title" => "New admissions",
