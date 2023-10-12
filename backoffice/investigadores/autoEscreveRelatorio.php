@@ -34,8 +34,8 @@ $unwanted_array = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A
                             'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y' );
 
 //credenciais para acesso ao swagger UI da API da cienciaVitae
-$login = 'IPT_ADMIN';
-$password = 'U6-km(jD8a68r';
+$login = USERCIENCIA;
+$password = PASSWORDCIENCIA;
 
 //iniciar sessao cURL
 $ch = curl_init();
@@ -50,7 +50,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //retornar transferencia ativada
 curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC); //autenticacao cURL basica ativada
 curl_setopt($ch, CURLOPT_USERPWD, "$login:$password"); //user e password para o swagger UI
 
-// 1. Informações
+// 1. Informações  --------------------------------------------------------------------------------------------
 
 //consulta a realizar
 $sql = "SELECT * FROM investigadores WHERE id = ?";
@@ -116,7 +116,7 @@ $spreadsheet->getActiveSheet()->getCell('B20')->setValue($nome);
 $spreadsheet->getActiveSheet()->getCell('B22')->setValue($ciencia_id);
 $spreadsheet->getActiveSheet()->getCell('B23')->setValue($orcid);
 
-// 2. Projetos de investigação
+// 2. Projetos de investigação  -------------------------------------------------------------------------------------------- --------------------------------------------------------------------------------------------
 
 //consluta a realizar
 $sql = "SELECT * FROM projetos AS p,investigadores_projetos AS ip WHERE ip.investigadores_id = ? AND p.id = ip.projetos_id";
@@ -148,7 +148,7 @@ foreach($rows as $row){
 }
 
 
-// 3. Publicações
+// 3. Publicações --------------------------------------------------------------------------------------------
 
 $publicacoes = null;
 if (isset($_POST['publicacoes'])) {
@@ -326,7 +326,7 @@ foreach ($dataArray as $item) {
 }
 
 
-// 4. Eventos e conferencias
+// 4. Eventos e conferencias  --------------------------------------------------------------------------------------------  
 
 //iniciar sessao cURL
 $ch = curl_init();
@@ -544,7 +544,7 @@ foreach ($data->{"service"} as $row) {
 
 }*/
 
-// 5. Patentes
+// 5. Patentes  --------------------------------------------------------------------------------------------
 
 $patentes = null;
 if (isset($_POST['patentes'])) {
@@ -571,7 +571,7 @@ foreach ($dataArray as $item) {
 }
 
 
-// 6. Trabalho de orientação
+// 6. Trabalho de orientação  --------------------------------------------------------------------------------------------
 
 //iniciar sessao cURL
 $ch = curl_init();
@@ -721,7 +721,7 @@ foreach($data->{"service"} as $row){
 }
 
 
-// 7. Prémios e distinções
+// 7. Prémios e distinções  --------------------------------------------------------------------------------------------
 
 //iniciar sessao cURL
 $ch = curl_init();
@@ -802,7 +802,11 @@ foreach($data->{"distinction"} as $row){
 
 }
 
-// 8. Outras atividades
+//Obter as bolsas
+
+
+
+// 8. Outras atividades  --------------------------------------------------------------------------------------------
 
 //Voltar à primeira pagina antes de guardar
 $spreadsheet->setActiveSheetIndex(0);
