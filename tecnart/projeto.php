@@ -138,7 +138,9 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
 
             <div class="textInfo" style="padding-bottom: 20px;">
                 <?php
-                $stmt = $pdo->prepare('SELECT i.* FROM investigadores i INNER JOIN investigadores_projetos ip ON ip.projetos_id = ? and ip.investigadores_id = i.id');
+                //Ordenar de forma ao investigadores do tipo "Externo" aparecerem no fim
+                $stmt = $pdo->prepare('SELECT i.* FROM investigadores i INNER JOIN investigadores_projetos ip ON ip.projetos_id = ? and ip.investigadores_id = i.id 
+                ORDER BY CASE WHEN i.tipo = \'Externo\' THEN 1 ELSE 0 END, i.tipo, i.nome; ');
                 $stmt->bindParam(1, $_GET["projeto"], PDO::PARAM_INT);
                 $stmt->execute();
                 $investigadores = $stmt->fetchall(PDO::FETCH_ASSOC);
@@ -151,15 +153,18 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
                                 <?php foreach ($investigadores as $investigador) : ?>
 
                                     <div class="ml-5 imgList">
-                                    <?php $tipo =  strtolower($investigador['tipo']) ?>
-                                        <a href="<?=$tipo?>.php?<?=$tipo?>=<?= $investigador['id'] ?>">
-                                            <div class="image_default">
-                                                <img class="centrare" style="object-fit: cover; width:225px; height:280px;" src="../backoffice/assets/investigadores/<?= $investigador['fotografia'] ?>" alt="">
-                                                <div class="imgText justify-content-center m-auto">
-                                                    <?= $investigador['nome'] ?>
-                                                </div>
+                                        <?php $tipo =  strtolower($investigador['tipo']) ?>
+
+                                        <?php if ($tipo != "externo") {
+                                            echo "<a href='$tipo.php?$tipo={$investigador['id']}'>";
+                                        }   ?>
+                                        <div class="image_default">
+                                            <img class="centrare" style="object-fit: cover; width:225px; height:280px;" src="../backoffice/assets/investigadores/<?= $investigador['fotografia'] ?>" alt="">
+                                            <div class="imgText justify-content-center m-auto">
+                                                <?= $investigador['nome'] ?>
                                             </div>
-                                        </a>
+                                        </div>
+                                        <?php if ($tipo != "externo") echo "</a>" ?>
                                     </div>
 
                                 <?php endforeach; ?>
