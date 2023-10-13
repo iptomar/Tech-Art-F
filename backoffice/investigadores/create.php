@@ -33,6 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $scholar = $_POST["scholar"];
         $research_gate = $_POST["research_gate"];
         $scopus_id = $_POST["scopus_id"];
+        if ($_POST["password"] == null || $_POST["password"] == '') {
+            $_POST["password"] = substr(str_shuffle(strtolower(sha1(rand() . time()))), 0, $PASSWORD_LENGTH);
+        }
         $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
         if (mysqli_stmt_execute($stmt)) {
             header('Location: index.php');
@@ -97,34 +100,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Nome</label>
-                    <input type="text" minlength="1" required maxlength="100" required name="nome" class="form-control" data-error="Por favor introduza um nome válido" id="inputName" placeholder="Nome">
+                    <input type="text" minlength="1" required maxlength="100" name="nome" class="form-control" data-error="Por favor introduza um nome válido" id="inputName" placeholder="Nome">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group removeExterno">
                     <label>Email</label>
-                    <input type="email" minlength="1" required maxlength="100" required class="form-control" id="inputEmail" placeholder="Email" name="email">
+                    <input type="email" minlength="1" required maxlength="100" class="form-control" id="inputEmail" placeholder="Email" name="email">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group removeExterno">
                     <label>Password</label>
-                    <input type="password" minlength="5" required maxlength="255" required data-error="Por favor introduza uma password com mínimo de 5 caracteres" class="form-control" id="inputPassword" placeholder="Password" name="password">
+                    <input type="password" minlength="5" required maxlength="255" data-error="Por favor introduza uma password com mínimo de 5 caracteres" class="form-control" id="inputPassword" placeholder="Password" name="password">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
 
-                <div class="form-group">
+                <div class="form-group removeExterno">
                     <label for="repeatPassword">Repetir a Password</label>
                     <input type="password" class="form-control" id="repeatPassword" placeholder="Repetir Password" required name="repeatPassword" data-error="As Passwords são diferentes">
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <div class="row">
-                    <div class="col halfCol">
+                <div class="row removeExterno">
+                    <div class="col halfCol removeExterno">
                         <div class="form-group">
                             <label>Sobre</label>
                             <textarea type="text" minlength="1" required data-error="Por favor introduza uma descrição sobre si" class="form-control" id="inputSobre" placeholder="Sobre" name="sobre"></textarea>
@@ -132,10 +135,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="help-block with-errors"></div>
                         </div>
                     </div>
-                    <div class="col halfCol">
+                    <div class="col halfCol removeExterno">
                         <div class="form-group">
                             <label>Sobre (Inglês)</label>
-                            <textarea type="text" class="form-control" id="inputSobre" placeholder="Sobre (Inglês)" name="sobre_en"></textarea>
+                            <textarea type="text" class="form-control" id="inputSobreEn" placeholder="Sobre (Inglês)" name="sobre_en"></textarea>
                             <!-- Error -->
                             <div class="help-block with-errors"></div>
                         </div>
@@ -143,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="row">
-                    <div class="col">
+                    <div class="col removeExterno">
                         <div class="form-group">
                             <label>Áreas de interesse</label>
                             <textarea type="text" minlength="1" required data-error="Por favor introduza as suas áreas de interesse" class="form-control" id="inputAreasdeInteresse" placeholder="Áreas de interesse" name="areasdeinteresse"></textarea>
@@ -151,7 +154,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="help-block with-errors"></div>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col removeExterno">
                         <div class="form-group">
                             <label>Áreas de interesse (Inglês)</label>
                             <textarea type="text" class="form-control" id="inputAreasdeInteresseEn" placeholder="Áreas de interesse (Inglês)" name="areasdeinteresse_en"></textarea>
@@ -164,41 +167,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Tipo</label><br>
-                    <select name="tipo" required>
+                    <select name="tipo" id="tipo" required>
                         <option value="">--Select--</option>
                         <option value="Colaborador">Colaborador</option>
                         <option value="Integrado">Integrado</option>
                         <option value="Aluno">Aluno</option>
+                        <option value="Externo">Externo</option>
                     </select>
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group removeExterno">
                     <label>CiênciaVitae ID</label>
-                    <input type="text" minlength="1" required maxlength="100" required data-error="Por favor introduza un ID válido" class="form-control" id="inputCienciaid" placeholder="CiênciaVitae ID" name="ciencia_id">
+                    <input type="text" minlength="1" required maxlength="100" data-error="Por favor introduza un ID válido" class="form-control" id="inputCienciaid" placeholder="CiênciaVitae ID" name="ciencia_id">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group removeExterno">
                     <label>Orcid</label>
-                    <input type="text" minlength="1" required maxlength="255" required data-error="Por favor introduza um orcID válido" class="form-control" id="inputOrcid" placeholder="Orcid" name="orcid">
+                    <input type="text" minlength="1" required maxlength="255" data-error="Por favor introduza um orcID válido" class="form-control" id="inputOrcid" placeholder="Orcid" name="orcid">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group removeExterno">
                     <label>Scholar</label>
                     <input type="text" minlength="1" maxlength="255" data-error="Por favor introduza um ID válido" class="form-control" id="inputScholar" placeholder="Scholar" name="scholar">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
-                <div class="form-group">
+                <div class="form-group removeExterno">
                     <label for="research_gate">ResearchGate: </label>
                     <input placeholder="ResearchGate" name="research_gate" type="text" class="form-control" id="research_gate">
                 </div>
-                <div class="form-group">
+                <div class="form-group removeExterno">
                     <label for="scopus_id">ScopusID: </label>
                     <input placeholder="ScopusID" name="scopus_id" type="text" class="form-control" id="scopus_id">
                 </div>
@@ -231,6 +235,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         } else {
             input.setCustomValidity('');
+        }
+    });
+
+    // Adicionar um Event Listener para o elemento com o ID 'tipo', o select
+    document.getElementById('tipo').addEventListener('change', function() {
+        var selectedOption = this.value;
+        var elementsToHide = document.querySelectorAll('.removeExterno');
+
+        if (selectedOption === 'Externo') {
+            // Se a opção 'Externo' for selecionada, ocultar elementos e desativar campos
+            elementsToHide.forEach(function(element) {
+                element.style.display = 'none'; // Ocultar o elemento
+                // Iterar sobre os campos de entrada e de texto
+                element.querySelectorAll('input, textarea').forEach(function(input) {
+                    // Guardar o valor atual 
+                    input.setAttribute('data-value', input.value);
+                    input.setAttribute('data-required', input.required);
+                    // Definir campo como somente leitura
+                    input.readOnly = true;
+                    // Remover a obrigatoriedade
+                    input.required = false;
+                    //Remover o valor do campo
+                    input.value = '';
+                });
+            });
+        } else {
+            // Se a opção for diferente de 'Externo', mostrar elementos e restaurar campos
+            elementsToHide.forEach(function(element) {
+                //Apenas alterar os dados se for necessario 
+                if (element.style.display != 'none') {
+                    return;
+                }
+                element.style.display = 'block'; // Mostrar o elemento
+                // Iterar sobre os campos de entrada e de texto
+                element.querySelectorAll('input, textarea').forEach(function(input) {
+                    // Remover a configuração de somente leitura
+                    input.readOnly = false;
+                    // Restaurar a obrigatoriedade
+                    input.required = input.getAttribute('data-required') === 'true';
+                    // Restaurar o valor 
+                    input.value = input.getAttribute('data-value');
+                });
+            });
         }
     });
 </script>

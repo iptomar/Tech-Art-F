@@ -131,20 +131,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="hidden" name="id" value=<?php echo $id; ?>>
                 <div class="form-group">
                     <label>Nome</label>
-                    <input type="text" minlength="1" required maxlength="100" required name="nome" class="form-control" data-error="Por favor Introduza um nome válido" id="inputName" value="<?php echo $nome; ?>">
+                    <input type="text" minlength="1" required maxlength="100" name="nome" class="form-control" data-error="Por favor Introduza um nome válido" id="inputName" value="<?php echo $nome; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group removeExterno">
                     <label>Email</label>
-                    <input type="email" minlength="1" required maxlength="100" required class="form-control" id="inputEmail" name="email" value="<?php echo $email; ?>">
+                    <input type="email" minlength="1" required maxlength="100" class="form-control" id="inputEmail" name="email" value="<?php echo $email; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="row">
-                    <div class="col halfCol">
+                    <div class="col halfCol removeExterno">
                         <div class="form-group">
                             <label>Sobre</label>
                             <textarea type="text" minlength="1" required data-error="Por favor introduza uma descrição sobre si" class="form-control" id="inputSobre" placeholder="Sobre" name="sobre"><?php echo $sobre; ?></textarea>
@@ -152,10 +152,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="help-block with-errors"></div>
                         </div>
                     </div>
-                    <div class="col halfCol">
+                    <div class="col halfCol removeExterno">
                         <div class="form-group">
                             <label>Sobre (Inglês)</label>
-                            <textarea type="text" class="form-control" id="inputSobre" placeholder="Sobre (Inglês)" name="sobre_en"><?php echo $sobre_en; ?></textarea>
+                            <textarea type="text" class="form-control" id="inputSobreEn" placeholder="Sobre (Inglês)" name="sobre_en"><?php echo $sobre_en; ?></textarea>
                             <!-- Error -->
                             <div class="help-block with-errors"></div>
                         </div>
@@ -163,7 +163,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="row">
-                    <div class="col">
+                    <div class="col removeExterno">
                         <div class="form-group">
                             <label>Áreas de interesse</label>
                             <textarea type="text" minlength="1" required data-error="Por favor introduza as suas áreas de interesse" class="form-control" id="inputAreasdeInteresse" placeholder="Áreas de interesse" name="areasdeinteresse"><?php echo $areasdeinteresse; ?></textarea>
@@ -171,7 +171,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="help-block with-errors"></div>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col removeExterno">
                         <div class="form-group">
                             <label>Áreas de interesse (Inglês)</label>
                             <textarea type="text" class="form-control" id="inputAreasdeInteresseEn" placeholder="Áreas de interesse (Inglês)" name="areasdeinteresse_en"><?php echo $areasdeinteresse_en; ?></textarea>
@@ -183,41 +183,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Tipo</label><br>
-                    <select name="tipo">
+                    <select name="tipo" id="tipo">
                         <option value="">--Select--</option>
                         <option value="Colaborador" <?php echo  $tipo == "Colaborador" ? "selected" : "" ?>>Colaborador</option>
                         <option value="Integrado" <?php echo  $tipo == "Integrado" ? "selected" : "" ?>>Integrado</option>
                         <option value="Aluno" <?php echo  $tipo == "Aluno" ? "selected" : "" ?>>Aluno</option>
+                        <option value="Externo" <?php echo  $tipo == "Externo" ? "selected" : "" ?>>Externo</option>
                     </select>
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group removeExterno">
                     <label>CiênciaVitae ID</label>
-                    <input type="text" minlength="1" required maxlength="100" required class="form-control" data-error="Por favor introduza um ID válido" id="inputCienciaid" name="ciencia_id" value="<?php echo $ciencia_id; ?>">
+                    <input type="text" minlength="1" required maxlength="100" class="form-control" data-error="Por favor introduza um ID válido" id="inputCienciaid" name="ciencia_id" value="<?php echo $ciencia_id; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group removeExterno">
                     <label>Orcid</label>
-                    <input type="text" minlength="1" required maxlength="255" required data-error="Por favor introduza um orcID válido" class="form-control" id="inputOrcid" name="orcid" value="<?php echo $orcid; ?>">
+                    <input type="text" minlength="1" required maxlength="255" data-error="Por favor introduza um orcID válido" class="form-control" id="inputOrcid" name="orcid" value="<?php echo $orcid; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group removeExterno">
                     <label>Scholar</label>
                     <input type="text" minlength="1" maxlength="255" data-error="Por favor introduza im ID válido" class="form-control" id="inputScholar" name="scholar" value="<?php echo $scholar; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
-                <div class="form-group">
+                <div class="form-group removeExterno">
                     <label for="research_gate">ResearchGate: </label>
                     <input type="text" class="form-control" name="research_gate" id="research_gate" value="<?= $research_gate ?>">
                 </div>
-                <div class="form-group">
+                <div class="form-group removeExterno">
                     <label for="research_gate">ScopusID: </label>
                     <input type="text" class="form-control" name="scopus_id" id="scopus_id" value="<?= $scopus_id ?>">
                 </div>
@@ -243,6 +244,61 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </div>
 
+<script>
+    // Função para lidar com a alteração do elemento 'select' com o id tipo
+    function handleSelectChange() {
+        var selectedOption = this.value;
+        console.log(selectedOption); // Exibir a opção selecionada no console
+        var elementsToHide = document.querySelectorAll('.removeExterno');
+
+        if (selectedOption == 'Externo') {
+            // Se a opção 'Externo' for selecionada, ocultar elementos e desativar campos
+            elementsToHide.forEach(function(element) {
+                // Ocultar o elemento
+                element.style.display = 'none';
+                // Iterar sobre os campos de entrada e de texto
+                element.querySelectorAll('input, textarea').forEach(function(input) {
+                    // Guardar o valor atual 
+                    input.setAttribute('data-value', input.value);
+                    input.setAttribute('data-required', input.required);
+                    // Definir campo como somente leitura
+                    input.readOnly = true;
+                    // Remover a obrigatoriedade
+                    input.required = false;
+                    input.value = '';
+                });
+            });
+        } else {
+            // Se a opção for diferente de 'Externo', mostrar elementos e restaurar campos
+            elementsToHide.forEach(function(element) {
+                //Apenas alterar os dados se for necessario 
+                if (element.style.display != 'none') {
+                    return;
+                }
+                // Mostrar o elemento
+                element.style.display = 'block';
+                // Iterar sobre os campos de entrada e de texto
+                element.querySelectorAll('input, textarea').forEach(function(input) {
+                    // Remover a configuração de somente leitura
+                    input.readOnly = false;
+                    // Restaurar a obrigatoriedade
+                    input.required = input.getAttribute('data-required') === 'true';
+                    // Restaurar o valor 
+                    input.value = input.getAttribute('data-value');
+                });
+            });
+        }
+    }
+
+    // Adicionar um event listener para quando carrega
+    document.addEventListener("DOMContentLoaded", function() {
+        // Chamar a função para adicionar valores iniciais e configurações obrigatórias
+        var tipoSelect = document.getElementById('tipo');
+        tipoSelect.addEventListener('change', handleSelectChange);
+        // Chamar a função para verificar se tem de esconder campos quando a página é carregada
+        handleSelectChange.call(tipoSelect);
+    });
+</script>
 <?php
 mysqli_close($conn);
 ?>
