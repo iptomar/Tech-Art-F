@@ -302,14 +302,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label>Investigadores</label><br>
 
                     <?php
-                    $sql = "SELECT id, nome, email, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar FROM investigadores";
+                    $sql = "SELECT id, nome, tipo FROM investigadores 
+                        ORDER BY CASE WHEN tipo = 'Externo' THEN 1 ELSE 0 END, tipo, nome;";
                     $result = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) { ?>
                             <input type="checkbox" name="investigadores[]" value="<?= $row["id"] ?>">
-                            <label>
-                                <?= $row["nome"] ?>
-                            </label><br>
+                            <label><?= $row["tipo"] . " - " .  $row["nome"] ?></label><br>
                     <?php }
                     } ?>
 

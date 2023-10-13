@@ -350,7 +350,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Investigadores</label><br>
-
                     <?php
                     $sql = "SELECT investigadores_id FROM investigadores_projetos WHERE projetos_id = " . $id;
                     $result = mysqli_query($conn, $sql);
@@ -360,7 +359,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $selected[] = $row['investigadores_id'];
                         }
                     }
-                    $sql = "SELECT id, nome, email, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar FROM investigadores";
+                    $sql = "SELECT id, nome, tipo FROM investigadores 
+                            ORDER BY CASE WHEN tipo = 'Externo' THEN 1 ELSE 0 END, tipo, nome;";
                     $result = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
@@ -368,10 +368,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 echo "<input type='hidden' name='investigadores[]' value='" . $row["id"] . "'/>";
                             } ?>
                             <input type="checkbox" <?= in_array($row["id"], $selected) || $row["id"] == $_SESSION["autenticado"] ? "checked" : "" ?> <?= $row["id"] == $_SESSION["autenticado"] ? "disabled" : "" ?> name="investigadores[]" value="<?= $row["id"] ?>">
-                            <label><?= $row["nome"] ?></label><br>
+                            <label><?= $row["tipo"] . " - " .  $row["nome"] ?></label><br>
                     <?php }
                     } ?>
-
                     <!-- Error -->
 
                 </div>
@@ -413,6 +412,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 window.editor = editor;
             });
         });
+    });
+
+
+    window.addEventListener('DOMContentLoaded', function() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        let lastChecked;
+
+        function handleCheck(event) {
+            if (event.shiftKey) {
+                let start = Array.from(checkboxes).indexOf(this);
+                let end = Array.from(checkboxes).indexOf(lastChecked);
+                if (start > end) {
+                    [start, end] = [end, start];
+                }
+                checkboxes.forEach((checkbox, index) => {
+                    if (index >= start && index <= end) {
+                        checkbox.checked = this.checked;
+                    }
+                });
+            }
+
+            lastChecked = this;
+        }
+
+        checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck));
     });
 </script>
 
