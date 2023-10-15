@@ -62,7 +62,7 @@ include 'models/functions.php';
                                 <div style="margin-left: 20px;" id="publications<?= $year ?><?= $site ?>">
                                     <?php foreach ($publicacoes as $publicacao) : ?>
                                         <script>
-                                            var formattedCitation = new Cite(`<?= $publicacao ?>`).format('bibliography', {
+                                        var formattedCitation = new Cite(<?= json_encode($publicacao) ?>).format('bibliography', {
                                                 format: 'html',
                                                 template: 'apa',
                                                 lang: 'en-US'
