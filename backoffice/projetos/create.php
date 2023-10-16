@@ -190,7 +190,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col">
                         <div class="form-group">
                             <label>Referência</label>
-                            <input type="text" minlength="1" placeholder="Referência" maxlength="100" data-error="Por favor introduza uma referência válida" class="form-control" id="inputReferencia" name="referencia">
+                            <input type="text" required minlength="1" placeholder="Referência" maxlength="100" data-error="Por favor introduza uma referência válida" class="form-control" id="inputReferencia" name="referencia">
                             <!-- Error -->
                             <div class="help-block with-errors"></div>
                         </div>
