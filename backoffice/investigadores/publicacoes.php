@@ -653,8 +653,8 @@ mysqli_stmt_close($stmt);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    //Guardar os resultados da publicacoes selecionadas como visiveis 
-    if (isset($_POST["publicacao"]) && is_array($_POST["publicacao"])) {
+    //Guardar os resultados da publicacoes selecionadas como visíveis, e os não selecionados como não visíveis
+    if (isset($_POST["saveChanges"])) {
         // Preparar comando SQL
         $sql = "UPDATE publicacoes SET visivel = ? WHERE idPublicacao = ?";
         $stmt = mysqli_prepare($conn, $sql);
@@ -665,7 +665,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //Obter as os ids de todas as publicações do investigador
         $existingIds = array_keys($publications);
 
-        // Percorrer publicações existentes
+        // Percorrer todas as publicações do investigador
         foreach ($existingIds as $checkboxId) {
             // Verificar se o idCheckbox está presente nos dados POST
             if (isset($_POST["publicacao"][$checkboxId])) {
@@ -934,7 +934,7 @@ mysqli_close($conn);
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block">Gravar</button>
+                    <button type="submit" name="saveChanges" class="btn btn-primary btn-block">Gravar</button>
                 </div>
 
                 <div class="form-group">
