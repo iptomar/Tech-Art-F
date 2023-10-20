@@ -189,23 +189,23 @@ for($opc = 1; $opc <= 22; $opc++){
 //opcoes da lista excel das pulicações
 $excelOptionsPub = array(
     "livros" => "Publicação de livros",
-    "catálogo" => "Autor ou coautor de catálogo",
+    "catalogo" => "Autor ou coautor de catálogo",
     "coletivas" => "Publicação de capítulos em obras coletivas",
     "revistas" => "Publicação de artigos em revistas científicas/artísticas",
-    "recensões" => "Recensões",
-    "relatórios" => "Relatórios",
+    "recensoes" => "Recensões",
+    "relatorios" => "Relatórios",
     "pareceres" => "Pareceres",
-    "traduções" => "Traduções",
-    "opinião" => "Artigos de opinião publicados na imprensa",
+    "traducoes" => "Traduções",
+    "opiniao" => "Artigos de opinião publicados na imprensa",
     "blogs" => "Contributos para blogs",
     "social" => "Intervenções nos meios de comunicação social",
     "conselhos" => "Participação em conselhos editoriais ou científicos de revistas académicas",
-    "edição" => "Edição de volume de revista como editor convidado (guest-editor)",
-    "avaliação" => "Avaliação de artigos para publicação"
+    "edicao" => "Edição de volume de revista como editor convidado (guest-editor)",
+    "avaliacao" => "Avaliação de artigos para publicação"
 );
 
 //Array que define se a opção no excel contém a localização, "no estrangeiro/em Portugal"
-$addLocation = ["livros", "catálogo", "coletivas", "revistas"];
+$addLocation = ["livros", "catalogo", "coletivas", "revistas"];
 //Arrays que definem se a opção no excel contém a revisão, "(sem revisão por pares)"
 $addRevision = ["coletivas", "revistas"];
 
@@ -213,29 +213,28 @@ $addRevision = ["coletivas", "revistas"];
 //Alinhar os tipos de publicações vindo da API com os do excel, usando as chaves do array excelOptionsPub
 $APItoExceltypePub = array(
     'journal-article' => $excelOptionsPub['revistas'],
-    // 'journal-issue' => '', 
+    'journal-issue' => $excelOptionsPub['revistas'], 
     'book' =>  $excelOptionsPub['livros'],
-    // 'edited-book' => '', 
+    'edited-book' => $excelOptionsPub['livros'],
     'book-chapter' =>  $excelOptionsPub['coletivas'],
-    // 'book-review' => '', 
-    'translation' =>  $excelOptionsPub['traduções'],
-    /* 'dissertation' => '',
-    'newspapper-article' => '',
-    'newsletter-article' => '',
-    'encyclopedia-entry' => '',
-    'magazine-article' => '',
-    'dictionary-entry' => '',
-    'report' => '',
-    'working-paper' => '',
+    'book-review' => $excelOptionsPub['coletivas'], 
+    'translation' =>  $excelOptionsPub['traducoes'],
+    //'dissertation' => '',
+    'newspapper-article' => $excelOptionsPub['opiniao'],
+    /* 'newsletter-article' => '',
+    'encyclopedia-entry' => '',*/
+    'magazine-article' => $excelOptionsPub['revistas'],
+    //'dictionary-entry' => '',
+    'report' => $excelOptionsPub['relatorios'],
+    /*'working-paper' => '',
     'manual' => '',
     'online-resource' => '',
-    'test' => '',
     'website' => '',
     'conference-paper' => '',
     'conference-abstract' => '',
-    'conference-poster' => '',
-    'exhibition-catalogue' => '',
-    'preface-postface' => '', 
+    'conference-poster' => '',*/
+    'exhibition-catalogue' => $excelOptionsPub['catalogo'],
+   /* 'preface-postface' => '', 
     'preprint' => '',
     'artistic-exhibition' => '',
     'audio-recording' => '',
@@ -243,14 +242,12 @@ $APItoExceltypePub = array(
     'musical-performance' => '',
     'radio-tv-program' => '',
     'short-fiction' => '',
-    'theatric' => '',
     'video-recording' => '',
     'visual-artwork' => '',
     'choreography' => '',
     'curatorial-museum-exhibition' => '',
     'performance-art' => '',
     'patent' => '',
-    'litigation' => '',
     'software' => '',
     */
 );
@@ -328,33 +325,6 @@ foreach ($dataArray as $item) {
 
 // 4. Eventos e conferencias  --------------------------------------------------------------------------------------------  
 
-//iniciar sessao cURL
-$ch = curl_init();
-$headers = array(
-    "Content-Type: application/json",
-    "Accept: application/json",
-);
-
-curl_setopt($ch, CURLOPT_FAILONERROR, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); //adicionar cabecalhos
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //retornar transferencia ativada
-curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC); //autenticacao cURL basica ativada
-curl_setopt($ch, CURLOPT_USERPWD, "$login:$password"); //user e password para o swagger UI
-
-$url = "https://qa.cienciavitae.pt/api/v1.1/curriculum/" . $ciencia_id . "/service?lang=User%20defined";
-
-//adicionar url ao handler cURL
-curl_setopt($ch, CURLOPT_URL, $url);
-
-//mostrar erros
-//echo curl_error($ch);
-
-//resultado
-$result_curl = curl_exec($ch); //executar cURL e armazenar resultado
-
-curl_close($ch); //fechar handler
-$data = json_decode($result_curl); //descodificar JSON da resposta
-
 //::::::::::::ESCREVER NO EXCEL::::::::::::
 $startNumber = 16;
 
@@ -393,7 +363,8 @@ $excelOptionsConf = array(
     "organizacaoart" => "Criação/apresentação/organização de exposições e outros eventos artísticos de âmbito nacional/internacional",
     "participacaoart" => "Participação em exposições e outros eventos artísticos de âmbito nacional/internacional",
 );
-$addLocationConf = ["oradorprincipal", "revisaoporpares", "convite", "organizacao", "conselho", "organizacaoart", "participacaoart"];
+$addLocationConfPlurar = ["oradorprincipal", "revisaoporpares", "convite"];
+$addLocationConfSingular = ["organizacao", "conselho", "organizacaoart", "participacaoart"];
 
 //echo implode("</br>",$activePageSelectOptions);
 
@@ -412,7 +383,6 @@ $APItoExceltypeConf = array(
     'working-paper' => '',
     'manual' => '',
     'online-resource' => '',
-    'test' => '',
     'website' => '',
     'conference-paper' => '',
     'conference-abstract' => '',
@@ -420,20 +390,18 @@ $APItoExceltypeConf = array(
     'exhibition-catalogue' => '',
     'preface-postface' => '', 
     'preprint' => '',
-    'artistic-exhibition' => '',
-    'audio-recording' => '',
-    'musical-composition' => '',
-    'musical-performance' => '',*/
-    'radio-tv-program' => $excelOptionsConf['oradorprincipal'],
+    'artistic-exhibition' => '',*/
+    'audio-recording' => $excelOptionsConf['organizacaoart'],
+    //'musical-composition' => '',
+    'musical-performance' => $excelOptionsConf['organizacaoart'],
+    'radio-tv-program' => $excelOptionsConf['outras'],
     /*'short-fiction' => '',
-    'theatric' => '',
     'video-recording' => '',
     'visual-artwork' => '',
     'choreography' => '',
     'curatorial-museum-exhibition' => '',
     'performance-art' => '',
     'patent' => '',
-    'litigation' => '',
     'software' => '',
     */
 );
@@ -450,30 +418,31 @@ foreach ($dataArray as $item) {
     $excelOutCategory = '';
     //Verificar se o tipo de evento ou conferência está no array APItoExceltypeConf se estiver, logo for um tipo válido processá-lo para adicionar o que falta de dados
     if (isset($APItoExceltypeConf[$tipo])) {
-
         $excelOutCategory =  $APItoExceltypeConf[$tipo];
         $excelArrayKey = array_search($excelOutCategory, $excelOptionsConf);;
 
-        //Se estiver no array para colocar a localização, calcula e adiciona-a
-        if (in_array($excelArrayKey, $addLocationConf)) {
+        if (in_array($excelArrayKey, $addLocationConfPlurar)) {//Se estiver no array para colocar a localização em plurar, calcula e adiciona-a
+            if ($pais == "Portugal" || in_array($cidade, $localizacoesPortuguesas)) {
+                $ambit = "nacionais";
+            } else {
+                //Por default é no estrangeiro se não for colocada a localização
+                $ambit = "internacionais";
+            }
+            $excelOutCategory = str_replace("nacionais/internacionais", $ambit, $excelOutCategory);
+        }else if(in_array($excelArrayKey, $addLocationConfSingular)){ //Se estiver no array para colocar a localização em singular, calcula e adiciona-a
             if ($pais == "Portugal" || in_array($cidade, $localizacoesPortuguesas)) {
                 $ambit = "nacional";
             } else {
                 //Por default é no estrangeiro se não for colocada a localização
                 $ambit = "internacional";
             }
-            str_replace("nacional/internacional", $ambit, $typeExcel);
-        }
-        if (in_array($excelArrayKey, $addRevision)) {
-            //Adicionar sempre sem revisão por default porque os dados do ciencia vitae não tem divisão entre os que tem e não tem
-            $excelOutCategory .= " (sem revisão por pares)";
+            $excelOutCategory = str_replace("nacional/internacional", $ambit, $excelOutCategory);
         }
     } else {
         //Se o tipo não for válido passar à frente
         continue;
         //$excelOutCategory = $tipo;
     }
-
     $spreadsheet->getActiveSheet()->getCell($startChar . $startNumber)->setValue($excelOutCategory);
 
     //::::::referencia bibliografica::::::
@@ -499,7 +468,33 @@ foreach ($dataArray as $item) {
     $startNumber++;
 }
 
-/*
+/* API
+//iniciar sessao cURL
+$ch = curl_init();
+$headers = array(
+    "Content-Type: application/json",
+    "Accept: application/json",
+);
+
+curl_setopt($ch, CURLOPT_FAILONERROR, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); //adicionar cabecalhos
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //retornar transferencia ativada
+curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC); //autenticacao cURL basica ativada
+curl_setopt($ch, CURLOPT_USERPWD, "$login:$password"); //user e password para o swagger UI
+
+$url = "https://qa.cienciavitae.pt/api/v1.1/curriculum/" . $ciencia_id . "/service?lang=User%20defined";
+
+//adicionar url ao handler cURL
+curl_setopt($ch, CURLOPT_URL, $url);
+
+//mostrar erros
+//echo curl_error($ch);
+
+//resultado
+$result_curl = curl_exec($ch); //executar cURL e armazenar resultado
+
+curl_close($ch); //fechar handler
+$data = json_decode($result_curl); //descodificar JSON da resposta
 foreach ($data->{"service"} as $row) {
 
     //letra de comeco
@@ -516,9 +511,10 @@ foreach ($data->{"service"} as $row) {
         }
         $i++;
     }
+    //S202 = Participação em evento, S201 = Organização de evento
     if(@$row->{"service-category"} != null && 
-    (@$row->{"service-category"}->{"value"} == "Participação em evento" || 
-    @$row->{"service-category"}->{"value"} == "Organização de evento") && 
+    (@$row->{"service-category"}->{"code"} == "S202" || 
+    @$row->{"service-category"}->{"code"} == "S201") && 
     (@$serviceAttr->{"end-date"}->{"year"} == $year . "" ||
     @$serviceAttr->{"start-date"}->{"year"} == $year . "")){
 
@@ -654,40 +650,35 @@ foreach($data->{"service"} as $row){
         $i++;
     }
 
-    /*if(@$row->{"service-category"} != null && 
-    @$row->{"service-category"}->{"value"} == "Orientação")*/
-    if(@$row->{"service-category"} != null && 
-    @$row->{"service-category"}->{"value"} == "Orientação" && 
-    (@$serviceAttr->{"end-date"}->{"year"} == $year . "" ||
-    @$serviceAttr->{"start-date"}->{"year"} == $year . "")){
+    //S110 = Orientação
+    //Obter todas as orientações em curso ou concluidas no ano do relátorio
+    if (
+        @$row->{"service-category"} != null && @$row->{"service-category"}->{"code"} == "S110" &&
+        (@$serviceAttr->{"start-date"}->{"year"} >= $year . "" || @$serviceAttr->{"end-date"}->{"year"} <= $year . "")
+    ) {
 
         //::::::tipologia de orientacao::::::
 
         $serviceCategory = @$row->{"service-category"}->{"value"};
-        $degreeType = $serviceAttr->{"degree-type"}->{"value"};
-
-        //!!!!!!!!!!! SUBSTITUIR POR SWITCH PARA AS OPÇÕES POSSIVEIS !!!!!!!!!
-
-        $tipologiaOrientacao = $serviceCategory . ": " . $degreeType.": fim em ".$serviceAttr->{"end-date"}->{"year"};
-
-        switch($tipologiaOrientacao){
-
-            case "Orientação: Mestrado: fim em ".$year:
-                $pageOption = $activePageSelectOptions[0];
+        $degreeType = $serviceAttr->{"degree-type"}->{"code"};
+        switch ($degreeType) {
+            case "M":
+                if ($serviceAttr->{"end-date"}->{"year"} == $year) {
+                    $pageOption = $activePageSelectOptions[0]; //Orientação de dissertações de mestrado concluídas
+                } else {
+                    $pageOption = $activePageSelectOptions[1]; //Orientação de dissertações de mestrado em curso
+                }
                 break;
-            case "Orientação: Mestrado: fim em ":
-                $pageOption = $activePageSelectOptions[1];
-                break;
-            case "Orientação: Doutoramento: fim em ".$year:
-                $pageOption = $activePageSelectOptions[2];
-                break;
-            case "Orientação: Doutoramento: fim em ":
-                $pageOption = $activePageSelectOptions[3];
+            case "D":
+                if ($serviceAttr->{"end-date"}->{"year"} == $year) {
+                    $pageOption = $activePageSelectOptions[2]; //Orientação de dissertações de doutoramento concluídas
+                } else {
+                    $pageOption = $activePageSelectOptions[3]; //Orientação de dissertações de doutoramento em curso
+                }
                 break;
             default:
                 $pageOption = $activePageSelectOptions[4];
                 break;
-
         }
 
         $spreadsheet->getActiveSheet()->getCell($startChar.$startNumber)->setValue($pageOption);
@@ -802,16 +793,15 @@ foreach($data->{"distinction"} as $row){
 
 }
 
-//Obter as bolsas
 
 
 
 // 8. Outras atividades  --------------------------------------------------------------------------------------------
 
+//::::::::::::GUARDAR RELATORIO::::::::::::
+
 //Voltar à primeira pagina antes de guardar
 $spreadsheet->setActiveSheetIndex(0);
-
-//::::::::::::GUARDAR RELATORIO::::::::::::
 $writer->save($novoRelatorio);
 
 //::::::::::::DESCARREGAR RELATORIO::::::::::::
