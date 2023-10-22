@@ -368,6 +368,13 @@ function ret_dic_pt(){
         "funding-tables-universal-code" => "Código universal",
         "funding-tables-funding" => "Financiamento",
         "funding-tables-execution-period" => "Período de execução",
+
+        //:::::: copyright.php :::::::
+        "copyright-title" => "Copyright",
+        "copyright-p1" => "Website desenvolvido no ambito da unidade curricular de Projeto Final por:",
+        "copyright-design" => "Design",
+        "copyright-advisor" => "Orientador",
+        "copyright-students" => "Alunos",
     );
 
     return $dic_pt;

@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"]) && isset($_PO
       $_SESSION["autenticado"] = 'administrador';
       $_SESSION["adminid"] =  $row["id"];
       header("Location: projetos/index.php");
-    } 
+    }
   } else {
     // se não for um administrador verificar se os dados pertencem a um investigador
     $sql = "SELECT id, password, ultimologin FROM investigadores WHERE email=? ";
@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"]) && isset($_PO
         $_SESSION["autenticado"] = $row["id"];
         header("Location: projetos/index.php");
         return;
-      } 
+      }
     }
     //se os dados de autenticação não pertencerem nem a um administrador, nem a um investigador, mostrar mensagem
     echo "Login ou palavras-passe errados! <br><br>";
@@ -49,9 +49,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"]) && isset($_PO
 }
 ?>
 <HTML>
-
+<head>
+  <title>Techn&Art Login</title>
+</head>
 <BODY>
-
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -63,10 +64,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"]) && isset($_PO
       <!-- Tabs Titles -->
 
       <!-- Login Form -->
-      <form action="login.php" method="post">
+      <form action="login.php" class="mt-3" method="post">
         <input type="text" id="login" class="fadeIn first" name="login" placeholder="login">
         <input type="password" id="password" class="fadeIn second" name="password" placeholder="password">
-        <input type="submit" class="fadeIn third" value="OK!">
+        <div style="margin: 5px; width: 85%; padding: 0px 80px; text-align: center; display: inline-block;">
+          <button type="submit" class="fadeIn third btn btn-primary btn-block" style="background-color: #56baed; border: none; color: white;">Login</button>
+          <button type="button" onclick="window.location.href = '../tecnart/index.php'" class="fadeIn fourth btn btn-danger btn-block">Exit</button>
+        </div>
       </form>
 
     </div>

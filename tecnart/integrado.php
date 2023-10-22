@@ -115,7 +115,7 @@ $id =  $_GET["integrado"];
         </div>
 
         <div id="resto3" class="infoCorpo" style="display: none;">
-            <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px; max-width: calc(100% - 50px);" src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
+            <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
 
             <h3 class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 30px; padding-left: 50px;">
                 <?= change_lang("publications-tab-title-class") ?>
@@ -123,11 +123,17 @@ $id =  $_GET["integrado"];
 
             <?php
             $pdo = pdo_connect_mysql();
-            $query = "SELECT p.dados, YEAR(p.data) AS publication_year 
-                FROM publicacoes AS p
-                INNER JOIN publicacoes_investigadores AS pi ON p.idPublicacao = pi.publicacao
-                WHERE p.visivel = true AND pi.investigador = :investigatorId
-                ORDER BY p.data DESC";
+            if (!isset($_SESSION["lang"])) {
+                $lang = "pt";
+            } else {
+                $lang = $_SESSION["lang"];
+            }
+            $valorSiteName = "valor_site_$lang";
+            $query = "SELECT dados, YEAR(data) AS publication_year, p.tipo, pt.$valorSiteName FROM publicacoes p
+                                LEFT JOIN publicacoes_tipos pt ON p.tipo = pt.valor_API
+                                INNER JOIN publicacoes_investigadores AS pi ON p.idPublicacao = pi.publicacao
+                                WHERE visivel = true AND pi.investigador = :investigatorId
+                                ORDER BY publication_year DESC, pt.$valorSiteName, data DESC";
 
             $stmt = $pdo->prepare($query);
             $stmt->bindParam(':investigatorId', $id, PDO::PARAM_INT);
@@ -140,7 +146,18 @@ $id =  $_GET["integrado"];
                 if ($year == null) {
                     $year = change_lang("year-unknown");
                 }
-                $groupedPublicacoes[$year][] = $publicacao['dados'];
+
+                $site = $publicacao[$valorSiteName];
+
+                if (!isset($groupedPublicacoes[$year])) {
+                    $groupedPublicacoes[$year] = array();
+                }
+
+                if (!isset($groupedPublicacoes[$year][$site])) {
+                    $groupedPublicacoes[$year][$site] = array();
+                }
+
+                $groupedPublicacoes[$year][$site][] = $publicacao['dados'];
             }
             ?>
             <script src="../backoffice/assets/js/citation-js-0.6.8.js"></script>
@@ -149,22 +166,25 @@ $id =  $_GET["integrado"];
             </script>
 
             <div id="publications" class='textInfo' style='padding-bottom: 10px;'>
-                <?php foreach ($groupedPublicacoes as $year => $publicacoes) : ?>
+                <?php foreach ($groupedPublicacoes as $year => $yearPublica) : ?>
                     <div class="mb-5">
                         <b><?= $year ?></b><br>
-                        <?php foreach ($publicacoes as $publicacao) : ?>
-                            <div style="margin-left: 20px;">
-                                <script>
-                                    var formattedCitation = new Cite(`<?= $publicacao ?>`).format('bibliography', {
-                                        format: 'html',
-                                        template: 'apa',
-                                        lang: 'en-US'
-                                    });;
-                                    var citationContainer = document.createElement('div');
-                                    citationContainer.innerHTML = formattedCitation;
-                                    citationContainer.classList.add('mb-3');
-                                    document.getElementById('publications').appendChild(citationContainer);
-                                </script>
+                        <?php foreach ($yearPublica as $site => $publicacoes) : ?>
+                            <div style="margin-left: 10px;" class="mt-3"><b><?= $site ?></b><br></div>
+                            <div style="margin-left: 20px;" id="publications<?= $year ?><?= $site ?>">
+                                <?php foreach ($publicacoes as $publicacao) : ?>
+                                    <script>
+                                        var formattedCitation = new Cite(<?= json_encode($publicacao) ?>).format('bibliography', {
+                                            format: 'html',
+                                            template: 'apa',
+                                            lang: 'en-US'
+                                        });;
+                                        var citationContainer = document.createElement('div');
+                                        citationContainer.innerHTML = formattedCitation;
+                                        citationContainer.classList.add('mb-3');
+                                        document.getElementById('publications<?= $year ?><?= $site ?>').appendChild(citationContainer);
+                                    </script>
+                                <?php endforeach; ?>
                             </div>
                         <?php endforeach; ?>
                     </div><br>
@@ -172,7 +192,9 @@ $id =  $_GET["integrado"];
             </div>
 
 
+
         </div>
+
 
         <div id="resto4" class="infoCorpo" style="display: none;">
             <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">

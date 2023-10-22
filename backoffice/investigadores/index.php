@@ -5,7 +5,8 @@ require "../config/basedados.php";
 $find = "";
 
 
-$sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar FROM investigadores ORDER BY nome";
+$sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar FROM investigadores 
+ORDER BY CASE WHEN tipo = 'Externo' THEN 1 ELSE 0 END, tipo DESC, nome;";
 $result = mysqli_query($conn, $sql);
 
 if (isset($_POST["anoRelatorio"])) {
@@ -91,11 +92,11 @@ if (@$_SESSION["anoRelatorio"] != "") {
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
+						<th>Tipo</th>
 						<th>Nome</th>
 						<th>Email</th>
 						<th>CiênciaVitae ID</th>
 						<!--<th>Sobre</th>
-						<th>Tipo</th>
 						<th>Áreas de interesse</th>
 						<th>Orcid</th>
 						<th>Scholar</th> -->
@@ -109,6 +110,7 @@ if (@$_SESSION["anoRelatorio"] != "") {
 						while ($row = mysqli_fetch_assoc($result)) {
 							if ($_SESSION["autenticado"] == 'administrador' || $_SESSION["autenticado"] == $row["id"]) {
 								echo "<tr>";
+								echo "<td>" . $row["tipo"] . "</td>";
 								echo "<td>" . $row["nome"] . "</td>";
 								echo "<td>" . $row["email"] . "</td>";
 								echo "<td>" . $row["ciencia_id"] . "</td>";
@@ -123,9 +125,11 @@ if (@$_SESSION["anoRelatorio"] != "") {
 								if ($_SESSION["autenticado"] == 'administrador') {
 									echo "<a href='remove.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-danger'><span>Apagar</span></a><br>";
 								}
-								echo "<a href='resetpassword.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-warning'><span>Alterar Password</span></a><br>";
-								echo "<a data-id='" . $row["id"] . "' class='gerarRelatorio w-100 mb-1 btn btn-info'><span>Gerar Relatório</span></a><br>";
-								echo "<a href='publicacoes.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-secondary'><span>Selecionar Publicações</span></a><br>";
+								if ($row["tipo"] != "Externo") {
+									echo "<a href='resetpassword.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-warning'><span>Alterar Password</span></a><br>";
+									echo "<a data-id='" . $row["id"] . "' class='gerarRelatorio w-100 mb-1 btn btn-info'><span>Gerar Relatório</span></a><br>";
+									echo "<a href='publicacoes.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-secondary'><span>Selecionar Publicações</span></a><br>";
+								}
 								echo "</td>";
 								echo "</tr>";
 							}

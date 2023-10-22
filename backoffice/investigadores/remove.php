@@ -99,15 +99,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group removeExterno">
                     <label>Email</label>
-                    <input type="email" readonly required class="form-control" id="inputEmail" name="email" value="<?php echo $email; ?>">
+                    <input type="email" readonly class="form-control" id="inputEmail" name="email" value="<?php echo $email; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="row">
-                    <div class="col halfCol">
+                    <div class="col halfCol removeExterno">
                         <div class="form-group">
                             <label>Sobre</label>
                             <textarea type="text" readonly class="form-control" id="inputSobre" name="sobre"><?php echo $sobre; ?></textarea>
@@ -115,10 +115,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="help-block with-errors"></div>
                         </div>
                     </div>
-                    <div class="col halfCol">
+                    <div class="col halfCol removeExterno">
                         <div class="form-group">
                             <label>Sobre (Inglês)</label>
-                            <textarea type="text" readonly class="form-control" id="inputSobre" name="sobre_en"><?php echo $sobre_en; ?></textarea>
+                            <textarea type="text" readonly class="form-control" id="inputSobreEn" name="sobre_en"><?php echo $sobre_en; ?></textarea>
                             <!-- Error -->
                             <div class="help-block with-errors"></div>
                         </div>
@@ -126,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="row">
-                    <div class="col">
+                    <div class="col removeExterno">
                         <div class="form-group">
                             <label>Áreas de interesse</label>
                             <textarea type="text" readonly class="form-control" id="inputAreasdeInteresse" name="areasdeinteresse"><?php echo $areasdeinteresse; ?></textarea>
@@ -134,7 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="help-block with-errors"></div>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col removeExterno">
                         <div class="form-group">
                             <label>Áreas de interesse (Inglês)</label>
                             <textarea type="text" readonly class="form-control" id="inputAreasdeInteresseEn" name="areasdeinteresse_en"><?php echo $areasdeinteresse_en; ?></textarea>
@@ -151,31 +151,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group removeExterno">
                     <label>CiênciaVitae ID</label>
                     <input type="text" readonly class="form-control" id="inputCienciaid" name="ciencia_id" value="<?php echo $ciencia_id; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group removeExterno">
                     <label>Orcid</label>
                     <input type="text" readonly class="form-control" id="inputOrcid" name="orcid" value="<?php echo $orcid; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group removeExterno">
                     <label>Scholar</label>
                     <input type="text" readonly class="form-control" id="inputScholar" name="scholar" value="<?php echo $scholar; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
-                <div class="form-group">
+                <div class="form-group removeExterno">
                     <label for="research_gate">ResearchGate: </label>
                     <input type="text" readonly class="form-control" name="research_gate" id="research_gate" value="<?= $research_gate ?>">
                 </div>
-                <div class="form-group">
+                <div class="form-group removeExterno">
                     <label for="research_gate">ScopusID: </label>
                     <input type="text" readonly class="form-control" name="scopus_id" id="scopus_id" value="<?= $scopus_id ?>">
                 </div>
@@ -195,6 +195,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </div>
+
+
+<script>
+    // Função para verificar e ocultar elementos com base na opção selecionada
+    function checkType() {
+        var selectedOption = document.getElementById("inputTipo").value; // Obter a opção selecionada
+        var elementsToHide = document.querySelectorAll('.removeExterno');
+
+        if (selectedOption === 'Externo') {
+            // Se a opção for 'Externo', ocultar os elementos
+            elementsToHide.forEach(function(element) {
+                element.style.display = 'none'; 
+            });
+        }
+    }
+
+    // Adicionar um Event Listener para o carregamento do documento
+    document.addEventListener("DOMContentLoaded", function() {
+        checkType(); 
+    });
+</script>
+
 <?php
 mysqli_close($conn);
 ?>

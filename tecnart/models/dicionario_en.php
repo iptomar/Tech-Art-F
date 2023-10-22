@@ -1,6 +1,7 @@
-<?php 
+<?php
 include_once "config/configurations.php";
-function ret_dic_en(){
+function ret_dic_en()
+{
 
 
 
@@ -368,6 +369,13 @@ function ret_dic_en(){
         "funding-tables-universal-code" => "Universal Code",
         "funding-tables-funding" => "Funding",
         "funding-tables-execution-period" => "Execution period",
+
+        //:::::: copyright.php :::::::
+        "copyright-title" => "Copyright",
+        "copyright-p1" => "Website developed as part of the Final Project course by:",
+        "copyright-design" => "Design",
+        "copyright-advisor" => "Advisor",
+        "copyright-students" => "Students",
     );
 
     return $dic_en;

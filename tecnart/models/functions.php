@@ -12,57 +12,7 @@ if(strlen($_SERVER["QUERY_STRING"])>0){
 }
 function template_header($title){
 
-//variaveis para passar valores de dicionarios
-
-//imagens
-$img_site_development = change_lang("img-site-development");
-$header_site_logo = change_lang("header-site-logo");
-
 //::::::CABECALHO PRINCIPAL::::::
-
-//drop-down 'sobre o technart'
-$about_technart_drop_down = change_lang("about-technart-drop-down");
-$mission_and_goals_option = change_lang("mission-and-goals-option");
-$research_axes_option = change_lang("research-axes-option");
-$org_struct_option = change_lang("org-struct-option");
-$opportunities_option= change_lang("opportunities-option");
-
-//Separador 'projetos'
-$projects_tab = change_lang("projects-tab");
-
-//drop-down 'investigadores'
-$researchers_drop_down = change_lang("researchers-drop-down");
-$integrated_option = change_lang("integrated-option");
-$collaborators_option = change_lang("collaborators-option");
-$students_option = change_lang("students-option");
-
-//separador das noticias
-$news_tab = change_lang("news-tab");
-
-//separador das publicacoes
-$publ_tab = change_lang("publ-tab");
-
-$lang_values_array = array(
-
-   //:::CABECALHO (0-13):::
-
-   $img_site_development,
-   $header_site_logo,
-   $about_technart_drop_down,
-   $mission_and_goals_option,
-   $research_axes_option,
-   $org_struct_option,
-   $opportunities_option,
-   $projects_tab,
-   $researchers_drop_down,
-   $integrated_option,
-   $collaborators_option,
-   $students_option,
-   $news_tab,
-   $publ_tab,
-
-);
-
   $ptWeight= $_SESSION["lang"] == "pt" ? "bold" : "normal";
   $enWeight= $_SESSION["lang"] == "en" ? "bold" :  "normal";
 
@@ -175,7 +125,7 @@ $lang_values_array = array(
                 <body>
 
                 <div id="developmentWarning">
-                  <a href="http://www.techneart.ipt.pt/"><img class="w-100" src=$lang_values_array[0] alt="#" /></a> <!--Image warns users that website is in development-->
+                  <a href="http://www.techneart.ipt.pt/"><img class="w-100" src={$change_lang("img-site-development")} alt="#" /></a> <!--Image warns users that website is in development-->
                 </div>
 
                     <div style="padding-top: 0px;"class="hero_area">
@@ -196,8 +146,8 @@ $lang_values_array = array(
                                         <ul class="navbar-nav">
                                             <li style="margin-top: 40px; overflow:visible;" class="nav-item">
                                               <div>
-                                                  <a class="translationOption" style="font-weight: $ptWeight" href="session_var_pt.php" >PT</a>
-                                                  <a class="translationOption" style="font-weight: $enWeight" href="session_var_en.php" >EN</a>
+                                                <a href="javascript:void(0);" class="translationOption" style="font-weight: $ptWeight" data-value="pt" onclick="updateSessionAndRefresh(this)">PT</a>
+                                                <a href="javascript:void(0);" class="translationOption" style="font-weight: $enWeight" data-value="en" onclick="updateSessionAndRefresh(this)">EN</a>
                                               </div>
                                             </li>
                                         
@@ -212,7 +162,7 @@ $lang_values_array = array(
                             <nav style="padding-top: 0px;" class="navbar navbar-expand-lg custom_nav-container ">
                                 
                                 <div id="logo" style="max-width:350px; width:85%;">
-                                <a class="navbar-brand" href="index.php"><img class="w-100"  src=$lang_values_array[1] alt="#" /></a> <!--Logo que redireciona para o index.html-->
+                                <a class="navbar-brand" href="index.php"><img class="w-100"  src={$change_lang("header-site-logo")} alt="#" /></a> <!--Logo que redireciona para o index.html-->
                                 </div>
 
                                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -223,13 +173,13 @@ $lang_values_array = array(
                                 <ul class="navbar-nav">
 
                                 <li class="nav-item dropdown">
-                                        <a class="nav-link" id="nav_drop" href="sobre.php" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">$lang_values_array[2]<span class="caret"></span></a>
+                                        <a class="nav-link" id="nav_drop" href="sobre.php" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">{$change_lang("about-technart-drop-down")}<span class="caret"></span></a>
                                         <div class="dropdown-content">
-                                            <a href="missao.php">$lang_values_array[3]</a>
-                                            <a href="eixos.php">$lang_values_array[4]</a>
-                                            <a href="estrutura.php">$lang_values_array[5]</a>
+                                            <a href="missao.php">{$change_lang("mission-and-goals-option")}</a>
+                                            <a href="eixos.php">{$change_lang("research-axes-option")}</a>
+                                            <a href="estrutura.php">{$change_lang("org-struct-option")}</a>
                                             <a href="financiamento.php">{$change_lang("funding-option")}</a>
-                                            <a href="oportunidades.php">$lang_values_array[6]</a>
+                                            <a href="oportunidades.php">{$change_lang("opportunities-option")}</a>
                                     </div>
                                     </li>
                                     <li class="nav-item dropdown">
@@ -240,19 +190,19 @@ $lang_values_array = array(
                                         </div>
                                     </li>
                                     <li class="nav-item dropdown">
-                                        <a class="nav-link" id="nav_drop" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">$lang_values_array[8]<span class="caret"></span></a>
+                                        <a class="nav-link" id="nav_drop" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">{$change_lang("researchers-drop-down")}<span class="caret"></span></a>
                                         <div class="dropdown-content">
-                                            <a href="integrados.php">$lang_values_array[9]</a>
-                                            <a href="colaboradores.php">$lang_values_array[10]</a>
-                                            <a href="alunos.php">$lang_values_array[11]</a>
+                                            <a href="integrados.php">{$change_lang("integrated-option")}</a>
+                                            <a href="colaboradores.php">{$change_lang("collaborators-option")}</a>
+                                          <!-- <a href="alunos.php">{$change_lang("students-option")}</a> -->
                                             <a href="novasadmissoes.php">{$change_lang("admission-option")}</a>
                                         </div>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="noticias.php">$lang_values_array[12]</a>
+                                        <a class="nav-link" href="noticias.php">{$change_lang("news-tab")}</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="publicacoes.php">$lang_values_array[13]</a>
+                                        <a class="nav-link" href="publicacoes.php">{$change_lang("publ-tab")}</a>
                                     </li>   
                                     <li class="nav-item">
                                       <a class="nav-link" href="../backoffice/index.php">Login</a>
@@ -264,6 +214,23 @@ $lang_values_array = array(
                     </div>
                     <!-- end header section -->
 
+                    <script>
+                    function updateSessionAndRefresh(link) {
+                      // Obter o atributo data-value do link clicado
+                      var newLanguage = link.getAttribute('data-value');
+                  
+                      // Utilizar AJAX para atualizar a variável de sessão
+                      $.ajax({
+                          url: 'session_language.php',
+                          method: 'POST',
+                          data: { newLanguage: newLanguage },
+                          success: function(response) {
+                              // Redirecionar para a mesma página para atualizar sem  adicionar ao histórico
+                              location.replace(location.href);
+                          }
+                      });
+                    }                  
+                    </script>
 EOT;
 }
 
@@ -273,39 +240,12 @@ function template_footer(){
 
 //imagens
 
-$footer_site_logo = change_lang("footer-site-logo");
-
 //::::::RODAPE PRINCIPAL::::::
 
-//textos da morada
-$address_txt_1 = change_lang("address-txt-1");
-$address_txt_2 = change_lang("address-txt-2");
+$change_lang =  function ($key) {
+  return  change_lang($key);
+};
 
-//texto 'siga-nos'
-$follow_us_txt = change_lang("follow-us-txt");
-
-//texto do UD do projeto
-$project_ud_txt = change_lang("project-ud-txt");
-
-//copyright IPT
-$ipt_copyright_txt = change_lang("ipt-copyright-txt");
-
-//todos os direitos reservados
-$all_rights_reserved_txt = change_lang("all-rights-reserved-txt");
-
-$lang_values_array = array(
-
-  //:::RODAPE(0-6):::
-
-  $footer_site_logo,
-  $address_txt_1,
-  $address_txt_2,
-  $follow_us_txt,
-  $project_ud_txt,
-  $ipt_copyright_txt,
-  $all_rights_reserved_txt
-
-);
 
     echo <<<EOT
                 <!-- footer start -->
@@ -314,7 +254,7 @@ $lang_values_array = array(
                     <div class="row">
                         <div class="col-md-4">
                         <div class="logo_footer" id="logo4">
-                        <a href="#"><img class="logo-tech_footer" src=$lang_values_array[0] alt="#" /></a>
+                        <a href="#"><img class="logo-tech_footer" src={$change_lang("footer-site-logo")} alt="#" /></a>
                         </div>
                     </div>
                         <div class="col-md-8">
@@ -324,8 +264,8 @@ $lang_values_array = array(
                                 <div class="col-md-6 center_footer">
                                     <div class="widget_menu">
                                         <ul>
-                                        <li><a style="color: white;">$lang_values_array[1]</a></li>
-                                        <li><a style="color: white;">$lang_values_array[2]</a></li>
+                                        <li><a style="color: white;">{$change_lang("address-txt-1")}</a></li>
+                                        <li><a style="color: white;">{$change_lang("address-txt-2")}</a></li>
                                         <li><a style="color: white;">2300-313 Tomar - Portugal</a></li>
                                         </ul>
                                     </div>
@@ -335,7 +275,7 @@ $lang_values_array = array(
                                     <br><ul><li><a style="color: white;">sec.techenart@ipt.pt</a></li></ul>
                                 </div>
                                 <div class="widget_menu">
-                                    <br><ul><li><a style="color: white;"><strong>$lang_values_array[3]</strong></a></li></ul>
+                                    <br><ul><li><a style="color: white;"><strong>{$change_lang("follow-us-txt")}</strong></a></li></ul>
                                 </div>
                                 <div class="widget_menu">
                                     <span><a target="_blank"href="https://www.facebook.com/Techn.Art.IPT/"><i id ="fateste" class="fab fa-facebook-f"></i>&nbsp</a></span>
@@ -352,7 +292,7 @@ $lang_values_array = array(
                                     <a target="_blank"href="https://www.fct.pt/"><img height="80" src="./assets/images/2022_FCT_Logo_A_horizontal_branco.png" alt="#" /></a>
                                 </div>
                                 <div class="information_f">
-                                    <p style="color: white; font-size: 13px;">$lang_values_array[4]</p>
+                                    <p style="color: white; font-size: 13px;">{$change_lang("project-ud-txt")}</p>
                                 </div>
                             </div>
                             </div>
@@ -362,7 +302,10 @@ $lang_values_array = array(
                 </footer>
                 <!-- footer end -->
                 <div class="cpy_">
-                <p class="mx-auto" style="font-size: 13px; padding-bottom: 20px;">$lang_values_array[5] | $lang_values_array[6]<br></p>
+                <p class="mx-auto" style="font-size: 13px; padding-bottom: 20px;">
+                {$change_lang("ipt-copyright-txt")} | {$change_lang("all-rights-reserved-txt")} | 
+                <a style="font-size: 13px;" href="copyright.php">{$change_lang("copyright-title")}</a> 
+                <br></p>
                 </div>
 
                 <!-- jQery -->
@@ -516,9 +459,11 @@ $lang_values_array = array(
 EOT;
 
 }
-
-include 'models/dicionario_en.php';
-include 'models/dicionario_pt.php';
+if ($_SESSION["lang"] == "en"){
+  include 'models/dicionario_en.php';
+} elseif($_SESSION["lang"] == "pt"){
+  include 'models/dicionario_pt.php';
+}
 
 function change_lang($dicElem){
   if ($_SESSION["lang"] == "en"){
