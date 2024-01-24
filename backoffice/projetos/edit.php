@@ -256,7 +256,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <label>Techn&Art área preferencial</label>
+                            <label>TECHN&ART área preferencial</label>
                             <input type="text" minlength="1" required maxlength="255" data-error="Por favor introduza uma área preferencial" class="form-control" id="inputAreaPreferencial" name="areapreferencial" value="<?php echo $areapreferencial; ?>">
                             <!-- Error -->
                             <div class="help-block with-errors"></div>
@@ -264,7 +264,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label>Techn&Art área preferencial (Inglês)</label>
+                            <label>TECHN&ART área preferencial (Inglês)</label>
                             <input type="text" maxlength="255" class="form-control" id="inputAreaPreferencialEn" name="areapreferencial_en" value="<?php echo $areapreferencial_en; ?>">
                             <!-- Error -->
                             <div class="help-block with-errors"></div>
@@ -349,7 +349,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
                 <div class="form-group">
-                    <label>Investigadores</label><br>
+                    <label>Investigadores/as</label><br>
                     <?php
                     $sql = "SELECT investigadores_id FROM investigadores_projetos WHERE projetos_id = " . $id;
                     $result = mysqli_query($conn, $sql);

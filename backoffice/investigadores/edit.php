@@ -185,9 +185,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label>Tipo</label><br>
                     <select name="tipo" id="tipo">
                         <option value="">--Select--</option>
-                        <option value="Colaborador" <?php echo  $tipo == "Colaborador" ? "selected" : "" ?>>Colaborador</option>
-                        <option value="Integrado" <?php echo  $tipo == "Integrado" ? "selected" : "" ?>>Integrado</option>
-                        <option value="Aluno" <?php echo  $tipo == "Aluno" ? "selected" : "" ?>>Aluno</option>
+                        <option value="Integrado" <?php echo  $tipo == "Integrado" ? "selected" : "" ?>>Integrado/a</option>
+                        <option value="Colaborador" <?php echo  $tipo == "Colaborador" ? "selected" : "" ?>>Colaborador/a</option>
+                        <option value="Aluno" <?php echo  $tipo == "Aluno" ? "selected" : "" ?>>Aluno/a</option>
                         <option value="Externo" <?php echo  $tipo == "Externo" ? "selected" : "" ?>>Externo</option>
                     </select>
                     <!-- Error -->

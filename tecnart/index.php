@@ -8,7 +8,7 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
 <!DOCTYPE html>
 <html>
 
-<?= template_header('Index'); ?>
+<?= template_header('TECHN&ART'); ?>
 <!-- slider section -->
 <section class="home-slider owl-carousel">
    <div class="slider-item" style="background-image:url('./assets/images/slider-index-1.jpg');">

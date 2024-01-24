@@ -44,7 +44,7 @@ $result = mysqli_query($conn, $sql);
 							<!--                 <th>Descrição</th>
 				<th>Sobre Projeto</th> -->
 							<th>Referência</th>
-							<th>Techn&Art Área Preferencial</th>
+							<th>TECHN&ART Área Preferencial</th>
 							<th>Financiamento</th>
 							<!--                 <th>Âmbito</th>
  -->

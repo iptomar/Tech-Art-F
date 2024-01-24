@@ -137,45 +137,114 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
             </h3>
 
             <div class="textInfo" style="padding-bottom: 20px;">
-                <?php
-                //Ordenar de forma ao investigadores do tipo "Externo" aparecerem no fim
-                $stmt = $pdo->prepare('SELECT i.* FROM investigadores i INNER JOIN investigadores_projetos ip ON ip.projetos_id = ? and ip.investigadores_id = i.id 
-                ORDER BY CASE WHEN i.tipo = \'Externo\' THEN 1 ELSE 0 END, i.tipo, i.nome; ');
-                $stmt->bindParam(1, $_GET["projeto"], PDO::PARAM_INT);
-                $stmt->execute();
-                $investigadores = $stmt->fetchall(PDO::FETCH_ASSOC);
-                ?>
                 <section class="product_section layout_padding">
-                    <div style="padding-top: 20px;">
-                        <div class="container">
-                            <div class="row justify-content-center mt-3">
+                  <div style="padding-top: 20px;">
+                    <div class="container">
+                      <div class="row justify-content-center mt-3">
+                        <?php
+                        //Integrados
+                        $stmt = $pdo->prepare('SELECT i.* FROM investigadores i INNER JOIN investigadores_projetos ip ON ip.projetos_id = ? and ip.investigadores_id = i.id 
+                        and i.tipo = \'Integrado\' ORDER BY i.nome; ');
+                        $stmt->bindParam(1, $_GET["projeto"], PDO::PARAM_INT);
+                        $stmt->execute();
+                        $investigadores = $stmt->fetchall(PDO::FETCH_ASSOC);
+                        ?>
+                        <?php foreach ($investigadores as $investigador) : ?>
 
-                                <?php foreach ($investigadores as $investigador) : ?>
+                            <div class="ml-5 imgList">
+                                <?php $tipo =  strtolower($investigador['tipo']) ?>
 
-                                    <div class="ml-5 imgList">
-                                        <?php $tipo =  strtolower($investigador['tipo']) ?>
-
-                                        <?php if ($tipo != "externo") {
-                                            echo "<a href='$tipo.php?$tipo={$investigador['id']}'>";
-                                        }   ?>
-                                        <div class="image_default">
-                                            <img class="centrare" style="object-fit: cover; width:225px; height:280px;" src="../backoffice/assets/investigadores/<?= $investigador['fotografia'] ?>" alt="">
-                                            <div class="imgText justify-content-center m-auto">
-                                                <?= $investigador['nome'] ?>
-                                            </div>
-                                        </div>
-                                        <?php if ($tipo != "externo") echo "</a>" ?>
+                                <?php if ($tipo != "externo") {
+                                    echo "<a href='$tipo.php?$tipo={$investigador['id']}'>";
+                                }   ?>
+                                <div class="image_default">
+                                    <img class="centrare" style="object-fit: cover; width:225px; height:280px;" src="../backoffice/assets/investigadores/<?= $investigador['fotografia'] ?>" alt="">
+                                    <div class="imgText justify-content-center m-auto">
+                                        <?= $investigador['nome'] ?>
                                     </div>
-
-                                <?php endforeach; ?>
-
+                                </div>
+                                <?php if ($tipo != "externo") echo "</a>" ?>
                             </div>
+                        <?php endforeach; ?>
+                        <?php
+                        //Colaboradores
+                        $stmt = $pdo->prepare('SELECT i.* FROM investigadores i INNER JOIN investigadores_projetos ip ON ip.projetos_id = ? and ip.investigadores_id = i.id 
+                        and i.tipo = \'Colaborador\' ORDER BY i.nome; ');
+                        $stmt->bindParam(1, $_GET["projeto"], PDO::PARAM_INT);
+                        $stmt->execute();
+                        $investigadores = $stmt->fetchall(PDO::FETCH_ASSOC);
+                        ?>
+                        <?php foreach ($investigadores as $investigador) : ?>
 
+                            <div class="ml-5 imgList">
+                                <?php $tipo =  strtolower($investigador['tipo']) ?>
 
-                        </div>
+                                <?php if ($tipo != "externo") {
+                                    echo "<a href='$tipo.php?$tipo={$investigador['id']}'>";
+                                }   ?>
+                                <div class="image_default">
+                                    <img class="centrare" style="object-fit: cover; width:225px; height:280px;" src="../backoffice/assets/investigadores/<?= $investigador['fotografia'] ?>" alt="">
+                                    <div class="imgText justify-content-center m-auto">
+                                        <?= $investigador['nome'] ?>
+                                    </div>
+                                </div>
+                                <?php if ($tipo != "externo") echo "</a>" ?>
+                            </div>
+                        <?php endforeach; ?>
+                        <?php
+                        //Alunos
+                        $stmt = $pdo->prepare('SELECT i.* FROM investigadores i INNER JOIN investigadores_projetos ip ON ip.projetos_id = ? and ip.investigadores_id = i.id 
+                        and i.tipo = \'Aluno\' ORDER BY i.nome; ');
+                        $stmt->bindParam(1, $_GET["projeto"], PDO::PARAM_INT);
+                        $stmt->execute();
+                        $investigadores = $stmt->fetchall(PDO::FETCH_ASSOC);
+                        ?>
+                        <?php foreach ($investigadores as $investigador) : ?>
 
+                            <div class="ml-5 imgList">
+                                <?php $tipo =  strtolower($investigador['tipo']) ?>
+
+                                <?php if ($tipo != "externo") {
+                                    echo "<a href='$tipo.php?$tipo={$investigador['id']}'>";
+                                }   ?>
+                                <div class="image_default">
+                                    <img class="centrare" style="object-fit: cover; width:225px; height:280px;" src="../backoffice/assets/investigadores/<?= $investigador['fotografia'] ?>" alt="">
+                                    <div class="imgText justify-content-center m-auto">
+                                        <?= $investigador['nome'] ?>
+                                    </div>
+                                </div>
+                                <?php if ($tipo != "externo") echo "</a>" ?>
+                            </div>
+                        <?php endforeach; ?>
+                        <?php
+                        //Externos
+                        $stmt = $pdo->prepare('SELECT i.* FROM investigadores i INNER JOIN investigadores_projetos ip ON ip.projetos_id = ? and ip.investigadores_id = i.id 
+                        and i.tipo = \'Externo\' ORDER BY i.nome; ');
+                        $stmt->bindParam(1, $_GET["projeto"], PDO::PARAM_INT);
+                        $stmt->execute();
+                        $investigadores = $stmt->fetchall(PDO::FETCH_ASSOC);
+                        ?>
+                        <?php foreach ($investigadores as $investigador) : ?>
+
+                            <div class="ml-5 imgList">
+                                <?php $tipo =  strtolower($investigador['tipo']) ?>
+
+                                <?php if ($tipo != "externo") {
+                                    echo "<a href='$tipo.php?$tipo={$investigador['id']}'>";
+                                }   ?>
+                                <div class="image_default">
+                                    <img class="centrare" style="object-fit: cover; width:225px; height:280px;" src="../backoffice/assets/investigadores/<?= $investigador['fotografia'] ?>" alt="">
+                                    <div class="imgText justify-content-center m-auto">
+                                        <?= $investigador['nome'] ?>
+                                    </div>
+                                </div>
+                                <?php if ($tipo != "externo") echo "</a>" ?>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
-                </section>
+                 </div>
+               </div>
+             </section>
 
             </div>
             <div style="clear:all;"></div>

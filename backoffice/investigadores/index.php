@@ -79,12 +79,11 @@ if (@$_SESSION["anoRelatorio"] != "") {
 			<div class="table-title">
 				<div class="row">
 					<div class="col-sm-6">
-						<h2>Investigadores</h2>
+						<h2>Investigadores/as</h2>
 					</div>
 					<?php if ($_SESSION["autenticado"] == 'administrador') { ?>
 						<div class="col-sm-6">
-							<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Adicionar
-									Novo Investigador</span></a>
+							<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Adicionar Novo Perfil</span></a>
 						</div>
 					<?php } ?>
 				</div>

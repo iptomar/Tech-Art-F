@@ -169,9 +169,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label>Tipo</label><br>
                     <select name="tipo" id="tipo" required>
                         <option value="">--Select--</option>
-                        <option value="Colaborador">Colaborador</option>
-                        <option value="Integrado">Integrado</option>
-                        <option value="Aluno">Aluno</option>
+                        <option value="Integrado">Integrado/a</option>
+                        <option value="Colaborador">Colaborador/a</option>
+                        <option value="Aluno">Aluno/a</option>
                         <option value="Externo">Externo</option>
                     </select>
                     <!-- Error -->

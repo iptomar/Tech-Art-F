@@ -208,16 +208,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <label>Techn&Art área preferencial</label>
-                            <input type="text" placeholder="Techn&Art área preferencial" minlength="1" required maxlength="255" data-error="Por favor introduza uma área preferencial" class="form-control" id="inputAreaPreferencial" name="areapreferencial">
+                            <label>TECHN&ART área preferencial</label>
+                            <input type="text" placeholder="TECHN&ART área preferencial" minlength="1" required maxlength="255" data-error="Por favor introduza uma área preferencial" class="form-control" id="inputAreaPreferencial" name="areapreferencial">
                             <!-- Error -->
                             <div class="help-block with-errors"></div>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label>Techn&Art área preferencial (Inglês)</label>
-                            <input type="text" placeholder="Techn&Art área preferencial (Inglês)" maxlength="255" class="form-control" id="inputAreaPreferencialEn" name="areapreferencial_en">
+                            <label>TECHN&ART área preferencial (Inglês)</label>
+                            <input type="text" placeholder="TECHN&ART área preferencial (Inglês)" maxlength="255" class="form-control" id="inputAreaPreferencialEn" name="areapreferencial_en">
                             <!-- Error -->
                             <div class="help-block with-errors"></div>
                         </div>
@@ -299,7 +299,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="form-group">
-                    <label>Investigadores</label><br>
+                    <label>Investigadores/as</label><br>
 
                     <?php
                     $sql = "SELECT id, nome, tipo FROM investigadores 

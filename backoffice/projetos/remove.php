@@ -199,7 +199,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <label>Techn&Art área preferencial</label>
+                            <label>TECHN&ART área preferencial</label>
                             <input type="text" class="form-control" id="inputAreaPreferencial" name="areapreferencial" value="<?php echo $areapreferencial; ?>" readonly>
                             <!-- Error -->
                             <div class="help-block with-errors"></div>
@@ -207,7 +207,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label>Techn&Art área preferencial (Inglês)</label>
+                            <label>TECHN&ART área preferencial (Inglês)</label>
                             <input type="text" class="form-control" id="inputAreaPreferencialEn" name="areapreferencial_en" value="<?php echo $areapreferencial_en; ?>" readonly>
                             <!-- Error -->
                             <div class="help-block with-errors"></div>
