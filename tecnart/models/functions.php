@@ -124,10 +124,7 @@ function template_header($title){
                 
                 <body>
 
-                <div id="developmentWarning">
-                  <a href="http://www.techneart.ipt.pt/"><img class="w-100" src={$change_lang("img-site-development")} alt="#" /></a> <!--Image warns users that website is in development-->
-                </div>
-
+             
                     <div style="padding-top: 0px;"class="hero_area">
                     <!-- header section strats -->
                     <header style="padding-top: 0px;" class="header_section">
@@ -379,17 +376,13 @@ $change_lang =  function ($key) {
                     document.getElementById('logo').className = "hidden"; 
                     document.getElementById('logo4').className = "show";
                     document.getElementById('logo3').className = "hidden"; 
-                    document.getElementById('developmentWarningEN').className = "hidden";
-                    document.getElementById('developmentWarningPT').className = "show";       
-                  } else {
+                    } else {
                     
                     document.getElementById('logo').className = "show";
                     document.getElementById('logo2').className = "hidden";
                     document.getElementById('logo3').className = "show";
                     document.getElementById('logo4').className = "hidden";
-                    document.getElementById('developmentWarningEN').className = "show";
-                    document.getElementById('developmentWarningPT').className = "hidden";       
-                  }
+                    }
                 }*/
 
                 /*function getLangSelecionada() {
@@ -408,18 +401,14 @@ $change_lang =  function ($key) {
                     document.getElementById('logo').className = "hidden"; 
                     document.getElementById('logo4').className = "show";
                     document.getElementById('logo3').className = "hidden"; 
-                    document.getElementById('developmentWarningEN').className = "hidden";
-                    document.getElementById('developmentWarningPT').className = "show";                       
-                  } else {
+                    } else {
                     //setCookie('googtrans', '/en/en', 1);
                     document.getElementById('logo').className = "show";
                     document.getElementById('logo2').className = "hidden";
                     document.getElementById('logo3').className = "show";
                     document.getElementById('logo4').className = "hidden";
                     
-                    document.getElementById('developmentWarningEN').className = "show";
-                    document.getElementById('developmentWarningPT').className = "hidden";                        
-                  }
+                    }
                 }
 
                 document.getElementsById("translation_select").addEventListener("change", function () {
