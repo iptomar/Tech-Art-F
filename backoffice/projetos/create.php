@@ -151,7 +151,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col">
                         <div class="form-group">
                             <label>Descrição</label>
-                            <textarea class="form-control" placeholder="Descrição" minlength="1" required maxlength="100" data-error="Por favor introduza uma descrição" id="inputDescricao" name="descricao"></textarea>
+                            <textarea class="form-control" placeholder="Descrição" minlength="1" required maxlength="200" data-error="Por favor introduza uma descrição" id="inputDescricao" name="descricao"></textarea>
                             <!-- Error -->
                             <div class="help-block with-errors"></div>
                         </div>
@@ -160,7 +160,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col">
                         <div class="form-group">
                             <label>Descrição (Inglês)</label>
-                            <textarea class="form-control" placeholder="Descrição (Inglês)" maxlength="100" id="inputDescricaoEn" name="descricao_en"></textarea>
+                            <textarea class="form-control" placeholder="Descrição (Inglês)" maxlength="200" id="inputDescricaoEn" name="descricao_en"></textarea>
                             <!-- Error -->
                             <div class="help-block with-errors"></div>
                         </div>
