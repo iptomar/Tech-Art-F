@@ -17,10 +17,6 @@ function ret_dic_en()
         "day-name" => array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'),
         "date-of" => " of ",
         "month-name" => array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'),
-        //::::::IMAGEM DO SITE EM DESENVOLVIMENTO::::::
-
-        "img-site-development" => "./assets/images/developmentWarningEN.png",
-
         //::::::CABEÇALHO PRINCIPAL::::::
 
         //Imagem com o logotipo da techn&art

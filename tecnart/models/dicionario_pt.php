@@ -16,10 +16,6 @@ function ret_dic_pt(){
         "day-name" => array('Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'),
         "date-of" => " de ",
         "month-name" => array('Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'),
-        //::::::IMAGEM DO SITE EM DESENVOLVIMENTO::::::
-
-        "img-site-development" => "./assets/images/developmentWarningPT.png",
-
         //::::::CABEÇALHO PRINCIPAL::::::
 
         //Imagem com o logotipo da techn&art
