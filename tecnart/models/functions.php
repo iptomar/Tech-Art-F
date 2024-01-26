@@ -250,9 +250,13 @@ $change_lang =  function ($key) {
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4">
+                        <div class="logo_footer" >
+                        <a target="_blank"href="https://www.ipt.pt/"><img height="100" src="./assets/images/IPT_i_1-vertical-branco-img-para-fundo-escuro.png" alt="#" /></a>
+                    </div>
                         <div class="logo_footer" id="logo4">
                         <a href="#"><img class="logo-tech_footer" src={$change_lang("footer-site-logo")} alt="#" /></a>
                         </div>
+                        
                     </div>
                         <div class="col-md-8">
                             <div class="row center_footer">
@@ -282,14 +286,13 @@ $change_lang =  function ($key) {
 
                             <div class="col-md-5 center_footer">
                             <!-- adicionar margin-left ao logotipo do ipt de forma aos logatipos ficaram alinhados-->
-                            <div class="logo_footer" style="margin-left: -10px">
-                                    <a target="_blank"href="https://www.ipt.pt/"><img height="100" src="./assets/images/IPT_i_1-vertical-branco-img-para-fundo-escuro.png" alt="#" /></a>
+                            
+                                
+                                <div class="logo_footer">
+                                    <a target="_blank"href="https://www.cienciavitae.pt/"><img height="80" src="./assets/images/cienciavitaeFundoTrans.png" alt="#" /></a>
                                 </div>
                                 <div class="logo_footer">
                                     <a target="_blank"href="https://www.fct.pt/"><img height="80" src="./assets/images/2022_FCT_Logo_A_horizontal_branco.png" alt="#" /></a>
-                                </div>
-                                <div class="logo_footer">
-                                    <a target="_blank"href="https://www.cienciavitae.pt/"><img height="80" src="./assets/images/cienciavitaeFundoTrans.png" alt="#" /></a>
                                 </div>
                                 <div class="information_f">
                                     <p style="color: white; font-size: 13px;">{$change_lang("project-ud-txt")}</p>
