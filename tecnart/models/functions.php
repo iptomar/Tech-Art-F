@@ -288,6 +288,9 @@ $change_lang =  function ($key) {
                                 <div class="logo_footer">
                                     <a target="_blank"href="https://www.fct.pt/"><img height="80" src="./assets/images/2022_FCT_Logo_A_horizontal_branco.png" alt="#" /></a>
                                 </div>
+                                <div class="logo_footer">
+                                    <a target="_blank"href="https://www.cienciavitae.pt/"><img height="80" src="./assets/images/cienciavitaeFundoTrans.png" alt="#" /></a>
+                                </div>
                                 <div class="information_f">
                                     <p style="color: white; font-size: 13px;">{$change_lang("project-ud-txt")}</p>
                                 </div>

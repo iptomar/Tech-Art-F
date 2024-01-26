@@ -693,7 +693,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $loginAPI = USERCIENCIA;
         $passwordAPI = PASSWORDCIENCIA;
 
-        $url = "https://qa.cienciavitae.pt/api/v1.1/curriculum/" . $cienciaId . "/output?lang=User%20defined";
+        //$url = "https://qa.cienciavitae.pt/api/v1.1/curriculum/" . $cienciaId . "/output/cached?lang=User%20defined";
+        $url = "https://api.cienciavitae.pt/v1.1/curriculum/" . $cienciaId . "/output/cached?lang=User%20defined";
+        
+        
         $ch = curl_init();
         $headers = array(
             "Content-Type: application/json",
