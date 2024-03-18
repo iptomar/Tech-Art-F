@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 } else {
     //Se o request não for um post, selecionar os dados da base de dados para mostrar 
-    $sql = "SELECT titulo, titulo_en, conteudo, conteudo_en, imagem FROM slider WHERE id = ?";
+    $sql = "SELECT titulo, titulo_en, conteudo, conteudo_en, imagem, link FROM slider WHERE id = ?";
     $id = $_GET["id"];
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $id);
@@ -33,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $imagem = $row["imagem"];
     $titulo_en = $row["titulo_en"];
     $conteudo_en = $row["conteudo_en"];
+    $link = $row["link"];
 }
 ?>
 
@@ -136,8 +137,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <!-- Error -->
                             <div class="help-block with-errors"></div>
                         </div>
-
                     </div>
+                </div>
+                <div class="form-group">
+                            <label>Link</label>
+                            <div readonly class="form-control" style="width:100%; height:100%;"><?php echo $link; ?></div>
+                            <!-- Error -->
+                            <div class="help-block with-errors"></div>
                 </div>
                 <div class="mt-2">
                     <img id="preview" src="<?php echo $mainDir . $imagem; ?>" width='100px' height='100px' /><br><br>

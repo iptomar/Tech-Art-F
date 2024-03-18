@@ -355,8 +355,9 @@ CREATE TABLE `slider` (
   `conteudo` mediumtext DEFAULT NULL,
   `conteudo_en` mediumtext DEFAULT NULL,
   `imagem` varchar(100) DEFAULT NULL,
+  `link` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -365,7 +366,7 @@ CREATE TABLE `slider` (
 
 LOCK TABLES `slider` WRITE;
 /*!40000 ALTER TABLE `slider` DISABLE KEYS */;
-INSERT INTO `slider` VALUES (2,'Sobre o TECHN&ART','About TECHN&ART','<p>Centro de investigação e desenvolvimento nos domínios da Salvaguarda do Património e da sua Valorização, experimental e aplicada.</p>','<p>A research and development centre focussed on the safeguard and enhancement of heritage, both experimental and applied</p>','65f8a293133ec_slider-index-1.jpg'),(3,'Tecnologia e interdisciplinaridade ao serviço do Património','Technology and interdisciplinarity in service of Heritage','<p>O TECHN&amp;ART une investigadores/as das mais diversas áreas disciplinares presentes no Instituto Politécnico de Tomar, das TIC às artes, das ciências sociais às ciências naturais</p>','<p>TECHN&amp;ART brings together researchers from a variety of fields in the Polytechnic University of Tomar, from ICT to the arts, from the social sciences to natural sciences</p>','65f8a374aa3ac_slider-index-2.jpg'),(4,'Investigação e desenvolvimento em rede','Research and development in network','<p>O TECHN&amp;ART acolhe e coordena projetos de I&amp;D numa ampla rede de parceiros nacionais e internacionais, na linha da frente da salvaguarda e valorização patrimoniais</p>','<p>TECHN&amp;ART hosts and leads R&amp;D projects within a broad network of national and international partners, on the frontlines of heritage safeguard and enhancement</p>','65f8a39dc252b_slider-index-3.jpg');
+INSERT INTO `slider` VALUES (2,'Sobre o TECHN&ART','About TECHN&ART','<p>Centro de investigação e desenvolvimento nos domínios da Salvaguarda do Património e da sua Valorização, experimental e aplicada.</p>','<p>A research and development centre focussed on the safeguard and enhancement of heritage, both experimental and applied</p>','65f8a293133ec_slider-index-1.jpg',NULL),(3,'Tecnologia e interdisciplinaridade ao serviço do Património','Technology and interdisciplinarity in service of Heritage','<p>O TECHN&amp;ART une investigadores/as das mais diversas áreas disciplinares presentes no Instituto Politécnico de Tomar, das TIC às artes, das ciências sociais às ciências naturais</p>','<p>TECHN&amp;ART brings together researchers from a variety of fields in the Polytechnic University of Tomar, from ICT to the arts, from the social sciences to natural sciences</p>','65f8a374aa3ac_slider-index-2.jpg',NULL),(4,'Investigação e desenvolvimento em rede','Research and development in network','<p>O TECHN&amp;ART acolhe e coordena projetos de I&amp;D numa ampla rede de parceiros nacionais e internacionais, na linha da frente da salvaguarda e valorização patrimoniais</p>','<p>TECHN&amp;ART hosts and leads R&amp;D projects within a broad network of national and international partners, on the frontlines of heritage safeguard and enhancement</p>','65f8a39dc252b_slider-index-3.jpg',NULL),(5,'teste','teste','<p>teste</p>','<p>teste</p>','65f8ab31ef7c2_slider-index-1.jpg','testeurl');
 /*!40000 ALTER TABLE `slider` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -382,4 +383,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-18 20:32:52
+-- Dump completed on 2024-03-18 21:12:13

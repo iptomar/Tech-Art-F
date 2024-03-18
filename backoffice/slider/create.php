@@ -9,18 +9,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     move_uploaded_file($_FILES["imagem"]["tmp_name"], $mainDir . $target_file);
 
 
-    $sql = "INSERT INTO slider (titulo, titulo_en, conteudo, conteudo_en, imagem) " .
-        "VALUES (?,?,?,?,?)";
+    $sql = "INSERT INTO slider (titulo, titulo_en, conteudo, conteudo_en, imagem, link) " .
+        "VALUES (?,?,?,?,?,?)";
     $stmt = mysqli_prepare($conn, $sql);
     $titulo = $_POST["titulo"];
     $titulo_en = $_POST["titulo_en"];
 
     $conteudo = $_POST["conteudo"];
     $conteudo_en = $_POST["conteudo_en"];
+    $link = $_POST["link"];
 
     $imagem = $target_file;
 
-    mysqli_stmt_bind_param($stmt, 'sssss', $titulo, $titulo_en, $conteudo, $conteudo_en, $imagem);
+    mysqli_stmt_bind_param($stmt, 'ssssss', $titulo, $titulo_en, $conteudo, $conteudo_en, $imagem, $link);
     if (mysqli_stmt_execute($stmt)) {
         header('Location: index.php');
         exit;
@@ -123,6 +124,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
 
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Link</label>
+                    <input type="text" class="form-control" id="inputLink" name="link">
+                    <!-- Error -->
+                    <div class="help-block with-errors"></div>
                 </div>
 
 

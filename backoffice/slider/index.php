@@ -82,4 +82,4 @@ $result = mysqli_query($conn, $sql);
 
 <?php
 mysqli_close($conn);
-?>
+?> No index.php adicionar funcao/ciclo que faz parse das imagens da tabela e gera o slider para o template da homepage.
