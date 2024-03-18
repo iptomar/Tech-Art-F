@@ -18,13 +18,13 @@ class analise_duplicados
                 $publication1 = $this->publications[$i];
                 $publication2 = $this->publications[$j];
 
-                similar_text($publication1, $publication2, $percent);
+                similar_text(trim(strtolower($publication1)), trim(strtolower($publication2)), $percent);
 
                 if ($percent > 90) {
                     $potentialDuplicates[] = array(
-                        'publication1' => $publication1,
-                        'publication2' => $publication2,
-                        'similarity' => $percent
+                        'publicacao1' => $publication1,
+                        'publicacao2' => $publication2,
+                        'similaridade' => $percent
                     );
                 }
             }

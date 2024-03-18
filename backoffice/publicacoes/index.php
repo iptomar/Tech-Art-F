@@ -33,10 +33,10 @@ $potentialDuplicates = $checker->checkSimilarity();
 
 foreach ($potentialDuplicates as $duplicate) {
   
-    echo "Potencial duplicate:\n";
-    echo "Publicação 1: " . $duplicate['publication1'] . "\n";
-    echo "Publicação 2: " . $duplicate['publication2'] . "\n";
-    echo "Similaridade: " . $duplicate['similarity'] . "%\n\n <br>";
+    echo "Potencial duplicado:\n";
+    echo "Publicação 1: " . $duplicate['publicacao1'] . "\n<br>";
+    echo "Publicação 2: " . $duplicate['publicacao2'] . "\n<br>";
+    echo "Similaridade: " . $duplicate['similaridade'] . "%\n\n <br><br>";
 }
 
 ?>
