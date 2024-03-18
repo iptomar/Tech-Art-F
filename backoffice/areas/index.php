@@ -42,23 +42,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</link>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
 
-<script type="text/javascript">
-    function previewImg(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('#preview').attr('src', e.target.result);
-            }
-            reader.readAsDataURL(input.files[0]);
-        } else {
-            $('#preview').attr('src', '<?= $mainDir . $fotografia ?>');
-        }
-    }
-</script>
 <style>
     .container {
         max-width: 550px;
@@ -81,7 +67,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         min-height: 200px;
     }
 
-
     .halfCol {
         max-width: 50%;
         display: inline-block;
@@ -91,67 +76,72 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     /* Style The Dropdown Button */
     .dropbtn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
+        background-color: #4CAF50;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
     }
 
     /* The container <div> - needed to position the dropdown content */
     .dropdown {
-    position: relative;
-    display: inline-block;
+        position: relative;
+        display: inline-block;
     }
 
     /* Dropdown Content (Hidden by Default) */
     .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
     }
 
     /* Links inside the dropdown */
     .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
     }
 
     /* Change color of dropdown links on hover */
-    .dropdown-content a:hover {background-color: #f1f1f1}
+    .dropdown-content a:hover {
+        background-color: #f1f1f1
+    }
 
     /* Show the dropdown menu on hover */
     .dropdown:hover .dropdown-content {
-    display: block;
+        display: block;
     }
 
     /* Change the background color of the dropdown button when the dropdown content is shown */
     .dropdown:hover .dropbtn {
-    background-color: #3e8e41;
+        background-color: #3e8e41;
     }
 </style>
 
 <div class="container-xl mt-5">
     <div class="card">
+        <br>
         <h5 class="card-header text-center">Editar Texto</h5>
-        <h2>Escolha o tipo para editar:</h2>
+        <h2>Escolha a area a editar:</h2>
+        <br>
         <select name="areasSite" id="areasSite">
             <?php
-                foreach ($dadosAreas as $area) { 
-                    echo '<option value="' . $area['id'] . '">' . $area['titulo'] . '</option>';
-                } 
+            foreach ($dadosAreas as $area) {
+                echo '<option value="' . $area['id'] . '">' . $area['titulo'] . '</option>';
+            }
             ?>
         </select>
         <div class="card-body">
             <form role="form" data-toggle="validator" action="edit.php?id=<?php echo $id; ?>" method="post" enctype="multipart/form-data">
-                <textarea name="texto" id="texto" rows="10" cols="50"></textarea><br>
-                
+                <textarea id="texto" name="texto" class="form-control ck_replace" minlength="1" required data-error="Por favor introduza um 'sobre projeto'" cols="30" rows="5"></textarea>
+                <!-- Error -->
+                <div class="help-block with-errors"></div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block">Gravar</button>
                 </div>
@@ -164,30 +154,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </div>
 
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<!--Criar o CKEditor 5-->
+<script src="../ckeditor5/build/ckeditor.js"></script>
 <script>
-  tinymce.init({
-    selector: 'textarea#texto',  // Seletor para o textarea com id "texto"
-    plugins: 'advlist autolink lists link image charmap print preview anchor',
-    toolbar: 'undo redo | formatselect | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | outdent indent | link image',
-    height: 300,  // Altura do editor
-  });
-
-  // Ensure the document is fully loaded before executing scripts
-  document.addEventListener("DOMContentLoaded", function() {
-    // Event listener for dropdown change
-    document.getElementById('areasSite').addEventListener('change', function() {
-      var selectedId = this.value;
-      var selectedArea = <?php echo json_encode($dadosAreas); ?>.find(function(area) {
-        return area.id == selectedId;
-      });
-      document.getElementById('texto').value = selectedArea.texto;
+    $(document).ready(function() {
+        $('.ck_replace').each(function() {
+            ClassicEditor.create(this, {
+                licenseKey: '',
+                simpleUpload: {
+                    uploadUrl: '../ckeditor5/upload_image.php'
+                }
+            }).then(editor => {
+                window.editor = editor;
+            });
+        });
     });
-  });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // Event listener for dropdown change
+        document.getElementById('areasSite').addEventListener('change', function() {
+        var selectedId = this.value;
+        var selectedArea = <?php echo json_encode($dadosAreas); ?>.find(function(area) {
+            return area.id == selectedId;
+        });
+        // document.getElementById('texto').value = selectedArea.texto;
+        editor.setData(selectedArea.texto);
+        });
+    });
 </script>
 
-
-
 <?php
-    mysqli_close($conn);
+mysqli_close($conn);
 ?>
