@@ -1,5 +1,6 @@
 <?php
 include 'models/functions.php';
+include 'config/dbconnection.php';
 ?>
 
 <!DOCTYPE html>
@@ -25,16 +26,17 @@ include 'models/functions.php';
                         </figure>
                     </div>
                     <div class="flex-right">
-                        <p><?= change_lang("new-admissions-p1") ?><br><br>
-                            <?= change_lang("new-admissions-p2") ?><br>
-                        </p>
-                        <p><?= change_lang("new-admissions-regulations") ?>
-                            <a href="https://drive.google.com/file/d/1P9hbWdVyB2YY7ySQNBWd8MegSVx4HEVt/view">
-                                <?= change_lang("new-admissions-regulations-link") ?>
-                            </a>
-                        </p>
-                        <br>
-                        
+                    <?php
+                           $pdo = pdo_connect_mysql();
+                           $query = "SELECT texto 
+                                     FROM technart.areas_website 
+                                     WHERE titulo = 'Novas admissões'";
+                           $stmt = $pdo->prepare($query);
+                           $stmt->execute();
+                           $textoFetched = $stmt->fetch(PDO::FETCH_ASSOC);
+                           $texto = $textoFetched['texto'];
+                           echo $texto;
+                        ?>
                     </div>
                 </div>
                 <a style="display: inline-block; padding: 5px 25px; background-color:#333F50; border: 2px solid #000000; color: #ffffff; border-radius: 0; 

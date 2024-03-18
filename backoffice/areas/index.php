@@ -3,25 +3,31 @@ require "../verifica.php";
 require "../config/basedados.php";
 
 $mainDir = "../assets/projetos/"; // Ver isto no futuro, caminho para as imagens por default
-$titulo = "Missão e Objetivos";
 $dadosAreas;
+$texto;
+$titulo;
+
 
 // Criação do pedido a API
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $texto = $_POST["texto"];
+    $titulo = $_POST["titulo"];
 
     // Query de update
-    $sql = "UPDATE projetos SET nome = ?, descricao = ?, sobreprojeto = ?, referencia = ?, areapreferencial = ?, financiamento = ?, ambito = ?, site = ?, facebook = ?, nome_en = ?, descricao_en = ?, sobreprojeto_en = ?, referencia_en = ?, areapreferencial_en = ?, financiamento_en = ?, ambito_en = ?, site_en = ?, facebook_en = ? ";
-    $params = [$nome, $descricao, $sobreprojeto, $referencia, $areapreferencial, $financiamento, $ambito, $site, $facebook, $nome_en, $descricao_en, $sobreprojeto_en, $referencia_en, $areapreferencial_en, $financiamento_en, $ambito_en, $site_en, $facebook_en];
+    $sql = "UPDATE technart.areas_website SET texto = ? WHERE titulo = ?";
+    $params = [$texto, $titulo];
 
     // Preparação da execução da query
     $stmt = mysqli_prepare($conn, $sql);
-   
+    $param_types = str_repeat('s', count($params) - 2) . 'ii';
+
+    mysqli_stmt_bind_param($stmt, $param_types, ...$params);
+
     //Execução da query
     if (mysqli_stmt_execute($stmt)) {
-        if (count($investigadores) == 0) { // Se estiver tudo bem, apresentar uma msg de sucesso
-            echo "Atualizado com sucesso! " . $titulo;
-        }
+        echo "Atualizado com sucesso! " . $titulo;
+        header("Location: ../areas/index.php?texto=$texto&titulo=$titulo");
+        exit();
     } else {
         echo "Error: " . $sql . mysqli_error($conn);
     }
@@ -32,12 +38,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
-    
+
     // Fetch all rows as objects
     $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
     $dadosAreas = $rows;
     // Extract the 'titulo' from each object and store them in a new array
-    $listaAreasTitulos = array_map(function($o) { return $o['titulo']; }, $rows);
+    $listaAreasTitulos = array_map(function ($o) {
+        return $o['titulo']; }, $rows);
 }
 ?>
 
@@ -122,24 +129,80 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     .dropdown:hover .dropbtn {
         background-color: #3e8e41;
     }
+
+    @arrowColor: #ffcc00;
+    @arrow: escape('@{arrowColor}');
+
+    select {
+        background-color: #58a8ff;
+        background-image: url(~"data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20256%20448%22%20enable-background%3D%22new%200%200%20256%20448%22%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E.arrow%7Bfill%3A@{arrow}%3B%7D%3C%2Fstyle%3E%3Cpath%20class%3D%22arrow%22%20d%3D%22M255.9%20168c0-4.2-1.6-7.9-4.8-11.2-3.2-3.2-6.9-4.8-11.2-4.8H16c-4.2%200-7.9%201.6-11.2%204.8S0%20163.8%200%20168c0%204.4%201.6%208.2%204.8%2011.4l112%20112c3.1%203.1%206.8%204.6%2011.2%204.6%204.4%200%208.2-1.5%2011.4-4.6l112-112c3-3.2%204.5-7%204.5-11.4z%22%2F%3E%3C%2Fsvg%3E%0A");
+        background-position: right 10px center;
+        background-repeat: no-repeat;
+        background-size: auto 50%;
+        border-radius: 2px;
+        border: none;
+        color: #ffffff;
+        padding: 10px 30px 10px 10px;
+
+        // disable default appearance
+        outline: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        appearance: none;
+
+        &::-ms-expand {
+            display: none
+        }
+
+        ;
+    }
+
+    // remove dotted firefox border
+    @-moz-document url-prefix() {
+        select {
+            color: rgba(0, 0, 0, 0);
+            text-shadow: 0 0 0 #ffffff;
+        }
+    }
+
+    // Codepen Layout
+    @import url(https://fonts.googleapis.com/css?family=Lato:300,400);
+
+    body {
+        font-family: 'Lato', sans-serif;
+        font-weight: 300;
+        background: #34495E;
+
+        select {
+            margin: 50px auto 0;
+            display: block;
+        }
+    }
 </style>
 
 <div class="container-xl mt-5">
     <div class="card">
         <br>
         <h5 class="card-header text-center">Editar Texto</h5>
-        <h2>Escolha a area a editar:</h2>
-        <br>
-        <select name="areasSite" id="areasSite">
-            <?php
-            foreach ($dadosAreas as $area) {
-                echo '<option value="' . $area['id'] . '">' . $area['titulo'] . '</option>';
-            }
-            ?>
-        </select>
+
         <div class="card-body">
-            <form role="form" data-toggle="validator" action="edit.php?id=<?php echo $id; ?>" method="post" enctype="multipart/form-data">
-                <textarea id="texto" name="texto" class="form-control ck_replace" minlength="1" required data-error="Por favor introduza um 'sobre projeto'" cols="30" rows="5"></textarea>
+            <h2>Escolha a area a editar:</h2>
+
+            <br>
+            <form role="form" data-toggle="validator" action="../areas/index.php" method="post"
+                enctype="multipart/form-data">
+                <br>
+                <select name="areasSite" id="areasSite">
+                    <option>Selecionar</option>
+                    <?php
+                    foreach ($dadosAreas as $area) {
+                        echo '<option value="' . $area['id'] . '">' . $area['titulo'] . '</option>';
+                    }
+                    ?>
+                </select>
+                <br>
+                <textarea id="texto" name="texto" class="form-control ck_replace" minlength="1" required
+                    data-error="Por favor introduza um 'sobre projeto'" cols="30" rows="5"></textarea>
                 <!-- Error -->
                 <div class="help-block with-errors"></div>
                 <div class="form-group">
@@ -147,7 +210,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="form-group">
-                    <button type="button" onclick="window.location.href = 'index.php'" class="btn btn-danger btn-block">Cancelar</button>
+                    <button type="button" onclick="window.location.href = 'index.php'"
+                        class="btn btn-danger btn-block">Cancelar</button>
                 </div>
             </form>
         </div>
@@ -157,8 +221,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!--Criar o CKEditor 5-->
 <script src="../ckeditor5/build/ckeditor.js"></script>
 <script>
-    $(document).ready(function() {
-        $('.ck_replace').each(function() {
+    $(document).ready(function () {
+        $('.ck_replace').each(function () {
             ClassicEditor.create(this, {
                 licenseKey: '',
                 simpleUpload: {
@@ -170,15 +234,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         });
     });
 
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         // Event listener for dropdown change
-        document.getElementById('areasSite').addEventListener('change', function() {
-        var selectedId = this.value;
-        var selectedArea = <?php echo json_encode($dadosAreas); ?>.find(function(area) {
-            return area.id == selectedId;
-        });
-        // document.getElementById('texto').value = selectedArea.texto;
-        editor.setData(selectedArea.texto);
+        document.getElementById('areasSite').addEventListener('change', function () {
+            var selectedId = this.value;
+            var selectedArea = <?php echo json_encode($dadosAreas); ?>.find(function (area) {
+                return area.id == selectedId;
+            });
+            $titulo = selectedArea.titulo;
+            editor.setData(selectedArea.texto);
         });
     });
 </script>
