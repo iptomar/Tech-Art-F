@@ -1,8 +1,12 @@
 <?php
 require "../verifica.php";
 require "../config/basedados.php";
+require "./analise_duplicados.php";
 
-$sql = "SELECT * FROM publicacoes";
+$sql = "SELECT *, i.email, REGEXP_SUBSTR(dados, 'title = {(.*?)}') as title
+FROM publicacoes AS p 
+JOIN publicacoes_investigadores AS pi2 ON p.idPublicacao = pi2.publicacao
+JOIN investigadores AS i ON pi2.investigador = i.id;";
 $result = mysqli_query($conn, $sql);
 
 ?>
@@ -21,11 +25,21 @@ $result = mysqli_query($conn, $sql);
   ?>
 </style>
 
-//usar similar text para comparar strings
-//mostrar percentagem
-//adicionar email referente da publicacao na listagem
-//com trim e lowercase 
+<?php
+$titles = array_column($result->fetch_all(MYSQLI_ASSOC), 'title');
 
+$checker = new analise_duplicados($titles);
+$potentialDuplicates = $checker->checkSimilarity();
+
+foreach ($potentialDuplicates as $duplicate) {
+  
+    echo "Potencial duplicate:\n";
+    echo "Publicação 1: " . $duplicate['publication1'] . "\n";
+    echo "Publicação 2: " . $duplicate['publication2'] . "\n";
+    echo "Similaridade: " . $duplicate['similarity'] . "%\n\n <br>";
+}
+
+?>
 
 <div class="container-xl">
   <div class="container-xl">
@@ -50,11 +64,14 @@ $result = mysqli_query($conn, $sql);
               <th>Cidade</th>
               <th>Tipo</th>
               <th>Visível</th>
+              <th>e-mail</th>
+              <th>titulo</th>
             </tr>
           </thead>
           <tbody>
 
             <?php
+            $result = mysqli_query($conn, $sql);
             if (mysqli_num_rows($result) > 0) {
               while ($row = mysqli_fetch_assoc($result)) {
                 echo "<tr>";
@@ -65,6 +82,8 @@ $result = mysqli_query($conn, $sql);
                 echo "<td>" . $row["cidade"] . "</td>";
                 echo "<td>" . $row["tipo"] . "</td>";
                 echo "<td>" . $row["visivel"] . "</td>";
+                echo "<td>" . $row["email"] . "</td>";
+                echo "<td>" . $row["title"] . "</td>";
               }
             }
             ?>
@@ -74,6 +93,7 @@ $result = mysqli_query($conn, $sql);
     </div>
   </div>
 
+  
   <?php
   mysqli_close($conn);
   ?>
