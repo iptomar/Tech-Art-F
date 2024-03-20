@@ -1,3 +1,7 @@
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+
 <?php
 require "../verifica.php";
 require "../config/basedados.php";
@@ -21,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     //Execução da query
     if (mysqli_stmt_execute($stmt)) {
-        echo "Atualizado com sucesso! " . $titulo;
+
         header("Location: ../areas/index.php?texto=$texto&titulo=$titulo");
         exit();
     } else {
@@ -40,13 +44,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dadosAreas = $rows;
     // Extract the 'titulo' from each object and store them in a new array
     $listaAreasTitulos = array_map(function ($o) {
-        return $o['titulo']; }, $rows);
+        return $o['titulo'];
+    }, $rows);
 }
 ?>
 
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+
 
 <style>
     .container {
@@ -183,8 +186,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="card-body">
             <h2>Escolha a area a editar:</h2>
-
-            <br>
             <form role="form" data-toggle="validator" action="../areas/index.php" method="post"
                 enctype="multipart/form-data">
                 <input type="hidden" name="titulo" id="titulo" value="">
@@ -198,8 +199,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     ?>
                 </select>
                 <br>
+                <br>
                 <textarea id="texto" name="texto" class="form-control ck_replace" minlength="1" required
                     data-error="Por favor introduza um 'sobre projeto'" cols="30" rows="5"></textarea>
+                <br>
                 <!-- Error -->
                 <div class="help-block with-errors"></div>
                 <div class="form-group">
@@ -232,23 +235,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     });
 
     document.addEventListener("DOMContentLoaded", function () {
-    // Event listener for dropdown change
-    document.getElementById('areasSite').addEventListener('change', function () {
-        var selectedId = this.value;
-        var selectedArea = <?php echo json_encode($dadosAreas); ?>.find(function (area) {
-            return area.id == selectedId;
-        });
+        // Event listener for dropdown change
+        document.getElementById('areasSite').addEventListener('change', function () {
+            var selectedId = this.value;
+            var selectedArea = <?php echo json_encode($dadosAreas); ?>.find(function (area) {
+                return area.id == selectedId;
+            });
 
-        // Check if selectedArea exists
-        if (selectedArea) {
-            $titulo = selectedArea.titulo;
-            document.getElementById('titulo').value = $titulo;
-            editor.setData(selectedArea.texto);
-        } else {
-            console.log("Área selecionada não encontrada.");
-        }
+            // Check if selectedArea exists
+            if (selectedArea) {
+                $titulo = selectedArea.titulo;
+                document.getElementById('titulo').value = $titulo;
+                editor.setData(selectedArea.texto);
+            } else {
+                console.log("Área selecionada não encontrada.");
+            }
+        });
     });
-});
 
 </script>
 
