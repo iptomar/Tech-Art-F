@@ -25,6 +25,48 @@ $result = mysqli_query($conn, $sql);
   ?>
 </style>
 
+<div class="container">
+        <h2>Analisar Dados</h2>
+        <form method="post">
+            <label for="percentage">Porcentagem (0-100%):</label>
+            <input type="number" id="percentage" name="percentage" min="0" max="100" required>
+            <br><br>
+            <label>Selecione os campos:</label>
+            <br>
+            <input type="checkbox" id="title" name="fields[]" value="title">
+            <label for="title">Title</label>
+            <br>
+            <input type="checkbox" id="volume" name="fields[]" value="volume">
+            <label for="volume">Volume</label>
+            <br>
+            <input type="checkbox" id="edition" name="fields[]" value="edition">
+            <label for="edition">Edition</label>
+            <br>
+            <input type="checkbox" id="pages" name="fields[]" value="pages">
+            <label for="pages">Pages</label>
+            <br>
+            <input type="checkbox" id="year" name="fields[]" value="year">
+            <label for="year">Year</label>
+            <br>
+            <input type="checkbox" id="publisher" name="fields[]" value="publisher">
+            <label for="publisher">Publisher</label>
+            <br>
+            <input type="checkbox" id="url" name="fields[]" value="url">
+            <label for="url">URL</label>
+            <br>
+            <input type="checkbox" id="author" name="fields[]" value="author">
+            <label for="author">Author</label>
+            <br>
+            <input type="checkbox" id="editor" name="fields[]" value="editor">
+            <label for="editor">Editor</label>
+            <br>
+            <input type="checkbox" id="keywords" name="fields[]" value="keywords">
+            <label for="keywords">Keywords</label>
+            <br><br>
+            <input type="submit" name="submit" value="Analisar">
+        </form>
+    </div>
+
 <?php
 $titles = array_column($result->fetch_all(MYSQLI_ASSOC), 'title');
 
