@@ -14,14 +14,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $titulo = $_POST["titulo"];
 
     // Query de update
-    $sql = "UPDATE technart.areas_website SET texto = ? WHERE titulo = ?";
-    $params = [$texto, $titulo];
+    $sql = "update technart.areas_website set texto  = '" . $texto . "' where titulo  = '" . $titulo . "';";
 
     // Preparação da execução da query
     $stmt = mysqli_prepare($conn, $sql);
-    $param_types = str_repeat('s', count($params) - 2) . 'ii';
-
-    mysqli_stmt_bind_param($stmt, $param_types, ...$params);
 
     //Execução da query
     if (mysqli_stmt_execute($stmt)) {
@@ -191,6 +187,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <br>
             <form role="form" data-toggle="validator" action="../areas/index.php" method="post"
                 enctype="multipart/form-data">
+                <input type="hidden" name="titulo" id="titulo" value="">
                 <br>
                 <select name="areasSite" id="areasSite">
                     <option>Selecionar</option>
@@ -235,16 +232,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     });
 
     document.addEventListener("DOMContentLoaded", function () {
-        // Event listener for dropdown change
-        document.getElementById('areasSite').addEventListener('change', function () {
-            var selectedId = this.value;
-            var selectedArea = <?php echo json_encode($dadosAreas); ?>.find(function (area) {
-                return area.id == selectedId;
-            });
-            $titulo = selectedArea.titulo;
-            editor.setData(selectedArea.texto);
+    // Event listener for dropdown change
+    document.getElementById('areasSite').addEventListener('change', function () {
+        var selectedId = this.value;
+        var selectedArea = <?php echo json_encode($dadosAreas); ?>.find(function (area) {
+            return area.id == selectedId;
         });
+
+        // Check if selectedArea exists
+        if (selectedArea) {
+            $titulo = selectedArea.titulo;
+            document.getElementById('titulo').value = $titulo;
+            editor.setData(selectedArea.texto);
+        } else {
+            console.log("Área selecionada não encontrada.");
+        }
     });
+});
+
 </script>
 
 <?php
