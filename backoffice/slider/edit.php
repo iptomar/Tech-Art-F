@@ -4,6 +4,12 @@ require "../config/basedados.php";
 require "bloqueador.php";
 
 $mainDir = "../assets/slider/";
+//guarda a string a colocar na checkbox da visiblidade 
+$checkstatus = "";
+//contem o valor "1" ,reprensenta que a checkbox está selecionada 
+$seleciona = "1";
+//contem o voloe "0", representa que a checkbox não está selecionada 
+$naoSeleciona = "0";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST["id"];
     $titulo = $_POST["titulo"];
@@ -12,10 +18,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conteudo_en = $_POST["conteudo_en"];
     $imagem_exists = isset($_FILES["imagem"]) && $_FILES["imagem"]["size"] != 0;
     $link = $_POST["link"];
+    //se o valor da checkbox for true 
+    if(isset($_POST['visiblidade'])){
+        #guarda o valor 1 na base de dados como a checkbox está selecionada e é para mostrar
+        $visiblidade = $seleciona;
+    }else{
+        #guarda o valor 0 na base de dados como a checkbox está selecionada e não é para mostrar 
+        $visiblidade = $naoSeleciona;}     
 
 
     $sql = "UPDATE slider SET titulo = ?, conteudo = ?, titulo_en = ?, conteudo_en = ?";
-    $params = [$titulo, $conteudo, $titulo_en, $conteudo_en, $link];
+    $params = [$titulo, $conteudo, $titulo_en, $conteudo_en, $link , $visiblidade];
 
     // Check if the 'imagem' file exists and update the SQL query and parameters accordingly
     if ($imagem_exists) {
@@ -26,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $sql .= ", link = ? ";
+    $sql .= ", visiblidade = ? ";
     $sql .= " WHERE id = ?";
     $params[] = $id;
     $stmt = mysqli_prepare($conn, $sql);
@@ -43,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
 
     //Se o request não for um post, selecionar os dados da base de dados para mostrar 
-    $sql = "SELECT titulo, titulo_en, conteudo, conteudo_en, imagem, link FROM slider WHERE id = ?";
+    $sql = "SELECT titulo, titulo_en, conteudo, conteudo_en, imagem, link, visiblidade FROM slider WHERE id = ?";
     $id = $_GET["id"];
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $id);
@@ -56,6 +70,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $titulo_en = $row["titulo_en"];
     $conteudo_en = $row["conteudo_en"];
     $link = $row["link"];
+    $visiblidade = $row["visiblidade"];
+    //se avisiblidade contiver o valor "1" marca a checbox como selecionada 
+    if($visiblidade == 1 ){ $checkstatus = "checked";}
 }
 
 
@@ -126,7 +143,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                     </div>
 
-
                     <div class="col">
                         <div class="form-group">
                             <label>Titulo (Inglês)</label>
@@ -166,6 +182,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="help-block with-errors"></div>
                 </div>
 
+                <div class="form-group", style="float: left;">
+                    <label>Visiblidade do Item</label>
+
+                    <input type="checkbox" class="form-control"  name="visiblidade"  <?php echo $checkstatus; ?> >
+                    <!-- Error -->
+                    <div class="help-block with-errors"></div>
+                </div>
+
                 <div class="form-group">
                     <label>Imagem</label>
                     <input type="file" accept="image/*" onchange="previewImg(this);" data-error="Por favor adicione uma imagem" class="form-control" id="inputImage" name="imagem">
@@ -173,8 +197,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="help-block with-errors"></div>
                 </div>
                 <img id="preview" src="<?php echo $mainDir . $imagem; ?>" width='100px' height='100px' class="mb-3" />
-
-
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block">Gravar</button>

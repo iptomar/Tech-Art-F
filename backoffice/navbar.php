@@ -57,13 +57,13 @@
     <li class="navLi"><a href="../projetos">Projetos</a></li>
     <li class="navLi"><a href="../noticias">Notícias</a></li>
     <li class="navLi"><a href="../oportunidades">Oportunidades</a></li>
-    <li class="navLi"><a href="../slider">Slider</a></li>
     <?php
     // Utilizador tem permissão para aceder ao administradores
     if ($_SESSION["autenticado"] == "administrador") {
         echo "<li class='navLi'><a href='../admissoes'>Admissões</a></li>";
         echo "<li class='navLi'><a href='../areas'>Editar Areas</a></li>";
         echo "<li class='navLi'><a href='../publicacoes'>Publicações</a></li>";
+        echo "<li class='navLi'><a href='../slider'>Slider</a></li>";
     }
     ?>
     <li class="navLi"><a class="leftnav" href="../sair.php">Sair</a></li>
