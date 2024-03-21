@@ -2,7 +2,7 @@
 require "../verifica.php";
 require "../config/basedados.php";
 //Selecionar os dados do slider da base de dados
-$sql = "SELECT id, titulo, conteudo, imagem , visiblidade FROM slider";
+$sql = "SELECT id, titulo, conteudo, imagem , visibilidade FROM slider";
 $result = mysqli_query($conn, $sql);
 ?>
 
