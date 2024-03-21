@@ -3,7 +3,15 @@ require "../verifica.php";
 require "../config/basedados.php";
 require "./analise_duplicados.php";
 
-$sql = "SELECT *, i.email, REGEXP_SUBSTR(dados, 'title = {(.*?)}') as title
+$sql = "SELECT i.email as email, REGEXP_SUBSTR(dados, 'title = {(.*?)}') as title,
+REGEXP_SUBSTR(dados, 'journal = {(.*?)}') as journal,
+REGEXP_SUBSTR(dados, 'volume = {(.*?)}') as volume,
+REGEXP_SUBSTR(dados, 'number = {(.*?)}') as pnumber,
+REGEXP_SUBSTR(dados, 'pages = {(.*?)}') as pages,
+REGEXP_SUBSTR(dados, 'year = {(.*?)}') as pyear,
+REGEXP_SUBSTR(dados, 'url = {(.*?)}') as purl,
+REGEXP_SUBSTR(dados, 'author = {(.*?)}') as author,
+REGEXP_SUBSTR(dados, 'keywords = {(.*?)}') as keywords
 FROM publicacoes AS p 
 JOIN publicacoes_investigadores AS pi2 ON p.idPublicacao = pi2.publicacao
 JOIN investigadores AS i ON pi2.investigador = i.id;";
@@ -25,64 +33,6 @@ $result = mysqli_query($conn, $sql);
   ?>
 </style>
 
-<div class="container">
-        <h2>Analisar Dados</h2>
-        <form method="post">
-            <label for="percentage">Porcentagem (0-100%):</label>
-            <input type="number" id="percentage" name="percentage" min="0" max="100" required>
-            <br><br>
-            <label>Selecione os campos:</label>
-            <br>
-            <input type="checkbox" id="title" name="fields[]" value="title">
-            <label for="title">Title</label>
-            <br>
-            <input type="checkbox" id="volume" name="fields[]" value="volume">
-            <label for="volume">Volume</label>
-            <br>
-            <input type="checkbox" id="edition" name="fields[]" value="edition">
-            <label for="edition">Edition</label>
-            <br>
-            <input type="checkbox" id="pages" name="fields[]" value="pages">
-            <label for="pages">Pages</label>
-            <br>
-            <input type="checkbox" id="year" name="fields[]" value="year">
-            <label for="year">Year</label>
-            <br>
-            <input type="checkbox" id="publisher" name="fields[]" value="publisher">
-            <label for="publisher">Publisher</label>
-            <br>
-            <input type="checkbox" id="url" name="fields[]" value="url">
-            <label for="url">URL</label>
-            <br>
-            <input type="checkbox" id="author" name="fields[]" value="author">
-            <label for="author">Author</label>
-            <br>
-            <input type="checkbox" id="editor" name="fields[]" value="editor">
-            <label for="editor">Editor</label>
-            <br>
-            <input type="checkbox" id="keywords" name="fields[]" value="keywords">
-            <label for="keywords">Keywords</label>
-            <br><br>
-            <input type="submit" name="submit" value="Analisar">
-        </form>
-    </div>
-
-<?php
-$titles = array_column($result->fetch_all(MYSQLI_ASSOC), 'title');
-
-$checker = new analise_duplicados($titles);
-$potentialDuplicates = $checker->checkSimilarity();
-
-foreach ($potentialDuplicates as $duplicate) {
-  
-    echo "Potencial duplicado:\n";
-    echo "Publicação 1: " . $duplicate['publicacao1'] . "\n<br>";
-    echo "Publicação 2: " . $duplicate['publicacao2'] . "\n<br>";
-    echo "Similaridade: " . $duplicate['similaridade'] . "%\n\n <br><br>";
-}
-
-?>
-
 <div class="container-xl">
   <div class="container-xl">
     <div class="table-responsive">
@@ -90,52 +40,105 @@ foreach ($potentialDuplicates as $duplicate) {
         <div class="table-title">
           <div class="row">
             <div class="col-sm-6">
-              <h2>Projetos</h2>
+              <h2>Publicações</h2>
             </div>
             <div class="col-sm-6">
+              <input type="submit" class="btn btn-success" class="material-icons" name="submit" value="Analisar">
             </div>
+            <form method="post"><br>
+              <label for="percentage">Percentagem (0-100%):</label>
+              <input type="number" id="percentage" name="percentage" min="0" max="100" required>
+              <br><br>
+              <label>Selecione os campos para análise:</label>
+              <br>
+              <input type="checkbox" id="title" name="fields[]" value="title">
+              <label for="title">Title</label>
+
+              <input type="checkbox" id="volume" name="fields[]" value="volume">
+              <label for="volume">Volume</label>
+
+              <input type="checkbox" id="edition" name="fields[]" value="edition">
+              <label for="edition">Edition</label>
+
+              <input type="checkbox" id="pages" name="fields[]" value="pages">
+              <label for="pages">Pages</label>
+
+              <input type="checkbox" id="year" name="fields[]" value="year">
+              <label for="year">Year</label>
+
+              <input type="checkbox" id="publisher" name="fields[]" value="publisher">
+              <label for="publisher">Publisher</label>
+
+              <input type="checkbox" id="url" name="fields[]" value="url">
+              <label for="url">URL</label>
+
+              <input type="checkbox" id="author" name="fields[]" value="author">
+              <label for="author">Author</label>
+
+              <input type="checkbox" id="editor" name="fields[]" value="editor">
+              <label for="editor">Editor</label>
+
+              <input type="checkbox" id="keywords" name="fields[]" value="keywords">
+              <label for="keywords">Keywords</label>
+            </form>
+          </div>
+          <div class="col-sm-6">
           </div>
         </div>
-        <table style="width:100%" class="table table-striped table-hover" >
-          <thead>
-            <tr>
-              <th>idPublicação</th>
-              <th >Dados</th>
-              <th>Data</th>
-              <th>País</th>
-              <th>Cidade</th>
-              <th>Tipo</th>
-              <th>Visível</th>
-              <th>e-mail</th>
-              <th>titulo</th>
-            </tr>
-          </thead>
-          <tbody>
-
-            <?php
-            $result = mysqli_query($conn, $sql);
-            if (mysqli_num_rows($result) > 0) {
-              while ($row = mysqli_fetch_assoc($result)) {
-                echo "<tr>";
-                echo "<td>" . $row["idPublicacao"] . "</td>";
-                echo "<td>" . $row["dados"] . "</td>";
-                echo "<td>" . $row["data"] . "</td>";
-                echo "<td>" . $row["pais"] . "</td>";
-                echo "<td>" . $row["cidade"] . "</td>";
-                echo "<td>" . $row["tipo"] . "</td>";
-                echo "<td>" . $row["visivel"] . "</td>";
-                echo "<td>" . $row["email"] . "</td>";
-                echo "<td>" . $row["title"] . "</td>";
-              }
-            }
-            ?>
-          </tbody>
-        </table>
       </div>
+      <table style="width:100%" class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Warning</th>
+            <th>E-Mail</th>
+            <th>Similaridade</th>
+            <th>Title</th>
+            <th>Journal</th>
+            <th>Volume</th>
+            <th>Number</th>
+            <th>Pages</th>
+            <th>Year</th>
+            <th>url</th>
+            <th>Author</th>
+            <th>Keywords</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <?php
+
+          $percentage = 
+          $rows = $result->fetch_all(MYSQLI_ASSOC);
+          $titles = array_column($rows, 'title');
+          $journals = array_column($rows, 'journal');
+          $volumes = array_column($rows, 'volume');
+          $numbers = array_column($rows, 'pnumber');
+          $pages = array_column($rows, 'pages');
+          $years = array_column($rows, 'pyear');
+          $urls = array_column($rows, 'purl');
+          $authors = array_column($rows, 'author');
+          $keywords = array_column($rows, 'keywords');
+
+          $checker = new analise_duplicados($titles,$journals,$volumes,$numbers,$pages,$years,$urls,$authors,$keywords);
+
+          $potentialDuplicates = $checker->checkSimilarity();
+
+          foreach ($potentialDuplicates as $duplicate) {
+            echo "<tr>";
+            echo "<td>" . "</td>";
+            echo "<td>" . $duplicate["publication1title"] . "</td>";
+            echo "<td>" . $duplicate["publication2title"] . "</td>";
+            echo "<td>" . $duplicate["percenttitle"] . "</td>";
+          }
+
+          ?>
+
+        </tbody>
+      </table>
     </div>
   </div>
+</div>
 
-  
-  <?php
-  mysqli_close($conn);
-  ?>
+<?php
+mysqli_close($conn);
+?>
