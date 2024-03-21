@@ -1,5 +1,6 @@
 <?php
 include 'models/functions.php';
+include 'config/dbconnection.php';
 ?>
 
 <!DOCTYPE html>
@@ -26,25 +27,17 @@ include 'models/functions.php';
                         </figure>
                     </div>
                     <div class="flex-right">
-
-                        <p><?= change_lang("axes-page-p1-txt") ?></p>
-
-                        <p class="text-uppercase"><b>a) <?= change_lang("axes-page-a-txt") ?></b></p>
-                        <p class="text-uppercase"><b>b) <?= change_lang("axes-page-b-txt") ?></b></p>
-                        <br><br>
-                        <p><?= change_lang("axes-page-p2-txt") ?></p>
-
-
-                        <p><b>a1) </b><?= change_lang("axes-page-a-one-txt") ?></p>
-                        <p><b>a2) </b><?= change_lang("axes-page-a-two-txt") ?></p>
-                        <br>
-                        <p><?= change_lang("axes-page-p3-txt") ?></p>
-                        <p><b>b1) </b><?= change_lang("axes-page-b-one-txt") ?></p>
-
-                        <p><b>b2) </b><?= change_lang("axes-page-b-two-txt") ?></p>
-
-                        <p><?= change_lang("bottom-text") ?></p>
-
+                        <?php
+                           $pdo = pdo_connect_mysql();
+                           $query = "SELECT texto 
+                                     FROM technart.areas_website 
+                                     WHERE titulo = 'Eixos de Investigação'";
+                           $stmt = $pdo->prepare($query);
+                           $stmt->execute();
+                           $textoFetched = $stmt->fetch(PDO::FETCH_ASSOC);
+                           $texto = $textoFetched['texto'];
+                           echo $texto;
+                        ?>
                     </div>
                 </div>
 
