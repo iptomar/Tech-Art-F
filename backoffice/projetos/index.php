@@ -58,9 +58,9 @@ $result = mysqli_query($conn, $sql);
 							while ($row = mysqli_fetch_assoc($result)) {
 								echo "<tr>";
 								echo "<td>" . $row["nome"] . "</td>";
-								if($row["concluido"]){
+								if ($row["concluido"]) {
 									echo "<td>Concluído</td>";
-								}else{
+								} else {
 									echo "<td>Em Curso</td>";
 								}
 								/*             echo "<td style='width:250px;'>".$row["descricao"]."</td>";
