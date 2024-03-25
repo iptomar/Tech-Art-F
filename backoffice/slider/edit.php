@@ -183,20 +183,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="form-group", style="float: left;">
-                    <label>visibilidade do Item</label>
+                    <label>visibilidade</label>
 
                     <input type="checkbox" class="form-control"  name="visibilidade"  <?php echo $checkstatus; ?> >
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <div class="form-group">
+                <div style="clear: both;">
                     <label>Imagem</label>
                     <input type="file" accept="image/*" onchange="previewImg(this);" data-error="Por favor adicione uma imagem" class="form-control" id="inputImage" name="imagem">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
-                <img id="preview" src="<?php echo $mainDir . $imagem; ?>" width='100px' height='100px' class="mb-3" />
+                <img id="preview" src="<?php echo $mainDir . $imagem; ?>" width='50%' class="mb-3" />
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block">Gravar</button>
