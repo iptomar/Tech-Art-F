@@ -183,7 +183,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="form-group", style="float: left;">
-                    <label>visibilidade</label>
+                    <label>Visibilidade</label>
 
                     <input type="checkbox" class="form-control"  name="visibilidade"  <?php echo $checkstatus; ?> >
                     <!-- Error -->

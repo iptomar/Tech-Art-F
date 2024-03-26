@@ -53,10 +53,11 @@ $result = mysqli_query($conn, $sql);
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
-						<th style="width: 30px;">Título</th>	
-						<th style="width: 30px;">Ativo</th>							
+						<th style="width: 30px;">Título</th>					
 						<th>Imagem</th>						
-						<th>Conteúdo</th>						
+						<th>Conteúdo</th>	
+						<th></th>		
+						<th></th>				
 					</tr>
 				</thead>
 
@@ -65,12 +66,12 @@ $result = mysqli_query($conn, $sql);
 					if (mysqli_num_rows($result) > 0) {
 						while ($row = mysqli_fetch_assoc($result)) {
 							echo "<tr>";
-							echo "<td style='width:50px;'>" . $row["titulo"] . "</td>";
+							echo "<td style='width:50px;'>" . $row["titulo"]; 
 							if ($row["visibilidade"] == 1)
-								echo "<td style='width:50px;'><div style='height:50px; width:80px; background-color:green; display:flex; justify-content:center; align-items:center;'>Ativo</div></td>";
-							else 
-								echo "<td style='width:50px;'><div style='height:50px; width:80px; background-color:grey; display:flex; justify-content:center; align-items:center;'>Oculto</div></td>";
-							echo "<td><img src='../assets/slider/$row[imagem]' width = '250px'></td>";
+								echo "<br /><br /><span style='background-color:green; color:white; padding:5px;'>Ativo</span>";
+							else
+								echo "<br /><br /><span style='background-color:grey; color:white; padding:5px;'>Oculto</span>";
+							echo "</td>";							echo "<td><img src='../assets/slider/$row[imagem]' width = '250px'></td>";
 							echo "<td>" . "<div class='div-textarea' style='width:100%; height:100%;'>" . $row["conteudo"] . "</div>" . "</td>";
 							if ($_SESSION["autenticado"] == "administrador") {
 								echo "<td><a href='edit.php?id=" . $row["id"] . "' class='btn btn-primary'><span>Alterar</span></a></td>";
@@ -79,9 +80,9 @@ $result = mysqli_query($conn, $sql);
 							echo "</tr>";							
 
 							if (!$row["link"] == "")
-								echo "<td colspan='6' style='background-color:#cccccc'><b>Link: </b>" . $row["link"] . "</td>";
+								echo "<td colspan='6' style='background-color:#dddddd'><b>Link: </b>" . $row["link"] . "</td>";
 							else
-								echo "<td colspan='6' style='background-color:#cccccc'><b>Link: </b>N/A</td>";
+								echo "<td colspan='6' style='background-color:#dddddd'><b>Link: </b>N/A</td>";
 							echo "</tr>";
 
 							echo "<tr><td colspan='6'><hr style='height: 3px; background-color: #435D7D;' /></td></tr>";
