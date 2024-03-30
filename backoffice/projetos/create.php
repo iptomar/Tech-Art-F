@@ -283,7 +283,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col">
                         <div class="form-group">
                             <label>Facebook</label>
-                            <input type="text" placeholder="Facebook" minlength="1" maxlength="100" data-error="Por favor introduza um link válido para o Facebook" class="form-control" id="inputFacebook" name="facebook">
+                             <input type="text" placeholder="Facebook" minlength="1" maxlength="100" data-error="Por favor introduza um link válido para o Facebook" class="form-control" id="inputFacebook" name="facebook">
                             <!-- Error -->
                             <div class="help-block with-errors"></div>
                         </div>
