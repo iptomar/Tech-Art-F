@@ -63,23 +63,24 @@ if ($totalPages > 1) {
   $prev = max($page - 1, 1);
   $next = min($page + 1, $totalPages);
 
-  $pagination .= '<li><a href="?limit=' . $limit . '&page=1">Início</a></li>';
+  $pagination .= '<li><a href="?limit=' . $limit . '&page=1&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '">Início</a></li>';
 
-  if ($page > 1) {
-    $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $prev . '">Anterior</a></li>';
-  }
-  for ($i = max(1, $page - 2); $i <= min($page + 2, $totalPages); $i++) {
-    $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $i . '">' . $i . '</a></li>';
-  }
-  if ($page < $totalPages) {
-    $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $next . '">Próximo</a></li>';
-  }
+if ($page > 1) {
+  $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $prev . '&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '">Anterior</a></li>';
+}
 
-  $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $totalPages . '">Fim</a></li>';
+for ($i = max(1, $page - 2); $i <= min($page + 2, $totalPages); $i++) {
+  $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $i . '&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '">' . $i . '</a></li>';
+}
+
+if ($page < $totalPages) {
+  $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $next . '&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '">Próximo</a></li>';
+}
+
+$pagination .= '<li><a href="?limit=' . $limit . '&page=' . $totalPages . '&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '">Fim</a></li>';
 
   $pagination .= '</ul>';
 }
-
 $limitDropdown = '<select name="limit">';
 foreach ($limitOptions as $option) {
   $selected = ($option == $limit) ? 'selected' : '';

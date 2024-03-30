@@ -137,19 +137,21 @@ if ($totalPages > 1) {
   $prev = max($page - 1, 1);
   $next = min($page + 1, $totalPages);
 
-  $pagination .= '<li><a href="?limit=' . $limit . '&page=1">Início</a></li>';
+  $pagination .= '<li><a href="?limit=' . $limit . '&page=1&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '&status[]=' . implode('&status[]=', $filterStatus) . '">Início</a></li>';
 
-  if ($page > 1) {
-    $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $prev . '">Anterior</a></li>';
-  }
-  for ($i = max(1, $page - 2); $i <= min($page + 2, $totalPages); $i++) {
-    $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $i . '">' . $i . '</a></li>';
-  }
-  if ($page < $totalPages) {
-    $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $next . '">Próximo</a></li>';
-  }
+if ($page > 1) {
+  $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $prev . '&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '&status[]=' . implode('&status[]=', $filterStatus) . '">Anterior</a></li>';
+}
 
-  $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $totalPages . '">Fim</a></li>';
+for ($i = max(1, $page - 2); $i <= min($page + 2, $totalPages); $i++) {
+  $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $i . '&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '&status[]=' . implode('&status[]=', $filterStatus) . '">' . $i . '</a></li>';
+}
+
+if ($page < $totalPages) {
+  $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $next . '&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '&status[]=' . implode('&status[]=', $filterStatus) . '">Próximo</a></li>';
+}
+
+$pagination .= '<li><a href="?limit=' . $limit . '&page=' . $totalPages . '&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '&status[]=' . implode('&status[]=', $filterStatus) . '">Fim</a></li>';
 
   $pagination .= '</ul>';
 }
@@ -161,7 +163,6 @@ foreach ($limitOptions as $option) {
 }
 $limitDropdown .= '</select>';
 
-// Dropdown for search field
 $searchFields = array('all', 'publicacoes', 'email', 'title', 'journal', 'volume', 'numbers', 'pages', 'years', 'url', 'authors', 'keywords'); // Modify with actual field names
 $searchFieldDropdown = '<select name="search_field">';
 foreach ($searchFields as $field) {
@@ -169,7 +170,6 @@ foreach ($searchFields as $field) {
   $searchFieldDropdown .= '<option value="' . $field . '" ' . $selected . '>' . $field . '</option>';
 }
 $searchFieldDropdown .= '</select>';
-
 
 ?>
 
@@ -371,7 +371,6 @@ $searchFieldDropdown .= '</select>';
     var tableCheckboxes = $('form#update-form input[type="checkbox"]');
     var updateBtn = $('#updateBtn');
 
-    // Toggle update button state based on table checkbox selection
     tableCheckboxes.on('change', function() {
       var selectedCheckboxes = tableCheckboxes.filter(':checked');
       if (selectedCheckboxes.length > 0) {
@@ -381,7 +380,6 @@ $searchFieldDropdown .= '</select>';
       }
     });
 
-    // Handle dropdown option selection
     $('.dropdown-item').on('click', function(e) {
       e.preventDefault();
       var option = $(this).data('option');
@@ -407,7 +405,7 @@ $searchFieldDropdown .= '</select>';
 </script>
 
 <script>
-  // Select/deselect all checkboxes
+
   document.getElementById('select-all-checkbox').addEventListener('change', function() {
     var checkboxes = document.querySelectorAll('form#update-form input[type="checkbox"]');
     checkboxes.forEach(function(checkbox) {
@@ -421,11 +419,10 @@ $searchFieldDropdown .= '</select>';
     const createResizableTable = function(table) {
       const cols = table.querySelectorAll('th');
       [].forEach.call(cols, function(col) {
-        // Add a resizer element to the column
+
         const resizer = document.createElement('div');
         resizer.classList.add('resizer');
 
-        // Set the height
         resizer.style.height = `${table.offsetHeight}px`;
 
         col.appendChild(resizer);
