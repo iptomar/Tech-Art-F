@@ -62,6 +62,7 @@
     if ($_SESSION["autenticado"] == "administrador") {
         echo "<li class='navLi'><a href='../admissoes'>Admissões</a></li>";
         echo "<li class='navLi'><a href='../areas'>Editar Areas</a></li>";
+        echo "<li class='navLi'><a href='../duplicados'>Duplicados</a></li>";
         echo "<li class='navLi'><a href='../publicacoes'>Publicações</a></li>";
         echo "<li class='navLi'><a href='../slider'>Slider</a></li>";
     }
