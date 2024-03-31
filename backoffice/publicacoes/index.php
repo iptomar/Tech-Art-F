@@ -81,6 +81,7 @@ $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $totalPages . '&sear
 
   $pagination .= '</ul>';
 }
+
 $limitDropdown = '<select name="limit">';
 foreach ($limitOptions as $option) {
   $selected = ($option == $limit) ? 'selected' : '';
