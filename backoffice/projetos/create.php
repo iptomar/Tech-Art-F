@@ -299,6 +299,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="form-group">
+                    <label>Gestores/as</label><br>
+
+                    <?php
+                    $sql = "SELECT id, nome, tipo FROM investigadores;";
+                    $result = mysqli_query($conn, $sql);
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_assoc($result)) { ?>
+                        <!-- continuar -->
+                    <?php }
+                    } ?>
+
+                    <!-- Error -->
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <div class="form-group">
                     <label>Investigadores/as</label><br>
 
                     <?php
