@@ -23,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $areapreferencial = $_POST["areapreferencial"];
     $financiamento = $_POST["financiamento"];
     $ambito = $_POST["ambito"];
+    $gestores = [];
     $investigadores = [];
     $concluido = isset($_POST['concluido']) ? 1 : 0;
     $site = $_POST["site"];
@@ -37,30 +38,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $site_en = $_POST["site_en"];
     $facebook_en = $_POST["facebook_en"];
 
-    if (isset($_POST["investigadores"])) {
+    if (isset($_POST["gestores"]) && isset($_POST["investigadores"])) {
+        $gestores = $_POST["gestores"];
         $investigadores = $_POST["investigadores"];
     }
     if (mysqli_stmt_execute($stmt)) {
-        if (count($investigadores) == 0) {
+        if (count($gestores) == 0 || count($investigadores) == 0) {
             header('Location: index.php');
             return;
         }
-        $sqlinsert = "";
-        foreach ($investigadores as $id) {
-            $sqlinsert = $sqlinsert . "($id,last_insert_id()),";
+        $sqlinsertGestores = "";
+        $sqlinsertInvestigadores = "";
+        foreach ($gestores as $id) {
+            $sqlinsertGestores = $sqlinsertGestores . "($id,last_insert_id()),";
         }
-        $sqlinsert = rtrim($sqlinsert, ",");
-        $sql = "INSERT INTO investigadores_projetos (investigadores_id,projetos_id) values" . $sqlinsert;
-        if (mysqli_query($conn, $sql)) {
+        foreach ($investigadores as $id) {
+            $sqlinsertInvestigadores = $sqlinsertInvestigadores . "($id,last_insert_id()),";
+        }
+        $sqlinsertGestores = rtrim($sqlinsertGestores, ",");
+        $sqlinsertInvestigadores = rtrim($sqlinsertInvestigadores, ",");
+        $sqlGestores = "INSERT INTO gestores_projetos (gestores_id,projetos_id) values" . $sqlinsertGestores;
+        $sqlInvestigadores = "INSERT INTO investigadores_projetos (investigadores_id,projetos_id) values" . $sqlinsertInvestigadores;
+        if (mysqli_query($conn, $sqlGestores) && mysqli_query($conn, $sqlInvestigadores)) {
             header('Location: index.php');
         } else {
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            if (mysqli_query($conn, $sqlGestores)) {
+                echo "Error: " . $sqlGestores . "<br>" . mysqli_error($conn);
+            }
+            if (mysqli_query($conn, $sqlInvestigadores)) {
+                echo "Error: " . $sqlInvestigadores . "<br>" . mysqli_error($conn);
+            }
         }
         exit;
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
 }
+
+
+
 ?>
 
 
@@ -124,7 +140,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     .choices__item.choices__item--choice {
         background-color: #E0E0E0;
     }
-
 </style>
 
 <div class="container-xl mt-5 mb-5">
@@ -347,7 +362,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $result = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($result) > 0) {
                         ?>
-                        <select name="gestorPub[]" multiple required class="select form-control" id="gestorPub">
+                        <select name="gestores[]" multiple required class="select form-control" id="gestores">
                             <?php
                             foreach ($result as $investigador) {
                                 echo '<option value="' . $investigador['id'] . '">' . $investigador['nome'] . '</option>';
@@ -363,7 +378,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <!-- User o Choices para permitir a multipla seleção de gestores -->
                 <script>
-                    const choicesElement = document.getElementById('gestorPub');
+                    const choicesElement = document.getElementById('gestores');
                     const choices = new Choices(choicesElement, {
                         searchEnabled: false,
                         itemSelectText: '',
