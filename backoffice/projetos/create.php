@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $areapreferencial = $_POST["areapreferencial"];
     $financiamento = $_POST["financiamento"];
     $ambito = $_POST["ambito"];
-    $gestores = [];
+    $gestores = $_POST["gestores"];
     $investigadores = [];
     $concluido = isset($_POST['concluido']) ? 1 : 0;
     $site = $_POST["site"];
@@ -38,37 +38,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $site_en = $_POST["site_en"];
     $facebook_en = $_POST["facebook_en"];
 
-    if (isset($_POST["gestores"]) && isset($_POST["investigadores"])) {
-        $gestores = $_POST["gestores"];
+    if (isset($_POST["investigadores"])) {
         $investigadores = $_POST["investigadores"];
     }
     if (mysqli_stmt_execute($stmt)) {
-        if (count($gestores) == 0 || count($investigadores) == 0) {
-            header('Location: index.php');
-            return;
+        if (count($investigadores) > 0) {
+            $sqlinsert = "";
+            foreach ($investigadores as $id) {
+                $sqlinsert = $sqlinsert . "($id,last_insert_id()),";
+            }
+            $sqlinsert = rtrim($sqlinsert, ",");
+            $sql = "INSERT INTO investigadores_projetos (investigadores_id,projetos_id) values" . $sqlinsert;
+
+            if (!mysqli_query($conn, $sql)) {
+                echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            }
         }
-        $sqlinsertGestores = "";
-        $sqlinsertInvestigadores = "";
+
+        $sql = "INSERT INTO gestores_projetos (gestores_id, projetos_id) VALUES ";
+        $idsGestores = [];
         foreach ($gestores as $id) {
-            $sqlinsertGestores = $sqlinsertGestores . "($id,last_insert_id()),";
+            $idsGestores[] = "($id, last_insert_id())";
         }
-        foreach ($investigadores as $id) {
-            $sqlinsertInvestigadores = $sqlinsertInvestigadores . "($id,last_insert_id()),";
+        $sql .= implode(", ", $idsGestores);
+        if (!mysqli_query($conn, $sql)) {
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
         }
-        $sqlinsertGestores = rtrim($sqlinsertGestores, ",");
-        $sqlinsertInvestigadores = rtrim($sqlinsertInvestigadores, ",");
-        $sqlGestores = "INSERT INTO gestores_projetos (gestores_id,projetos_id) values" . $sqlinsertGestores;
-        $sqlInvestigadores = "INSERT INTO investigadores_projetos (investigadores_id,projetos_id) values" . $sqlinsertInvestigadores;
-        if (mysqli_query($conn, $sqlGestores) && mysqli_query($conn, $sqlInvestigadores)) {
-            header('Location: index.php');
-        } else {
-            if (mysqli_query($conn, $sqlGestores)) {
-                echo "Error: " . $sqlGestores . "<br>" . mysqli_error($conn);
-            }
-            if (mysqli_query($conn, $sqlInvestigadores)) {
-                echo "Error: " . $sqlInvestigadores . "<br>" . mysqli_error($conn);
-            }
-        }
+
+        header('Location: index.php');
         exit;
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
