@@ -9,6 +9,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST["id"];
     $sql = "DELETE FROM investigadores_projetos WHERE projetos_id = " . $id;
     mysqli_query($conn, $sql);
+    $sql = "DELETE FROM gestores_projetos WHERE projetos_id = " . $id;
+    mysqli_query($conn, $sql);
     $sql = "delete from projetos where id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $id);
