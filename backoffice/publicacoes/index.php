@@ -28,7 +28,6 @@ $conditions = array_filter(array($searchCondition));
 $whereClause = implode(" AND ", $conditions);
 $whereClause = $whereClause ? "WHERE $whereClause" : "";
 
-
 $sql = "SELECT idPublicacao as id, i.email as email, REGEXP_SUBSTR(dados, 'title = {(.*?)}') as title,
 REGEXP_SUBSTR(dados, 'journal = {(.*?)}') as journal,
 REGEXP_SUBSTR(dados, 'volume = {(.*?)}') as volume,
@@ -185,18 +184,28 @@ $searchFieldDropdown .= '</select>';
           </div>
         </div>
       </div>
-
       <form action="" method="get">
-        Mostrar: <?php echo $limitDropdown; ?> entradas
+      <div class="container-xxl p-3 my-3 bg-dark text-white" style="padding:10px">
+        <div style="padding-top:10px">
+          Mostrar: <?php echo $limitDropdown; ?> entradas
 
-        <?php echo $pagination; ?>
 
+        </div>
 
-        Pesquisar:
-        <input type="text" name="search" value="<?php echo $searchTerm; ?>" placeholder="Search term">
-        no campo:
-        <?php echo $searchFieldDropdown; ?>
-        <button type="submit" class="btn btn-primary">Atualizar Campos</button>
+        <div style="padding-top:10px">
+          <input class="form-control form-control" type="text" name="search" value="<?php echo $searchTerm; ?>" placeholder="Inserir pesquisa">
+
+          <?php echo $searchFieldDropdown; ?>
+        </div>
+        <div style="padding-top:10px">
+        <button type="submit" class="btn btn-outline-primary">Atualizar Pesquisa</button> 
+       
+
+    <?php echo $pagination; ?>  
+    </div>
+    </form>
+
+  </div>
       </form>
       <table id="resizeMe" class="table" style="width:100%; table-layout:fixed; word-wrap:break-word;" class="table table-striped table-hover">
         <thead>
