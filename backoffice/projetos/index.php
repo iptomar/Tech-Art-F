@@ -72,18 +72,19 @@ $result = mysqli_query($conn, $sql);
 								/*             echo "<td>".$row["ambito"]."</td>";
 							 */
 								echo "<td><img src='../assets/projetos/$row[fotografia]' width = '100px' height = '100px'></td>";
-								$sql1 = "SELECT investigadores_id FROM investigadores_projetos WHERE projetos_id = " . $row["id"];
+								$sql1 = "SELECT gestores_id FROM gestores_projetos WHERE projetos_id = " . $row["id"];
 								$result1 = mysqli_query($conn, $sql1);
 								$selected = array();
 								if (mysqli_num_rows($result1) > 0) {
 									while (($row1 = mysqli_fetch_assoc($result1))) {
-										$selected[] = $row1['investigadores_id'];
+										$selected[] = $row1['gestores_id'];
 									}
 								}
 								if ($_SESSION["autenticado"] == "administrador" || in_array($_SESSION["autenticado"], $selected)) {
 									echo "<td><a href='edit.php?id=" . $row["id"] . "' class='btn btn-primary'><span>Alterar</span></a></td>";
 									echo "<td><a href='remove.php?id=" . $row["id"] . "' class='btn btn-danger'><span>Apagar</span></a></td>";
 								}
+
 								echo "</tr>";
 							}
 						}
