@@ -65,6 +65,7 @@
         echo "<li class='navLi'><a href='../duplicados'>Duplicados</a></li>";
         echo "<li class='navLi'><a href='../publicacoes'>Publicações</a></li>";
         echo "<li class='navLi'><a href='../slider'>Slider</a></li>";
+        echo "<li class='navLi'><a href='../newsletter'>Newsletter</a></li>";
     }
     ?>
     <li class="navLi"><a class="leftnav" href="../sair.php">Sair</a></li>
