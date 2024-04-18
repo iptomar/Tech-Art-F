@@ -64,19 +64,19 @@ if ($totalPages > 1) {
 
   $pagination .= '<li><a href="?limit=' . $limit . '&page=1&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '">Início</a></li>';
 
-if ($page > 1) {
-  $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $prev . '&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '">Anterior</a></li>';
-}
+  if ($page > 1) {
+    $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $prev . '&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '">Anterior</a></li>';
+  }
 
-for ($i = max(1, $page - 2); $i <= min($page + 2, $totalPages); $i++) {
-  $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $i . '&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '">' . $i . '</a></li>';
-}
+  for ($i = max(1, $page - 2); $i <= min($page + 2, $totalPages); $i++) {
+    $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $i . '&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '">' . $i . '</a></li>';
+  }
 
-if ($page < $totalPages) {
-  $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $next . '&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '">Próximo</a></li>';
-}
+  if ($page < $totalPages) {
+    $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $next . '&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '">Próximo</a></li>';
+  }
 
-$pagination .= '<li><a href="?limit=' . $limit . '&page=' . $totalPages . '&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '">Fim</a></li>';
+  $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $totalPages . '&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '">Fim</a></li>';
 
   $pagination .= '</ul>';
 }
@@ -88,7 +88,7 @@ foreach ($limitOptions as $option) {
 }
 $limitDropdown .= '</select>';
 
-$searchFields = array('all', 'idPublicacao', 'dados'); 
+$searchFields = array('all', 'idPublicacao', 'dados');
 $searchFieldDropdown = '<select name="search_field">';
 foreach ($searchFields as $field) {
   $selected = ($field == $searchField) ? 'selected' : '';
@@ -185,72 +185,72 @@ $searchFieldDropdown .= '</select>';
         </div>
       </div>
       <form action="" method="get">
-      <div class="container-xxl p-3 my-3 bg-dark text-white" style="padding:10px">
-        <div style="padding-top:10px">
-          Mostrar: <?php echo $limitDropdown; ?> entradas
+        <div class="container-xxl p-3 my-3 bg-dark text-white" style="padding:10px">
+          <div style="padding-top:10px">
+            Mostrar: <?php echo $limitDropdown; ?> entradas
 
 
-        </div>
+          </div>
 
-        <div style="padding-top:10px">
-          <input class="form-control form-control" type="text" name="search" value="<?php echo $searchTerm; ?>" placeholder="Inserir pesquisa">
+          <div style="padding-top:10px">
+            <input class="form-control form-control" type="text" name="search" value="<?php echo $searchTerm; ?>" placeholder="Inserir pesquisa">
 
-          <?php echo $searchFieldDropdown; ?>
-        </div>
-        <div style="padding-top:10px">
-        <button type="submit" class="btn btn-outline-primary">Atualizar Pesquisa</button> 
-       
+            <?php echo $searchFieldDropdown; ?>
+          </div>
+          <div style="padding-top:10px">
+            <button type="submit" class="btn btn-outline-primary">Atualizar Pesquisa</button>
 
-    <?php echo $pagination; ?>  
+
+            <?php echo $pagination; ?>
+          </div>
+      </form>
+
     </div>
     </form>
-
-  </div>
-      </form>
-      <table id="resizeMe" class="table" style="width:100%; table-layout:fixed; word-wrap:break-word;" class="table table-striped table-hover">
-        <thead>
+    <table id="resizeMe" class="table" style="width:100%; table-layout:fixed; word-wrap:break-word;" class="table table-striped table-hover">
+      <thead>
 
 
-          <tr style="width:100%">
-            <th style="width:5%">Id</th>
-            <th style="width:10%">Email</th>
-            <th style="width:30%">Title</th>
-            <th>Journal</th>
-            <th>Volume</th>
-            <th>Number</th>
-            <th>Pages</th>
-            <th>Year</th>
-            <th style="width:9%">url</th>
-            <th>Author</th>
-            <th>Keywords</th>
-          </tr>
-        </thead>
-        <tbody>
+        <tr style="width:100%">
+          <th style="width:5%">Id</th>
+          <th style="width:10%">Email</th>
+          <th style="width:30%">Title</th>
+          <th>Journal</th>
+          <th>Volume</th>
+          <th>Number</th>
+          <th>Pages</th>
+          <th>Year</th>
+          <th style="width:9%">url</th>
+          <th>Author</th>
+          <th>Keywords</th>
+        </tr>
+      </thead>
+      <tbody>
 
-          <?php
-          if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-              echo "<tr>";
-              echo "<td>" . $row["id"] . "</td>";
-              echo "<td>" . $row["email"] . "</td>";
-              echo "<td>" . $row["title"] . "</td>";
-              echo "<td>" . $row["journal"] . "</td>";
-              echo "<td>" . $row["volume"] . "</td>";
-              echo "<td>" . $row["pnumber"] . "</td>";
-              echo "<td>" . $row["pages"] . "</td>";
-              echo "<td>" . $row["pyear"] . "</td>";
-              echo "<td>" . $row["purl"] . "</td>";
-              echo "<td>" . $row["author"] . "</td>";
-              echo "<td>" . $row["keywords"] . "</td>";
-              echo "</tr>";
-            }
+        <?php
+        if (mysqli_num_rows($result) > 0) {
+          while ($row = mysqli_fetch_assoc($result)) {
+            echo "<tr>";
+            echo "<td>" . $row["id"] . "</td>";
+            echo "<td>" . $row["email"] . "</td>";
+            echo "<td>" . $row["title"] . "</td>";
+            echo "<td>" . $row["journal"] . "</td>";
+            echo "<td>" . $row["volume"] . "</td>";
+            echo "<td>" . $row["pnumber"] . "</td>";
+            echo "<td>" . $row["pages"] . "</td>";
+            echo "<td>" . $row["pyear"] . "</td>";
+            echo "<td>" . $row["purl"] . "</td>";
+            echo "<td>" . $row["author"] . "</td>";
+            echo "<td>" . $row["keywords"] . "</td>";
+            echo "</tr>";
           }
-          ?>
-        </tbody>
-      </table>
-      </form>
-    </div>
+        }
+        ?>
+      </tbody>
+    </table>
+    </form>
   </div>
+</div>
 </div>
 
 <script>
