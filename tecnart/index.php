@@ -5,6 +5,9 @@ $pdo = pdo_connect_mysql();
 $language = ($_SESSION["lang"] == "en") ? "_en" : "";
 ?>
 
+<link href="assets/css/newsletter.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
+
 <!DOCTYPE html>
 <html>
 
@@ -28,20 +31,20 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
                <div class="col-md-7 mobile_adjust ftco-animate mb-md-5">
                   <h1 class="mb-4">
                      <?php
-                        if ($language === "_en") {
-                           echo "" . $itemSlider["titulo_en"];
-                        } else {
-                           echo "" . $itemSlider["titulo"];
-                        }
+                     if ($language === "_en") {
+                        echo "" . $itemSlider["titulo_en"];
+                     } else {
+                        echo "" . $itemSlider["titulo"];
+                     }
                      ?>
                   </h1>
                   <span class="subheading">
-                  <?php
-                        if ($language === "_en") {
-                           echo "" . $itemSlider["conteudo_en"];
-                        } else {
-                           echo "" . $itemSlider["conteudo"];
-                        }
+                     <?php
+                     if ($language === "_en") {
+                        echo "" . $itemSlider["conteudo_en"];
+                     } else {
+                        echo "" . $itemSlider["conteudo"];
+                     }
                      ?>
                   </span>
                   <div><a href='<?= $itemSlider["link"] ?>' class="btn btn-primary px-4 py-3 mt-3 btn_no_left">
@@ -173,10 +176,11 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
             ?>
             <?php foreach ($noticias as $noticia): ?>
                <div class="card-product">
-                  <div  class="absoluto">
-                     <a href="noticia.php?noticia=<?= $noticia['id'] ?>" >
+                  <div class="absoluto">
+                     <a href="noticia.php?noticia=<?= $noticia['id'] ?>">
                         <div style="z-index: 1; object-fit: cover; width:230px; height:230px;" class="image_default">
-                           <img  style="object-fit: cover; width:230px; height:230px;" class="img-fluid" src="../backoffice/assets/noticias/<?= $noticia['imagem'] ?>" alt="">
+                           <img style="object-fit: cover; width:230px; height:230px;" class="img-fluid"
+                              src="../backoffice/assets/noticias/<?= $noticia['imagem'] ?>" alt="">
                            <div class="text-block">
                               <h5 style="font-size: 16px; text-transform: uppercase; font-weight: 400;">
                                  <?php
@@ -223,11 +227,69 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
 
       </div>
    </div>
+
 </section>
 
+<div class="newsletter-popup">
+   <div class="newsletter-popup-container">
+
+      <a href="#" class="newsletter-popup-close-btn">&times;</a>
+
+      <h3><i class="fa-regular fa-envelope"></i>Subscreva a nossa newsletter</h3>
+
+      <p>Subscreva a nossa newsletter para receber as últimas novidades no seu email.</p>
+
+      <form action="subscrever.php" method="post">
+         <input type="email" name="email" placeholder="Endereço de email" required style="text-transform: none;">
+         <input type="hidden" id="language" name="language" value="<?php echo $language ?>">
+         <button type="submit" style="height: 40px">Subscrever</button>
+      </form>
+      <p class="newsletter-msg"></p>
+
+   </div>
+</div>
 <!-- end client section -->
 
 <?= template_footer(); ?>
+
+<script>
+   let keepClosed = false;
+   const openNewsletterPopup = () => {
+      document.querySelector('.newsletter-popup').style.display = 'flex';
+      document.querySelector('.newsletter-popup').getBoundingClientRect();
+      document.querySelector('.newsletter-popup').classList.add('open');
+      document.querySelector('.newsletter-popup-container').getBoundingClientRect();
+      document.querySelector('.newsletter-popup-container').classList.add('open');
+   };
+   const closeNewsletterPopup = () => {
+      document.querySelector('.newsletter-popup').style.display = 'none';
+      document.querySelector('.newsletter-popup').classList.remove('open');
+      document.querySelector('.newsletter-popup-container').classList.remove('open');
+      document.cookie = "nonews=true; expires=Fri, 31 Dec 9999 23:59:59 GMT;";
+      keepClosed = true;
+   };
+   const newsletterForm = document.querySelector('.newsletter-popup form');
+   newsletterForm.onsubmit = event => {
+      event.preventDefault();
+      fetch(newsletterForm.action, {
+         method: 'POST',
+         body: new FormData(newsletterForm)
+      }).then(response => response.text()).then(data => {
+         document.querySelector('.newsletter-msg').innerHTML = data;
+      });
+   };
+   document.querySelector('.newsletter-popup-close-btn').onclick = event => {
+      event.preventDefault();
+      closeNewsletterPopup();
+   };
+   document.addEventListener('scroll', () => {
+         if (window . scrollY >= 400 && !keepClosed && document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("nonews"))) {
+            openNewsletterPopup();
+         } ?>
+   });
+</script>
 
 </body>
 
