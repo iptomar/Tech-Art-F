@@ -245,21 +245,26 @@ $stmt = $pdo->prepare($query);
 $stmt->execute();
 $textoFetched = $stmt->fetch(PDO::FETCH_ASSOC);
 $texto = $textoFetched['texto'];
+
+try{
 //como o link e guardado como paragrafo na base de dados seleciona-se apenas o conteudo do paragrafo 
 preg_match('/<p>(.*?)<\/p>/', $texto, $matches);
-$url = $matches[1];
-//Faz um pedido a ao link 
-$headers = @get_headers($url); 
-
-// Verifica se a resposta do pedido e feita com sucesso 
-if($headers && strpos( $headers[0], '200')) { 
-    // se sim coloca o url dos requerimentos  
-    $texto = $url; 
+$link = $matches[1];
+//verifica-se se o ficheiro existe
+$headers = file_exists($link); 
+// se sim le o caminho para o ficheiro 
+if($headers) { 
+    
+    $texto = $link; 
 } 
 else { 
   // se não coloca uma pagina a informar que o link se encontra em baixo    
-  $texto = ".\assets\html\linkdown.html"; 
+  $texto = ".\\assets\\regulamentos\\linkdown.html"; 
 } 
+}
+catch(Exception $e){
+ throw new Exception( 'Ficheiro não encontrado',0,$e);
+}
 //variaveis para passar valores de dicionarios
  
 //imagens
