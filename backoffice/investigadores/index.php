@@ -2,12 +2,29 @@
 require "../verifica.php";
 require "../config/basedados.php";
 
+
 $find = "";
-
-
-$sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar FROM investigadores 
+#Recebe o a query que ira mostrar os investigadores 
+$sql = "";
+#Se o botão de mostrar todos for selecionado  
+if (isset($_POST["pesquisaTodos"])) {
+	$sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar FROM investigadores 
 ORDER BY CASE WHEN tipo = 'Externo' THEN 1 ELSE 0 END, tipo DESC, nome;";
+}
+#se o botão para perquisar um inverstigador for selecionado procura na base de dados por todos os nomes que contenham aqules carateres
+else if(isset($_GET["pesquisarInvest"])){
+	$sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar 
+			FROM investigadores
+			WHERE nome LIKE '%{$_GET["pesquisarInvest"]}%'
+			ORDER BY CASE WHEN tipo = 'Externo' THEN 1 ELSE 0 END, tipo DESC, nome; ";
+#outros cassom mostra tudo
+}else{
+	$sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar FROM investigadores 
+	ORDER BY CASE WHEN tipo = 'Externo' THEN 1 ELSE 0 END, tipo DESC, nome;";
+}
+
 $result = mysqli_query($conn, $sql);
+
 
 if (isset($_POST["anoRelatorio"])) {
 	$_SESSION["anoRelatorio"] = $_POST["anoRelatorio"];
@@ -41,35 +58,53 @@ if (@$_SESSION["anoRelatorio"] != "") {
 }
 ?>
 <div class="container mt-3">
-	<form id="formAnoRelatorio">
+	<div class="row">
+		<div class="col-sm">
+			<form id="formAnoRelatorio">
 
-		<input required name="anoRelatorio" type="number" class="form-control mr-2" placeholder="Ano do relatório" min="1950" max="2999" step="1" pattern="\d{4}" data-error="Por favor insira um ano válido" style="max-width: 200px; min-width: 160px; display: inline-block;" value="<?= $anoAtual ?>" />
-		<input type="submit" value="Selecionar Ano" class="btn btn-success" />
+				<input required name="anoRelatorio" type="number" class="form-control mr-2" placeholder="Ano do relatório" min="1950" max="2999" step="1" pattern="\d{4}" data-error="Por favor insira um ano válido" style="max-width: 150px; min-width: 130px; display: inline-block;" value="<?= $anoAtual ?>" />
+				<input type="submit" value="Selecionar Ano" class="btn btn-success" />
+				
 
-		<?php
-		if (isset($_SESSION["anoRelatorio"])) {
-			$class = "text-danger";
-			$symbol = "&#xE002;";
-			if (@$_SESSION["anoRelatorio"] != "") {
-				$msg = "Foi selecionado o ano " . $_SESSION["anoRelatorio"];
-			} else {
-				$_SESSION["anoRelatorio"] = date("Y");
-				$msg = " Campo submetido vazio! (Ano: " . $_SESSION["anoRelatorio"] . ")";
-			}
-		} else {
-			$class = "text-info";
-			$symbol = "&#xE88E;";
-			$msg = "Ano Atual: " . date("Y");
-		}
-		?>
-
-		<span id="anoSpan" class="<?= $class ?>" style="height:20px; display: inline-block; vertical-align: middle;">
-			<span id="anoSymbol" class="material-icons ml-3" style="font-size: 18px; vertical-align: middle;"><?= $symbol ?></span>
-			<span class="ml-2" id="anoSubmit" id="anoSubmit" style="font-size:15px;"><?= $msg ?></span>
-		</span>
-
-	</form>
-
+				<?php
+				if (isset($_SESSION["anoRelatorio"])) {
+					$class = "text-danger";
+					$symbol = "&#xE002;";
+					if (@$_SESSION["anoRelatorio"] != "") {
+						$msg = "Foi selecionado o ano " . $_SESSION["anoRelatorio"];
+					} else {
+						$_SESSION["anoRelatorio"] = date("Y");
+						$msg = " Campo submetido vazio! (Ano: " . $_SESSION["anoRelatorio"] . ")";
+					}
+				} else {
+					$class = "text-info";
+					$symbol = "&#xE88E;";
+					$msg = "Ano Atual: " . date("Y");
+				}
+				?>
+				
+				<span id="anoSpan" class="<?= $class ?>" style="height:20px; display: inline-block; vertical-align: middle;">
+					<span id="anoSymbol" class="material-icons ml-3" style="font-size: 18px; vertical-align: middle;"><?= $symbol ?></span>
+					<span class="ml-2" id="anoSubmit" id="anoSubmit" style="font-size:15px;"><?= $msg ?></span>
+				</span>
+			</form>
+		</div>
+		<div class="col-sm">
+				<form id="formPesquisaInvestigador" method="get" >
+				<!--Input para pequisar o investigador-->
+				<input required name="pesquisarInvest" type="text" class="form-control mr-2" placeholder="Nome a procurar"   style="max-width: 200px; min-width: 160px; display: inline-block;"? />
+					<!--Botao que inicia a pesquisa-->
+					<input type="submit" value="Pesquisar" class="btn btn-success" />
+				</form>
+				
+		</div>
+		<div class="col-sm">
+				<form id="formmostraTodosInvestigadores" method="post">
+					<!--Botao que Mostra todos os investigadores-->
+					<input type="submit" name="pesquisaTodos" value="Mostrar todos" class="btn btn-success" />
+				</form>
+		</div>
+	</div>	
 </div>
 
 
