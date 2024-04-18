@@ -355,14 +355,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label>Gestores/as</label><br>
 
                     <?php
-                    $sql = "SELECT id, nome, tipo FROM investigadores;";
+                    $sql = "SELECT id, nome, email, tipo FROM investigadores;";
                     $result = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($result) > 0) {
                         ?>
                         <select name="gestores[]" multiple required class="select form-control" id="gestores">
                             <?php
                             foreach ($result as $investigador) {
-                                echo '<option value="' . $investigador['id'] . '">' . $investigador['nome'] . '</option>';
+                                echo '<option value="' . $investigador['id'] . '">' . $investigador['nome'], " (", $investigador['email'], ")" . '</option>';
                             }
                             ?>
                         </select>
@@ -373,36 +373,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="help-block with-errors"></div>
                 </div>
 
-                <!-- User o Choices para permitir a multipla seleção de gestores -->
+                <div class="form-group">
+                    <label>Investigadores/as</label><br>
+
+                    <?php
+                    $sql = "SELECT id, nome, email, tipo FROM investigadores;";
+                    $result = mysqli_query($conn, $sql);
+                    if (mysqli_num_rows($result) > 0) {
+                        ?>
+                        <select name="investigadores[]" multiple class="select form-control" id="investigadores">
+                            <?php
+                            foreach ($result as $investigador) {
+                                echo '<option value="' . $investigador['id'] . '">' . $investigador['nome'], " (", $investigador['email'], ")" . '</option>';
+                            }
+                            ?>
+                        </select>
+                        <?php
+                    } ?>
+
+                    <!-- Error -->
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <!-- User o Choices para permitir a multipla seleção de gestores e investigadores -->
                 <script>
-                    const choicesElement = document.getElementById('gestores');
-                    const choices = new Choices(choicesElement, {
+                    const choicesElementGestores = document.getElementById('gestores');
+                    const choicesElementInvestigadores = document.getElementById('investigadores');
+                    const choicesGestores = new Choices(choicesElementGestores, {
+                        searchEnabled: false,
+                        itemSelectText: '',
+                        allowHTML: true,
+                        removeItemButton: true
+                    });
+                    const choicesInvestigadores = new Choices(choicesElementInvestigadores, {
                         searchEnabled: false,
                         itemSelectText: '',
                         allowHTML: true,
                         removeItemButton: true
                     });
                 </script>
-
-                <div class="form-group">
-                    <label>Investigadores/as</label><br>
-
-                    <?php
-                    $sql = "SELECT id, nome, tipo FROM investigadores 
-                        ORDER BY CASE WHEN tipo = 'Externo' THEN 1 ELSE 0 END, tipo, nome;";
-                    $result = mysqli_query($conn, $sql);
-                    if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) { ?>
-                            <input type="checkbox" name="investigadores[]" value="<?= $row["id"] ?>">
-                            <label>
-                                <?= $row["tipo"] . " - " . $row["nome"] ?>
-                            </label><br>
-                        <?php }
-                    } ?>
-
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
-                </div>
 
 
                 <div class="form-group">

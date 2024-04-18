@@ -87,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
-    
+
 } else {
 
     $sql = "SELECT * from projetos where id = ?";
@@ -413,14 +413,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $selected[] = $row['gestores_id'];
                         }
                     }
-                    $sql = "SELECT id, nome, tipo FROM investigadores ORDER BY CASE WHEN tipo = 'Externo' THEN 1 ELSE 0 END, tipo, nome;";
+                    $sql = "SELECT id, nome, email, tipo FROM investigadores ORDER BY CASE WHEN tipo = 'Externo' THEN 1 ELSE 0 END, tipo, nome;";
                     $result = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($result) > 0) {
                         ?>
                         <select name="gestores[]" multiple required class="select form-control" id="gestores">
                             <?php foreach ($result as $investigador) { ?>
                                 <option value="<?= $investigador['id'] ?>" <?= in_array($investigador['id'], $selected) ? 'selected' : '' ?>>
-                                    <?= $investigador['nome'] ?>
+                                    <?= $investigador['nome'], " (", $investigador['email'], ")" ?>
                                 </option>
                             <?php } ?>
                         </select>
@@ -430,20 +430,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
-
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        const choicesElement = document.getElementById('gestores');
-                        if (choicesElement) {
-                            const choices = new Choices(choicesElement, {
-                                searchEnabled: false,
-                                itemSelectText: '',
-                                allowHTML: true,
-                                removeItemButton: true
-                            });
-                        }
-                    });
-                </script>
 
                 <div class="form-group">
                     <label>Investigadores/as</label><br>
@@ -456,25 +442,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $selected[] = $row['investigadores_id'];
                         }
                     }
-                    $sql = "SELECT id, nome, tipo FROM investigadores 
-                            ORDER BY CASE WHEN tipo = 'Externo' THEN 1 ELSE 0 END, tipo, nome;";
+                    $sql = "SELECT id, nome, email, tipo FROM investigadores ORDER BY CASE WHEN tipo = 'Externo' THEN 1 ELSE 0 END, tipo, nome;";
                     $result = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            if ($row["id"] == $_SESSION["autenticado"]) {
-                                echo "<input type='hidden' name='investigadores[]' value='" . $row["id"] . "'/>";
-                            } ?>
-                            <input type="checkbox" <?= in_array($row["id"], $selected) || $row["id"] == $_SESSION["autenticado"] ? "checked" : "" ?>         <?= $row["id"] == $_SESSION["autenticado"] ? "disabled" : "" ?>
-                                name="investigadores[]" value="<?= $row["id"] ?>">
-                            <label>
-                                <?= $row["tipo"] . " - " . $row["nome"] ?>
-                            </label><br>
-                        <?php }
-                    } ?>
+                        ?>
+                        <select name="investigadores[]" multiple class="select form-control" id="investigadores">
+                            <?php foreach ($result as $investigador) { ?>
+                                <option value="<?= $investigador['id'] ?>" <?= in_array($investigador['id'], $selected) ? 'selected' : '' ?>>
+                                    <?= $investigador['nome'], " (", $investigador['email'], ")" ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                        <?php
+                    }
+                    ?>
                     <!-- Error -->
-
+                    <div class="help-block with-errors"></div>
                 </div>
 
+                <!-- User o Choices para permitir a multipla seleção de gestores e investigadores -->
+                <script>
+                    const choicesElementGestores = document.getElementById('gestores');
+                    const choicesElementInvestigadores = document.getElementById('investigadores');
+                    const choicesGestores = new Choices(choicesElementGestores, {
+                        searchEnabled: false,
+                        itemSelectText: '',
+                        allowHTML: true,
+                        removeItemButton: true
+                    });
+                    const choicesInvestigadores = new Choices(choicesElementInvestigadores, {
+                        searchEnabled: false,
+                        itemSelectText: '',
+                        allowHTML: true,
+                        removeItemButton: true
+                    });
+                </script>
 
                 <div class="form-group">
                     <label>Fotografia</label>
