@@ -2,13 +2,11 @@
 include 'config/dbconnection.php';
 include 'models/functions.php';
 
-function mostratodos(){
-  echo "ceanmara "; 
-}
-
 $pdo = pdo_connect_mysql();
 $language = ($_SESSION["lang"] == "en") ? "_en" : "";
+#Variavel que recebe a query para a base de dados 
 $query = "";
+#se o botao do reload for clicado mostra todos os investigadores 
 if(isset($_POST["mostraTodos"])){
    $query = "SELECT id, email, nome,
    COALESCE(NULLIF(sobre{$language}, ''), sobre) AS sobre,
@@ -16,13 +14,15 @@ if(isset($_POST["mostraTodos"])){
    ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id
    FROM investigadores WHERE tipo = \"Integrado\" ORDER BY nome";
 }
+#se o botão do pesquisar for clicado mostra o/os investigadores que contem esse nome  
 else if(isset($_GET["pequisaInvestigador"])){
    $query = "SELECT id, email, nome,
    COALESCE(NULLIF(sobre{$language}, ''), sobre) AS sobre,
    COALESCE(NULLIF(areasdeinteresse{$language}, ''), areasdeinteresse) AS areasdeinteresse,
    ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id
    FROM investigadores WHERE tipo = \"Integrado\" and nome LIKE '%{$_GET["pequisaInvestigador"]}%' ORDER BY nome";
-   }
+}
+#caso nehum botao seja clicado mostra todos 
 else{ 
    $query = "SELECT id, email, nome,
    COALESCE(NULLIF(sobre{$language}, ''), sobre) AS sobre,
@@ -69,9 +69,10 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
             <div class="col-">
+               <!--Formolario que permite pesquisa o ivestigasdor por nome-->
                <form class="form-check form-check-inline"  id="formPesquisaInvestigador" method="get" >
                   <input type=" text" name="pequisaInvestigador" placeholder="Nome do investigador a perquisar"
-                  style="max-width: 500px; min-width: 450px; display: inline-block;  ">
+                  style="max-width: 500px; min-width: 450px; display: inline-block; text-transform: none;  ">
             </div>
             <div class="col-">
                <button type="submit" style="height: 50px; margin-right:10px;">
@@ -80,12 +81,11 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
                </form>
             </div>
             <div class="col-">
+                <!--Formulario que permite limpar a pesquisa feita pelo utilizador-->
                <form  id="formmostraTodosInvestigadores" method="post">
                   <button type="submit" style="height: 50px;" name="mostraTodos" value="vertodos"> <img name="reload_icon" src='assets\icons\reload.svg' style="width:35px"></button>
                </form>
             </div>
-
-         
          </div> 
 
 
