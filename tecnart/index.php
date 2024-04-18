@@ -173,12 +173,12 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
             ?>
             <?php foreach ($noticias as $noticia): ?>
                <div class="card-product">
-                  <div class="absoluto">
-                     <a href="noticia.php?noticia=<?= $noticia['id'] ?>">
-                        <div style="z-index: 1;" class="image_default">
-                           <img class="img-fluid" src="../backoffice/assets/noticias/<?= $noticia['imagem'] ?>" alt="">
+                  <div  class="absoluto">
+                     <a href="noticia.php?noticia=<?= $noticia['id'] ?>" >
+                        <div style="z-index: 1; object-fit: cover; width:230px; height:230px;" class="image_default">
+                           <img  style="object-fit: cover; width:230px; height:230px;" class="img-fluid" src="../backoffice/assets/noticias/<?= $noticia['imagem'] ?>" alt="">
                            <div class="text-block">
-                              <h5 style="font-size: 20px; text-transform: uppercase; font-weight: 600;">
+                              <h5 style="font-size: 16px; text-transform: uppercase; font-weight: 400;">
                                  <?php
                                  //Limitar o título a 35 caracteres e cortar pelo último espaço
                                  $titulo = trim($noticia['titulo']);
