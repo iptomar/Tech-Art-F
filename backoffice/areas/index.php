@@ -6,10 +6,11 @@
 require "../verifica.php";
 require "../config/basedados.php";
 
-$mainDir = "../assets/projetos/"; // Ver isto no futuro, caminho para as imagens por default
+$mainDir = "../../tecnart/assets/images/"; // Ver isto no futuro, caminho para as imagens por default
 $dadosAreas;
 $texto;
 $titulo;
+$fotografia = "";
 
 
 // Criação do pedido a API
@@ -17,8 +18,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $texto = $_POST["texto"];
     $titulo = $_POST["titulo"];
 
+    // Fetch as fotos localmente
+    $fotografia_exists = isset($_FILES["fotografia"]) && $_FILES["fotografia"]["size"] != 0;
+
     // Query de update
-    $sql = "update technart.areas_website set texto  = '" . $texto . "' where titulo  = '" . $titulo . "';";
+    $sql = "update technart.areas_website set texto  = '" . $texto . "',";
+    
+     // Check if the 'fotografia' file exists and update the SQL query and parameters accordingly
+     if ($fotografia_exists) {
+        $fotografia = uniqid() . '_' . $_FILES["fotografia"]["name"];
+        ;
+        $sql .= "fotografia = " . "'".$fotografia;
+        $params[] = $fotografia;
+        move_uploaded_file($_FILES["fotografia"]["tmp_name"], $mainDir . $fotografia);
+        
+    }
+
+    $sql .= "' where titulo  = '" . $titulo . "';";
 
     // Preparação da execução da query
     $stmt = mysqli_prepare($conn, $sql);
@@ -42,10 +58,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Fetch all rows as objects
     $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
     $dadosAreas = $rows;
-    // Extract the 'titulo' from each object and store them in a new array
-    $listaAreasTitulos = array_map(function ($o) {
-        return $o['titulo'];
-    }, $rows);
 }
 ?>
 
@@ -201,8 +213,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <br>
                 <br>
                 <textarea id="texto" name="texto" class="form-control ck_replace" minlength="1" required
-                    data-error="Por favor introduza um 'sobre projeto'" cols="30" rows="5"></textarea>
+                    data-error="Por favor introduza um texto" cols="30" rows="5"></textarea>
                 <br>
+                <div class="form-group">
+                    <label>Fotografia</label>
+                    <input accept="image/*" type="file" onchange="previewImg(this);" class="form-control"
+                        id="inputFotografia" name="fotografia" value=<?php echo $fotografia; ?>>
+                    <!-- Error -->
+                    <div class="help-block with-errors"></div>
+                    <img id="preview" src="<?php echo $mainDir . $fotografia; ?>" width='300px' height='300px'/>  
+                </div>
                 <!-- Error -->
                 <div class="help-block with-errors"></div>
                 <div class="form-group">
@@ -235,21 +255,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     });
 
     document.addEventListener("DOMContentLoaded", function () {
-        // Event listener for dropdown change
+
         document.getElementById('areasSite').addEventListener('change', function () {
             var selectedId = this.value;
             var selectedArea = <?php echo json_encode($dadosAreas); ?>.find(function (area) {
                 return area.id == selectedId;
             });
 
-            // Check if selectedArea exists
             if (selectedArea) {
                 $titulo = selectedArea.titulo;
                 document.getElementById('titulo').value = $titulo;
                 editor.setData(selectedArea.texto);
+
+                var inputFotografia = document.getElementById('preview');
+                var fotografiaSrc = "<?php echo $mainDir; ?>" + selectedArea.fotografia;
+                inputFotografia.setAttribute('src', fotografiaSrc);
             } else {
                 console.log("Área selecionada não encontrada.");
             }
+        });
+
+        function previewImg(input) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('preview').setAttribute('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+
+        document.getElementById('inputFotografia').addEventListener('change', function () {
+            previewImg(this);
         });
     });
 
