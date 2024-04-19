@@ -81,6 +81,7 @@ require_once 'assets/models/functions.php';
         echo "<li class='navLi'><a href='../publicacoes' data-translation='publicacoes'>Publicações</a></li>";
         echo "<li class='navLi'><a href='../slider' data-translation='slider'>Slider</a></li>";
         echo "<li class='navLi'><a href='../newsletter' data-translation='newsletter'>Newsletter</a></li>";
+
     }
     ?>
     <li class="navLi"><a class="leftnav" href="../sair.php" data-translation="sair">Sair</a></li>

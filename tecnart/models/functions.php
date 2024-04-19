@@ -1,5 +1,8 @@
 <?php
+
 session_start();
+
+
 
 if(!isset($_SESSION["lang"])){
   $_SESSION["lang"] = "pt";
@@ -84,7 +87,8 @@ function template_header($title){
                 <link rel="stylesheet" href="./assets/vendors/nice-select/nice-select.css">
                 <link rel="stylesheet" href="./assets/vendors/owl-carousel/owl.theme.default.min.css">
                 <link rel="stylesheet" href="./assets/vendors/owl-carousel/owl.carousel.min.css">
-
+                <!--Adiconado agora-->
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
                 
                 <style type="text/css">
@@ -232,9 +236,37 @@ EOT;
 }
 
 function template_footer(){
+//Select na base de dados que vai buscar o link do regulamentos 
+$pdo = pdo_connect_mysql();
+$query = "SELECT texto 
+          FROM technart.areas_website 
+          WHERE titulo = 'Link Regulamentos'";
+$stmt = $pdo->prepare($query);
+$stmt->execute();
+$textoFetched = $stmt->fetch(PDO::FETCH_ASSOC);
+$texto = $textoFetched['texto'];
 
+try{
+//como o link e guardado como paragrafo na base de dados seleciona-se apenas o conteudo do paragrafo 
+preg_match('/<p>(.*?)<\/p>/', $texto, $matches);
+$link = $matches[1];
+//verifica-se se o ficheiro existe
+$headers = file_exists($link); 
+// se sim le o caminho para o ficheiro 
+if($headers) { 
+    
+    $texto = $link; 
+} 
+else { 
+  // se não coloca uma pagina a informar que o link se encontra em baixo    
+  $texto = ".\\assets\\regulamentos\\linkdown.html"; 
+} 
+}
+catch(Exception $e){
+ throw new Exception( 'Ficheiro não encontrado',0,$e);
+}
 //variaveis para passar valores de dicionarios
-
+ 
 //imagens
 
 //::::::RODAPE PRINCIPAL::::::
@@ -273,7 +305,12 @@ $change_lang =  function ($key) {
                                 </div>
                             </div>
                                 <div class="widget_menu">
-                                    <br><ul><li><a style="color: white;">sec.techenart@ipt.pt</a></li></ul>
+                                    <br><ul><li><a style="color: white;">sec.techenart@ipt.pt</a></li>
+                                    <li><a style="color: white;">comunicar.techneart@ipt.pt</a></li>
+                                    </ul>
+                                </div>
+                                <div class="widget_menu">
+                                    <br><a style="color: white;" href="$texto" >Regulamentos Techn&Art</a>
                                 </div>
                                 <div class="widget_menu">
                                     <br><ul><li><a style="color: white;"><strong>{$change_lang("follow-us-txt")}</strong></a></li></ul>
@@ -453,12 +490,14 @@ $change_lang =  function ($key) {
 
 EOT;
 
-}
+              }
+
 if ($_SESSION["lang"] == "en"){
   include 'models/dicionario_en.php';
 } elseif($_SESSION["lang"] == "pt"){
   include 'models/dicionario_pt.php';
 }
+
 
 function change_lang($dicElem){
   if ($_SESSION["lang"] == "en"){
@@ -488,3 +527,4 @@ function show_error($error)
   </div>
 </div>';
 }
+?>
