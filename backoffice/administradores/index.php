@@ -2,6 +2,7 @@
 require "../verifica.php";
 require "../config/basedados.php";
 require "bloqueador.php";
+require "../assets/models/functions.php";
 
 $sql = "SELECT id, nome, email FROM administradores ORDER BY id";
 $result = mysqli_query($conn, $sql);
@@ -27,7 +28,7 @@ $result = mysqli_query($conn, $sql);
 			<div class="table-title">
 				<div class="row">
 					<div class="col-sm-6">
-						<h2>Administradores</h2>
+						<h2 data-translation='administradores'>Administradores</h2>
 					</div>
 					<div class="col-sm-6">
 						<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i>

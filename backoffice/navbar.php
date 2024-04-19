@@ -1,3 +1,10 @@
+<?php
+
+//chama as funções para tradução
+require_once 'assets/models/functions.php';
+
+?>
+
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <title>TECHN&ART Backoffice</title>
@@ -46,27 +53,36 @@
     }
 </style>
 
+
+
 <ul class="navUl">
+    <li class="navLi">
+        <button type="button" onclick="submitLanguageForm('pt');">PT</button>
+    </li>
+    <li class="navLi">
+        <button type="button" onclick="submitLanguageForm('en');">EN</button>
+    </li>
     <?php
     // Utilizador tem permissão para aceder ao administradores
     if ($_SESSION["autenticado"] == "administrador") {
-        echo "<li class=\"navLi\"><a href=\"../administradores\">Administradores</a></li>";
+        echo "<li class=\"navLi\"><a href=\"../administradores\" data-translation='administradores'>Administradores</a></li>";
     }
     ?>
-    <li class="navLi"><a href="../investigadores">Investigadores</a></li>
-    <li class="navLi"><a href="../projetos">Projetos</a></li>
-    <li class="navLi"><a href="../noticias">Notícias</a></li>
-    <li class="navLi"><a href="../oportunidades">Oportunidades</a></li>
+    <li class="navLi"><a href="../investigadores" data-translation='investigadores'>Investigadores</a></li>
+    <li class="navLi"><a href="../projetos" data-translation='projetos'>Projetos</a></li>
+    <li class="navLi"><a href="../noticias" data-translation='noticias'>Notícias</a></li>
+    <li class="navLi"><a href="../oportunidades" data-translation='oportunidades'>Oportunidades</a></li>
     <?php
     // Utilizador tem permissão para aceder ao administradores
     if ($_SESSION["autenticado"] == "administrador") {
-        echo "<li class='navLi'><a href='../admissoes'>Admissões</a></li>";
-        echo "<li class='navLi'><a href='../areas'>Editar Areas</a></li>";
-        echo "<li class='navLi'><a href='../duplicados'>Duplicados</a></li>";
-        echo "<li class='navLi'><a href='../publicacoes'>Publicações</a></li>";
-        echo "<li class='navLi'><a href='../slider'>Slider</a></li>";
-        echo "<li class='navLi'><a href='../newsletter'>Newsletter</a></li>";
+        echo "<li class='navLi'><a href='../admissoes' data-translation='admissoes'>Admissões</a></li>";
+        echo "<li class='navLi'><a href='../areas' data-translation='areas'>Editar Áreas</a></li>";
+        echo "<li class='navLi'><a href='../duplicados' data-translation='duplicados'>Duplicados</a></li>";
+        echo "<li class='navLi'><a href='../publicacoes' data-translation='publicacoes'>Publicações</a></li>";
+        echo "<li class='navLi'><a href='../slider' data-translation='slider'>Slider</a></li>";
+        echo "<li class='navLi'><a href='../newsletter' data-translation='newsletter'>Newsletter</a></li>";
+
     }
     ?>
-    <li class="navLi"><a class="leftnav" href="../sair.php">Sair</a></li>
+    <li class="navLi"><a class="leftnav" href="../sair.php" data-translation="sair">Sair</a></li>
 </ul>
