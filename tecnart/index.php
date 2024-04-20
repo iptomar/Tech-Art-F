@@ -229,45 +229,45 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
    </div>
 
 </section>
-
 <div class="newsletter-popup">
-   <div class="newsletter-popup-container">
-
-      <a href="#" class="newsletter-popup-close-btn">&times;</a>
-
-      <h3><i class="fa-regular fa-envelope"></i>Subscreva a nossa newsletter</h3>
-
-      <p>Subscreva a nossa newsletter para receber as últimas novidades no seu email.</p>
-
-      <form action="subscrever.php" method="post">
-         <input type="email" name="email" placeholder="Endereço de email" required style="text-transform: none;">
-         <input type="hidden" id="language" name="language" value="<?php echo $language ?>">
-         <button type="submit" style="height: 40px">Subscrever</button>
-      </form>
-      <p class="newsletter-msg"></p>
-
-   </div>
+  <div class="newsletter-popup-container">
+    <a href="#" class="newsletter-popup-close-btn">&times;</a>
+    <h3><i class="fa-regular fa-envelope"></i>Subscreva a nossa newsletter</h3>
+    <p>Subscreva a nossa newsletter para receber as últimas novidades no seu email.</p>    
+    <form action="subscrever.php" method="post">
+      <label>
+        <input type="radio" name="idioma" value="pt" checked> Português&nbsp;&nbsp;&nbsp;</label>
+      <label>
+        <input type="radio" name="idioma" value="en"> Inglês</label>
+      <input type="email" name="email" placeholder="Endereço de email" required style="text-transform: none;">
+      <button type="submit" style="height: 40px">Subscrever</button>
+    </form>
+    <p class="newsletter-msg"></p>
+  </div>
 </div>
+
 <!-- end client section -->
 
 <?= template_footer(); ?>
 
 <script>
-   let keepClosed = false;
    const openNewsletterPopup = () => {
-      document.querySelector('.newsletter-popup').style.display = 'flex';
-      document.querySelector('.newsletter-popup').getBoundingClientRect();
-      document.querySelector('.newsletter-popup').classList.add('open');
-      document.querySelector('.newsletter-popup-container').getBoundingClientRect();
-      document.querySelector('.newsletter-popup-container').classList.add('open');
+      if (!document.cookie.includes('nonews=true')) {
+         document.querySelector('.newsletter-popup').style.display = 'flex';
+         document.querySelector('.newsletter-popup').getBoundingClientRect();
+         document.querySelector('.newsletter-popup').classList.add('open');
+         document.querySelector('.newsletter-popup-container').getBoundingClientRect();
+         document.querySelector('.newsletter-popup-container').classList.add('open');
+      }
    };
+
    const closeNewsletterPopup = () => {
       document.querySelector('.newsletter-popup').style.display = 'none';
       document.querySelector('.newsletter-popup').classList.remove('open');
       document.querySelector('.newsletter-popup-container').classList.remove('open');
-      document.cookie = "nonews=true; expires=Fri, 31 Dec 9999 23:59:59 GMT;";
-      keepClosed = true;
+      document.cookie = "nonews=true; expires=" + new Date(Date.now() + 31536000000).toUTCString() + "; path=/";
    };
+
    const newsletterForm = document.querySelector('.newsletter-popup form');
    newsletterForm.onsubmit = event => {
       event.preventDefault();
@@ -276,18 +276,19 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
          body: new FormData(newsletterForm)
       }).then(response => response.text()).then(data => {
          document.querySelector('.newsletter-msg').innerHTML = data;
+         document.cookie = "nonews=true; expires=" + new Date(Date.now() + 31536000000).toUTCString() + "; path=/";
       });
    };
+
    document.querySelector('.newsletter-popup-close-btn').onclick = event => {
       event.preventDefault();
       closeNewsletterPopup();
    };
+
    document.addEventListener('scroll', () => {
-         if (window . scrollY >= 400 && !keepClosed && document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("nonews"))) {
-            openNewsletterPopup();
-         } ?>
+      if (window.scrollY >= 400 && !document.cookie.includes('nonews=true')) {
+         openNewsletterPopup();
+      }
    });
 </script>
 
