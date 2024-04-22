@@ -49,7 +49,6 @@
   color: #8d9092;
 }
 .newsletter-popup .newsletter-popup-container form {
-  display: flex;
   padding: 15px 0 10px;
 }
 .newsletter-popup .newsletter-popup-container form input {
@@ -92,4 +91,13 @@
 .newsletter-popup.open {
   display: flex;
   background-color: rgba(0, 0, 0, 0.4);
+}
+.btn-check:checked + .btn-outline-primary,
+.btn-outline-primary:checked,
+.btn-outline-primary:active,
+.btn-outline-primary:focus,
+.btn-outline-primary:hover {
+  color: #fff;
+  background-color: #333F50;
+  border-color: #333F50;
 }

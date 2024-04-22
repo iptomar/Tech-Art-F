@@ -7,6 +7,7 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
 
 <link href="assets/css/newsletter.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
 <!DOCTYPE html>
 <html>
@@ -230,20 +231,23 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
 
 </section>
 <div class="newsletter-popup">
-  <div class="newsletter-popup-container">
-    <a href="#" class="newsletter-popup-close-btn">&times;</a>
-    <h3><i class="fa-regular fa-envelope"></i>Subscreva a nossa newsletter</h3>
-    <p>Subscreva a nossa newsletter para receber as últimas novidades no seu email.</p>    
-    <form action="subscrever.php" method="post">
-      <label>
-        <input type="radio" name="idioma" value="pt" checked> Português&nbsp;&nbsp;&nbsp;</label>
-      <label>
-        <input type="radio" name="idioma" value="en"> Inglês</label>
-      <input type="email" name="email" placeholder="Endereço de email" required style="text-transform: none;">
-      <button type="submit" style="height: 40px">Subscrever</button>
-    </form>
-    <p class="newsletter-msg"></p>
-  </div>
+   <div class="newsletter-popup-container">
+      <a href="#" class="newsletter-popup-close-btn">&times;</a>
+      <h3><i class="fa-regular fa-envelope"></i>Subscreva a nossa newsletter</h3>
+      <p>Subscreva a nossa newsletter para receber as últimas novidades no seu email.</p>
+      <form action="subscrever.php" method="post">
+         <div style="text-align: center;">
+            <input type="email" name="email" placeholder="Endereço de email" required style="text-transform: none;">
+            <input type="radio" class="btn-check" name="idioma" id="idioma-pt" autocomplete="off" checked value="pt">
+            <label class="btn btn-outline-secondary" for="idioma-pt" style="width:100px">Português</label>
+            <input type="radio" class="btn-check" name="idioma" id="idioma-en" autocomplete="off" value="en">
+            <label class="btn btn-outline-secondary" for="idioma-en" style="width:100px;">Inglês</label>
+            <br /><br />
+            <button type="submit" style="height: 40px">Subscrever</button>
+         </div>
+      </form>
+      <p class="newsletter-msg"></p>
+   </div>
 </div>
 
 <!-- end client section -->
