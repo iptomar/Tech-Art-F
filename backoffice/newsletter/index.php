@@ -36,6 +36,7 @@ require "../verifica.php";
           <div class="col-sm-6">
             <h2>Newsletter</h2>
           </div>
+          
         </div>
       </div>
       <div id="main-container">

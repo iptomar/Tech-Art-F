@@ -1,23 +1,11 @@
-<script>session_start();</script>
-
-
 <?php
-
 require "../config/basedados.php";
 
 //Selecionar os dados das noticias da base de dados
 $sql = "SELECT id, titulo, conteudo, data, imagem FROM noticias ORDER BY DATA DESC, titulo";
 $result = mysqli_query($conn, $sql);
-// Inicializar o array de notícias escolhidas
-if (!isset($_SESSION['noticias_escolhidas'])) {
-  $_SESSION['noticias_escolhidas'] = array();
-}
+$noticias = array();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $noticias_escolhidas = $_POST['noticias_escolhidas'];
-  
-  $_SESSION['noticias_escolhidas'] = $noticias_escolhidas;
-  }
 ?>
 
 <head>
@@ -81,18 +69,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
   <div id="main-container">
-    <div class="col-sm-12">
-      <button class="btn btn-primary mr-4 ml-4" id="back">Voltar</button>
-      <button class="btn btn-primary mr-4 ml-4" id="next">Seguinte</button>
-
+    <div class="row my-4">
+      <button class="btn btn-primary mr-4 ml-4" id="back">Descartar</button>
+      <button class="btn btn-primary mr-4 ml-4" id="next">Confimar</button>
     </div>
-
     <div class="row my-4">
       <div class="col-sm-6">
         <h4>Lista de notícias escolhidas</h4>
         <ul id="noticias-escolhidas" class="list-group sortable">
           <?php
-          foreach ($_SESSION['noticias_escolhidas'] as $noticia) {
+          foreach ($noticias as $noticia) {
             echo "<li class='list-group-item d-flex justify-content-between align-items-center' data-noticia-id='" . $noticia['id'] . "'>" . $noticia['titulo'] . "<span class='badge badge-primary badge-pill remove-noticia'>Remover</span></li>";
           }
           ?>
@@ -125,17 +111,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <?php
           if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-              if (!in_array($row, $_SESSION['noticias_escolhidas'])) {
+              if (!in_array($row, $noticias)) {
                 echo "<tr data-noticia-id='" . $row['id'] . "'>";
                 echo "<td style='width:250px;'>" . $row["titulo"] . "</td>";
-                echo "<td style='width:500px; height:100px;'>" . "<div class='div-textarea' style='width:100%; height:100%;'>" . $row["conteudo"] . "</div>" . "</td>";
+                echo "<td style='width:500px; height:100px;'><div class='div-textarea' style='width:100%; height:100%;' data-conteudo='" . $row["conteudo"] . "'>" . $row["conteudo"] . "</div></td>";
                 echo "<td style='width:250px;'>" . $row["data"] . "</td>";
-                echo "<td><img src='../assets/noticias/$row[imagem]' width='100px' height='100px'></td>";
-                echo "<td><button class='btn btn-primary add-noticia' data-noticia-id='" . $row['id'] . "' data-noticia-titulo='" . $row['titulo'] . "'>Adicionar</button></td>";
+                echo "<td><img src='../assets/noticias/" . $row['imagem'] . "' width='100px' height='100px'></td>";
+                echo "<td><button class='btn btn-primary add-noticia' data-noticia-id='" . $row['id'] . "' data-noticia-titulo='" . $row['titulo'] . "' data-noticia-conteudo='" . $row['conteudo'] . "' data-noticia-data='" . $row["data"] . "' data-noticia-imagem='" . $row["imagem"] . "'>Adicionar</button></td>";
                 echo "</tr>";
               }
             }
           }
+
           ?>
         </tbody>
       </table>
@@ -145,24 +132,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <script>
   // Passando o array de notícias escolhidas do PHP para o JavaScript
-  var noticiasEscolhidas = <?php echo json_encode($_SESSION['noticias_escolhidas']); ?>;
+  var noticiasEscolhidas = <?php echo json_encode($noticias); ?>;
 </script>
 <script>
-
   $(document).ready(function() {
-    // Ordenar a tabela de notícias pela data
-    $('#noticias-table th').click(function() {
-      var orderBy = $(this).text().toLowerCase();
-      if (orderBy === 'data') {
-        var rows = $('tbody tr', '#noticias-table').sort(function(a, b) {
-          var dateA = new Date($(a).find('td:nth-child(3)').text());
-          var dateB = new Date($(b).find('td:nth-child(3)').text());
-          return dateB - dateA;
-        });
-        $('tbody', '#noticias-table').html(rows);
-      }
-    });
-
     // Pesquisar o título da notícia
     $('#search-input').on('input', function() {
       var searchTerm = $(this).val().toLowerCase();
@@ -180,6 +153,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $('#noticias-table').on('click', '.add-noticia', function() {
       var noticiaId = $(this).data('noticia-id');
       var noticiaTitulo = $(this).data('noticia-titulo');
+      var noticiaConteudo = $(this).data('noticia-conteudo');
+      var noticiaData = $(this).data('noticia-data');
+      var noticiaImagem = $(this).data('noticia-imagem');
       var noticiaExistente = $('#noticias-escolhidas li[data-noticia-id="' + noticiaId + '"]');
 
       if (noticiaExistente.length === 0) {
@@ -187,15 +163,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $(this).closest('tr').hide();
         var noticia = {
           id: noticiaId,
-          titulo: noticiaTitulo
+          titulo: noticiaTitulo,
+          conteudo: noticiaConteudo,
+          data: noticiaData,
+          imagem: noticiaImagem
         };
         noticiasEscolhidas.push(noticia);
-        sendNoticiasEscolhidasToServer();
       }
     });
 
-    // Remover notícia da lista de notícias escolhidas
-    $('#noticias-escolhidas').on('click', '.remove-noticia', function() {
+    // Event delegation for '.remove-noticia' button
+    $(document).on('click', '.remove-noticia', function() {
       var noticiaId = $(this).closest('li').data('noticia-id');
       var noticiaIndex = noticiasEscolhidas.findIndex(function(noticia) {
         return noticia.id === noticiaId;
@@ -204,57 +182,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       if (noticiaIndex !== -1) {
         noticiasEscolhidas.splice(noticiaIndex, 1);
         $(this).closest('li').remove();
-        sendNoticiasEscolhidasToServer();
         $('#noticias-table tr[data-noticia-id="' + noticiaId + '"]').show();
+      }
+    });
+
+
+  });
+</script>
+
+<script>
+  $('#back').click(function() {
+    $.ajax({
+      url: 'statsNewsletter.php',
+      type: 'GET',
+      success: function(data) {
+
+        $('#main-container').html(data);
+
+      },
+      error: function() {
+        alert('Erro ao carregar o conteúdo.');
       }
     });
   });
 </script>
+
 <script>
-    $('#next').click(function() {
+  $('#next').click(function() {
+    if (noticiasEscolhidas.length > 0) {
       $.ajax({
-        url: 'preencherCampos.php',
-        type: 'GET',
-        success: function(data) {
-          $('#main-container').html(data);
-        },
-        error: function() {
-          alert('Erro ao carregar o conteúdo.');
-        }
-      });
-    });
-</script>
-
-<script>
-    $('#back').click(function() {
-      $.ajax({
-        url: 'statsNewsletter.php',
-        type: 'GET',
-        success: function(data) {
-          
-          $('#main-container').html(data);
-          
-        },
-        error: function() {
-          alert('Erro ao carregar o conteúdo.');
-        }
-      });
-    });
-
-</script>
-
-<script>
-function sendNoticiasEscolhidasToServer() {
-    $.ajax({
         url: 'preencherCampos.php',
         type: 'POST',
-        data: { noticias_escolhidas: noticiasEscolhidas },
-        success: function(response) {
-            console.log('Session variable updated:', response);
+        data: {
+          noticias_escolhidas: noticiasEscolhidas
         },
-        error: function(xhr, status, error) {
-            console.error('Error updating session variable:', error);
+        success: function(data) {
+          $('#main-container').html(data);
+        },
+        error: function() {
+          alert('Erro ao carregar o conteúdo.');
         }
-    });
-}
+      });
+    } else {
+      alert('Por favor, escolha pelo menos uma notícia para prosseguir.');
+    }
+  });
 </script>
