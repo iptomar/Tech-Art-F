@@ -6,17 +6,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_POST['noticias'])) {
     $noticias = json_encode($_POST['noticias']);
   }
-  if (isset($_POST['tituloPT'])) {
-    $tituloPT = $_POST['tituloPT'];
+  if (isset($_POST['titulo'])) {
+    $titulo = $_POST['titulo'];
   }
-  if (isset($_POST['assuntoPT'])) {
-    $assuntoPT = $_POST['assuntoPT'];
-  }
-  if (isset($_POST['tituloENG'])) {
-    $tituloENG = $_POST['tituloENG'];
-  }
-  if (isset($_POST['assuntoENG'])) {
-    $assuntoENG = $_POST['assuntoENG'];
+  if (isset($_POST['assunto'])) {
+    $assunto = $_POST['assunto'];
   }
 }
 ?>

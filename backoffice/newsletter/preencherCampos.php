@@ -44,17 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="assunto">Assunto:</label>
         <input type="text" class="form-control" id="assunto" placeholder="Digite o assunto" required>
       </div>
-      <h4>Preencher Campos em Inglês</h4>
-      <div class="col-sm-6">
-        <div class="form-group">
-          <label for="titulo">Título:</label>
-          <input type="text" class="form-control" id="titulo" placeholder="Digite o título" required>
-        </div>
-        <div class="form-group">
-          <label for="assunto">Assunto:</label>
-          <input type="text" class="form-control" id="assunto" placeholder="Digite o assunto" required>
-        </div>
-      </div>
     </div>
   </div>
   </div>
@@ -78,10 +67,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     });
 
     $('#next').click(function() {
-      var tituloPT = $('#tituloPT').val();
-      var assuntoPT = $('#assuntoPT').val();
-      var tituloENG = $('#tituloENG').val();
-      var assuntoENG = $('#assuntoENG').val();
+      var titulo = $('#titulo').val();
+      var assunto = $('#assunto').val();
       var noticias = <?php echo json_encode($noticias); ?>;
 
       $.ajax({
