@@ -173,12 +173,6 @@ $searchFieldDropdown .= '</select>';
             <div class="col-sm-6">
               <h2 data-translation='publications-title'>Publicações</h2>
             </div>
-            <div class="col-sm-6">
-              <form method="post" action="check_duplicates.php">
-                <input type="submit" class="btn btn-success" name="insert_data" value="Atualizar Análise de Publicações">
-              </form>
-
-            </div>
           </div>
           <div class="col-sm-6">
           </div>
