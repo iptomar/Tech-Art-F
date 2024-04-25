@@ -5,11 +5,32 @@ include 'models/functions.php';
 
 $pdo = pdo_connect_mysql();
 $language = ($_SESSION["lang"] == "en") ? "_en" : "";
-$query = "SELECT id, email, nome,
-        COALESCE(NULLIF(sobre{$language}, ''), sobre) AS sobre,
-        COALESCE(NULLIF(areasdeinteresse{$language}, ''), areasdeinteresse) AS areasdeinteresse,
-        ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id
-        FROM investigadores WHERE tipo = \"Colaborador\" ORDER BY nome";
+
+#recebe a query que pesquisa pelos colaborador 
+$query = "";
+#se o botão de reload for clicado for clicado mostra todos os colaboradores 
+if(isset($_POST["mostraTodos"])){
+   $query = "SELECT id, email, nome,
+   COALESCE(NULLIF(sobre{$language}, ''), sobre) AS sobre,
+   COALESCE(NULLIF(areasdeinteresse{$language}, ''), areasdeinteresse) AS areasdeinteresse,
+   ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id
+   FROM investigadores WHERE tipo = \"Colaborador\" ORDER BY nome";
+}
+#se botão de pesquisa for clicado pesquisa o colaborador/res pelo que tenham o nome pesquisado
+else if(isset($_GET["pequisaInvestigador"])){
+   $query = "SELECT id, email, nome,
+   COALESCE(NULLIF(sobre{$language}, ''), sobre) AS sobre,
+   COALESCE(NULLIF(areasdeinteresse{$language}, ''), areasdeinteresse) AS areasdeinteresse,
+   ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id
+   FROM investigadores WHERE tipo = \"Colaborador\"and nome LIKE '%{$_GET["pequisaInvestigador"]}%' ORDER BY nome";
+}
+#mostra  todos os colaboradores 
+else{$query = "SELECT id, email, nome,
+   COALESCE(NULLIF(sobre{$language}, ''), sobre) AS sobre,
+   COALESCE(NULLIF(areasdeinteresse{$language}, ''), areasdeinteresse) AS areasdeinteresse,
+   ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id
+   FROM investigadores WHERE tipo = \"Colaborador\" ORDER BY nome";
+}
 $stmt = $pdo->prepare($query);
 $stmt->execute();
 $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -43,6 +64,26 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <section class="product_section layout_padding">
    <div style="padding-top: 20px;">
       <div class="container">
+      <div class="row justify-content-center mt-3">
+               <div class="col-">
+                  <!--Formolario que permite pesquisa o ivestigasdor por nome-->
+                  <form class="form-check form-check-inline"  id="formPesquisaInvestigador" method="get" >
+                     <input type="text" name="pequisaInvestigador" placeholder="Nome do colaborador a pesquisar"
+                     style="max-width: 500px; min-width: 450px; display: inline-block; text-transform: none; ">
+               </div>
+               <div class="col-">
+                  <button type="submit" style="height: 50px; margin-right:10px;">
+                     <img name="search-icon" src='assets/icons/search.svg' style="width:40px">
+                  </button>
+                  </form>
+               </div>
+               <div class="col-">
+                  <!--Formulario que permite limpar a pesquisa feita pelo utilizador-->
+                  <form  id="formmostraTodosInvestigadores" method="post">
+                     <button type="submit" style="height: 50px;" name="mostraTodos" value="vertodos"> <img name="reload_icon" src='assets\icons\reload.svg' style="width:35px"></button>
+                  </form>
+               </div>
+               </div> 
          <div class="row justify-content-center mt-3">
 
             <?php foreach ($investigadores as $investigador) : ?>
