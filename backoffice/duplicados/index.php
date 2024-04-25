@@ -2,6 +2,7 @@
 require "../verifica.php";
 require "../config/basedados.php";
 require "./check_duplicates.php";
+require "../assets/models/functions.php";
 
 $limit = isset($_GET['limit']) ? $_GET['limit'] : 5;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -241,7 +242,7 @@ $searchFieldDropdown .= '</select>';
       <div class="table-title">
         <div class="row">
           <div class="col-sm-6">
-            <h2>Duplicados</h2>
+            <h2 data-translation='duplicated-title'>Duplicados</h2>
           </div>
           <div class="col-sm-6">
             <form method="post" action="check_duplicates.php">
@@ -256,7 +257,7 @@ $searchFieldDropdown .= '</select>';
     </div>
     <form action="" method="get">
       <div class="container p-3 my-3 bg-dark text-white" style="padding:10px">
-        <div style="padding-top:10px">
+        <div style="padding-top:10px" data-translation='duplicated-show' >
           Mostrar: <?php echo $limitDropdown; ?> entradas
 
 
@@ -274,13 +275,13 @@ $searchFieldDropdown .= '</select>';
           <label><input type="checkbox" name="numbered_titles" <?php echo $filterNumberedTitles ? 'checked' : ''; ?>> Títulos Numerados</label>
         </div>
 
-        <button type="submit" class="btn btn-outline-primary">Atualizar Pesquisa</button>
+        <button type="submit" class="btn btn-outline-primary" data-translation='duplicated-button-update-search'>Atualizar Pesquisa</button>
     </form>
 
   </div>
   <div class="container p-3 my-3 bg-dark text-white" style="padding:10px">
 
-    <button class="btn btn-primary dropdown-toggle update-btn" style="margin-bottom: 10px;" type="button" id="updateBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled>
+    <button class="btn btn-primary dropdown-toggle update-btn" style="margin-bottom: 10px;" type="button" id="updateBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled data-translation='duplicated-button-update-state'>
       Atualizar Estado
     </button>
       <?php echo $pagination; ?>
@@ -297,10 +298,10 @@ $searchFieldDropdown .= '</select>';
       <thead>
         <tr>
           <th style="width:4%"><input type="checkbox" id="select-all-checkbox"></th>
-          <th style="width:10%">Estado</th>
+          <th style="width:10%" data-translation='duplicated-table-state'>Estado</th>
           <th style="width:10%">Id</th>
           <th style="width:10%">E-Mail</th>
-          <th style="width:30%">Title</th>
+          <th style="width:30%" data-translation='duplicated-table-title'>Title</th>
           <th style="width:25%">url</th>
         </tr>
       </thead>

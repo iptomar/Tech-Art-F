@@ -171,7 +171,7 @@ $searchFieldDropdown .= '</select>';
         <div class="table-title">
           <div class="row">
             <div class="col-sm-6">
-              <h2>Publicações</h2>
+              <h2 data-translation='publications-title'>Publicações</h2>
             </div>
           </div>
           <div class="col-sm-6">
@@ -192,7 +192,7 @@ $searchFieldDropdown .= '</select>';
             <?php echo $searchFieldDropdown; ?>
           </div>
           <div style="padding-top:10px">
-            <button type="submit" class="btn btn-outline-primary">Atualizar Pesquisa</button>
+            <button type="submit" class="btn btn-outline-primary" data-translation='publications-button-update-search'>Atualizar Pesquisa</button>
 
 
             <?php echo $pagination; ?>
@@ -208,15 +208,15 @@ $searchFieldDropdown .= '</select>';
         <tr style="width:100%">
           <th style="width:5%">Id</th>
           <th style="width:10%">Email</th>
-          <th style="width:30%">Title</th>
-          <th>Journal</th>
-          <th>Volume</th>
-          <th>Number</th>
-          <th>Pages</th>
-          <th>Year</th>
+          <th style="width:30%" data-translation='publications-table-title'>Title</th>
+          <th data-translation='publications-table-journal'>Journal</th>
+          <th >Volume</th>
+          <th data-translation='publications-table-number'>Number</th>
+          <th data-translation='publications-table-pages'>Pages</th>
+          <th data-translation='publications-table-year'>Year</th>
           <th style="width:9%">url</th>
-          <th>Author</th>
-          <th>Keywords</th>
+          <th data-translation='publications-table-author'>Author</th>
+          <th data-translation='publications-table-keywords'>Keywords</th>
         </tr>
       </thead>
       <tbody>

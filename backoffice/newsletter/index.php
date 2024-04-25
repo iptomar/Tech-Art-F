@@ -34,7 +34,7 @@ require "../verifica.php";
       <div class="table-title">
         <div class="row">
           <div class="col-sm-6">
-            <h2>Newsletter</h2>
+            <h2 data-translation='newsletter-title'>Newsletter</h2>
           </div>
           
         </div>

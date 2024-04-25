@@ -41,7 +41,7 @@ $countENG = mysqli_fetch_assoc($resultSubsENG)["count"];
 
   <div class="row">
     <div class="col-sm-12">
-      <button class="btn btn-success mr-4 mt-4" id="start-send">Iniciar Envio</button>
+      <button class="btn btn-primary mr-4 ml-4" id="start-send" data-translation='newsletter-button-send'>Iniciar Envio</button>
     </div>
   </div>
 
@@ -49,7 +49,7 @@ $countENG = mysqli_fetch_assoc($resultSubsENG)["count"];
     <div class="col-sm-4 mb-3">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Subscritores (Português)</h5>
+          <h5 class="card-title" data-translation='newsletter-stats-subscribers-pt'>Subscritores (Português)</h5>
           <p class="card-text">
             <?php
             echo ($countPT);
@@ -61,7 +61,7 @@ $countENG = mysqli_fetch_assoc($resultSubsENG)["count"];
     <div class="col-sm-4 mb-3">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Subscritores (Inglês)</h5>
+          <h5 class="card-title" data-translation='newsletter-stats-subscribers-en'>Subscritores (Inglês)</h5>
           <p class="card-text">
             <?php
             echo ($countENG);
@@ -73,7 +73,7 @@ $countENG = mysqli_fetch_assoc($resultSubsENG)["count"];
     <div class="col-sm-4 mb-3">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Total Subscritores</h5>
+          <h5 class="card-title" data-translation='newsletter-stats-total-subs'>Total Subscritores</h5>
           <p class="card-text">
             <?php
             echo ($countPT + $countENG);
@@ -87,7 +87,7 @@ $countENG = mysqli_fetch_assoc($resultSubsENG)["count"];
     <div class="col-sm-12">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Newsletters Enviadas</h5>
+          <h5 class="card-title" data-translation='newsletter-stats-sended'>Newsletters Enviadas</h5>
           <p class="card-text">Task Histórico</p>
         </div>
       </div>
