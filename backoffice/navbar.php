@@ -51,38 +51,51 @@ require_once 'assets/models/functions.php';
     .leftnav:hover {
         background-color: #dd0000;
     }
+
+    #button_pt_en{
+        background-color: #007bff;
+        padding: 8px 12px;
+        margin-top: 3px;
+        color:white;
+        font-family:'Varela Round'
+    }
+
+    #button_pt_en:hover{
+        background-color: #324c6c;
+        color:white;
+    }
 </style>
 
 
 
 <ul class="navUl">
     <li class="navLi">
-        <button type="button" onclick="submitLanguageForm('pt');">PT</button>
+        <button type="button" id="button_pt_en" onclick="submitLanguageForm('pt');">PT</button>
     </li>
     <li class="navLi">
-        <button type="button" onclick="submitLanguageForm('en');">EN</button>
+        <button type="button" id="button_pt_en" onclick="submitLanguageForm('en');">EN</button>
     </li>
     <?php
     // Utilizador tem permissão para aceder ao administradores
     if ($_SESSION["autenticado"] == "administrador") {
-        echo "<li class=\"navLi\"><a href=\"../administradores\" data-translation='administradores'>Administradores</a></li>";
+        echo "<li class=\"navLi\"><a href=\"../administradores\" data-translation='admin-title'>Administradores</a></li>";
+        echo "<li class=\"navLi\"><a href=\"../investigadores\" data-translation='researcher-title'>Investigadores</a></li>";
+        echo "<li class=\"navLi\"><a href=\"../projetos\" data-translation='project-title'>Projetos</a></li>";
+        echo "<li class=\"navLi\"><a href=\"../noticias\" data-translation='news-title'>Notícias</a></li>";
+        echo "<li class=\"navLi\"><a href=\"../oportunidades\" data-translation='opportunities-title'>Oportunidades</a></li>";
+        echo "<li class=\"navLi\"><a class=\"leftnav\" href=\"../sair.php\" data-translation='exit'>Sair</a></li>";
     }
     ?>
-    <li class="navLi"><a href="../investigadores" data-translation='investigadores'>Investigadores</a></li>
-    <li class="navLi"><a href="../projetos" data-translation='projetos'>Projetos</a></li>
-    <li class="navLi"><a href="../noticias" data-translation='noticias'>Notícias</a></li>
-    <li class="navLi"><a href="../oportunidades" data-translation='oportunidades'>Oportunidades</a></li>
     <?php
     // Utilizador tem permissão para aceder ao administradores
     if ($_SESSION["autenticado"] == "administrador") {
-        echo "<li class='navLi'><a href='../admissoes' data-translation='admissoes'>Admissões</a></li>";
-        echo "<li class='navLi'><a href='../areas' data-translation='areas'>Editar Áreas</a></li>";
-        echo "<li class='navLi'><a href='../duplicados' data-translation='duplicados'>Duplicados</a></li>";
-        echo "<li class='navLi'><a href='../publicacoes' data-translation='publicacoes'>Publicações</a></li>";
+        echo "<li class='navLi'><a href='../admissoes' data-translation='admissions-title'>Admissões</a></li>";
+        echo "<li class='navLi'><a href='../areas' data-translation='areas-title'>Editar Áreas</a></li>";
+        echo "<li class='navLi'><a href='../duplicados' data-translation='duplicated-title'>Duplicados</a></li>";
+        echo "<li class='navLi'><a href='../publicacoes' data-translation='publications-title'>Publicações</a></li>";
         echo "<li class='navLi'><a href='../slider' data-translation='slider'>Slider</a></li>";
         echo "<li class='navLi'><a href='../newsletter' data-translation='newsletter'>Newsletter</a></li>";
 
     }
     ?>
-    <li class="navLi"><a class="leftnav" href="../sair.php" data-translation="sair">Sair</a></li>
 </ul>

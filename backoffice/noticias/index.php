@@ -1,6 +1,7 @@
 <?php
 require "../verifica.php";
 require "../config/basedados.php";
+require "../assets/models/functions.php";
 
 $sql = "SELECT id, titulo, conteudo, data, imagem FROM noticias ORDER BY DATA DESC, titulo";
 $result = mysqli_query($conn, $sql);
@@ -37,13 +38,13 @@ $result = mysqli_query($conn, $sql);
 			<div class="table-title">
 				<div class="row">
 					<div class="col-sm-6">
-						<h2>Notícias</h2>
+						<h2 data-translation='news-title'>Notícias</h2>
 					</div>
 					<div class="col-sm-6">
 						<?php
 						if ($_SESSION["autenticado"] == "administrador") {
 							echo '<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i>';
-							echo '<span>Adicionar Nova Notícia</span></a>';
+							echo '<span data-translation="news-button-add">Adicionar Nova Notícia</span></a>';
 						}
 						?>
 					</div>
@@ -52,10 +53,10 @@ $result = mysqli_query($conn, $sql);
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
-						<th>Título</th>
-						<th>Conteúdo</th>
-						<th>Data</th>
-						<th>Imagem</th>
+						<th data-translation='news-table-title'>Título</th>
+						<th data-translation='news-table-content'>Conteúdo</th>
+						<th data-translation='news-table-date'>Data</th>
+						<th data-translation='news-table-image'>Imagem</th>
 					</tr>
 				</thead>
 
@@ -69,8 +70,8 @@ $result = mysqli_query($conn, $sql);
 							echo "<td style='width:250px;'>" . $row["data"] . "</td>";
 							echo "<td><img src='../assets/noticias/$row[imagem]' width = '100px' height = '100px'></td>";
 							if ($_SESSION["autenticado"] == "administrador") {
-								echo "<td><a href='edit.php?id=" . $row["id"] . "' class='btn btn-primary'><span>Alterar</span></a></td>";
-								echo "<td><a href='remove.php?id=" . $row["id"] . "' class='btn btn-danger'><span>Apagar</span></a></td>";
+								echo "<td><a href='edit.php?id=" . $row["id"] . "' class='btn btn-primary'><span data-translation='news-button-change'>Alterar</span></a></td>";
+								echo "<td><a href='remove.php?id=" . $row["id"] . "' class='btn btn-danger'><span data-translation='news-button-delete'>Apagar</span></a></td>";
 							}
 							echo "</tr>";
 						}

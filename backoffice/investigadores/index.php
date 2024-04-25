@@ -1,6 +1,7 @@
 <?php
 require "../verifica.php";
 require "../config/basedados.php";
+require "../assets/models/functions.php";
 
 
 $find = "";
@@ -114,11 +115,11 @@ if (@$_SESSION["anoRelatorio"] != "") {
 			<div class="table-title">
 				<div class="row">
 					<div class="col-sm-6">
-						<h2>Investigadores/as</h2>
+						<h2 data-translation='researcher-title'>Investigadores/as</h2>
 					</div>
 					<?php if ($_SESSION["autenticado"] == 'administrador') { ?>
 						<div class="col-sm-6">
-							<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Adicionar Novo Perfil</span></a>
+							<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span data-translation='researcher-add-profile'>Adicionar Novo Perfil</span></a>
 						</div>
 					<?php } ?>
 				</div>
@@ -126,16 +127,16 @@ if (@$_SESSION["anoRelatorio"] != "") {
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
-						<th>Tipo</th>
-						<th>Nome</th>
+						<th data-translation='researcher-type'>Tipo</th>
+						<th data-translation='researcher-name'>Nome</th>
 						<th>Email</th>
 						<th>CiênciaVitae ID</th>
 						<!--<th>Sobre</th>
 						<th>Áreas de interesse</th>
 						<th>Orcid</th>
 						<th>Scholar</th> -->
-						<th>Fotografia</th>
-						<th>Ações</th>
+						<th data-translation='researcher-photo'>Fotografia</th>
+						<th data-translation='researcher-actions'>Ações</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -155,14 +156,14 @@ if (@$_SESSION["anoRelatorio"] != "") {
 								echo "<td>".$row["scholar"]."</td>";
 								*/
 								echo "<td><img src='../assets/investigadores/$row[fotografia]' width = '100px' height = '100px'></td>";
-								echo "<td style='min-width:250px;'><a href='edit.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-primary'><span>Alterar</span></a>";
+								echo "<td style='min-width:250px;'><a href='edit.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-primary'><span data-translation='researcher-change'>Alterar</span></a>";
 								if ($_SESSION["autenticado"] == 'administrador') {
-									echo "<a href='remove.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-danger'><span>Apagar</span></a><br>";
+									echo "<a href='remove.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-danger'><span data-translation='researcher-delete'>Apagar</span></a><br>";
 								}
 								if ($row["tipo"] != "Externo") {
-									echo "<a href='resetpassword.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-warning'><span>Alterar Password</span></a><br>";
-									echo "<a data-id='" . $row["id"] . "' class='gerarRelatorio w-100 mb-1 btn btn-info'><span>Gerar Relatório</span></a><br>";
-									echo "<a href='publicacoes.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-secondary'><span>Selecionar Publicações</span></a><br>";
+									echo "<a href='resetpassword.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-warning'><span data-translation='researcher-change-password'>Alterar Password</span></a><br>";
+									echo "<a data-id='" . $row["id"] . "' class='gerarRelatorio w-100 mb-1 btn btn-info'><span data-translation='researcher-report-generate'>Gerar Relatório</span></a><br>";
+									echo "<a href='publicacoes.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-secondary'><span data-translation='researcher-select-publications'>Selecionar Publicações</span></a><br>";
 								}
 								echo "</td>";
 								echo "</tr>";

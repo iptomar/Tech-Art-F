@@ -44,7 +44,7 @@ $result = mysqli_query($conn, $sql);
 						<?php
 						if ($_SESSION["autenticado"] == "administrador") {
 							echo '<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i>';
-							echo '<span>Adicionar Novo Item ao Slider</span></a>';
+							echo '<span data-translation="slider-button-add-new-item">Adicionar Novo Item ao Slider</span></a>';
 						}
 						?>
 					</div>
@@ -53,9 +53,9 @@ $result = mysqli_query($conn, $sql);
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
-						<th style="width: 30px;">Título</th>					
-						<th>Imagem</th>						
-						<th>Conteúdo</th>	
+						<th style="width: 30px;" data-translation='slider-table-title'>Título</th>					
+						<th data-translation='slider-table-image'>Imagem</th>						
+						<th data-translation='slider-table-content'>Conteúdo</th>	
 						<th></th>		
 						<th></th>				
 					</tr>
@@ -74,8 +74,8 @@ $result = mysqli_query($conn, $sql);
 							echo "</td>";							echo "<td><img src='../assets/slider/$row[imagem]' width = '250px'></td>";
 							echo "<td>" . "<div class='div-textarea' style='width:100%; height:100%;'>" . $row["conteudo"] . "</div>" . "</td>";
 							if ($_SESSION["autenticado"] == "administrador") {
-								echo "<td><a href='edit.php?id=" . $row["id"] . "' class='btn btn-primary'><span>Alterar</span></a></td>";
-								echo "<td><a href='remove.php?id=" . $row["id"] . "' class='btn btn-danger'><span>Apagar</span></a></td>";
+								echo "<td><a href='edit.php?id=" . $row["id"] . "' class='btn btn-primary'><span data-translation='slider-button-change'>Alterar</span></a></td>";
+								echo "<td><a href='remove.php?id=" . $row["id"] . "' class='btn btn-danger'><span data-translation='slider-button-delete'>Apagar</span></a></td>";
 							}
 							echo "</tr>";							
 

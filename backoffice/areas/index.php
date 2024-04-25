@@ -5,6 +5,7 @@
 <?php
 require "../verifica.php";
 require "../config/basedados.php";
+require "../assets/models/functions.php";
 
 $mainDir = "../assets/projetos/"; // Ver isto no futuro, caminho para as imagens por default
 $dadosAreas;
@@ -182,16 +183,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container-xl mt-5">
     <div class="card">
         <br>
-        <h5 class="card-header text-center">Editar Texto</h5>
+        <h5 class="card-header text-center" data-translation='areas-edit-text'>Editar Texto</h5>
 
         <div class="card-body">
-            <h2>Escolha a area a editar:</h2>
+            <h2 data-translation='areas-choose-to-edit'>Escolha a area a editar:</h2>
             <form role="form" data-toggle="validator" action="../areas/index.php" method="post"
                 enctype="multipart/form-data">
                 <input type="hidden" name="titulo" id="titulo" value="">
                 <br>
                 <select name="areasSite" id="areasSite">
-                    <option>Selecionar</option>
+                    <option data-translation='areas-dropdown-select'>Selecionar</option>
                     <?php
                     foreach ($dadosAreas as $area) {
                         echo '<option value="' . $area['id'] . '">' . $area['titulo'] . '</option>';
@@ -203,15 +204,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <textarea id="texto" name="texto" class="form-control ck_replace" minlength="1" required
                     data-error="Por favor introduza um 'sobre projeto'" cols="30" rows="5"></textarea>
                 <br>
+                <div class="form-group">
+                    <label data-translation='areas-photo'>Fotografia</label>
+                    <input accept="image/*" type="file" onchange="previewImg(this);" class="form-control"
+                        id="inputFotografia" name="fotografia" value=<?php echo $fotografia; ?>>
+                    <!-- Error -->
+                    <div class="help-block with-errors"></div>
+                    <img id="preview" src="<?php echo $mainDir . $fotografia; ?>" width='300px' height='300px'/>  
+                </div>
                 <!-- Error -->
                 <div class="help-block with-errors"></div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block">Gravar</button>
+                    <button type="submit" class="btn btn-primary btn-block" data-translation='areas-button-save'>Gravar</button>
                 </div>
 
                 <div class="form-group">
                     <button type="button" onclick="window.location.href = 'index.php'"
-                        class="btn btn-danger btn-block">Cancelar</button>
+                        class="btn btn-danger btn-block" data-translation='areas-button-cancel'>Cancelar</button>
                 </div>
             </form>
         </div>
