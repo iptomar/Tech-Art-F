@@ -22,7 +22,19 @@ include 'config/dbconnection.php';
                 <div class="flex-container mobile_reverse">
                     <div class="flex-left">
                         <figure class="imgfigura">
-                            <img class="imgmissao w-100" style="max-width:330px;" src="./assets/images/missao.jpg" alt="Boat">
+                            
+                            <!-- <img class="imgmissao w-100" style="max-width:330px;" src="./assets/images/missao.jpg" alt="Boat"> -->
+                            <?php
+                                $pdo = pdo_connect_mysql();
+                                $query = "SELECT fotografia 
+                                            FROM technart.areas_website 
+                                            WHERE titulo = 'Missão e Objetivos'";
+                                $stmt = $pdo->prepare($query);
+                                $stmt->execute();
+                                $imagemFetched = $stmt->fetch(PDO::FETCH_ASSOC);
+                                $imagem = $imagemFetched['fotografia'];
+                                echo '<img class="w-100" style="max-width: 330px;" src="./assets/images/'. $imagem . '" alt="Boat">';   
+                            ?>
                             <figcaption class="imgs"></figcaption>
                         </figure>
                     </div>
