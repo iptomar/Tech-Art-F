@@ -1,6 +1,7 @@
 <?php
 require "../config/basedados.php";
 require "./templatePT.php";
+require "./templateEn.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_POST['noticias'])) {
@@ -11,6 +12,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
   if (isset($_POST['assunto'])) {
     $assunto = $_POST['assunto'];
+  }
+  if (isset($_POST['tituloEn'])) {
+    $tituloEn = $_POST['tituloEn'];
+  }
+  if (isset($_POST['assuntoEn'])) {
+    $assuntoEn = $_POST['assuntoEn'];
   }
 }
 ?>
@@ -41,11 +48,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <button class="btn btn-primary mr-4 ml-4" id="next">Confimar</button>
     </div>
     <div class="col-">
-      <h4>Preview Template</h4>
-      <div>
-        <?php echo template_header_pt(); ?>
-        <?php echo template_noticias_pt($titulo, $noticias); ?>
-        <?php echo template_footer_pt('Token'); ?>
+      <h4>Preview Template Português</h4>
+      <div class="row my-4">
+        <div>
+          <?php echo template_header_pt(); ?>
+          <?php echo template_noticias_pt($titulo, $noticias); ?>
+          <?php echo template_footer_pt('Token'); ?>
+        </div>
+      </div>
+      <h4>Preview Template Português</h4>
+      <div class="row my-4">
+        <div>
+          <?php echo template_header_en(); ?>
+          <?php echo template_noticias_en($tituloEn, $noticias); ?>
+          <?php echo template_footer_en('Token'); ?>
+        </div>
       </div>
     </div>
   </div>

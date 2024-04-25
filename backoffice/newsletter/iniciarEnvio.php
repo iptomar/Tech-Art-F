@@ -2,7 +2,7 @@
 require "../config/basedados.php";
 
 //Selecionar os dados das noticias da base de dados
-$sql = "SELECT id, titulo, conteudo, data, imagem FROM noticias ORDER BY DATA DESC, titulo";
+$sql = "SELECT id, titulo, titulo_en, conteudo, conteudo_en, data, imagem FROM noticias ORDER BY DATA DESC, titulo";
 $result = mysqli_query($conn, $sql);
 $noticias = array();
 
@@ -117,7 +117,14 @@ $noticias = array();
                 echo "<td style='width:500px; height:100px;'><div class='div-textarea' style='width:100%; height:100%;' data-conteudo='" . $row["conteudo"] . "'>" . $row["conteudo"] . "</div></td>";
                 echo "<td style='width:250px;'>" . $row["data"] . "</td>";
                 echo "<td><img src='../assets/noticias/" . $row['imagem'] . "' width='100px' height='100px'></td>";
-                echo "<td><button class='btn btn-primary add-noticia' data-noticia-id='" . $row['id'] . "' data-noticia-titulo='" . $row['titulo'] . "' data-noticia-conteudo='" . $row['conteudo'] . "' data-noticia-data='" . $row["data"] . "' data-noticia-imagem='" . $row["imagem"] . "'>Adicionar</button></td>";
+                echo "<td><button class='btn btn-primary add-noticia' 
+                data-noticia-id='" . $row['id'] . "' 
+                data-noticia-titulo='" . $row['titulo'] . "' 
+                data-noticia-titulo-en='" . $row['titulo_en'] . "'
+                data-noticia-conteudo='" . $row['conteudo'] . "' 
+                data-noticia-conteudo-en='" . $row['conteudo_en'] . "'
+                data-noticia-data='" . $row["data"] . "' 
+                data-noticia-imagem='" . $row["imagem"] . "'>Adicionar</button></td>";
                 echo "</tr>";
               }
             }
@@ -153,7 +160,9 @@ $noticias = array();
     $('#noticias-table').on('click', '.add-noticia', function() {
       var noticiaId = $(this).data('noticia-id');
       var noticiaTitulo = $(this).data('noticia-titulo');
+      var noticiaTituloEn = $(this).data('noticia-titulo-en');
       var noticiaConteudo = $(this).data('noticia-conteudo');
+      var noticiaConteudoEn = $(this).data('noticia-conteudo-en');
       var noticiaData = $(this).data('noticia-data');
       var noticiaImagem = $(this).data('noticia-imagem');
       var noticiaExistente = $('#noticias-escolhidas li[data-noticia-id="' + noticiaId + '"]');
@@ -164,7 +173,9 @@ $noticias = array();
         var noticia = {
           id: noticiaId,
           titulo: noticiaTitulo,
+          tituloEn: noticiaTituloEn,
           conteudo: noticiaConteudo,
+          conteudoEn: noticiaConteudoEn,
           data: noticiaData,
           imagem: noticiaImagem
         };

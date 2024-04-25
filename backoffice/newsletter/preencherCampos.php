@@ -35,14 +35,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <button class="btn btn-primary mr-4 ml-4" id="next">Confimar</button>
     </div>
     <div class="col-sm-6">
-      <h4>Preencher Campos em Português</h4>
-      <div class="form-group">
-        <label for="titulo">Título:</label>
-        <input type="text" class="form-control" id="titulo" placeholder="Digite o título" required>
+      <div class="row my-4">
+        
+        <div class="form-group">
+          <label for="titulo">Título:</label>
+          <input type="text" class="form-control" id="titulo" placeholder="Digite o título" required>
+        </div>
+        <div class="form-group">
+          <label for="assunto">Assunto:</label>
+          <input type="text" class="form-control" id="assunto" placeholder="Digite o assunto" required>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="assunto">Assunto:</label>
-        <input type="text" class="form-control" id="assunto" placeholder="Digite o assunto" required>
+      <div class="row my-4">
+      <h4>Preencher Campos em Inglês</h4>
+        <div class="form-group">
+          <label for="tituloEn">Título:</label>
+          <input type="text" class="form-control" id="tituloEn" placeholder="Digite o título" required>
+        </div>
+        <div class="form-group">
+          <label for="assuntoEn">Assunto:</label>
+          <input type="text" class="form-control" id="assuntoEn" placeholder="Digite o assunto" required>
+        </div>
       </div>
     </div>
   </div>
@@ -68,7 +81,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $('#next').click(function() {
       var titulo = $('#titulo').val();
+      var tituloEn = $('#tituloEn').val();
       var assunto = $('#assunto').val();
+      var assuntoEn = $('#assuntoEn').val();
       var noticias = <?php echo json_encode($noticias); ?>;
 
       $.ajax({
@@ -77,7 +92,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         data: {
           noticias: noticias,
           titulo: titulo,
-          assunto: assunto
+          tituloEn :tituloEn,
+          assunto: assunto,
+          assuntoEn: assuntoEn
         },
         success: function(data) {
           $('#main-container').html(data);
