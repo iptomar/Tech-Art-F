@@ -3,6 +3,7 @@ include 'config/dbconnection.php';
 include 'models/functions.php';
 $pdo = pdo_connect_mysql();
 $language = ($_SESSION["lang"] == "en") ? "_en" : "";
+$unsubscribe_message = isset($_GET['unsubscribe_message']) ? $_GET['unsubscribe_message'] : '';
 ?>
 
 <link href="assets/css/newsletter.css" rel="stylesheet" type="text/css">
@@ -250,6 +251,18 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
    </div>
 </div>
 
+
+<?php if (!empty($unsubscribe_message)): ?>
+<!-- Exibir a mensagem de unsubscribe -->
+<div class="newsletter-popup open">
+    <div class="newsletter-popup-container open">
+    <a href="#" class="newsletter-popup-close-btn" onclick="closeNewsletterPopup()">&times;</a>
+        <h3><i class="fa-regular fa-envelope"></i>Cancelar subscrição</h3>
+        <p><?= $unsubscribe_message ?></p>
+    </div>
+</div>
+<?php endif; ?>
+
 <!-- end client section -->
 
 <?= template_footer(); ?>
@@ -269,6 +282,7 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
       document.querySelector('.newsletter-popup').style.display = 'none';
       document.querySelector('.newsletter-popup').classList.remove('open');
       document.querySelector('.newsletter-popup-container').classList.remove('open');
+      document.querySelector('.newsletter-popup-close-btn').addEventListener('click', closeNewsletterPopup);
       document.cookie = "nonews=true; expires=" + new Date(Date.now() + 31536000000).toUTCString() + "; path=/";
    };
 
