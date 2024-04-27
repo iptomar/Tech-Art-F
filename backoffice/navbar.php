@@ -1,8 +1,6 @@
 <?php
-
 //chama as funções para tradução
 require_once 'assets/models/functions.php';
-
 ?>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
@@ -65,8 +63,6 @@ require_once 'assets/models/functions.php';
         color:white;
     }
 </style>
-
-
 
 <ul class="navUl">
     <li class="navLi">
