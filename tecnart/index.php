@@ -3,7 +3,8 @@ include 'config/dbconnection.php';
 include 'models/functions.php';
 $pdo = pdo_connect_mysql();
 $language = ($_SESSION["lang"] == "en") ? "_en" : "";
-$unsubscribe_message = isset($_GET['unsubscribe_message']) ? $_GET['unsubscribe_message'] : '';
+$unsubscribe_message = isset($_SESSION['unsubscribe_message']) ? $_SESSION['unsubscribe_message'] : '';
+unset($_SESSION['unsubscribe_message']);
 ?>
 
 <link href="assets/css/newsletter.css" rel="stylesheet" type="text/css">
@@ -231,26 +232,6 @@ $unsubscribe_message = isset($_GET['unsubscribe_message']) ? $_GET['unsubscribe_
    </div>
 
 </section>
-<div class="newsletter-popup">
-   <div class="newsletter-popup-container">
-      <a href="#" class="newsletter-popup-close-btn">&times;</a>
-      <h3><i class="fa-regular fa-envelope"></i>Subscreva a nossa newsletter</h3>
-      <p>Subscreva a nossa newsletter para receber as últimas novidades no seu email.</p>
-      <form action="subscrever.php" method="post">
-         <div style="text-align: center;">
-            <input type="email" name="email" placeholder="Endereço de email" required style="text-transform: none;">
-            <input type="radio" class="btn-check" name="idioma" id="idioma-pt" autocomplete="off" checked value="pt">
-            <label class="btn btn-outline-secondary" for="idioma-pt" style="width:100px">Português</label>
-            <input type="radio" class="btn-check" name="idioma" id="idioma-en" autocomplete="off" value="en">
-            <label class="btn btn-outline-secondary" for="idioma-en" style="width:100px;">Inglês</label>
-            <br /><br />
-            <button type="submit" style="height: 40px">Subscrever</button>
-         </div>
-      </form>
-      <p class="newsletter-msg"></p>
-   </div>
-</div>
-
 
 <?php if (!empty($unsubscribe_message)): ?>
 <!-- Exibir a mensagem de unsubscribe -->
@@ -262,6 +243,30 @@ $unsubscribe_message = isset($_GET['unsubscribe_message']) ? $_GET['unsubscribe_
     </div>
 </div>
 <?php endif; ?>
+
+<?php if (empty($unsubscribe_message)): ?>
+<div class="newsletter-popup">
+   <div class="newsletter-popup-container">
+      <a href="#" class="newsletter-popup-close-btn">&times;</a>
+      <h3><i class="fa-regular fa-envelope"></i>Subscreva a nossa newsletter</h3>
+      <p>Subscreva a nossa newsletter para receber as últimas novidades no seu email.</p>
+      <form action="subscrever.php" method="post">
+         <div style="text-align: center;">
+            <input type="email" name="email" placeholder="Endereço de email" required style="text-transform: none;">
+            <input type="radio" class="btn-check" name="idioma" id="idioma-pt" autocomplete="off" checked value="pt">
+            <label class="btn btn-outline-secondary" for="idioma-pt" style="width:120px">Português</label>
+            <input type="radio" class="btn-check" name="idioma" id="idioma-en" autocomplete="off" value="en">
+            <label class="btn btn-outline-secondary" for="idioma-en" style="width:120px;">Inglês</label>
+            <br /><br />
+            <button type="submit" style="height: 40px">Subscrever</button>
+         </div>
+      </form>
+      <p class="newsletter-msg"></p>
+   </div>
+</div>
+<?php endif; ?>
+
+
 
 <!-- end client section -->
 

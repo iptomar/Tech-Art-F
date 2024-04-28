@@ -24,6 +24,8 @@
     } else {
         $message = 'Não foi especificado uma conta de email ou um código de cancelamento.';
     }
-    header('Location: index.php?unsubscribe_message=' . urlencode($message));
+    session_start();
+    $_SESSION['unsubscribe_message'] = $message;
+    header('Location: index.php');
     exit();
 ?>
