@@ -1065,7 +1065,7 @@ li.nav-item ul li a {
 
 footer {
     background: #333F50;
-    padding: 90px 0 70px;
+    padding: 30px 0 10px;
 }
 
 .logo_footer {
@@ -1073,7 +1073,7 @@ footer {
 }
 
 .logo-tech_footer{
-  max-width:320px;
+  max-width:270px;
   width: 100%;
 }
 

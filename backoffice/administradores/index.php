@@ -2,6 +2,7 @@
 require "../verifica.php";
 require "../config/basedados.php";
 require "bloqueador.php";
+require "../assets/models/functions.php";
 
 $sql = "SELECT id, nome, email FROM administradores ORDER BY id";
 $result = mysqli_query($conn, $sql);
@@ -27,20 +28,20 @@ $result = mysqli_query($conn, $sql);
 			<div class="table-title">
 				<div class="row">
 					<div class="col-sm-6">
-						<h2>Administradores</h2>
+						<h2 data-translation='admin-title'>Administradores</h2>
 					</div>
 					<div class="col-sm-6">
 						<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i>
-							<span>Adicionar Novo Administrador</span></a>
+							<span data-translation='admin-add-new' >Adicionar Novo Administrador</span></a>
 					</div>
 				</div>
 			</div>
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
-						<th>Nome</th>
-						<th>Email</th>
-						<th>Ações</th>
+						<th data-translation='admin-name'>Nome</th>
+						<th data-translation='admin-email'>Email</th>
+						<th data-translation='admin-actions'>Ações</th>
 					</tr>
 				</thead>
 
@@ -51,9 +52,9 @@ $result = mysqli_query($conn, $sql);
 							echo "<tr>";
 							echo "<td>" . $row["nome"] . "</td>";
 							echo "<td>" . $row["email"] . "</td>";
-							echo "<td><a href='edit.php?id=" . $row["id"] . "' class='btn btn-primary'><span>Alterar</span></a></td>";
-							echo "<td><a href='remove.php?id=" . $row["id"] . "' class='btn btn-danger'><span>Apagar</span></a></td>";
-							echo "<td><a href='resetpassword.php?id=" . $row["id"] . "' class='btn btn-warning'><span>Alterar Password</span></a></td>";
+							echo "<td><a href='edit.php?id=" . $row["id"] . "' class='btn btn-primary'><span data-translation='admin-change'>Alterar</span></a></td>";
+							echo "<td><a href='remove.php?id=" . $row["id"] . "' class='btn btn-danger'><span data-translation='admin-delete'>Apagar</span></a></td>";
+							echo "<td><a href='resetpassword.php?id=" . $row["id"] . "' class='btn btn-warning'><span data-translation='admin-change-password'>Alterar Password</span></a></td>";
 							echo "</tr>";
 						}
 					}
