@@ -174,16 +174,18 @@ function template_header_en()
       color: #333;
     }
     </style>
-<html>
-  <main>
-    <header>
-      <div></div>
-      <div class="middle-section">
-        <img class="logo" src="../assets/newsletter/TechnArt11FundoTrans.png" />
-      </div>
-    </header>
-    ';
-}
+    <html>
+    <main>
+      <header>
+        <div></div>
+        <div class="middle-section">
+        <a href="http://www.techneart.ipt.pt/" class="image-link">
+        <img class="logo" src="http://www.techneart.ipt.pt/tecnart/assets/images/TechnArt11FundoTrans.png" />
+        </a>
+        </div>
+      </header>
+      ';
+  }
 function template_noticias_en($title, $noticias)
 {
   $noticias_json = json_decode($noticias, true);
@@ -194,7 +196,7 @@ function template_noticias_en($title, $noticias)
         <div class='item'>
         <div class='item-top'>
           <a href='http://localhost/Tech-Art-F/tecnart/noticia.php?noticia=$noticia[id]' class='image-link'>
-            <img class='image' src='../../backoffice/assets/noticias/$noticia[imagem]' />
+            <img class='image' src='http://www.techneart.ipt.pt/backoffice/assets/noticias/$noticia[imagem]' />
           </a>
           <textarea class='textarea' readonly>$noticia[conteudoEn]</textarea>
         </div>
