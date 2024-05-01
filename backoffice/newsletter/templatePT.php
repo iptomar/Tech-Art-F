@@ -179,7 +179,9 @@ footer {
     <header>
       <div></div>
       <div class="middle-section">
-        <img class="logo" src="../assets/newsletter/TechnArt12FundoTrans.png" />
+      <a href="http://www.techneart.ipt.pt/" class="image-link">
+      <img class="logo" src="http://www.techneart.ipt.pt/tecnart/assets/images/TechnArt5FundoTrans.png" />
+      </a>
       </div>
     </header>
     ';
@@ -189,12 +191,12 @@ function template_noticias_pt($titulo, $noticias)
   $noticias_json = json_decode($noticias, true);
   echo "<div class='content'>
     <h1 class='item'>$titulo</h1>";
-    foreach ($noticias_json as $noticia) {
-      echo "
+  foreach ($noticias_json as $noticia) {
+    echo "
       <div class='item'>
           <div class='item-top'>
-              <a href='http://localhost/Tech-Art-F/tecnart/noticia.php?noticia=$noticia[id]' class='image-link'>
-                  <img class='image' src='../../backoffice/assets/noticias/$noticia[imagem]' />
+              <a href='http://www.techneart.ipt.pt/tecnart/noticia.php?noticia=$noticia[id]' class='image-link'>
+                  <img class='image' src='http://www.techneart.ipt.pt/backoffice/assets/noticias/$noticia[imagem]' />
               </a>
               <textarea class='textarea' readonly>$noticia[conteudo]</textarea>
           </div>
@@ -214,5 +216,5 @@ function template_footer_pt($token)
     <a href='#' class='unsubscribe'>Unsubscribe</a>
   </footer>
 </main>
-</html>"; 
+</html>";
 }
