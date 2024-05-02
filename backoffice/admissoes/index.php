@@ -2,6 +2,7 @@
 require "../verifica.php";
 require "../config/basedados.php";
 require "bloqueador.php";
+require "../assets/models/functions.php";
 
 $sql = "SELECT id, ficheiro_fotografia, nome_completo, ciencia_id, orcid, data_criacao FROM admissoes ORDER BY data_criacao DESC";
 $result = mysqli_query($conn, $sql);
@@ -27,19 +28,19 @@ $result = mysqli_query($conn, $sql);
 			<div class="table-title">
 				<div class="row">
 					<div class="col-sm-6">
-						<h2>Pedidos de admissão</h2>
+						<h2 data-translation='admissions-requests-title'>Pedidos de admissão</h2>
 					</div>
 				</div>
 			</div>
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
-					<th style="min-width:150px">Data Submissão</th>
-						<th style="max-width:150px">Fotografia</th>
-						<th>Nome completo</th>
-						<th style="min-width:100px">Ciência ID</th>
-						<th style="min-width:100px">ORCID</th>
-						<th>Ações</th>
+					<th style="min-width:150px" data-translation='admissions-table-submission-date'>Data Submissão</th>
+						<th style="max-width:150px" data-translation='admissions-table-photo'>Fotografia</th>
+						<th data-translation='admissions-table-full-name'>Nome completo</th>
+						<th style="min-width:100px" >Ciência ID</th>
+						<th style="min-width:100px" >ORCID</th>
+						<th data-translation='admissions-table-actions'>Ações</th>
 					</tr>
 				</thead>
 
@@ -54,8 +55,8 @@ $result = mysqli_query($conn, $sql);
 							echo "<td>" . $row["nome_completo"] . "</td>";
 							echo "<td>" . $row["ciencia_id"] . "</td>";
 							echo "<td>" . $row["orcid"] . "</td>";
-							echo "<td><a href='details.php?id=" . $row["id"] . "' class='btn btn-primary'><span>Detalhes</span></a></td>";
-							echo "<td><a href='remove.php?id=" . $row["id"] . "' class='btn btn-danger'><span>Apagar</span></a></td>";
+							echo "<td><a href='details.php?id=" . $row["id"] . "' class='btn btn-primary'><span data-translation='admissions-button-details'>Detalhes</span></a></td>";
+							echo "<td><a href='remove.php?id=" . $row["id"] . "' class='btn btn-danger'><span data-translation='admissions-button-delete'>Apagar</span></a></td>";
 							echo "</tr>";
 						}
 					}

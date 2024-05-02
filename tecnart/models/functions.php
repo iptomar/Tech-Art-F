@@ -233,6 +233,27 @@ EOT;
 
 function template_footer(){
 
+try{
+//Select na base de dados que vai buscar o link do regulamentos 
+$pdo = pdo_connect_mysql();
+$query = "SELECT texto 
+          FROM technart.areas_website 
+          WHERE titulo = 'Link Regulamentos'";
+$stmt = $pdo->prepare($query);
+$stmt->execute();
+$textoFetched = $stmt->fetch(PDO::FETCH_ASSOC);
+$texto = $textoFetched['texto'];
+
+//verifica-se se o ficheiro existe
+$headers = file_exists($texto); 
+// se nao existir mostra uma pagina a informar que este nao esta diponivel  
+if(!$headers) {      
+  $texto = "./assets/regulamentos/linkdown.html"; 
+} 
+}
+catch(Exception $e){
+ throw new Exception( 'Ficheiro não encontrado',0,$e);
+}
 //variaveis para passar valores de dicionarios
 
 //imagens
@@ -273,7 +294,10 @@ $change_lang =  function ($key) {
                                 </div>
                             </div>
                                 <div class="widget_menu">
-                                    <br><ul><li><a style="color: white;">sec.techenart@ipt.pt</a></li></ul>
+                                    <br><ul><li><a style="color: white;"> sec.techenart@ipt.pt</a></li></ul>
+                                </div>
+                                <div class="widget_menu">
+                                <br><a style="color: white;" href="$texto" >Regulamentos Techn&Art</a>
                                 </div>
                                 <div class="widget_menu">
                                     <br><ul><li><a style="color: white;"><strong>{$change_lang("follow-us-txt")}</strong></a></li></ul>

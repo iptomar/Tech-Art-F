@@ -1,6 +1,7 @@
 <?php
 require "../verifica.php";
 require "../config/basedados.php";
+require "../assets/models/functions.php";
 
 // Initialize extra condition to empty string
 $extraCondition = "";
@@ -41,11 +42,10 @@ $result = mysqli_query($conn, $sql);
 				<div class="table-title">
 					<div class="row">
 						<div class="col-sm-6">
-							<h2>Projetos</h2>
+							<h2 data-translation='project-title'>Projetos</h2>
 						</div>
 						<div class="col-sm-6">
-							<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i>
-								<span>Adicionar
+							<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span data-translation='project-add-new'>Adicionar
 									Novo Projeto</span></a>
 						</div>
 					</div>
@@ -68,17 +68,17 @@ $result = mysqli_query($conn, $sql);
 				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
-							<th>Nome</th>
-							<th>Estado</th>
+							<th data-translation='project-name'>Nome</th>
+							<th data-translation='project-state'>Estado</th>
 							<!--                 <th>Descrição</th>
 				<th>Sobre Projeto</th> -->
-							<th>Referência</th>
-							<th>TECHN&ART Área Preferencial</th>
-							<th>Financiamento</th>
+							<th data-translation='project-reference'>Referência</th>
+							<th data-translation='project-preferencial-area'>TECHN&ART Área Preferencial</th>
+							<th data-translation='project-funding'>Financiamento</th>
 							<!--                 <th>Âmbito</th>
  -->
-							<th>Fotografia</th>
-							<th>Ações</th>
+							<th data-translation='project-photo'>Fotografia</th>
+							<th data-translation='project-actions'>Ações</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -101,18 +101,19 @@ $result = mysqli_query($conn, $sql);
 								/*             echo "<td>".$row["ambito"]."</td>";
 								 */
 								echo "<td><img src='../assets/projetos/$row[fotografia]' width = '100px' height = '100px'></td>";
-								$sql1 = "SELECT investigadores_id FROM investigadores_projetos WHERE projetos_id = " . $row["id"];
+								$sql1 = "SELECT gestores_id FROM gestores_projetos WHERE projetos_id = " . $row["id"];
 								$result1 = mysqli_query($conn, $sql1);
 								$selected = array();
 								if (mysqli_num_rows($result1) > 0) {
 									while (($row1 = mysqli_fetch_assoc($result1))) {
-										$selected[] = $row1['investigadores_id'];
+										$selected[] = $row1['gestores_id'];
 									}
 								}
 								if ($_SESSION["autenticado"] == "administrador" || in_array($_SESSION["autenticado"], $selected)) {
-									echo "<td><a href='edit.php?id=" . $row["id"] . "' class='btn btn-primary'><span>Alterar</span></a></td>";
-									echo "<td><a href='remove.php?id=" . $row["id"] . "' class='btn btn-danger'><span>Apagar</span></a></td>";
+									echo "<td><a href='edit.php?id=" . $row["id"] . "' class='btn btn-primary'><span data-translation='project-button-change'>Alterar</span></a></td>";
+									echo "<td><a href='remove.php?id=" . $row["id"] . "' class='btn btn-danger'><span data-translation='project-button-delete'>Apagar</span></a></td>";
 								}
+
 								echo "</tr>";
 							}
 						}

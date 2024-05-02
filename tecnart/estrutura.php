@@ -1,5 +1,6 @@
 <?php
 include 'models/functions.php';
+include 'config/dbconnection.php';
 ?>
 
 <!DOCTYPE html>
@@ -21,36 +22,33 @@ include 'models/functions.php';
                 <div class="flex-container mobile_reverse">
                     <div class="flex-left">
                         <figure class="imgfigura">
-                            <img class="imgestrutura w-100" style="max-width:330px;" src="./assets/images/estrutura.jpg" alt="Boat">
+                            <!-- <img class="imgestrutura w-100" style="max-width:330px;" src="./assets/images/estrutura.jpg" alt="Boat"> -->
+                            <?php
+                                $pdo = pdo_connect_mysql();
+                                $query = "SELECT fotografia 
+                                            FROM technart.areas_website 
+                                            WHERE titulo = 'Estrutura Orgânica'";
+                                $stmt = $pdo->prepare($query);
+                                $stmt->execute();
+                                $imagemFetched = $stmt->fetch(PDO::FETCH_ASSOC);
+                                $imagem = $imagemFetched['fotografia'];
+                                echo '<img class="w-100" style="max-width: 330px;" src="./assets/images/'. $imagem . '" alt="Boat">';   
+                            ?>
                             <figcaption class="imgs"></figcaption>
                         </figure>
                     </div>
                     <div class="flex-right">
-                        <?= change_lang("org-struct-page-description") ?><br><br>
-
-                        <b><?= change_lang("org-struct-page-director-tag") ?></b><br><?= change_lang("director") ?><br><br>
-
-                        <b><?= change_lang("org-struct-page-deputy-director-tag") ?></b><br><?= change_lang("deputy-director") ?><br><br>
-
-                        <b><?= change_lang("org-struct-page-executive-secretary-tag") ?></b><br><?= change_lang("executive-secretary") ?><br><br>
-
-                        <b><?= change_lang("org-struct-page-board-tag") ?><br> </b><?= change_lang("board-composed") ?><br>
-                        <?= change_lang("board-member1") ?><br>
-                        <?= change_lang("board-member2") ?><br>
-                        <?= change_lang("board-member3") ?><br>
-                        <?= change_lang("board-member4") ?><br>
-                        <?= change_lang("board-member5") ?><br><br>
-
-                        <b><?= change_lang("org-struct-page-scinetific-conucil-tag") ?><br> </b><?= change_lang("all-integrated-members") ?><br><br>
-
-                        <b><?= change_lang("org-struct-page-advisory-council-tag") ?><br>
-                        </b><?= change_lang("advisory-council-one") ?><br>
-                        <?= change_lang("advisory-council-two") ?><br>
-                        <?= change_lang("advisory-council-three") ?><br>
-                        <?= change_lang("advisory-council-four") ?><br>
-                        <?= change_lang("advisory-council-five") ?><br>
-                        <?= change_lang("advisory-council-six") ?><br><br>
-
+                        <?php
+                           $pdo = pdo_connect_mysql();
+                           $query = "SELECT texto 
+                                     FROM technart.areas_website 
+                                     WHERE titulo = 'Estrutura Orgânica'";
+                           $stmt = $pdo->prepare($query);
+                           $stmt->execute();
+                           $textoFetched = $stmt->fetch(PDO::FETCH_ASSOC);
+                           $texto = $textoFetched['texto'];
+                           echo $texto;
+                        ?>
                     </div>
                 </div>
 
