@@ -6,6 +6,8 @@ $pdo = pdo_connect_mysql();
 $language = ($_SESSION["lang"] == "en") ? "_en" : "";
 #Variavel que recebe a query para a base de dados 
 $query = "";
+#Variavel que Contem parte da string para preencher o place holder 
+$placeholder = "Pesquisar Investigador por Nome";
 #se o botao do reload for clicado mostra todos os investigadores 
 if(isset($_POST["mostraTodos"])){
    $query = "SELECT id, email, nome,
@@ -14,13 +16,14 @@ if(isset($_POST["mostraTodos"])){
    ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id
    FROM investigadores WHERE tipo = \"Integrado\" ORDER BY nome";
 }
-#se o botão do pesquisar for clicado mostra o/os investigadores que contem esse nome  
+#se o botão do pesquisar for clicado mostra o/os investigadores que estejam dentro do contexto de pesquisa
 else if(isset($_GET["pequisaInvestigador"])){
    $query = "SELECT id, email, nome,
    COALESCE(NULLIF(sobre{$language}, ''), sobre) AS sobre,
    COALESCE(NULLIF(areasdeinteresse{$language}, ''), areasdeinteresse) AS areasdeinteresse,
    ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id
-   FROM investigadores WHERE tipo = \"Integrado\" and nome LIKE '%{$_GET["pequisaInvestigador"]}%' ORDER BY nome";
+   FROM investigadores WHERE tipo = \"Integrado\" and {$_GET["selectContext"]} LIKE '%{$_GET["pequisaInvestigador"]}%' ORDER BY nome";
+  			
 }
 #caso nehum botao seja clicado mostra todos 
 else{ 
@@ -66,30 +69,32 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="container">
 
          <div class="row justify-content-center mt-3">
-
-
             <div class="col-">
-               <!--Formolario que permite pesquisa o ivestigasdor por nome-->
+               <!--Formolario que permite pesquisa o ivestigador -->
                <form class="form-check form-check-inline"  id="formPesquisaInvestigador" method="get" >
-                  <input type=" text" name="pequisaInvestigador" placeholder="Nome do investigador a perquisar"
-                  style="max-width: 500px; min-width: 450px; display: inline-block; text-transform: none;  ">
+                  <input type="text" name="pequisaInvestigador" placeholder="<?php echo $placeholder ?>"
+                  style="max-width: 500px; min-width: 450px; display: inline-block; text-transform: none; margin-right: 5px;  height: 40px;">
             </div>
+             <!--Select para selecionar o campo pelo  qual se quer perquisar  o investigador-->
+            <select class="form-select form-select-lg mb-3" name="selectContext" id="selectContext"  onchange="atualizaPlaceHolder()">
+  						<option value="nome">Nome</option>
+  						<option value="email">Email</option>
+  						<option value="ciencia_id">Ciência ID</option>
+  						<option value="orcid">Orcid</option>
+						</select>
             <div class="col-">
-               <button type="submit" style="height: 50px; margin-right:10px;">
-                  <img name="search-icon" src='assets/icons/search.svg' style="width:40px">
+               <button type="submit" style="height: 40px; margin-right:10px; margin-left:15px;">
+                  <img name="search-icon" src='assets/icons/search.svg' style="width:30px">
                </button>
                </form>
             </div>
             <div class="col-">
                 <!--Formulario que permite limpar a pesquisa feita pelo utilizador-->
                <form  id="formmostraTodosInvestigadores" method="post">
-                  <button type="submit" style="height: 50px;" name="mostraTodos" value="vertodos"> <img name="reload_icon" src='assets\icons\reload.svg' style="width:35px"></button>
+                  <button type="submit" style="height: 40px;" name="mostraTodos" value="vertodos"> <img name="reload_icon" src='assets\icons\reload.svg' style="width:30px"></button>
                </form>
             </div>
          </div> 
-
-
-
          <div class="row justify-content-center mt-3">
 
             <?php foreach ($investigadores as $investigador): ?>
@@ -109,7 +114,7 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
       </div>
 
 
-      <!--             <div class="row justify-content-center mt-3">
+      <!--<div class="row justify-content-center mt-3">
                
                <div  class="ml-4 imgList">
                
@@ -177,7 +182,17 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
    </div>
 </section>
+<script>
+   // metodo java scrip para altera o placeholder no input pesquisar 
+   function atualizaPlaceHolder(){
+     var index = document.getElementById("selectContext").selectedIndex; 
+     var option = document.getElementById("selectContext").options;
+     var text = "Procurar Investigador por ";
+     var text = text.concat(option[index].text);
+     document.getElementsByName('pequisaInvestigador')[0].placeholder = text ;
 
+   }
+</script>
 <!-- end product section -->
 
 <?= template_footer(); ?>
