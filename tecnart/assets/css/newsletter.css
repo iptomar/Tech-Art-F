@@ -92,12 +92,3 @@
   display: flex;
   background-color: rgba(0, 0, 0, 0.4);
 }
-.btn-check:checked + .btn-outline-primary,
-.btn-outline-primary:checked,
-.btn-outline-primary:active,
-.btn-outline-primary:focus,
-.btn-outline-primary:hover {
-  color: #fff;
-  background-color: #333F50;
-  border-color: #333F50;
-}
