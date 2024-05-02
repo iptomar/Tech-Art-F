@@ -234,7 +234,6 @@ unset($_SESSION['unsubscribe_message']);
 </section>
 
 <?php if (!empty($unsubscribe_message)): ?>
-<!-- Exibir a mensagem de unsubscribe -->
 <div class="newsletter-popup open">
     <div class="newsletter-popup-container open">
     <a href="#" class="newsletter-popup-close-btn" onclick="closeNewsletterPopup()">&times;</a>

@@ -43,12 +43,13 @@ if (mysqli_num_rows($resultsPT) > 0) {
     try {
       $mail->addBCC($rowPT['email'], $rowPT['id']);
       $mail->Subject = $assunto; // Usar o assunto em português
+      $tokenUnsubscribe = "http://localhost/Tech-Art-F/tecnart/cancelar_subscricao.php?email=" . $rowPT['email'] . "&token=" . $rowPT['token_unsubscribe'];
       ob_start(); // Inicia o buffer de saída
       ?>
             <div>
               <?php echo template_header_pt(); ?>
               <?php echo template_noticias_pt($titulo, $noticias); ?>
-              <?php echo template_footer_pt($rowPT['token_unsubscribe']); ?>
+              <?php echo "<a href='$tokenUnsubscribe'>Unsubscribe</a>"; ?>
             </div>
       <?php
             $bodyContent = ob_get_clean();
@@ -73,12 +74,13 @@ if (mysqli_num_rows($resultsEN) > 0) {
     try {
       $mail->addBCC($rowEN['email'], $rowEN['id']);
       $mail->Subject = $assuntoEn; // Usar o assunto em inglês
+      $tokenUnsubscribe = "http://localhost/Tech-Art-F/tecnart/cancelar_subscricao.php?email=" . $rowPT['email'] . "&token=" . $rowPT['token_unsubscribe'];
       ob_start(); // Inicia o buffer de saída
 ?>
       <div>
         <?php echo template_header_en(); ?>
         <?php echo template_noticias_en($tituloEn, $noticias); ?>
-        <?php echo template_footer_en($rowEN['token_unsubscribe']); ?>
+        <?php echo "<a href='$tokenUnsubscribe'>Unsubscribe</a>"; ?>
       </div>
 <?php
       $bodyContent = ob_get_clean();
