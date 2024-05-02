@@ -3,19 +3,18 @@ require "../verifica.php";
 require "../config/basedados.php";
 require "../assets/models/functions.php";
 
-// Initialize extra condition to empty string
+// Inicializar a variavel da condição extra para a query
 $extraCondition = "";
 
-// Check if the filterForm is submitted
+// Validar se o form foi submited
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['filterForm'])) {
-	// Check if the checkbox for completed projects is checked
+	// validar se a checkbox dos completos esta com o check
 	if (isset($_POST['pcompletos'])) {
-		// Add the extra condition
+		// Adicionamos a condição extra
 		$extraCondition = " AND concluido = 1";
 	}
 }
 
-// Modify the SQL query to include the extra condition
 $sql = "SELECT id, nome, referencia, areapreferencial, financiamento, fotografia, concluido FROM projetos WHERE 1=1" . $extraCondition . " ORDER BY nome";
 
 $result = mysqli_query($conn, $sql);
