@@ -68,7 +68,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
   </div>
 </body>
+<script>
+$(document).ready(function() {
+  $('#next').click(function() {
+    var titulo = '<?php echo $titulo; ?>';
+    var assunto = '<?php echo $assunto; ?>';
+    var tituloEn = '<?php echo $tituloEn; ?>';
+    var assuntoEn = '<?php echo $assuntoEn; ?>';
+    var noticias = '<?php echo $noticias; ?>';
 
+    $.ajax({
+      url: 'envio.php',
+      type: 'GET',
+      data: {
+        titulo: titulo,
+        assunto: assunto,
+        tituloEn: tituloEn,
+        assuntoEn: assuntoEn,
+        noticias: noticias
+      },
+      success: function(data) {
+        alert('Newsletter enviada com sucesso!');
+      },
+      error: function() {
+        alert('Erro ao enviar e-mails.');
+      }
+    });
+  });
+});
+</script>
 
 
 
