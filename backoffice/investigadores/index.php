@@ -7,16 +7,19 @@ require "../assets/models/functions.php";
 $find = "";
 #Recebe o a query que ira mostrar os investigadores 
 $sql = "";
+#Variavel que Contem parte da string para preencher o place holder 
+$placeholder = "Pesquisar por Nome";
 #Se o botão de mostrar todos for selecionado  
 if (isset($_POST["pesquisaTodos"])) {
 	$sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar FROM investigadores 
 ORDER BY CASE WHEN tipo = 'Externo' THEN 1 ELSE 0 END, tipo DESC, nome;";
 }
-#se o botão para perquisar um inverstigador for selecionado procura na base de dados por todos os nomes que contenham aqules carateres
+#se o botão para perquisar um inverstigador for selecionado procura na base de dados por todos aqueles que contenham aqueles carateres no campo ecolhido 
 else if(isset($_GET["pesquisarInvest"])){
+
 	$sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar 
 			FROM investigadores
-			WHERE nome LIKE '%{$_GET["pesquisarInvest"]}%'
+			WHERE {$_GET["selectContext"]} LIKE '%{$_GET["pesquisarInvest"]}%'
 			ORDER BY CASE WHEN tipo = 'Externo' THEN 1 ELSE 0 END, tipo DESC, nome; ";
 #outros cassom mostra tudo
 }else{
@@ -93,12 +96,19 @@ if (@$_SESSION["anoRelatorio"] != "") {
 		<div class="col-sm">
 				<form id="formPesquisaInvestigador" method="get" >
 				<!--Input para pequisar o investigador-->
-				<input required name="pesquisarInvest" type="text" class="form-control mr-2" placeholder="Nome a procurar"   style="max-width: 200px; min-width: 160px; display: inline-block;"? />
+				<input required name="pesquisarInvest" type="text" class="form-control mr-2" placeholder="<?php echo $placeholder ?>" style="max-width: 202px; min-width: 160px; display: inline-block;"? />
 					<!--Botao que inicia a pesquisa-->
 					<input type="submit" value="Pesquisar" class="btn btn-success" />
-				</form>
-				
 		</div>
+				<!--Select para selecionar o campo pelo  qual se quer perquisar  o investigador-->
+				<select class="form-select form-select-lg mb-3" name="selectContext" id="selectContext" style=" display: inline-block; height: 40px;" onchange="atualizaPlaceHolder()">
+  						<option value="nome">Nome</option>
+  						<option value="email">Email</option>
+  						<option value="ciencia_id">Ciência ID</option>
+  						<option value="orcid">Orcid</option>
+						<option value="tipo">Tipo</option>
+						</select>
+				</form>
 		<div class="col-sm">
 				<form id="formmostraTodosInvestigadores" method="post">
 					<!--Botao que Mostra todos os investigadores-->
@@ -295,4 +305,13 @@ if (@$_SESSION["anoRelatorio"] != "") {
 			});
 		});
 	});
+
+	// metodo java scrip para altera o placeholder no input pesquisar 
+	function atualizaPlaceHolder(){
+     var index = document.getElementById("selectContext").selectedIndex; 
+     var option = document.getElementById("selectContext").options;
+     var text = "Procurar por ";
+     var text = text.concat(option[index].text);
+     document.getElementsByName('pesquisarInvest')[0].placeholder = text ;
+	}
 </script>

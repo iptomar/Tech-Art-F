@@ -8,42 +8,74 @@ require "../config/basedados.php";
 require "../assets/models/functions.php";
 
 $mainDir = "../../tecnart/assets/images/"; // Ver isto no futuro, caminho para as imagens por default
+$pdfDir ="../../tecnart/assets/regulamentos/"; // caminho para a localizacao do pdf 
 $dadosAreas;
 $texto;
 $titulo;
 $fotografia = "";
+$pdfPath ="";
 
 
 // Criação do pedido a API
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
     $texto = $_POST["texto"];
     $titulo = $_POST["titulo"];
 
-    // Fetch as fotos localmente
-    $fotografia_exists = isset($_FILES["fotografia"]) && $_FILES["fotografia"]["size"] != 0;
+    $sql = "";
+    //verifica se o post foi feito para editar o link regulamento de forma a  preparar a query para um pdf 
+    if ($titulo == "Link Regulamentos") {
+        //Verifica se o pdf exite
+        $pdf_exists = isset($_FILES["pdf"]) && $_FILES["pdf"]["size"] != 0;
 
-    // Query de update
-    $sql = "update technart.areas_website set texto  = '" . $texto . "',";
-    
-     // Check if the 'fotografia' file exists and update the SQL query and parameters accordingly
-     if ($fotografia_exists) {
-        $fotografia = uniqid() . '_' . $_FILES["fotografia"]["name"];
-        ;
-        $sql .= "fotografia = " . "'".$fotografia;
-        $params[] = $fotografia;
-        move_uploaded_file($_FILES["fotografia"]["tmp_name"], $mainDir . $fotografia);
-        
+        // se o pdf exite 
+        if ($pdf_exists) {
+            //le o nome do pdf 
+            $pdfPath = $pdfDir . $_FILES["pdf"]["name"]; 
+            //Se existir um pdf na pasta com o mesmo nome removeo 
+            if(file_exists($pdfPath)){
+                unlink($pdfPath);
+            }
+            //grava o ficheiro na pasta 
+            move_uploaded_file($_FILES["pdf"]["tmp_name"], $pdfPath);
+            //prepara o caminho para ser lido na pagina inicial 
+            $replace_this = "../../tecnart";
+            $replace_for ="." ;
+            //faz a subestituicao no caminho atual do ficheiro
+            $pdfPath = str_replace( $replace_this, $replace_for, $pdfPath);
+            //monta a string para a query que atualiza a base de dados com o caminho para o pdf  
+            $sql = "UPDATE technart.areas_website SET texto = '" . $pdfPath . "'";
+        }
+       //se for os outros titulos prepara uma query para fotografia 
+    } else {
+        // Fetch as fotos localmente
+        $fotografia_exists = isset($_FILES["fotografia"]) && $_FILES["fotografia"]["size"] != 0;
+
+        // Query de update
+        $sql = "UPDATE technart.areas_website SET texto = '" . $texto . "' ";
+
+        // Check if the 'fotografia' file exists and update the SQL query and parameters accordingly
+        if ($fotografia_exists) {
+            $fotografia = uniqid() . '_' . $_FILES["fotografia"]["name"];
+            ;
+            $sql .= ",fotografia = '" . $fotografia . "'";
+            $params[] = $fotografia;
+            move_uploaded_file($_FILES["fotografia"]["tmp_name"], $mainDir . $fotografia);
+        }
+
     }
 
-    $sql .= "' where titulo  = '" . $titulo . "';";
+   
+    $sql .= " where titulo  = '" . $titulo . "';";
 
     // Preparação da execução da query
     $stmt = mysqli_prepare($conn, $sql);
 
     //Execução da query
     if (mysqli_stmt_execute($stmt)) {
-
-        header("Location: ../areas/index.php?texto=$texto&titulo=$titulo");
+      // Removido o comando header por estar a das comflito com o update . 
+      //atualiza a pagina atual 
+        echo"<script> window.location.href = './index.php'; </script>";
         exit();
     } else {
         echo "Error: " . $sql . mysqli_error($conn);
@@ -60,6 +92,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
     $dadosAreas = $rows;
 }
+
+
 ?>
 
 
@@ -213,17 +247,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </select>
                 <br>
                 <br>
-                <textarea id="texto" name="texto" class="form-control ck_replace" minlength="1" required
-                    data-error="Por favor introduza um texto" cols="30" rows="5"></textarea>
+                <div id="divAreaTexto">
+                    <textarea id="texto" name="texto" class="form-control ck_replace" minlength="1" required
+                        data-error="Por favor introduza um texto" cols="30" rows="5"></textarea>
+                </div>
                 <br>
-                <div class="form-group">
-                    <label data-translation='areas-photo'>Fotografia</label>
-
-                    <input accept="image/*" type="file" onchange="previewImg(this);" class="form-control"
-                        id="inputFotografia" name="fotografia" value=<?php echo $fotografia; ?>>
-                    <!-- Error -->
-                    <div class="help-block with-errors"></div>
-                    <img id="preview" src="<?php echo $mainDir . $fotografia; ?>" width='300px' height='300px'/>  
+                <div id="guardaFicheiro" class="form-group">
+                    <!--Caregado o tipo de input conforme for para uma fotografia ou pdf-->
                 </div>
                 <!-- Error -->
                 <div class="help-block with-errors"></div>
@@ -258,6 +288,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     document.addEventListener("DOMContentLoaded", function () {
 
+        var path;
+
         document.getElementById('areasSite').addEventListener('change', function () {
             var selectedId = this.value;
             var selectedArea = <?php echo json_encode($dadosAreas); ?>.find(function (area) {
@@ -268,16 +300,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $titulo = selectedArea.titulo;
                 document.getElementById('titulo').value = $titulo;
                 editor.setData(selectedArea.texto);
-
-                var inputFotografia = document.getElementById('preview');
-                var fotografiaSrc = "<?php echo $mainDir; ?>" + selectedArea.fotografia;
-                inputFotografia.setAttribute('src', fotografiaSrc);
+                //se o titulo for o link regulamentos coloca no div guardaFicheiro o input para receber um pdf 
+                if ($titulo == "Link Regulamentos") {
+                    document.getElementById("guardaFicheiro").innerHTML = ' <label>PDF</label>  <input accept=".pdf" type="file" class="form-control" id="inputPDF" name="pdf"> <!-- Error --> <div class="help-block with-errors"></div>'
+                // para os outros titulos coloca no div guardaFicheiro  o input para receber uma imagem  e mostra uma previsualizacao desta 
+                } else {
+                    document.getElementById("guardaFicheiro").innerHTML = ' <label>Fotografia</label>  <input accept="image/*" type="file" onchange="previewImg(this)" class="form-control" id="inputFotografia" name="fotografia" value=<?php echo $fotografia; ?>> <!-- Error --> <div class="help-block with-errors"></div> <img id="preview" src="<?php echo $mainDir . $fotografia ?>" width="300px" height="300px"/>';
+                }
             } else {
                 console.log("Área selecionada não encontrada.");
             }
-        });
-
-        function previewImg(input) {
+            var inputFotografia = document.getElementById('preview');
+                    var fotografiaSrc = "<?php echo $mainDir; ?>" + selectedArea.fotografia;
+                    inputFotografia.setAttribute('src', fotografiaSrc);
+                    function previewImg(input) {
             var reader = new FileReader();
             reader.onload = function (e) {
                 document.getElementById('preview').setAttribute('src', e.target.result);
@@ -288,6 +324,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         document.getElementById('inputFotografia').addEventListener('change', function () {
             previewImg(this);
         });
+
+        });     
     });
 
 </script>
