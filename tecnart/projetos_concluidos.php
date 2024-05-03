@@ -4,7 +4,7 @@ include 'models/functions.php';
 
 $pdo = pdo_connect_mysql();
 $language = ($_SESSION["lang"] == "en") ? "_en" : "";
-$query = "SELECT id,COALESCE(NULLIF(nome{$language}, ''), nome) AS nome,fotografia FROM projetos WHERE concluido=true";
+$query = "SELECT id,COALESCE(NULLIF(nome{$language}, ''), nome) AS nome,fotografia FROM projetos WHERE concluido=true ORDER BY nome";
 $stmt = $pdo->prepare($query);
 $stmt->execute();
 $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
