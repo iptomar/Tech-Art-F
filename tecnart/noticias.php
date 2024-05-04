@@ -17,7 +17,7 @@ if (isset($_POST["limpaFiltro"])) {
         COALESCE(NULLIF(titulo{$language}, ''), titulo) AS titulo,
         COALESCE(NULLIF(conteudo{$language}, ''), conteudo) AS conteudo,
         imagem,data
-        FROM noticias WHERE data<=NOW() ORDER BY DATA DESC;";
+        FROM noticias WHERE data<=NOW() ORDER BY DATA DESC LIMIT $start, $limit;";
 }
 
 
@@ -64,7 +64,7 @@ if ($totalPages > 1) {
    $pagination .= '<li class="page-item ' . $disabledPrev . '"><a class="page-link" href="?limit=' . $limit . '&page=' . $prev . '&search=' . urlencode($searchTerm) . '">Anterior</a></li>';
 
    for ($i = max(1, $page - 2); $i <= min($page + 2, $totalPages); $i++) {
-      $activeClass = ($i == $page) ? 'active' : '';
+      $activeClass = ($i == $page) ? 'disabled' : '';
       $pagination .= '<li class="page-item ' . $activeClass . '"><a class="page-link" href="?limit=' . $limit . '&page=' . $i . '&search=' . urlencode($searchTerm) . '">' . $i . '</a></li>';
    }
 
