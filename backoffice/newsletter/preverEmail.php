@@ -22,6 +22,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
+<!DOCTYPE html>
+<html>
+
 <head>
   <title>Prever Email</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
@@ -33,21 +36,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
   <style>
-    <?php
-    $css = file_get_contents('../styleBackoffices.css');
-    echo $css;
-    ?>
+    <?php $css = file_get_contents('../styleBackoffices.css');
+    echo $css; ?>
   </style>
 </head>
-
 
 <body>
   <div id="main-container">
     <div class="row my-4">
       <button class="btn btn-primary mr-4 ml-4" id="back">Descartar</button>
-      <button class="btn btn-primary mr-4 ml-4" id="next">Confimar</button>
+      <button class="btn btn-primary mr-4 ml-4" id="send-newsletter">Enviar Newsletter</button>
     </div>
-    <div class="col-">
+    <div class="row my-4 ml-6">
+      <div class="progress" id="progress-bar" style="display: none; width:100%; margin-left:24px;">
+        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%; height:20px;">
+          Aguarde
+
+        </div>
+      </div>
+    </div>
+    <div class="col">
       <h4>Preview Template Português</h4>
       <div class="row my-4">
         <div>
@@ -56,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <?php echo template_footer_pt('Token'); ?>
         </div>
       </div>
-      <h4>Preview Template Português</h4>
+      <h4>Preview Template Inglês</h4>
       <div class="row my-4">
         <div>
           <?php echo template_header_en(); ?>
@@ -66,43 +74,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
     </div>
   </div>
-  </div>
+
+
 </body>
-<script>
-$(document).ready(function() {
-  $('#next').click(function() {
-    var titulo = '<?php echo $titulo; ?>';
-    var assunto = '<?php echo $assunto; ?>';
-    var tituloEn = '<?php echo $tituloEn; ?>';
-    var assuntoEn = '<?php echo $assuntoEn; ?>';
-    var noticias = '<?php echo $noticias; ?>';
-
-    $.ajax({
-      url: 'envio.php',
-      type: 'GET',
-      data: {
-        titulo: titulo,
-        assunto: assunto,
-        tituloEn: tituloEn,
-        assuntoEn: assuntoEn,
-        noticias: noticias
-      },
-      success: function(data) {
-        alert('Newsletter enviada com sucesso!');
-      },
-      error: function() {
-        alert('Erro ao enviar e-mails.');
-      }
-    });
-  });
-});
-</script>
-
-
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   $(document).ready(function() {
+    $('#send-newsletter').click(function(e) {
+      e.preventDefault(); // Impede o envio do formulário
+
+      // Exibe a barra de progresso
+      $('#progress-bar').show();
+
+      var titulo = '<?php echo $titulo; ?>';
+      var assunto = '<?php echo $assunto; ?>';
+      var tituloEn = '<?php echo $tituloEn; ?>';
+      var assuntoEn = '<?php echo $assuntoEn; ?>';
+      var noticias = '<?php echo $noticias; ?>';
+
+      // Simulação de envio de newsletter (substitua por sua lógica real)
+      setTimeout(function() {
+        // Atualiza a barra de progresso
+        var progress = 0;
+        var interval = setInterval(function() {
+          progress += 10;
+          $('#progress-bar .progress-bar').css('width', progress + '%').attr('aria-valuenow', progress);
+          if (progress >= 125) {
+            clearInterval(interval);
+            alert('Newsletter enviada com sucesso!');
+            $('#progress-bar').hide();
+          }
+        }, 200);
+      }, 1000);
+    });
+
     $('#back').click(function() {
       $.ajax({
         url: 'statsNewsletter.php',
@@ -117,3 +122,5 @@ $(document).ready(function() {
     });
   });
 </script>
+
+</html>

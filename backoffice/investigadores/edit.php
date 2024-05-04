@@ -3,7 +3,7 @@ require "../verifica.php";
 require "../config/basedados.php";
 //Se o utilizador não é um administrador ou o proprio que quer editar
 if ($_SESSION["autenticado"] != 'administrador' && $_SESSION["autenticado"] != $_GET["id"]) {
-    header("Location: index.php");
+    echo "<script> window.location.href = './index.php'; </script>";
 }
 $filesDir = "../assets/investigadores/";
 
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     mysqli_stmt_bind_param($stmt, $param_types, ...$params);
 
     if (mysqli_stmt_execute($stmt)) {
-        header('Location: index.php');
+        echo "<script> window.location.href = './index.php'; </script>";
         exit;
     } else {
         echo "Error: " . $sql . mysqli_error($conn);

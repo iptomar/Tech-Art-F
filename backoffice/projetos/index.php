@@ -1,7 +1,6 @@
 <?php
 require "../verifica.php";
 require "../config/basedados.php";
-require "../assets/models/functions.php";
 
 // Inicializar a variavel da condição extra para a query
 $extraCondition = "";
