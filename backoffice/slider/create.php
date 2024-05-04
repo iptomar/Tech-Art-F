@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     mysqli_stmt_bind_param($stmt, 'ssssss', $titulo, $titulo_en, $conteudo, $conteudo_en, $imagem, $link);
     if (mysqli_stmt_execute($stmt)) {
-        header('Location: index.php');
+        echo 'alert(Criado com sucesso.)';
         exit;
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);

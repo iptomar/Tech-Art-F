@@ -5,7 +5,7 @@ require "../config/basedados.php";
 $mainDir = "../assets/noticias/";
 if ($_SESSION["autenticado"] != 'administrador') {
     // Usuário não tem permissão para eliminar noticias redireciona para o index das noticias
-    header("Location: index.php");
+    echo "<script> window.location.href = './index.php'; </script>";
     exit;
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $id);
     if (mysqli_stmt_execute($stmt)) {
-        header('Location: index.php');
+        echo "<script> window.location.href = './index.php'; </script>";
         exit;
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
