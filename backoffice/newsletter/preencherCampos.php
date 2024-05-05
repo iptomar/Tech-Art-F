@@ -3,9 +3,9 @@ require "../config/basedados.php";
 require "./templatePT.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if (isset($_POST['noticias_escolhidas'])) {
-    $noticias = $_POST['noticias_escolhidas'];
-  }
+    if (isset($_POST['noticias_escolhidas'])) {
+        $noticias = $_POST['noticias_escolhidas'];
+    }
 }
 
 ?>
@@ -21,9 +21,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
     <style>
-        <?php $css = file_get_contents('../styleBackoffices.css'); echo $css; ?>
+        <?php $css = file_get_contents('../styleBackoffices.css');
+        echo $css; ?>
     </style>
 </head>
+
 <body>
     <div id="main-container">
         <div class="row my-4">
@@ -79,10 +81,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             var assuntoEn = $('#assuntoEn').val();
             var noticias = <?php echo json_encode($noticias); ?>;
 
-            // Verifica se todos os campos obrigatórios foram preenchidos
+
             if (titulo === '' || assunto === '' || tituloEn === '' || assuntoEn === '') {
                 alert('Por favor, preencha todos os campos obrigatórios.');
-                return; // Interrompe a função
+                return;
             }
 
             $.ajax({

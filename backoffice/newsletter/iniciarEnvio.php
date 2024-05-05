@@ -64,6 +64,11 @@ $noticias = array();
     .search-icon {
       height: 25px;
     }
+
+    .table td ul li .badge {
+      word-wrap: break-word;
+      max-width: 200px;
+    }
   </style>
 </head>
 
