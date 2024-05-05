@@ -18,6 +18,9 @@ if (isset($_POST["limpaFiltro"])) {
         COALESCE(NULLIF(conteudo{$language}, ''), conteudo) AS conteudo,
         imagem,data
         FROM noticias WHERE data<=NOW() ORDER BY DATA DESC LIMIT $start, $limit;";
+   /* obter a quantidade de notícias */
+   $stmt = $pdo->query("SELECT COUNT(*) AS total FROM noticias");
+   $total = (int) $stmt->fetchColumn();
 }
 
 
@@ -28,6 +31,9 @@ else if (isset($_GET["pesquisaNoticia"])) {
    COALESCE(NULLIF(conteudo{$language}, ''), conteudo) AS conteudo,
    imagem,data
    FROM noticias WHERE data<=NOW() and titulo LIKE '%{$_GET["pesquisaNoticia"]}%' ORDER BY DATA DESC;";
+   /* obter a quantidade de notícias com o filtro */
+   $stmt = $pdo->query("SELECT COUNT(*) AS total FROM noticias WHERE titulo LIKE '%{$_GET["pesquisaNoticia"]}%' ORDER BY DATA DESC;");
+   $total = (int) $stmt->fetchColumn();
 }
 #caso nehum botao seja clicado mostra todos 
 else {
@@ -36,6 +42,9 @@ else {
         COALESCE(NULLIF(conteudo{$language}, ''), conteudo) AS conteudo,
         imagem,data
         FROM noticias WHERE data<=NOW() ORDER BY DATA DESC LIMIT $start, $limit";
+   /* obter a quantidade de notícias */
+   $stmt = $pdo->query("SELECT COUNT(*) AS total FROM noticias");
+   $total = (int) $stmt->fetchColumn();
 }
 
 $stmt = $pdo->prepare($query);
@@ -43,9 +52,7 @@ $stmt->execute();
 $noticias = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
 
-/* obter a quantidade de notícias */
-$stmt = $pdo->query("SELECT COUNT(*) AS total FROM noticias");
-$total = (int) $stmt->fetchColumn();
+
 
 /* calcular o total de páginas */
 $totalPages = ceil($total / $limit);
