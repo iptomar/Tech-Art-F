@@ -5,7 +5,6 @@ require "./templatePT.php";
 require "./templateEn.php";
 
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 mb_internal_encoding('UTF-8');
@@ -76,6 +75,7 @@ if (mysqli_num_rows($resultsPT) > 0) {
 }
 
 $mail->clearAllRecipients(); // Clear addresses for the next iteration
+$mail->clearBCCs();
 
 // Send emails to English subscribers
 if (mysqli_num_rows($resultsEN) > 0) {
@@ -113,7 +113,7 @@ if (mysqli_num_rows($resultsEN) > 0) {
     }
   }
 }
-$mail->clearAddresses(); // Clear addresses for the next iteration
+$mail->clearAddresses(); // clear addresses for the next iteration
 $mail->smtpClose();
-?>
 
+?>
