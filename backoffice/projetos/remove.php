@@ -9,11 +9,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST["id"];
     $sql = "DELETE FROM investigadores_projetos WHERE projetos_id = " . $id;
     mysqli_query($conn, $sql);
+    $sql = "DELETE FROM gestores_projetos WHERE projetos_id = " . $id;
+    mysqli_query($conn, $sql);
     $sql = "delete from projetos where id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $id);
     if (mysqli_stmt_execute($stmt)) {
-        header('Location: index.php');
+        echo "<script> window.location.href = './index.php'; </script>";
         exit;
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);

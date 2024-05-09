@@ -4,7 +4,7 @@ require "../config/basedados.php";
 
 if ($_SESSION["autenticado"] != 'administrador') {
     // Usuário não tem permissão para eliminar oportunidades redireciona para o index das oportunidades
-    header("Location: index.php");
+    echo "<script> window.location.href = './index.php'; </script>";
     exit;
 }
 $mainDir = "../assets/oportunidades/";
@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (mysqli_stmt_execute($stmt)) {
         $uploadDir = $mainDir . "ficheiros_$id/";
         removeDirectory($uploadDir);
-        header('Location: index.php');
+        echo "<script> window.location.href = './index.php'; </script>";
         exit;
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);

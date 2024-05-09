@@ -2,9 +2,21 @@
 require "../verifica.php";
 require "../config/basedados.php";
 
-$sql = "SELECT id, nome, referencia, areapreferencial, financiamento,fotografia, concluido FROM projetos ORDER BY nome";
-$result = mysqli_query($conn, $sql);
+// Inicializar a variavel da condição extra para a query
+$extraCondition = "";
 
+// Validar se o form foi submited
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['filterForm'])) {
+	// validar se a checkbox dos completos esta com o check
+	if (isset($_POST['pcompletos'])) {
+		// Adicionamos a condição extra
+		$extraCondition = " AND concluido = 1";
+	}
+}
+
+$sql = "SELECT id, nome, referencia, areapreferencial, financiamento, fotografia, concluido FROM projetos WHERE 1=1" . $extraCondition . " ORDER BY nome";
+
+$result = mysqli_query($conn, $sql);
 ?>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
@@ -28,28 +40,43 @@ $result = mysqli_query($conn, $sql);
 				<div class="table-title">
 					<div class="row">
 						<div class="col-sm-6">
-							<h2>Projetos</h2>
+							<h2 data-translation='project-title'>Projetos</h2>
 						</div>
 						<div class="col-sm-6">
-							<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Adicionar
+							<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span data-translation='project-add-new'>Adicionar
 									Novo Projeto</span></a>
 						</div>
 					</div>
 				</div>
+				<div id="filterSection" style="display: flex; align-items: center;">
+					<h2 style="margin-right: auto;">Filtros</h2>
+					<form id="filterForm" method="post" style="flex: 1; display: flex; align-items: center;">
+						<div id="optionsDiv" style="margin: auto;">
+							<label for="completos" style="display: flex; align-items: center;">
+								<input type="checkbox" id="completos" name="pcompletos" value="Completos" <?php if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['filterForm']) && isset($_POST['pcompletos']))
+									echo "checked"; ?> style="margin-right: 5px;">
+								<span style="vertical-align: middle;">Completos</span>
+							</label>
+							<!-- Add more checkboxes here for additional filters -->
+						</div>
+						<button class="btn btn-success" type="submit">Aplicar</button>
+						<input type="hidden" name="filterForm"> <!-- Hidden field to indicate form submission -->
+					</form>
+				</div>
 				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
-							<th>Nome</th>
-							<th>Estado</th>
+							<th data-translation='project-name'>Nome</th>
+							<th data-translation='project-state'>Estado</th>
 							<!--                 <th>Descrição</th>
 				<th>Sobre Projeto</th> -->
-							<th>Referência</th>
-							<th>TECHN&ART Área Preferencial</th>
-							<th>Financiamento</th>
+							<th data-translation='project-reference'>Referência</th>
+							<th data-translation='project-preferencial-area'>TECHN&ART Área Preferencial</th>
+							<th data-translation='project-funding'>Financiamento</th>
 							<!--                 <th>Âmbito</th>
  -->
-							<th>Fotografia</th>
-							<th>Ações</th>
+							<th data-translation='project-photo'>Fotografia</th>
+							<th data-translation='project-actions'>Ações</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -58,32 +85,33 @@ $result = mysqli_query($conn, $sql);
 							while ($row = mysqli_fetch_assoc($result)) {
 								echo "<tr>";
 								echo "<td>" . $row["nome"] . "</td>";
-								if($row["concluido"]){
+								if ($row["concluido"]) {
 									echo "<td>Concluído</td>";
-								}else{
+								} else {
 									echo "<td>Em Curso</td>";
 								}
 								/*             echo "<td style='width:250px;'>".$row["descricao"]."</td>";
-							echo "<td style='width:250px;'>".$row["sobreprojeto"]."</td>";
-							*/
+													echo "<td style='width:250px;'>".$row["sobreprojeto"]."</td>";
+													*/
 								echo "<td>" . $row["referencia"] . "</td>";
 								echo "<td>" . $row["areapreferencial"] . "</td>";
 								echo "<td>" . $row["financiamento"] . "</td>";
 								/*             echo "<td>".$row["ambito"]."</td>";
-							 */
+								 */
 								echo "<td><img src='../assets/projetos/$row[fotografia]' width = '100px' height = '100px'></td>";
-								$sql1 = "SELECT investigadores_id FROM investigadores_projetos WHERE projetos_id = " . $row["id"];
+								$sql1 = "SELECT gestores_id FROM gestores_projetos WHERE projetos_id = " . $row["id"];
 								$result1 = mysqli_query($conn, $sql1);
 								$selected = array();
 								if (mysqli_num_rows($result1) > 0) {
 									while (($row1 = mysqli_fetch_assoc($result1))) {
-										$selected[] = $row1['investigadores_id'];
+										$selected[] = $row1['gestores_id'];
 									}
 								}
 								if ($_SESSION["autenticado"] == "administrador" || in_array($_SESSION["autenticado"], $selected)) {
-									echo "<td><a href='edit.php?id=" . $row["id"] . "' class='btn btn-primary'><span>Alterar</span></a></td>";
-									echo "<td><a href='remove.php?id=" . $row["id"] . "' class='btn btn-danger'><span>Apagar</span></a></td>";
+									echo "<td><a href='edit.php?id=" . $row["id"] . "' class='btn btn-primary'><span data-translation='project-button-change'>Alterar</span></a></td>";
+									echo "<td><a href='remove.php?id=" . $row["id"] . "' class='btn btn-danger'><span data-translation='project-button-delete'>Apagar</span></a></td>";
 								}
+
 								echo "</tr>";
 							}
 						}

@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     mysqli_stmt_bind_param($stmt, 'ssssssi', $titulo, $titulo_en, $conteudo, $conteudo_en, $imagem, $data, $ultimo_editor);
     if (mysqli_stmt_execute($stmt)) {
-        header('Location: index.php');
+        echo "<script> window.location.href = './index.php'; </script>";
         exit;
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);

@@ -1,13 +1,34 @@
 <?php
 require "../verifica.php";
 require "../config/basedados.php";
+require "../assets/models/functions.php";
+
 
 $find = "";
-
-
-$sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar FROM investigadores 
+#Recebe o a query que ira mostrar os investigadores 
+$sql = "";
+#Variavel que Contem parte da string para preencher o place holder 
+$placeholder = "Pesquisar por Nome";
+#Se o botão de mostrar todos for selecionado  
+if (isset($_POST["pesquisaTodos"])) {
+	$sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar FROM investigadores 
 ORDER BY CASE WHEN tipo = 'Externo' THEN 1 ELSE 0 END, tipo DESC, nome;";
+}
+#se o botão para perquisar um inverstigador for selecionado procura na base de dados por todos aqueles que contenham aqueles carateres no campo ecolhido 
+else if(isset($_GET["pesquisarInvest"])){
+
+	$sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar 
+			FROM investigadores
+			WHERE {$_GET["selectContext"]} LIKE '%{$_GET["pesquisarInvest"]}%'
+			ORDER BY CASE WHEN tipo = 'Externo' THEN 1 ELSE 0 END, tipo DESC, nome; ";
+#outros cassom mostra tudo
+}else{
+	$sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar FROM investigadores 
+	ORDER BY CASE WHEN tipo = 'Externo' THEN 1 ELSE 0 END, tipo DESC, nome;";
+}
+
 $result = mysqli_query($conn, $sql);
+
 
 if (isset($_POST["anoRelatorio"])) {
 	$_SESSION["anoRelatorio"] = $_POST["anoRelatorio"];
@@ -41,35 +62,60 @@ if (@$_SESSION["anoRelatorio"] != "") {
 }
 ?>
 <div class="container mt-3">
-	<form id="formAnoRelatorio">
+	<div class="row">
+		<div class="col-sm">
+			<form id="formAnoRelatorio">
 
-		<input required name="anoRelatorio" type="number" class="form-control mr-2" placeholder="Ano do relatório" min="1950" max="2999" step="1" pattern="\d{4}" data-error="Por favor insira um ano válido" style="max-width: 200px; min-width: 160px; display: inline-block;" value="<?= $anoAtual ?>" />
-		<input type="submit" value="Selecionar Ano" class="btn btn-success" />
+				<input required name="anoRelatorio" type="number" class="form-control mr-2" placeholder="Ano do relatório" min="1950" max="2999" step="1" pattern="\d{4}" data-error="Por favor insira um ano válido" style="max-width: 150px; min-width: 130px; display: inline-block;" value="<?= $anoAtual ?>" />
+				<input type="submit" value="Selecionar Ano" class="btn btn-success" />
+				
 
-		<?php
-		if (isset($_SESSION["anoRelatorio"])) {
-			$class = "text-danger";
-			$symbol = "&#xE002;";
-			if (@$_SESSION["anoRelatorio"] != "") {
-				$msg = "Foi selecionado o ano " . $_SESSION["anoRelatorio"];
-			} else {
-				$_SESSION["anoRelatorio"] = date("Y");
-				$msg = " Campo submetido vazio! (Ano: " . $_SESSION["anoRelatorio"] . ")";
-			}
-		} else {
-			$class = "text-info";
-			$symbol = "&#xE88E;";
-			$msg = "Ano Atual: " . date("Y");
-		}
-		?>
-
-		<span id="anoSpan" class="<?= $class ?>" style="height:20px; display: inline-block; vertical-align: middle;">
-			<span id="anoSymbol" class="material-icons ml-3" style="font-size: 18px; vertical-align: middle;"><?= $symbol ?></span>
-			<span class="ml-2" id="anoSubmit" id="anoSubmit" style="font-size:15px;"><?= $msg ?></span>
-		</span>
-
-	</form>
-
+				<?php
+				if (isset($_SESSION["anoRelatorio"])) {
+					$class = "text-danger";
+					$symbol = "&#xE002;";
+					if (@$_SESSION["anoRelatorio"] != "") {
+						$msg = "Foi selecionado o ano " . $_SESSION["anoRelatorio"];
+					} else {
+						$_SESSION["anoRelatorio"] = date("Y");
+						$msg = " Campo submetido vazio! (Ano: " . $_SESSION["anoRelatorio"] . ")";
+					}
+				} else {
+					$class = "text-info";
+					$symbol = "&#xE88E;";
+					$msg = "Ano Atual: " . date("Y");
+				}
+				?>
+				
+				<span id="anoSpan" class="<?= $class ?>" style="height:20px; display: inline-block; vertical-align: middle;">
+					<span id="anoSymbol" class="material-icons ml-3" style="font-size: 18px; vertical-align: middle;"><?= $symbol ?></span>
+					<span class="ml-2" id="anoSubmit" id="anoSubmit" style="font-size:15px;"><?= $msg ?></span>
+				</span>
+			</form>
+		</div>
+		<div class="col-sm">
+				<form id="formPesquisaInvestigador" method="get" >
+				<!--Input para pequisar o investigador-->
+				<input required name="pesquisarInvest" type="text" class="form-control mr-2" placeholder="<?php echo $placeholder ?>" style="max-width: 202px; min-width: 160px; display: inline-block;"? />
+					<!--Botao que inicia a pesquisa-->
+					<input type="submit" value="Pesquisar" class="btn btn-success" />
+		</div>
+				<!--Select para selecionar o campo pelo  qual se quer perquisar  o investigador-->
+				<select class="form-select form-select-lg mb-3" name="selectContext" id="selectContext" style=" display: inline-block; height: 40px;" onchange="atualizaPlaceHolder()">
+  						<option value="nome">Nome</option>
+  						<option value="email">Email</option>
+  						<option value="ciencia_id">Ciência ID</option>
+  						<option value="orcid">Orcid</option>
+						<option value="tipo">Tipo</option>
+						</select>
+				</form>
+		<div class="col-sm">
+				<form id="formmostraTodosInvestigadores" method="post">
+					<!--Botao que Mostra todos os investigadores-->
+					<input type="submit" name="pesquisaTodos" value="Mostrar todos" class="btn btn-success" />
+				</form>
+		</div>
+	</div>	
 </div>
 
 
@@ -79,11 +125,11 @@ if (@$_SESSION["anoRelatorio"] != "") {
 			<div class="table-title">
 				<div class="row">
 					<div class="col-sm-6">
-						<h2>Investigadores/as</h2>
+						<h2 data-translation='researcher-title'>Investigadores/as</h2>
 					</div>
 					<?php if ($_SESSION["autenticado"] == 'administrador') { ?>
 						<div class="col-sm-6">
-							<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Adicionar Novo Perfil</span></a>
+							<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span data-translation='researcher-add-profile'>Adicionar Novo Perfil</span></a>
 						</div>
 					<?php } ?>
 				</div>
@@ -91,16 +137,16 @@ if (@$_SESSION["anoRelatorio"] != "") {
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
-						<th>Tipo</th>
-						<th>Nome</th>
+						<th data-translation='researcher-type'>Tipo</th>
+						<th data-translation='researcher-name'>Nome</th>
 						<th>Email</th>
 						<th>CiênciaVitae ID</th>
 						<!--<th>Sobre</th>
 						<th>Áreas de interesse</th>
 						<th>Orcid</th>
 						<th>Scholar</th> -->
-						<th>Fotografia</th>
-						<th>Ações</th>
+						<th data-translation='researcher-photo'>Fotografia</th>
+						<th data-translation='researcher-actions'>Ações</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -120,14 +166,14 @@ if (@$_SESSION["anoRelatorio"] != "") {
 								echo "<td>".$row["scholar"]."</td>";
 								*/
 								echo "<td><img src='../assets/investigadores/$row[fotografia]' width = '100px' height = '100px'></td>";
-								echo "<td style='min-width:250px;'><a href='edit.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-primary'><span>Alterar</span></a>";
+								echo "<td style='min-width:250px;'><a href='edit.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-primary'><span data-translation='researcher-change'>Alterar</span></a>";
 								if ($_SESSION["autenticado"] == 'administrador') {
-									echo "<a href='remove.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-danger'><span>Apagar</span></a><br>";
+									echo "<a href='remove.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-danger'><span data-translation='researcher-delete'>Apagar</span></a><br>";
 								}
 								if ($row["tipo"] != "Externo") {
-									echo "<a href='resetpassword.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-warning'><span>Alterar Password</span></a><br>";
-									echo "<a data-id='" . $row["id"] . "' class='gerarRelatorio w-100 mb-1 btn btn-info'><span>Gerar Relatório</span></a><br>";
-									echo "<a href='publicacoes.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-secondary'><span>Selecionar Publicações</span></a><br>";
+									echo "<a href='resetpassword.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-warning'><span data-translation='researcher-change-password'>Alterar Password</span></a><br>";
+									echo "<a data-id='" . $row["id"] . "' class='gerarRelatorio w-100 mb-1 btn btn-info'><span data-translation='researcher-report-generate'>Gerar Relatório</span></a><br>";
+									echo "<a href='publicacoes.php?id=" . $row["id"] . "' class='w-100 mb-1 btn btn-secondary'><span data-translation='researcher-select-publications'>Selecionar Publicações</span></a><br>";
 								}
 								echo "</td>";
 								echo "</tr>";
@@ -259,4 +305,13 @@ if (@$_SESSION["anoRelatorio"] != "") {
 			});
 		});
 	});
+
+	// metodo java scrip para altera o placeholder no input pesquisar 
+	function atualizaPlaceHolder(){
+     var index = document.getElementById("selectContext").selectedIndex; 
+     var option = document.getElementById("selectContext").options;
+     var text = "Procurar por ";
+     var text = text.concat(option[index].text);
+     document.getElementsByName('pesquisarInvest')[0].placeholder = text ;
+	}
 </script>

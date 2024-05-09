@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         handleUploadedFiles('ficheiros', $filesDir, $selectedFiles, $id);
         handleUploadedFiles('ficheiros_en', $filesDirEn, $selectedFilesEn, $id);
 
-        header('Location: index.php');
+        echo "<script> window.location.href = './index.php'; </script>";
     } else {
         echo "Error: " . $sql . mysqli_error($conn);
     }

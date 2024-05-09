@@ -23,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $areapreferencial = $_POST["areapreferencial"];
     $financiamento = $_POST["financiamento"];
     $ambito = $_POST["ambito"];
+    $gestores = $_POST["gestores"];
     $investigadores = [];
     $concluido = isset($_POST['concluido']) ? 1 : 0;
     $site = $_POST["site"];
@@ -41,33 +42,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $investigadores = $_POST["investigadores"];
     }
     if (mysqli_stmt_execute($stmt)) {
-        if (count($investigadores) == 0) {
-            header('Location: index.php');
-            return;
+        if (count($investigadores) > 0) {
+            $sqlinsert = "";
+            foreach ($investigadores as $id) {
+                $sqlinsert = $sqlinsert . "($id,last_insert_id()),";
+            }
+            $sqlinsert = rtrim($sqlinsert, ",");
+            $sql = "INSERT INTO investigadores_projetos (investigadores_id,projetos_id) values" . $sqlinsert;
+
+            if (!mysqli_query($conn, $sql)) {
+                echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            }
         }
-        $sqlinsert = "";
-        foreach ($investigadores as $id) {
-            $sqlinsert = $sqlinsert . "($id,last_insert_id()),";
+
+        $sql = "INSERT INTO gestores_projetos (gestores_id, projetos_id) VALUES ";
+        $idsGestores = [];
+        foreach ($gestores as $id) {
+            $idsGestores[] = "($id, last_insert_id())";
         }
-        $sqlinsert = rtrim($sqlinsert, ",");
-        $sql = "INSERT INTO investigadores_projetos (investigadores_id,projetos_id) values" . $sqlinsert;
-        if (mysqli_query($conn, $sql)) {
-            header('Location: index.php');
-        } else {
+        $sql .= implode(", ", $idsGestores);
+        if (!mysqli_query($conn, $sql)) {
             echo "Error: " . $sql . "<br>" . mysqli_error($conn);
         }
+        echo "<script> window.location.href = './index.php'; </script>";
         exit;
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
 }
+
+
+
 ?>
 
 
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </link>
+<link rel="stylesheet" type="text/css" href="../assets/css/select2.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 <script type="text/javascript">
     function previewImg(input) {
         if (input.files && input.files[0]) {
@@ -111,6 +126,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         display: inline-block;
         vertical-align: top;
         height: fit-content;
+    }
+
+    .choices__item.choices__item--selectable {
+        background-color: #59A9FF;
+        text: white
+    }
+
+    .choices__item.choices__item--choice {
+        background-color: #E0E0E0;
     }
 </style>
 
@@ -299,22 +323,66 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="form-group">
-                    <label>Investigadores/as</label><br>
+                    <label>Gestores/as</label><br>
 
                     <?php
-                    $sql = "SELECT id, nome, tipo FROM investigadores 
-                        ORDER BY CASE WHEN tipo = 'Externo' THEN 1 ELSE 0 END, tipo, nome;";
+                    $sql = "SELECT id, nome, email, tipo FROM investigadores;";
                     $result = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) { ?>
-                            <input type="checkbox" name="investigadores[]" value="<?= $row["id"] ?>">
-                            <label><?= $row["tipo"] . " - " .  $row["nome"] ?></label><br>
-                    <?php }
+                    ?>
+                        <select name="gestores[]" multiple required class="select form-control" id="gestores">
+                            <?php
+                            foreach ($result as $investigador) {
+                                echo '<option value="' . $investigador['id'] . '">' . $investigador['nome'], " (", $investigador['email'], ")" . '</option>';
+                            }
+                            ?>
+                        </select>
+                    <?php
                     } ?>
 
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
+
+                <div class="form-group">
+                    <label>Investigadores/as</label><br>
+
+                    <?php
+                    $sql = "SELECT id, nome, email, tipo FROM investigadores;";
+                    $result = mysqli_query($conn, $sql);
+                    if (mysqli_num_rows($result) > 0) {
+                    ?>
+                        <select name="investigadores[]" multiple class="select form-control" id="investigadores">
+                            <?php
+                            foreach ($result as $investigador) {
+                                echo '<option value="' . $investigador['id'] . '">' . $investigador['nome'], " (", $investigador['email'], ")" . '</option>';
+                            }
+                            ?>
+                        </select>
+                    <?php
+                    } ?>
+
+                    <!-- Error -->
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <!-- User o Choices para permitir a multipla seleção de gestores e investigadores -->
+                <script>
+                    const choicesElementGestores = document.getElementById('gestores');
+                    const choicesElementInvestigadores = document.getElementById('investigadores');
+                    const choicesGestores = new Choices(choicesElementGestores, {
+                        searchEnabled: false,
+                        itemSelectText: '',
+                        allowHTML: true,
+                        removeItemButton: true
+                    });
+                    const choicesInvestigadores = new Choices(choicesElementInvestigadores, {
+                        searchEnabled: false,
+                        itemSelectText: '',
+                        allowHTML: true,
+                        removeItemButton: true
+                    });
+                </script>
 
 
                 <div class="form-group">
@@ -338,6 +406,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </div>
+<script src="../assets/js/jquery-3.7.1.min.js"></script>
+<script src="../assets/js/select2.min.js"></script>
 <!--Criar o CKEditor 5-->
 <script src="../ckeditor5/build/ckeditor.js"></script>
 <script>

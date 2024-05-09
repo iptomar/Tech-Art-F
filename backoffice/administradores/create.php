@@ -2,6 +2,7 @@
 require "../verifica.php";
 require "../config/basedados.php";
 require "bloqueador.php";
+require "../assets/models/functions.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($_POST['password'] == $_POST['repeatPassword']) {
@@ -13,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $_POST["email"];
         $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
         if (mysqli_stmt_execute($stmt)) {
-            header('Location: index.php');
+            echo "<script> window.location.href = './index.php'; </script>";
             exit;
         } else {
             echo "Error: " . $sql . "<br>" . mysqli_error($conn);
@@ -50,14 +51,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="container-xl mt-5">
     <div class="card">
-        <h5 class="card-header text-center">Adicionar Administrador</h5>
+        <h5 class="card-header text-center" data-translation='admin-create-title'>Adicionar Administrador</h5>
         <div class="card-body">
             <form role="form" data-toggle="validator" action="create.php" method="post" enctype="multipart/form-data">
 
 
-                <div class="form-group">
+                <div class="form-group" >
                     <label>Nome</label>
-                    <input type="text" minlength="1" required maxlength="255" required name="nome" class="form-control" data-error="Introduza um nome válido" id="inputName" placeholder="Nome">
+                    <input type="text" minlength="1" required maxlength="255" required name="nome" class="form-control" data-error="Introduza um nome válido"  placeholder="Nome">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
@@ -70,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="form-group">
-                    <label>Password</label>
+                    <label data-translation='admin-create-password'>Password</label>
                     <input type="password" minlength="5" required maxlength="255" required data-error="Por favor introduza uma password com mínimo de 5 caracteres" class="form-control" id="inputPassword" placeholder="Password" name="password">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
@@ -83,11 +84,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block">Gravar</button>
+                    <button type="submit" class="btn btn-primary btn-block"  >Gravar</button>
                 </div>
 
                 <div class="form-group">
-                    <button type="button" onclick="window.location.href = 'index.php'" class="btn btn-danger btn-block">Cancelar</button>
+                    <button type="button" onclick="window.location.href = 'index.php'" class="btn btn-danger btn-block" data-translation='admin-create-cancel'>Cancelar</button>
                 </div>
             </form>
         </div>

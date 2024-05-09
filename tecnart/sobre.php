@@ -1,4 +1,5 @@
 <?php
+include 'config/dbconnection.php';
 include 'models/functions.php';
 ?>
 
