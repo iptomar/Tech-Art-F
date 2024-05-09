@@ -8,19 +8,20 @@ require "../config/basedados.php";
 require "../assets/models/functions.php";
 
 $mainDir = "../../tecnart/assets/images/"; // Ver isto no futuro, caminho para as imagens por default
-$pdfDir ="../../tecnart/assets/regulamentos/"; // caminho para a localizacao do pdf 
+$pdfDir = "../../tecnart/assets/regulamentos/"; // caminho para a localizacao do pdf 
 $dadosAreas;
 $texto;
 $titulo;
 $fotografia = "";
-$pdfPath ="";
+$pdfPath = "";
 
 
 // Criação do pedido a API
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
+
     $texto = $_POST["texto"];
     $titulo = $_POST["titulo"];
+    $field = ($_POST["lang"] === "en") ? "texto_en" : "texto";
 
     $sql = "";
     //verifica se o post foi feito para editar o link regulamento de forma a  preparar a query para um pdf 
@@ -31,28 +32,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // se o pdf exite 
         if ($pdf_exists) {
             //le o nome do pdf 
-            $pdfPath = $pdfDir . $_FILES["pdf"]["name"]; 
+            $pdfPath = $pdfDir . $_FILES["pdf"]["name"];
             //Se existir um pdf na pasta com o mesmo nome removeo 
-            if(file_exists($pdfPath)){
+            if (file_exists($pdfPath)) {
                 unlink($pdfPath);
             }
             //grava o ficheiro na pasta 
             move_uploaded_file($_FILES["pdf"]["tmp_name"], $pdfPath);
             //prepara o caminho para ser lido na pagina inicial 
             $replace_this = "../../tecnart";
-            $replace_for ="." ;
+            $replace_for = ".";
             //faz a subestituicao no caminho atual do ficheiro
-            $pdfPath = str_replace( $replace_this, $replace_for, $pdfPath);
+            $pdfPath = str_replace($replace_this, $replace_for, $pdfPath);
             //monta a string para a query que atualiza a base de dados com o caminho para o pdf  
             $sql = "UPDATE technart.areas_website SET texto = '" . $pdfPath . "'";
         }
-       //se for os outros titulos prepara uma query para fotografia 
+        //se for os outros titulos prepara uma query para fotografia 
     } else {
         // Fetch as fotos localmente
         $fotografia_exists = isset($_FILES["fotografia"]) && $_FILES["fotografia"]["size"] != 0;
 
+
         // Query de update
-        $sql = "UPDATE technart.areas_website SET texto = '" . $texto . "' ";
+        $sql = "UPDATE technart.areas_website SET " . $field ." = '" . $texto . "' ";
 
         // Check if the 'fotografia' file exists and update the SQL query and parameters accordingly
         if ($fotografia_exists) {
@@ -65,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     }
 
-   
+
     $sql .= " where titulo  = '" . $titulo . "';";
 
     // Preparação da execução da query
@@ -73,9 +75,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     //Execução da query
     if (mysqli_stmt_execute($stmt)) {
-      // Removido o comando header por estar a das comflito com o update . 
-      //atualiza a pagina atual 
-        echo"<script> window.location.href = './index.php'; </script>";
+        // Removido o comando header por estar a das comflito com o update . 
+        //atualiza a pagina atual 
+        echo "<script> window.location.href = './index.php'; </script>";
         exit();
     } else {
         echo "Error: " . $sql . mysqli_error($conn);
@@ -92,11 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
     $dadosAreas = $rows;
 }
-
-
 ?>
-
-
 
 <style>
     .container {
@@ -233,8 +231,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="card-body">
             <h2 data-translation='areas-choose-to-edit'>Escolha a area a editar:</h2>
-            <form role="form" data-toggle="validator" action="../areas/index.php" method="post"
-                enctype="multipart/form-data">
+            <form role="form" data-toggle="validator" action="../areas/index.php" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="lang" id="lang" value="pt">
                 <input type="hidden" name="titulo" id="titulo" value="">
                 <br>
                 <select name="areasSite" id="areasSite">
@@ -245,6 +243,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     }
                     ?>
                 </select>
+                <button id="button_en_pt" type="button" class="btn btn-primary">EN</button>
                 <br>
                 <br>
                 <div id="divAreaTexto">
@@ -258,12 +257,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <!-- Error -->
                 <div class="help-block with-errors"></div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block" data-translation='areas-button-save'>Gravar</button>
+                    <button type="submit" class="btn btn-primary btn-block"
+                        data-translation='areas-button-save'>Gravar</button>
                 </div>
-
                 <div class="form-group">
-                    <button type="button" onclick="window.location.href = 'index.php'"
-                        class="btn btn-danger btn-block" data-translation='areas-button-cancel'>Cancelar</button>
+                    <button type="button" onclick="window.location.href = 'index.php'" class="btn btn-danger btn-block"
+                        data-translation='areas-button-cancel'>Cancelar</button>
                 </div>
             </form>
         </div>
@@ -303,7 +302,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 //se o titulo for o link regulamentos coloca no div guardaFicheiro o input para receber um pdf 
                 if ($titulo == "Link Regulamentos") {
                     document.getElementById("guardaFicheiro").innerHTML = ' <label>PDF</label>  <input accept=".pdf" type="file" class="form-control" id="inputPDF" name="pdf"> <!-- Error --> <div class="help-block with-errors"></div>'
-                // para os outros titulos coloca no div guardaFicheiro  o input para receber uma imagem  e mostra uma previsualizacao desta 
+                    // para os outros titulos coloca no div guardaFicheiro  o input para receber uma imagem  e mostra uma previsualizacao desta 
                 } else {
                     document.getElementById("guardaFicheiro").innerHTML = ' <label>Fotografia</label>  <input accept="image/*" type="file" onchange="previewImg(this)" class="form-control" id="inputFotografia" name="fotografia" value=<?php echo $fotografia; ?>> <!-- Error --> <div class="help-block with-errors"></div> <img id="preview" src="<?php echo $mainDir . $fotografia ?>" width="300px" height="300px"/>';
                 }
@@ -311,21 +310,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 console.log("Área selecionada não encontrada.");
             }
             var inputFotografia = document.getElementById('preview');
-                    var fotografiaSrc = "<?php echo $mainDir; ?>" + selectedArea.fotografia;
-                    inputFotografia.setAttribute('src', fotografiaSrc);
-                    function previewImg(input) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                document.getElementById('preview').setAttribute('src', e.target.result);
+            var fotografiaSrc = "<?php echo $mainDir; ?>" + selectedArea.fotografia;
+            inputFotografia.setAttribute('src', fotografiaSrc);
+            function previewImg(input) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('preview').setAttribute('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
             }
-            reader.readAsDataURL(input.files[0]);
-        }
 
-        document.getElementById('inputFotografia').addEventListener('change', function () {
-            previewImg(this);
+            document.getElementById('inputFotografia').addEventListener('change', function () {
+                previewImg(this);
+            });
+
         });
 
-        });     
+        // Event listener for the "EN" button
+        $('button[id="button_en_pt"]').click(function () {
+            var selectedId = $('#areasSite').val();
+            var selectedArea = <?php echo json_encode($dadosAreas); ?>.find(function (area) {
+                return area.id == selectedId;
+            });
+
+            if (selectedArea) {
+                var langInput = document.getElementById('lang');
+                if (document.getElementById('button_en_pt').innerText == "EN") {
+                    // Assuming "texto_en" is the column name for English text
+                    var texto_en = selectedArea.texto_en;
+                    // Set the fetched text to the CKEditor
+                    editor.setData(texto_en);
+                    document.getElementById('button_en_pt').innerText = "PT";
+                    langInput.value = "en"; // Update language value
+                } else {
+                    // Assuming "texto_en" is the column name for English text
+                    var texto_pt = selectedArea.texto;
+                    // Set the fetched text to the CKEditor
+                    editor.setData(texto_pt);
+                    document.getElementById('button_en_pt').innerText = "EN";
+                    langInput.value = "pt"; // Update language value
+                }
+                
+            } else {
+                console.log("Área selecionada não encontrada.");
+            }
+        });
     });
 
 </script>

@@ -40,14 +40,20 @@ include 'config/dbconnection.php';
                     </div>
                     <div class="flex-right">
                         <?php
+                        $language = $_SESSION["lang"];
                            $pdo = pdo_connect_mysql();
-                           $query = "SELECT texto 
-                                     FROM technart.areas_website 
+                           $query = "";
+                            if ($language == "pt") {
+                                $query .= "SELECT texto ";
+                            } else {
+                                $query .= "SELECT texto_en ";
+                            }
+                           $query .= "FROM technart.areas_website 
                                      WHERE titulo = 'Missão e Objetivos'";
                            $stmt = $pdo->prepare($query);
                            $stmt->execute();
                            $textoFetched = $stmt->fetch(PDO::FETCH_ASSOC);
-                           $texto = $textoFetched['texto'];
+                           $texto = ($language === 'en') ? $textoFetched['texto_en'] : $textoFetched['texto'];
                            echo $texto;
                         ?>
                     </div>
