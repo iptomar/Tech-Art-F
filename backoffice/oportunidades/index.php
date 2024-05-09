@@ -1,7 +1,6 @@
 <?php
 require "../verifica.php";
 require "../config/basedados.php";
-require "../assets/models/functions.php";
 
 //Selecionar os dados das oportunidades da base de dados
 $sql = "SELECT id, titulo,titulo_en, imagem,visivel FROM oportunidades ORDER BY visivel DESC, id DESC";

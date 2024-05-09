@@ -4,7 +4,7 @@ require "../config/basedados.php";
 
 if ($_SESSION["autenticado"] != 'administrador') {
     // Utilizador não tem permissão para eliminar investigadores Redireciona para a página de login 
-    header("Location: index.php");
+    echo "<script> window.location.href = './index.php'; </script>";
     exit;
 }
 $filesDir = "../assets/investigadores/";
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!$deleteResult) {
             echo "Erro ao eliminar registos da tabela publicacoes: " . mysqli_error($conn) . "<br>";
         } else {
-            header('Location: index.php');
+            echo "<script> window.location.href = './index.php'; </script>";
         }
         exit;
     } else {

@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "Error: " . $sql . "<br>" . mysqli_error($conn);
             }
         }
-        header('Location: index.php');
+        echo "<script> window.location.href = './index.php'; </script>";
         exit;
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);

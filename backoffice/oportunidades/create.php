@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
             }
         }
-        header('Location: index.php');
+        echo "<script> window.location.href = './index.php'; </script>";
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }

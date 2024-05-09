@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <div id="main-container">
     <div class="row my-4">
       <button class="btn btn-primary mr-4 ml-4" id="back">Descartar</button>
-      <button class="btn btn-primary mr-4 ml-4" id="next">Confimar</button>
+      <button class="btn btn-primary mr-4 ml-4" id="next">Enviar</button>
     </div>
     <div class="col-">
       <h4>Preview Template Português</h4>
@@ -69,33 +69,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 </body>
 <script>
-$(document).ready(function() {
-  $('#next').click(function() {
-    var titulo = '<?php echo $titulo; ?>';
-    var assunto = '<?php echo $assunto; ?>';
-    var tituloEn = '<?php echo $tituloEn; ?>';
-    var assuntoEn = '<?php echo $assuntoEn; ?>';
-    var noticias = '<?php echo $noticias; ?>';
+  $(document).ready(function() {
+    $('#next').click(function() {
+      var titulo = '<?php echo $titulo; ?>';
+      var assunto = '<?php echo $assunto; ?>';
+      var tituloEn = '<?php echo $tituloEn; ?>';
+      var assuntoEn = '<?php echo $assuntoEn; ?>';
+      var noticias = '<?php echo $noticias; ?>';
+      $.ajax({
+        url: 'envio.php',
+        type: 'GET',
+        data: {
+          titulo: titulo,
+          assunto: assunto,
+          tituloEn: tituloEn,
+          assuntoEn: assuntoEn,
+          noticias: noticias
+        },
+        success: function(data) {
+          alert('Newsletter enviada com sucesso!');
+          $('#next').hide();
 
-    $.ajax({
-      url: 'envio.php',
-      type: 'GET',
-      data: {
-        titulo: titulo,
-        assunto: assunto,
-        tituloEn: tituloEn,
-        assuntoEn: assuntoEn,
-        noticias: noticias
-      },
-      success: function(data) {
-        alert('Newsletter enviada com sucesso!');
-      },
-      error: function() {
-        alert('Erro ao enviar e-mails.');
-      }
+          // código PHP para inserir os dados na tabela historico_newsletters
+          $.ajax({
+            url: 'inserirHistorico.php',
+            type: 'POST',
+            data: {
+              noticias: noticias,
+              titulo: titulo,
+              assunto: assunto,
+              tituloEn: tituloEn,
+              assuntoEn: assuntoEn
+            },
+            success: function(data) {
+              console.log(data); 
+            },
+            error: function() {
+              alert('Erro ao inserir dados no histórico.');
+            }
+          });
+        },
+        error: function() {
+          alert('Erro ao enviar e-mails.');
+        }
+      });
     });
   });
-});
 </script>
 
 

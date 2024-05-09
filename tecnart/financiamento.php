@@ -1,5 +1,6 @@
 <?php
 include 'models/functions.php';
+include 'config/dbconnection.php';
 ?>
 
 <!DOCTYPE html>

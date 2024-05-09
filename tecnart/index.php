@@ -3,6 +3,8 @@ include 'config/dbconnection.php';
 include 'models/functions.php';
 $pdo = pdo_connect_mysql();
 $language = ($_SESSION["lang"] == "en") ? "_en" : "";
+$unsubscribe_message = isset($_SESSION['unsubscribe_message']) ? $_SESSION['unsubscribe_message'] : '';
+unset($_SESSION['unsubscribe_message']);
 ?>
 
 <link href="assets/css/newsletter.css" rel="stylesheet" type="text/css">
@@ -230,6 +232,18 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
    </div>
 
 </section>
+
+<?php if (!empty($unsubscribe_message)): ?>
+<div class="newsletter-popup open">
+    <div class="newsletter-popup-container open">
+    <a href="#" class="newsletter-popup-close-btn" onclick="closeNewsletterPopup()">&times;</a>
+        <h3><i class="fa-regular fa-envelope"></i>Cancelar subscrição</h3>
+        <p><?= $unsubscribe_message ?></p>
+    </div>
+</div>
+<?php endif; ?>
+
+<?php if (empty($unsubscribe_message)): ?>
 <div class="newsletter-popup">
    <div class="newsletter-popup-container">
       <a href="#" class="newsletter-popup-close-btn">&times;</a>
@@ -239,9 +253,9 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
          <div style="text-align: center;">
             <input type="email" name="email" placeholder="Endereço de email" required style="text-transform: none;">
             <input type="radio" class="btn-check" name="idioma" id="idioma-pt" autocomplete="off" checked value="pt">
-            <label class="btn btn-outline-secondary" for="idioma-pt" style="width:100px">Português</label>
+            <label class="btn btn-outline-secondary" for="idioma-pt" style="width:120px">Português</label>
             <input type="radio" class="btn-check" name="idioma" id="idioma-en" autocomplete="off" value="en">
-            <label class="btn btn-outline-secondary" for="idioma-en" style="width:100px;">Inglês</label>
+            <label class="btn btn-outline-secondary" for="idioma-en" style="width:120px;">Inglês</label>
             <br /><br />
             <button type="submit" style="height: 40px">Subscrever</button>
          </div>
@@ -249,6 +263,9 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
       <p class="newsletter-msg"></p>
    </div>
 </div>
+<?php endif; ?>
+
+
 
 <!-- end client section -->
 
@@ -269,6 +286,7 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
       document.querySelector('.newsletter-popup').style.display = 'none';
       document.querySelector('.newsletter-popup').classList.remove('open');
       document.querySelector('.newsletter-popup-container').classList.remove('open');
+      document.querySelector('.newsletter-popup-close-btn').addEventListener('click', closeNewsletterPopup);
       document.cookie = "nonews=true; expires=" + new Date(Date.now() + 31536000000).toUTCString() + "; path=/";
    };
 

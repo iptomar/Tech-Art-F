@@ -5,6 +5,9 @@ require "../config/basedados.php";
 $sqlSubsPT = "SELECT count(lang) as count FROM subscritores WHERE lang = 'pt'";
 $sqlSubsENG = "SELECT count(lang) as count FROM subscritores WHERE lang = 'eng'";
 
+$sqlHistorico = "SELECT * FROM historico_newsletters ORDER BY data_envio DESC";
+$resultHistorico = mysqli_query($conn, $sqlHistorico);
+
 $resultSubsPT = mysqli_query($conn, $sqlSubsPT);
 $resultSubsENG = mysqli_query($conn, $sqlSubsENG);
 
@@ -85,10 +88,43 @@ $countENG = mysqli_fetch_assoc($resultSubsENG)["count"];
   </div>
   <div class="row my-4">
     <div class="col-sm-12">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title" data-translation='newsletter-stats-sended'>Newsletters Enviadas</h5>
-          <p class="card-text">Task Histórico</p>
+      <h2 class="card-title" data-translation='newsletter-stats-sended'>Newsletters Enviadas</h2>
+      <div class="row my-4">
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+              <tr>
+                <th data-translation='newsletter-history-date'>Data de Envio</th>
+                <th data-translation='newsletter-history-title-pt'>Título PT</th>
+                <th data-translation='newsletter-history-title-en'>Título PT</th>
+                <th data-translation='newsletter-history-subject-pt'>Assunto</th>
+                <th data-translation='newsletter-history-subject'>Assunto</th>
+                <th data-translation='newsletter-history-content'>Notícias Enviadas</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              while ($row = mysqli_fetch_assoc($resultHistorico)) {
+                $noticias = json_decode($row['json_noticias'], true);
+  
+                echo "<tr>";
+                echo "<td>" . $row['data_envio'] . "</td>";
+                echo "<td>" . $row['titulo_pt'] . "</td>";
+                echo "<td>" . $row['titulo_en'] . "</td>";
+                echo "<td>" . $row['assunto_pt'] . "</td>";
+                echo "<td>" . $row['assunto_en'] . "</td>";
+                echo "<td>";
+                echo "<ul class='list-unstyled'>";
+                foreach ($noticias as $noticia) {
+                  echo "<li><span class='badge badge-primary mb-1'>" . $noticia['titulo'] . " / " . $noticia['tituloEn'] . "</span></li>";
+                }
+                echo "</ul>";
+                echo "</td>";
+                echo "</tr>";
+              }
+              ?>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

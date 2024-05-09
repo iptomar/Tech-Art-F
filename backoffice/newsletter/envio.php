@@ -5,7 +5,6 @@ require "./templatePT.php";
 require "./templateEn.php";
 
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 mb_internal_encoding('UTF-8');
@@ -43,15 +42,25 @@ if (mysqli_num_rows($resultsPT) > 0) {
     try {
       $mail->addBCC($rowPT['email'], $rowPT['id']);
       $mail->Subject = $assunto; // Usar o assunto em português
+      $tokenUnsubscribe = "http://localhost/Tech-Art-F/tecnart/cancelar_subscricao.php?email=" . $rowPT['email'] . "&token=" . $rowPT['token_unsubscribe'];
       ob_start(); // Inicia o buffer de saída
-      ?>
-            <div>
-              <?php echo template_header_pt(); ?>
-              <?php echo template_noticias_pt($titulo, $noticias); ?>
-              <?php echo template_footer_pt($rowPT['token_unsubscribe']); ?>
-            </div>
+?>
+      <div>
+        <?php echo template_header_pt(); ?>
+        <?php echo template_noticias_pt($titulo, $noticias); ?>
+        <?php echo "
+              <table width='100%' cellpadding='0' cellspacing='0' style='background-color: #333f50; margin-top: 20px;'>
+              <tr>
+                  <td align='center' style='padding: 10px;'>
+                      <a href='$tokenUnsubscribe' style='color: white; text-decoration: none; margin-right: 20px; font-weight: bold;'>Cancelar Subscrição</a>
+                  </td>
+              </tr>
+          </table>
+      </div>
+              "; ?>
+      </div>
       <?php
-            $bodyContent = ob_get_clean();
+      $bodyContent = ob_get_clean();
       $mail->Body = $bodyContent;
       // Attempt to send the email
       if (!$mail->send()) {
@@ -66,6 +75,7 @@ if (mysqli_num_rows($resultsPT) > 0) {
 }
 
 $mail->clearAllRecipients(); // Clear addresses for the next iteration
+$mail->clearBCCs();
 
 // Send emails to English subscribers
 if (mysqli_num_rows($resultsEN) > 0) {
@@ -73,12 +83,21 @@ if (mysqli_num_rows($resultsEN) > 0) {
     try {
       $mail->addBCC($rowEN['email'], $rowEN['id']);
       $mail->Subject = $assuntoEn; // Usar o assunto em inglês
+      $tokenUnsubscribe = "http://localhost/Tech-Art-F/tecnart/cancelar_subscricao.php?email=" . $rowPT['email'] . "&token=" . $rowPT['token_unsubscribe'];
       ob_start(); // Inicia o buffer de saída
-?>
+      ?>
       <div>
         <?php echo template_header_en(); ?>
         <?php echo template_noticias_en($tituloEn, $noticias); ?>
-        <?php echo template_footer_en($rowEN['token_unsubscribe']); ?>
+        <?php echo "
+        <table width='100%' cellpadding='0' cellspacing='0' style='background-color: #333f50; margin-top: 20px;'>
+        <tr>
+            <td align='center' style='padding: 10px;'>
+                <a href='$tokenUnsubscribe' style='color: white; text-decoration: none; margin-right: 20px; font-weight: bold;'>Unsubscribe</a>
+            </td>
+        </tr>
+    </table>
+</div>"; ?>
       </div>
 <?php
       $bodyContent = ob_get_clean();
@@ -94,6 +113,7 @@ if (mysqli_num_rows($resultsEN) > 0) {
     }
   }
 }
-$mail->clearAddresses(); // Clear addresses for the next iteration
+$mail->clearAddresses(); // clear addresses for the next iteration
 $mail->smtpClose();
+
 ?>

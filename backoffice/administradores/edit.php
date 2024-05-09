@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
 
     if (mysqli_stmt_execute($stmt)) {
-        header('Location: index.php');
+        echo "<script> window.location.href = './index.php'; </script>";
         exit;
     } else {
         echo "Error: " . $sql . mysqli_error($conn);

@@ -4,7 +4,7 @@ require "../config/basedados.php";
 //Se o utilizador não é um administrado
 if ($_SESSION["autenticado"] != "administrador") {
     //não tem permissão para criar um novo investigador
-    header("Location: index.php");
+    echo "<script> window.location.href = './index.php'; </script>";
     exit;
 }
 $filesDir = "../assets/investigadores/";
