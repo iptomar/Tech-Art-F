@@ -39,15 +39,21 @@ include 'config/dbconnection.php';
                     </div>
                     <div class="flex-right">
                         <?php
-                           $pdo = pdo_connect_mysql();
-                           $query = "SELECT texto 
-                                     FROM technart.areas_website 
-                                     WHERE titulo = 'Estrutura Orgânica'";
-                           $stmt = $pdo->prepare($query);
-                           $stmt->execute();
-                           $textoFetched = $stmt->fetch(PDO::FETCH_ASSOC);
-                           $texto = $textoFetched['texto'];
-                           echo $texto;
+                          $language = $_SESSION["lang"];
+                          $pdo = pdo_connect_mysql();
+                          $query = "";
+                           if ($language == "pt") {
+                               $query .= "SELECT texto ";
+                           } else {
+                               $query .= "SELECT texto_en ";
+                           }
+                          $query .= "FROM technart.areas_website 
+                                    WHERE titulo = 'Estrutura Orgânica'";
+                          $stmt = $pdo->prepare($query);
+                          $stmt->execute();
+                          $textoFetched = $stmt->fetch(PDO::FETCH_ASSOC);
+                          $texto = ($language === 'en') ? $textoFetched['texto_en'] : $textoFetched['texto'];
+                          echo $texto;
                         ?>
                     </div>
                 </div>
