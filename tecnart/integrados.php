@@ -6,6 +6,10 @@ $pdo = pdo_connect_mysql();
 $language = ($_SESSION["lang"] == "en") ? "_en" : "";
 #Variavel que recebe a query para a base de dados 
 $query = "";
+#variaveis para  a paginação dos investigadores
+$limit = 9;
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$start = ($page - 1) * $limit;
 #Variavel que Contem parte da string para preencher o place holder 
 $placeholder = "Pesquisar Investigador por Nome";
 #se o botao do reload for clicado mostra todos os investigadores 
@@ -14,7 +18,10 @@ if(isset($_POST["mostraTodos"])){
    COALESCE(NULLIF(sobre{$language}, ''), sobre) AS sobre,
    COALESCE(NULLIF(areasdeinteresse{$language}, ''), areasdeinteresse) AS areasdeinteresse,
    ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id
-   FROM investigadores WHERE tipo = \"Integrado\" ORDER BY nome";
+   FROM investigadores WHERE tipo = \"Integrado\" ORDER BY nome LIMIT $start, $limit";
+   /* Obter a quantidade total de investigadores */
+   $stmt = $pdo->query("SELECT COUNT(*) AS total FROM investigadores WHERE tipo = \"Integrado\"");
+   $total = (int) $stmt->fetchColumn();
 }
 #se o botão do pesquisar for clicado mostra o/os investigadores que estejam dentro do contexto de pesquisa
 else if(isset($_GET["pequisaInvestigador"])){
@@ -23,6 +30,9 @@ else if(isset($_GET["pequisaInvestigador"])){
    COALESCE(NULLIF(areasdeinteresse{$language}, ''), areasdeinteresse) AS areasdeinteresse,
    ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id
    FROM investigadores WHERE tipo = \"Integrado\" and {$_GET["selectContext"]} LIKE '%{$_GET["pequisaInvestigador"]}%' ORDER BY nome";
+   /* obter a quantidade de investigadores filtrados */
+   $stmt = $pdo->query("SELECT COUNT(*) AS total FROM investigadores WHERE tipo = \"Integrado\" and {$_GET["selectContext"]} LIKE '%{$_GET["pequisaInvestigador"]}%' ORDER BY nome");
+   $total = (int) $stmt->fetchColumn();
   			
 }
 #caso nehum botao seja clicado mostra todos 
@@ -31,16 +41,79 @@ else{
    COALESCE(NULLIF(sobre{$language}, ''), sobre) AS sobre,
    COALESCE(NULLIF(areasdeinteresse{$language}, ''), areasdeinteresse) AS areasdeinteresse,
    ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id
-   FROM investigadores WHERE tipo = \"Integrado\" ORDER BY nome";
+   FROM investigadores WHERE tipo = \"Integrado\" ORDER BY nome LIMIT $start, $limit";
+   /* Obter a quantidade total de investigadores */
+   $stmt = $pdo->query("SELECT COUNT(*) AS total FROM investigadores WHERE tipo = \"Integrado\"");
+   $total = (int) $stmt->fetchColumn();
 }
 
 $stmt = $pdo->prepare($query);
 $stmt->execute();
 $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
+#Cria a lista paginada dos infestigadores 
+/* calcular o total de páginas */
+$totalPages = ceil($total / $limit);
+$pagination = '';
+
+if ($totalPages > 1) {
+   $pagination .= '<ul class="pagination justify-content-center">';
+   $prev = max($page - 1, 1);
+   $next = min($page + 1, $totalPages);
+   /* se estiver no início, desabilitar o botão */
+   $disabledStart = ($page == 1) ? 'disabled' : '';
+   $pagination .= '<li class="page-item ' . $disabledStart . '"><a class="page-link" href="?limit=' . $limit . '&page=1&search=' . urlencode($searchTerm) . '">Início</a></li>';
+
+   /* se não for possível andar para trás, desabilitar o botão */
+   $disabledPrev = ($page == 1) ? 'disabled' : '';
+   $pagination .= '<li class="page-item ' . $disabledPrev . '"><a class="page-link" href="?limit=' . $limit . '&page=' . $prev . '&search=' . urlencode($searchTerm) . '">Anterior</a></li>';
+
+   for ($i = max(1, $page - 2); $i <= min($page + 2, $totalPages); $i++) {
+      $activeClass = ($i == $page) ? 'disabled' : '';
+      $pagination .= '<li class="page-item ' . $activeClass . '"><a class="page-link" href="?limit=' . $limit . '&page=' . $i . '&search=' . urlencode($searchTerm) . '">' . $i . '</a></li>';
+   }
+
+   /* se não for possível andar para a frente, desabilitar o botão */
+   $disabledNext = ($page == $totalPages) ? 'disabled' : '';
+   $pagination .= '<li class="page-item ' . $disabledNext . '"><a class="page-link" href="?limit=' . $limit . '&page=' . $next . '&search=' . urlencode($searchTerm) . '">Próximo</a></li>';
+
+   /* se estiver no fim, desabilitar o botão */
+   $disabledEnd = ($page == $totalPages) ? 'disabled' : '';
+   $pagination .= '<li class="page-item ' . $disabledEnd . '"><a class="page-link" href="?limit=' . $limit . '&page=' . $totalPages . '&search=' . urlencode($searchTerm) . '">Fim</a></li>';
+   $pagination .= '</ul>';}
+
 ?>
 
 <!DOCTYPE html>
 <html>
+<head>
+   <style>
+      .pagination .page-item.disabled .page-link {
+         background-color: #eeeeee;
+         border-color: #aaaaaa;
+         color: #343a40;
+      }
+
+      .pagination .page-link {
+         background-color: #007bff;
+         border-color: #007bff;
+         color: #ffffff;
+      }
+
+      .pagination .page-link:hover {
+         background-color: #aae0f0;
+         border-color: #007bff;
+         color: #ffffff;
+      }
+
+      .pagination .page-link:active {
+         background-color: #aae0f0;
+         border-color: #007bff;
+         color: #ffffff;
+      }
+   </style>
+</head>
 
 <?= template_header('Integrados'); ?>
 
@@ -63,7 +136,6 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
    </div>
 </section>
 <!-- end product section -->
-
 <section class="product_section layout_padding">
    <div>
       <div class="container">
@@ -95,6 +167,7 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
                </form>
             </div>
          </div> 
+         <?php echo $pagination; ?>
          <div class="row justify-content-center mt-3">
 
             <?php foreach ($investigadores as $investigador): ?>
@@ -111,9 +184,10 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             <?php endforeach; ?>
          </div>
+         </div>
+         <?php echo $pagination; ?>
       </div>
-
-
+      </div>
       <!--<div class="row justify-content-center mt-3">
                
                <div  class="ml-4 imgList">
@@ -178,8 +252,6 @@ $investigadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
                </div>
             
             </div> -->
-
-
    </div>
 </section>
 <script>
