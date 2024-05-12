@@ -7,13 +7,13 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
 $query = "SELECT id, email, nome,
         COALESCE(NULLIF(sobre{$language}, ''), sobre) AS sobre,
         COALESCE(NULLIF(areasdeinteresse{$language}, ''), areasdeinteresse) AS areasdeinteresse,
-        ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id
+        ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id, data_admissao
         FROM investigadores WHERE id=? and tipo = \"Colaborador\"";
 $stmt = $pdo->prepare($query);
 $stmt->bindParam(1, $_GET["colaborador"], PDO::PARAM_INT);
 $stmt->execute();
 $investigadores = $stmt->fetch(PDO::FETCH_ASSOC);
-$id =  $_GET["colaborador"];
+$id = $_GET["colaborador"];
 ?>
 
 <?= template_header('Colaborador'); ?>
@@ -22,9 +22,20 @@ $id =  $_GET["colaborador"];
 <section>
     <div class="totall">
         <div class="barraesquerda">
-            <h3 class="heading_h3" style="font-size: 38px; margin-bottom: 20px; padding-right: 10px; padding-top: 60px; padding-left: 60px; max-width: calc(100% - 50px); word-wrap: break-word;">
+            <h3 class="heading_h3"
+                style="font-size: 38px; margin-bottom: 20px; padding-right: 10px; padding-top: 60px; padding-left: 60px; max-width: calc(100% - 50px); word-wrap: break-word;">
                 <?= $investigadores['nome'] ?>
             </h3>
+
+            <!-- Adicionar a label e o valor da data de admissão apenas se existir -->
+            <?php if (!empty($investigadores['data_admissao'])): ?>
+                <div class="dataAdmissao"
+                    style="font-size: 15px; text-align: right; padding-top: 20px; padding-right: 20px; padding-bottom: 10px;">
+                    <p>Data de Admissão:</p>
+                    <?php echo $investigadores['data_admissao']; ?>
+                </div>
+            <?php endif; ?>
+
             <div class="canvasEmail" style="height:150px; padding-right: 10px;">
 
                 <div class="emailScroll">
@@ -51,6 +62,8 @@ $id =  $_GET["colaborador"];
                     </script>
                 </div>
             </div>
+
+
 
             <button class="divbotao" id="showit">
                 <span href="#" class="innerButton">
@@ -88,7 +101,8 @@ $id =  $_GET["colaborador"];
             </div>
         </div>
         <div id="resto" class="infoCorpo">
-            <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
+            <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px"
+                src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
 
             <h3 class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 30px; padding-left: 50px;">
                 <?= change_lang("about-tab-title-class") ?>
@@ -101,7 +115,8 @@ $id =  $_GET["colaborador"];
         </div>
 
         <div id="resto2" class="infoCorpo" style="display: none;">
-            <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
+            <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px"
+                src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
 
             <h3 class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 30px; padding-left: 50px;">
                 <?= change_lang("areas-tab-title-class") ?>
@@ -114,7 +129,8 @@ $id =  $_GET["colaborador"];
         </div>
 
         <div id="resto3" class="infoCorpo" style="display: none;">
-            <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
+            <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px"
+                src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
 
             <h3 class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 30px; padding-left: 50px;">
                 <?= change_lang("publications-tab-title-class") ?>
@@ -165,13 +181,13 @@ $id =  $_GET["colaborador"];
             </script>
 
             <div id="publications" class='textInfo' style='padding-bottom: 10px;'>
-                <?php foreach ($groupedPublicacoes as $year => $yearPublica) : ?>
+                <?php foreach ($groupedPublicacoes as $year => $yearPublica): ?>
                     <div class="mb-5">
                         <b><?= $year ?></b><br>
-                        <?php foreach ($yearPublica as $site => $publicacoes) : ?>
+                        <?php foreach ($yearPublica as $site => $publicacoes): ?>
                             <div style="margin-left: 10px;" class="mt-3"><b><?= $site ?></b><br></div>
                             <div style="margin-left: 20px;" id="publications<?= $year ?><?= $site ?>">
-                                <?php foreach ($publicacoes as $publicacao) : ?>
+                                <?php foreach ($publicacoes as $publicacao): ?>
                                     <script>
                                         var formattedCitation = new Cite(<?= json_encode($publicacao) ?>).format('bibliography', {
                                             format: 'html',
@@ -195,7 +211,8 @@ $id =  $_GET["colaborador"];
         </div>
 
         <div id="resto4" class="infoCorpo" style="display: none;">
-            <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px" src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
+            <img style="object-fit: cover; width:255px; height:310px; padding-left: 50px; padding-top: 50px"
+                src="../backoffice/assets/investigadores/<?= $investigadores['fotografia'] ?>" alt="">
 
             <h3 class="heading_h3" style="font-size: 30px; margin-bottom: 20px; padding-top: 30px; padding-left: 50px;">
                 <?= change_lang("projects-tab-title-class") ?>
@@ -216,12 +233,14 @@ $id =  $_GET["colaborador"];
                     <div style="padding-top: 20px;">
                         <div class="container">
                             <div class="row justify-content-center mt-3">
-                                <?php foreach ($projetos as $projeto) : ?>
+                                <?php foreach ($projetos as $projeto): ?>
 
                                     <div class="ml-5 imgList">
                                         <a href="projeto.php?projeto=<?= $projeto['id'] ?>">
                                             <div class="image_default">
-                                                <img class="centrare" style="object-fit: cover; width:225px; height:280px;" src="../backoffice/assets/projetos/<?= $projeto['fotografia'] ?>" alt="">
+                                                <img class="centrare" style="object-fit: cover; width:225px; height:280px;"
+                                                    src="../backoffice/assets/projetos/<?= $projeto['fotografia'] ?>"
+                                                    alt="">
                                                 <div class="imgText justify-content-center m-auto">
                                                     <?= $projeto['nome'] ?>
                                                 </div>
@@ -251,30 +270,30 @@ $id =  $_GET["colaborador"];
 <?= template_footer(); ?>
 
 <script>
-    $(function() {
+    $(function () {
 
-        $('button#showit').on('click', function() {
+        $('button#showit').on('click', function () {
             $('#resto').show();
             $('#resto2').hide();
             $('#resto3').hide();
             $('#resto4').hide();
         });
 
-        $('button#showit2').on('click', function() {
+        $('button#showit2').on('click', function () {
             $('#resto2').show();
             $('#resto').hide();
             $('#resto3').hide();
             $('#resto4').hide();
         });
 
-        $('button#showit3').on('click', function() {
+        $('button#showit3').on('click', function () {
             $('#resto3').show();
             $('#resto').hide();
             $('#resto2').hide();
             $('#resto4').hide();
         });
 
-        $('button#showit4').on('click', function() {
+        $('button#showit4').on('click', function () {
             $('#resto4').show();
             $('#resto').hide();
             $('#resto3').hide();
