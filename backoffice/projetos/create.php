@@ -6,14 +6,17 @@ $mainDir = "../assets/projetos/";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $target_file = uniqid() . '_' . $_FILES["fotografia"]["name"];
+    $target_file_logo = uniqid() . '_' . $_FILES["logo"]["name"];
     //transferir a imagem para a pasta de assets
     move_uploaded_file($_FILES["fotografia"]["tmp_name"], $mainDir . $target_file);
+    //transferir o logo para a pasta de assets
+    move_uploaded_file($_FILES["logo"]["tmp_name"], $mainDir . $target_file_logo);
 
     //adicionar novo projeto na base de dados
-    $sql = "INSERT INTO projetos (nome, nome_en, descricao, descricao_en, sobreprojeto, sobreprojeto_en, referencia, referencia_en, areapreferencial, areapreferencial_en, financiamento, financiamento_en, ambito, ambito_en, fotografia, concluido, site, site_en, facebook, facebook_en) " .
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO projetos (nome, nome_en, descricao, descricao_en, sobreprojeto, sobreprojeto_en, referencia, referencia_en, areapreferencial, areapreferencial_en, financiamento, financiamento_en, ambito, ambito_en, fotografia, concluido, site, site_en, facebook, facebook_en,logo) " .
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 'sssssssssssssssissss', $nome, $nome_en, $descricao, $descricao_en, $sobreprojeto, $sobreprojeto_en, $referencia, $referencia_en, $areapreferencial, $areapreferencial_en, $financiamento, $financiamento_en, $ambito, $ambito_en, $fotografia, $concluido, $site, $site_en, $facebook, $facebook_en);
+    mysqli_stmt_bind_param($stmt, 'sssssssssssssssisssss', $nome, $nome_en, $descricao, $descricao_en, $sobreprojeto, $sobreprojeto_en, $referencia, $referencia_en, $areapreferencial, $areapreferencial_en, $financiamento, $financiamento_en, $ambito, $ambito_en, $fotografia, $concluido, $site, $site_en, $facebook, $facebook_en,$logo);
 
     $nome = $_POST["nome"];
     $descricao = $_POST["descricao"];
@@ -37,6 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ambito_en = $_POST["ambito_en"];
     $site_en = $_POST["site_en"];
     $facebook_en = $_POST["facebook_en"];
+    $logo = $target_file_logo;
 
     if (isset($_POST["investigadores"])) {
         $investigadores = $_POST["investigadores"];
@@ -84,17 +88,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 <script type="text/javascript">
-    function previewImg(input) {
+    function previewImg(input,foto_or_logo) {
+        if(foto_or_logo=="fotografia"){
+            preview = "#preview"
+        }
+        if(foto_or_logo=="logo"){
+            preview = "#preview_logo"
+        }
+
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function(e) {
-                $('#preview').attr('src', e.target.result);
-                $('#preview').show();
+                $(preview).attr('src', e.target.result);
+                $(preview).show();
             }
             reader.readAsDataURL(input.files[0]);
         } else {
-            $('#preview').attr('src', '');
-            $('#preview').hide();
+            $(preview).attr('src', '');
+            $(preview).hide();
         }
     }
 </script>
@@ -387,11 +398,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Fotografia</label>
-                    <input accept="image/*" type="file" onchange="previewImg(this);" required accept="image/*" class="form-control-file" id="inputFotografia" name="fotografia">
+                    <input accept="image/*" type="file" onchange="previewImg(this,'fotografia');" required accept="image/*" class="form-control-file" id="inputFotografia" name="fotografia">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                     <img id="preview" style="display: none;" class="mt-2" width='100px' height='100px' class="mb-3" />
 
+                </div>
+
+                <div class="form-group">
+                    <label>Logotipo</label>
+                    <input accept="image/*" type="file" onchange="previewImg(this,'logo');" required accept="image/*" class="form-control-file" id="inputLogo" name="logo">
+                    <!-- Error -->
+                    <div class="help-block with-errors"></div>
+                    <img id="preview_logo" style="display: none;" class="mt-2" width='100px' height='100px' class="mb-3" />
                 </div>
 
 

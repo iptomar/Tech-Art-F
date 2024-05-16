@@ -302,7 +302,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 //se o titulo for o link regulamentos coloca no div guardaFicheiro o input para receber um pdf 
                 if ($titulo == "Link Regulamentos") {
                     document.getElementById("guardaFicheiro").innerHTML = ' <label>PDF</label>  <input accept=".pdf" type="file" class="form-control" id="inputPDF" name="pdf"> <!-- Error --> <div class="help-block with-errors"></div>'
-                    // para os outros titulos coloca no div guardaFicheiro  o input para receber uma imagem  e mostra uma previsualizacao desta 
+                // para os outros titulos coloca no div guardaFicheiro  o input para receber uma imagem  e mostra uma previsualizacao desta 
                 } else {
                     document.getElementById("guardaFicheiro").innerHTML = ' <label>Fotografia</label>  <input accept="image/*" type="file" onchange="previewImg(this)" class="form-control" id="inputFotografia" name="fotografia" value=<?php echo $fotografia; ?>> <!-- Error --> <div class="help-block with-errors"></div> <img id="preview" src="<?php echo $mainDir . $fotografia ?>" width="300px" height="300px"/>';
                 }
