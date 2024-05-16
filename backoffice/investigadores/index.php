@@ -11,19 +11,19 @@ $sql = "";
 $placeholder = "Pesquisar por Nome";
 #Se o botão de mostrar todos for selecionado  
 if (isset($_POST["pesquisaTodos"])) {
-	$sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar FROM investigadores 
+	$sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar, data_admissao FROM investigadores 
 ORDER BY CASE WHEN tipo = 'Externo' THEN 1 ELSE 0 END, tipo DESC, nome;";
 }
 #se o botão para perquisar um inverstigador for selecionado procura na base de dados por todos aqueles que contenham aqueles carateres no campo ecolhido 
 else if(isset($_GET["pesquisarInvest"])){
 
-	$sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar 
+	$sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar, data_admissao
 			FROM investigadores
 			WHERE {$_GET["selectContext"]} LIKE '%{$_GET["pesquisarInvest"]}%'
 			ORDER BY CASE WHEN tipo = 'Externo' THEN 1 ELSE 0 END, tipo DESC, nome; ";
 #outros cassom mostra tudo
 }else{
-	$sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar FROM investigadores 
+	$sql = "SELECT id, nome, email, ciencia_id, sobre, tipo, fotografia, areasdeinteresse, orcid, scholar, data_admissao FROM investigadores 
 	ORDER BY CASE WHEN tipo = 'Externo' THEN 1 ELSE 0 END, tipo DESC, nome;";
 }
 

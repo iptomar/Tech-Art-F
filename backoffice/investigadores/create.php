@@ -16,7 +16,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //transferir a imagem para a pasta de assets
         move_uploaded_file($_FILES["fotografia"]["tmp_name"], $filesDir . $target_file);
 
+
         $sql = "INSERT INTO investigadores (nome, email, ciencia_id, sobre, sobre_en, tipo, fotografia, areasdeinteresse,areasdeinteresse_en, orcid, scholar, research_gate, scopus_id, password,data_admissao) " .
+
             "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = mysqli_prepare($conn, $sql);
         mysqli_stmt_bind_param($stmt, 'sssssssssssssss', $nome, $email, $ciencia_id, $sobre, $sobre_en, $tipo, $fotografia, $areasdeinteresse, $areasdeinteresse_en, $orcid, $scholar, $research_gate, $scopus_id, $password, $data_admissao);
@@ -207,6 +209,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="form-group removeExterno">
                     <label for="scopus_id">ScopusID: </label>
                     <input placeholder="ScopusID" name="scopus_id" type="text" class="form-control" id="scopus_id">
+                </div>
+                <div class="form-group removeExterno">
+                    <label for="data_admissao">Data de admissão: </label>
+                    <input placeholder="Data de admissão" name="data_admissao" type="date" class="form-control" id="data_admissao">
                 </div>
                 <div class="form-group">
                     <label>Fotografia</label>

@@ -21,10 +21,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $scholar = $_POST["scholar"];
     $research_gate = $_POST["research_gate"];
     $scopus_id = $_POST["scopus_id"];
-    $data_admissao_nova = $_POST["data_admissao_nova"];
 
-    $sql = "UPDATE investigadores set nome = ?, email = ?, ciencia_id = ?, sobre = ?, sobre_en = ?, areasdeinteresse = ?, areasdeinteresse_en = ?, tipo = ?, orcid = ?, scholar = ?, research_gate=?, scopus_id=?, data_admissao= ?";
-    $params = [$nome, $email, $ciencia_id, $sobre, $sobre_en,  $areasdeinteresse, $areasdeinteresse_en, $tipo, $orcid, $scholar, $research_gate, $scopus_id, $data_admissao_nova];
+    $data_admissao = $_POST["data_admissao"];
+
+
+    $sql = "UPDATE investigadores set nome = ?, email = ?, ciencia_id = ?, sobre = ?, sobre_en = ?, areasdeinteresse = ?, areasdeinteresse_en = ?, tipo = ?, orcid = ?, scholar = ?, research_gate=?, scopus_id=?, data_admissao=?";
+    $params = [$nome, $email, $ciencia_id, $sobre, $sobre_en,  $areasdeinteresse, $areasdeinteresse_en, $tipo, $orcid, $scholar, $research_gate, $scopus_id, $data_admissao];
+
     $fotografia_exists = isset($_FILES["fotografia"]) && $_FILES["fotografia"]["size"] != 0;
     if ($fotografia_exists) {
 
@@ -69,7 +72,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $scopus_id = $row["scopus_id"];
     $sobre_en = $row["sobre_en"];
     $areasdeinteresse_en = $row["areasdeinteresse_en"];
-    $data_admissao = $row['data_admissao'];
+    $data_admissao = $row["data_admissao"];
+
 }
 
 
@@ -224,6 +228,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="text" class="form-control" name="scopus_id" id="scopus_id" value="<?= $scopus_id ?>">
                 </div>
                 <div class="form-group removeExterno">
+
+                    <label for="data_admissao">Data de admissão: </label>
+                    <input type="date" class="form-control" name="data_admissao" id="data_admissao" value="<?= $data_admissao ?>">
+                </div>
+                <div class="form-group">
+
                     <label>Fotografia</label>
                     <input type="file" accept="image/*" onchange="previewImg(this);" class="form-control" id="fotografia" name="fotografia" value="<?php echo $fotografia; ?>">
                     <!-- Error -->

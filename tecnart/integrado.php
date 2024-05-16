@@ -25,6 +25,16 @@ $id =  $_GET["integrado"];
             <h3 class="heading_h3" style="font-size: 38px; margin-bottom: 20px; padding-top: 60px; padding-right: 10px; padding-left: 60px; word-wrap: break-word;">
                 <?= $investigadores['nome'] ?>
             </h3>
+            
+            <!-- Adicionar a label e o valor da data de admissão apenas se existir -->
+            <?php if (!empty($investigadores['data_admissao'])): ?>
+                <div class="dataAdmissao"
+                    style="font-size: 15px; text-align: left; padding-top: 20px; padding-left: 60px; padding-bottom: 10px;">
+                    <p>Data de Admissão:</p>
+                    <?php echo $investigadores['data_admissao']; ?>
+                </div>
+            <?php endif; ?>
+
             <div class="canvasEmail" style="height:150px; padding-right: 10px;">
 
                 <div class="emailScroll">
