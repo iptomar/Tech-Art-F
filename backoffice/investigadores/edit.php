@@ -21,11 +21,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $scholar = $_POST["scholar"];
     $research_gate = $_POST["research_gate"];
     $scopus_id = $_POST["scopus_id"];
+
     $data_admissao = $_POST["data_admissao"];
 
 
     $sql = "UPDATE investigadores set nome = ?, email = ?, ciencia_id = ?, sobre = ?, sobre_en = ?, areasdeinteresse = ?, areasdeinteresse_en = ?, tipo = ?, orcid = ?, scholar = ?, research_gate=?, scopus_id=?, data_admissao=?";
     $params = [$nome, $email, $ciencia_id, $sobre, $sobre_en,  $areasdeinteresse, $areasdeinteresse_en, $tipo, $orcid, $scholar, $research_gate, $scopus_id, $data_admissao];
+
     $fotografia_exists = isset($_FILES["fotografia"]) && $_FILES["fotografia"]["size"] != 0;
     if ($fotografia_exists) {
 
@@ -71,6 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sobre_en = $row["sobre_en"];
     $areasdeinteresse_en = $row["areasdeinteresse_en"];
     $data_admissao = $row["data_admissao"];
+
 }
 
 
@@ -225,17 +228,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="text" class="form-control" name="scopus_id" id="scopus_id" value="<?= $scopus_id ?>">
                 </div>
                 <div class="form-group removeExterno">
+
                     <label for="data_admissao">Data de admissão: </label>
                     <input type="date" class="form-control" name="data_admissao" id="data_admissao" value="<?= $data_admissao ?>">
                 </div>
                 <div class="form-group">
+
                     <label>Fotografia</label>
                     <input type="file" accept="image/*" onchange="previewImg(this);" class="form-control" id="fotografia" name="fotografia" value="<?php echo $fotografia; ?>">
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                 </div>
                 <img id="preview" src="<?php echo $filesDir . $fotografia; ?>" width='100px' height='100px' class="mb-3" />
-
+                <div class="form-group removeExterno">
+                    <label>Data de Início de Colaboração</label>
+                    <input type="date" required data-error="Por favor adicione um data de início de colaboração" class="form-control" id="data_admissao_nova" name="data_admissao_nova" value="<?= date('Y-m-d', strtotime($data_admissao)); ?>"/>
+                    <!-- Error -->
+                    <div class="help-block with-errors"></div>
+                </div>
 
 
                 <div class="form-group">

@@ -78,11 +78,11 @@ $id = $_GET["colaborador"];
                 </span>
             </button>
 
-            <button class="divbotao" id="showit3">
-                <span href="#" class="innerButton">
-                    <?= change_lang("publications-btn-class") ?>
-                </span>
-            </button>
+            <?php if (DateTime::createFromFormat('Y-m-d', $investigadores['data_admissao']) == false || (((DateTime::createFromFormat('Y-m-d', $investigadores['data_admissao'])->diff(new DateTime()))->m)>6)) : ?>
+                <button class="divbotao" id="showit3">
+                    <span href="#" class="innerButton"><?= change_lang("publications-btn-class") ?></span>
+                </button>
+            <?php endif; ?>
 
             <button class="divbotao lastBtn" id="showit4">
                 <span href="#" class="innerButton">
