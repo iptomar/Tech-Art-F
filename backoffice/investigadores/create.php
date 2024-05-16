@@ -16,10 +16,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //transferir a imagem para a pasta de assets
         move_uploaded_file($_FILES["fotografia"]["tmp_name"], $filesDir . $target_file);
 
-        $sql = "INSERT INTO investigadores (nome, email, ciencia_id, sobre, sobre_en, tipo, fotografia, areasdeinteresse,areasdeinteresse_en, orcid, scholar, research_gate, scopus_id, password) " .
-            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $sql = "INSERT INTO investigadores (nome, email, ciencia_id, sobre, sobre_en, tipo, fotografia, areasdeinteresse,areasdeinteresse_en, orcid, scholar, research_gate, scopus_id, password,data_admissao) " .
+            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, 'ssssssssssssss', $nome, $email, $ciencia_id, $sobre, $sobre_en, $tipo, $fotografia, $areasdeinteresse, $areasdeinteresse_en, $orcid, $scholar, $research_gate, $scopus_id, $password);
+        mysqli_stmt_bind_param($stmt, 'sssssssssssssss', $nome, $email, $ciencia_id, $sobre, $sobre_en, $tipo, $fotografia, $areasdeinteresse, $areasdeinteresse_en, $orcid, $scholar, $research_gate, $scopus_id, $password, $data_admissao);
         $nome = $_POST["nome"];
         $email = $_POST["email"];
         $ciencia_id = $_POST["ciencia_id"];
@@ -37,9 +37,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_POST["password"] = substr(str_shuffle(strtolower(sha1(rand() . time()))), 0, $PASSWORD_LENGTH);
         }
         $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+        $data_admissao = $_POST["data_admissao"];
         if (mysqli_stmt_execute($stmt)) {
-           # header('Location: index.php');
-            echo"<script> window.location.href = './index.php'; </script>";
+            # header('Location: index.php');
+            echo "<script> window.location.href = './index.php'; </script>";
             exit;
         } else {
             echo "Error: " . $sql . "<br>" . mysqli_error($conn);
@@ -214,6 +215,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="help-block with-errors"></div>
                 </div>
                 <img id="preview" style="display: none;" width='100px' height='100px' class="mb-3" />
+                <div class="form-group">
+                    <label>Data de Início de Colaboração</label>
+                    <input type="date" required data-error="Por favor adicione um data de início de colaboração" class="form-control" id="data_admissao" placeholder="Data" name="data_admissao">
+                    <!-- Error -->
+                    <div class="help-block with-errors"></div>
+                </div>
+
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block">Gravar</button>
