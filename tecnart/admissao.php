@@ -3,6 +3,8 @@ require "./config/dbconnection.php";
 require "models/functions.php";
 include_once "config/configurations.php";
 
+$tipos;
+
 //Guardar um ficheiro na pasta pedido_<id pedido> mudando o nome do ficheiro
 function save_file($id, $new_name, $file)
 {
@@ -15,6 +17,17 @@ function save_file($id, $new_name, $file)
         return true;
     }
     return false;
+}
+
+// Retrieve data from the "admissoes_tipo" table
+try {
+    $pdo = pdo_connect_mysql();
+    $stmt = $pdo->query("SELECT * FROM admissoes_tipo");
+    $tipos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    // Handle database connection or query errors
+    show_error(change_lang("admission-db-error"));
+    exit();
 }
 
 //Array que mapeia os nomes/ids dos inputs com os seus respectivos títulos
@@ -112,17 +125,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error = true;
         }
 
+       
+
         //Se não ocurreram erros previamente, se todos os dados estão corretos e foi possivel conectar àBD
         //Preparar e correr o comando de Insert
         if (!$error) {
-            $sql = "INSERT INTO admissoes (
+            $sql = "INSERT INTO admissoes (`tipo`,
                     `nome_completo`, `nome_profissional`, `ciencia_id`, 
                     `orcid` , `email`, `telefone` , 
                     `grau_academico`, `ano_conclusao_academico`, `area_academico`, `area_investigacao` , 
                     `instituicao_vinculo`, `percentagem_dedicacao`, `pertencer_outro` , 
                     `outro_texto`, `biografia`, `ficheiro_motivacao`, 
                     `ficheiro_recomendacao`, `ficheiro_cv`, `ficheiro_fotografia`) VALUES ( 
-                    :dados_nome, :dados_nome_prof, :dados_ciencia_id,
+                    :dados_tipo, :dados_nome, :dados_nome_prof, :dados_ciencia_id,
                     :dados_orcid, :dados_email, :dados_telefone, 
                     :dados_grau_academico, :dados_ano_conclusao_academico, :dados_area_academico, 
                     :dados_area_investigacao, :dados_instituicao_vinculo, :dados_percentagem_dedicacao,
@@ -140,6 +155,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         //Utilizou-se PARAM_INT em vez de PARAM_BOOL para funcionar no servidor, com PARAM_BOOL o INSERT falhava
                         $valuetype =  PDO::PARAM_INT;
                         $value = $_POST['dados_pertencer_outro'] == 'true' ? true : false;
+                    }
+                    if($key == 'dados_tipo'){
+                        $valuetype =  PDO::PARAM_INT;
+                        $value = $_POST['idTipoAdmissao'];
                     }
                     //Se o valor está vazio enviar como null
                     if ($value === '') $value = null;
@@ -270,6 +289,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form role="form" data-toggle="validator" action="admissao.php" method="post" enctype="multipart/form-data">
                 <?php
 
+                // popular a dropdown com os tipos
+                if ($tipos) {
+                    echo "<div class='form-group'>
+                            <label>" . change_lang("admission-type") . "</label>
+                            <select class='form-control' id='admission_type' name='admission_type'>";
+                    foreach ($tipos as $tipo) {
+                        echo "<option value='" . $tipo['id'] . "'>" . $tipo['descricao'] . "</option>";
+                    }
+                    echo "</select>
+                            <!-- Error -->
+                            <div class='help-block with-errors'></div>
+                        </div>";
+                } else {
+                    show_error(change_lang("admission-no-data"));
+                    exit();
+                }
+
                 //Colocar os campos de input baseados no array dados
                 foreach ($dados as $id => $name) {
                     $placeholder = change_lang("admission-placeholder");
@@ -334,8 +370,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class='help-block with-errors'></div>
                         </div>";
                 }
-
+                
                 ?>
+                <input type="hidden" name="idTipoAdmissao" value="<?= $idTipoAdmissao ?>">
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block mb-3"><?= change_lang("admission-submit") ?></button>
                     <button type="button" onclick="window.location.href = 'index.php'" class="btn btn-danger btn-block"><?= change_lang("admission-cancel") ?></button>
