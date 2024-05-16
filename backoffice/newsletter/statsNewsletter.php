@@ -96,9 +96,9 @@ $countENG = mysqli_fetch_assoc($resultSubsENG)["count"];
               <tr>
                 <th data-translation='newsletter-history-date'>Data de Envio</th>
                 <th data-translation='newsletter-history-title-pt'>Título PT</th>
-                <th data-translation='newsletter-history-title-en'>Título PT</th>
+                <th data-translation='newsletter-history-title-en'>Título EN</th>
                 <th data-translation='newsletter-history-subject-pt'>Assunto</th>
-                <th data-translation='newsletter-history-subject'>Assunto</th>
+                <th data-translation='newsletter-history-subject'>Assunto EN</th>
                 <th data-translation='newsletter-history-content'>Notícias Enviadas</th>
               </tr>
             </thead>

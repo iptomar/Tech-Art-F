@@ -3,12 +3,13 @@ header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found", true, 404);
 die;
 include 'config/dbconnection.php';
 include 'models/functions.php';
+
 $pdo = pdo_connect_mysql();
 $language = ($_SESSION["lang"] == "en") ? "_en" : "";
 $query = "SELECT id, email, nome,
         COALESCE(NULLIF(sobre{$language}, ''), sobre) AS sobre,
         COALESCE(NULLIF(areasdeinteresse{$language}, ''), areasdeinteresse) AS areasdeinteresse,
-        ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id
+        ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id, data_admissao
         FROM investigadores WHERE tipo = \"Aluno\" ORDER BY nome";
 $stmt = $pdo->prepare($query);
 $stmt->execute();
