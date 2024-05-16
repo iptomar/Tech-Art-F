@@ -30,7 +30,7 @@ $id = $_GET["colaborador"];
             <!-- Adicionar a label e o valor da data de admissão apenas se existir -->
             <?php if (!empty($investigadores['data_admissao'])): ?>
                 <div class="dataAdmissao"
-                    style="font-size: 15px; text-align: right; padding-top: 20px; padding-right: 20px; padding-bottom: 10px;">
+                    style="font-size: 15px; text-align: left; padding-top: 20px; padding-left: 60px; padding-bottom: 10px;">
                     <p>Data de Admissão:</p>
                     <?php echo $investigadores['data_admissao']; ?>
                 </div>
