@@ -18,11 +18,10 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
 
 <style>
-    /* Add custom styles for the grid layout */
     #searchResults {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        grid-gap: 20px; /* Adjust the gap between items as needed */
+        grid-gap: 20px;
     }
 </style>
 
@@ -88,7 +87,7 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         const searchResults = document.querySelector('#searchResults');
         const productListing = document.querySelector('#productListing');
 
-        // Function to generate HTML for project item
+        // Função para gerar o html para o projeto
         function createProjectItem(project) {
             const projectItem = document.createElement('div');
             projectItem.classList.add('ml-5', 'imgList');
@@ -119,9 +118,11 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return projectItem;
         }
 
+        // Event listener para o auto complete search
         searchInput.addEventListener('input', function() {
             const query = searchInput.value.trim();
 
+            // Fetch ao endpoint do search
             fetch(`search.php?query=${encodeURIComponent(query)}&concluido=0`)
                 .then(response => response.json())
                 .then(data => {

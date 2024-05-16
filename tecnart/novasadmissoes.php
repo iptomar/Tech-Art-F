@@ -38,14 +38,16 @@ include 'config/dbconnection.php';
                     </div>
                     <div class="flex-right">
                     <?php
-                          $language = $_SESSION["lang"];
-                          $pdo = pdo_connect_mysql();
+                          $language = $_SESSION["lang"]; // Detetar a linguagem
+                          $pdo = pdo_connect_mysql(); // Ligar ao serviço de mysql
                           $query = "";
+                          // Validar qual é a linguagem para dar fetch a coluna certa
                            if ($language == "pt") {
                                $query .= "SELECT texto ";
                            } else {
                                $query .= "SELECT texto_en ";
                            }
+                           // Preparar o resto da query
                           $query .= "FROM technart.areas_website 
                                     WHERE titulo = 'Novas Admissões'";
                           $stmt = $pdo->prepare($query);
@@ -56,10 +58,7 @@ include 'config/dbconnection.php';
                         ?>
                     </div>
                 </div>
-                <a style="display: inline-block; padding: 5px 25px; background-color:#333F50; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
-                     -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;" href="admissao.php">
-                            <?= change_lang("new-admissions-regulations-fill") ?>
-                        </a>
+                <!-- Removed duplicate anchor tag here -->
             </div>
         </div>
     </div>

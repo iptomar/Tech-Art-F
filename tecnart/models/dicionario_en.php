@@ -315,6 +315,7 @@ function ret_dic_en()
         "admission-placeholder" => "Enter your answer",
         "admission-error" => "Please enter a valid value",
         //Etiquetas dos campos de input do formulário
+        "admission-type" => "Admission Type",
         "admission-name" => "Full name",
         "admission-name-prof" => "Professional Name",
         "admission-cienciaid" => "Ciência ID",
