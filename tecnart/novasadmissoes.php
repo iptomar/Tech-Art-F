@@ -38,14 +38,16 @@ include 'config/dbconnection.php';
                     </div>
                     <div class="flex-right">
                     <?php
-                          $language = $_SESSION["lang"];
-                          $pdo = pdo_connect_mysql();
+                          $language = $_SESSION["lang"]; // Detetar a linguagem
+                          $pdo = pdo_connect_mysql(); // Ligar ao serviço de mysql
                           $query = "";
+                          // Validar qual é a linguagem para dar fetch a coluna certa
                            if ($language == "pt") {
                                $query .= "SELECT texto ";
                            } else {
                                $query .= "SELECT texto_en ";
                            }
+                           // Preparar o resto da query
                           $query .= "FROM technart.areas_website 
                                     WHERE titulo = 'Novas Admissões'";
                           $stmt = $pdo->prepare($query);

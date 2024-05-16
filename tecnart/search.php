@@ -4,11 +4,12 @@ include 'models/functions.php';
 
 $pdo = pdo_connect_mysql();
 
+// Receção dos parametros para a query
 if (isset($_GET['query']) && isset($_GET['concluido'])) {
     $query = $_GET['query'];
     $concluido = $_GET['concluido'];
     
-    // Prepare the SQL statement
+    // Preparar o statement
     $sql = "SELECT id, nome AS nome, fotografia 
             FROM projetos 
             WHERE concluido=" . $concluido . " AND nome like " . "'%" . $query . "%'";
@@ -17,19 +18,18 @@ if (isset($_GET['query']) && isset($_GET['concluido'])) {
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
         
-        // Fetch the results
+        // Fetch aos resultados
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
-        // Return results as JSON
+        // Devolver como JSON
         header('Content-Type: application/json');
         echo json_encode($results);
     } catch (PDOException $e) {
-        // Log any database errors
+        // Logs para os erros de base de dados
         error_log('Database Error: ' . $e->getMessage());
         echo json_encode(['error' => 'An error occurred while fetching search results.']);
     }
 } else {
-    // Missing query parameter or concluido parameter
     echo json_encode([]);
 }
 ?>
