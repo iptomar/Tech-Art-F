@@ -329,8 +329,8 @@ $change_lang =  function ($key) {
                 </footer>
                 <!-- footer end -->
                 <div class="cpy_">
-                <p class="mx-auto" style="font-size: 13px; padding-bottom: 20px;">
-                {$change_lang("ipt-copyright-txt")} | {$change_lang("all-rights-reserved-txt")} | 
+                <p class="mx-auto" style="font-size: 13px; padding-top: 15px; padding-bottom: 20px;">
+                {$change_lang("ipt-copyright-txt")} <br /> {$change_lang("all-rights-reserved-txt")} | 
                 <a style="font-size: 13px;" href="copyright.php">{$change_lang("copyright-title")}</a> 
                 <br></p>
                 </div>

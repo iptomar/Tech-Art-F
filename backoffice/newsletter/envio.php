@@ -49,7 +49,7 @@ if (mysqli_num_rows($resultsPT) > 0) {
         <?php echo template_header_pt(); ?>
         <?php echo template_noticias_pt($titulo, $noticias); ?>
         <?php echo "
-              <table width='100%' cellpadding='0' cellspacing='0' style='background-color: #333f50; margin-top: 20px;'>
+              <table width='100%' cellpadding='0' cellspacing='0' style='background-color: #000033; margin-top: 20px;'>
               <tr>
                   <td align='center' style='padding: 10px;'>
                       <a href='$tokenUnsubscribe' style='color: white; text-decoration: none; margin-right: 20px; font-weight: bold;'>Cancelar Subscrição</a>
@@ -90,7 +90,7 @@ if (mysqli_num_rows($resultsEN) > 0) {
         <?php echo template_header_en(); ?>
         <?php echo template_noticias_en($tituloEn, $noticias); ?>
         <?php echo "
-        <table width='100%' cellpadding='0' cellspacing='0' style='background-color: #333f50; margin-top: 20px;'>
+        <table width='100%' cellpadding='0' cellspacing='0' style='background-color: #000033; margin-top: 20px;'>
         <tr>
             <td align='center' style='padding: 10px;'>
                 <a href='$tokenUnsubscribe' style='color: white; text-decoration: none; margin-right: 20px; font-weight: bold;'>Unsubscribe</a>

@@ -65,7 +65,7 @@ unset($_SESSION['unsubscribe_message']);
 <!-- why section -->
 <section class="why_section layout_padding">
    <div class="container">
-      <div class="heading_container heading_center">
+      <div class="heading_container">
          <h3>
             <?= change_lang("institutional-video-heading"); ?>
          </h3>
@@ -93,7 +93,7 @@ unset($_SESSION['unsubscribe_message']);
                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
             </h3>
 
-            <a style="display: inline-block; padding: 5px 25px; background-color:#333F50; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
+            <a style="display: inline-block; padding: 5px 25px; background-color:#000033; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
                      -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;"
                href="projetos_em_curso.php">
                <?= change_lang("see-all-btn-rd-projects"); ?>
@@ -121,8 +121,8 @@ unset($_SESSION['unsubscribe_message']);
                      </div>
                   </div>
                   <div class="detail-box">
-                     <div style="color: #333F50; padding-left: 15px; padding-top: 15px; text-align: center; width:210px;">
-                        <a href="projeto.php?projeto=<?= $row["id"]; ?>" style="color:#333F50;">
+                     <div style="color: #000033; padding-left: 15px; padding-top: 15px; text-align: center; width:210px;">
+                        <a href="projeto.php?projeto=<?= $row["id"]; ?>" style="color:#000033;">
                            <h5>
                               <?= $row["nome"]; ?>
                            </h5>
@@ -221,7 +221,7 @@ unset($_SESSION['unsubscribe_message']);
          </div>
 
          <div class="text-center">
-            <a style="display: inline-block; padding: 5px 25px; background-color:#333F50; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
+            <a style="display: inline-block; padding: 5px 25px; background-color:#000033; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
                      -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;"
                href="noticias.php">
                <?= change_lang("see-all-btn-latest-news") ?>
