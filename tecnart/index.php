@@ -10,6 +10,9 @@ unset($_SESSION['unsubscribe_message']);
 <link href="assets/css/newsletter.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
 <!DOCTYPE html>
 <html>
@@ -66,7 +69,7 @@ unset($_SESSION['unsubscribe_message']);
 <section class="why_section layout_padding">
    <div class="container">
       <div class="heading_container">
-         <h3>
+         <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 32px; font-weight: 300; color:002169;">
             <?= change_lang("institutional-video-heading"); ?>
          </h3>
       </div>
