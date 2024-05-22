@@ -27,32 +27,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <div id="main-container">
+    <div id="main-container" class="container">
         <div class="row my-4">
-            <button class="btn btn-primary mr-4 ml-4" id="back">Descartar</button>
-            <button class="btn btn-primary mr-4 ml-4" id="next">Confirmar</button>
-        </div>
-        <div class="col-sm-6">
-            <div class="row my-4">
-                <h4>Preencher Campos em Português</h4>
-                <div class="form-group">
-                    <label for="titulo">Título:</label>
-                    <input type="text" class="form-control" id="titulo" placeholder="Digite o título" required>
-                </div>
-                <div class="form-group">
-                    <label for="assunto">Assunto:</label>
-                    <input type="text" class="form-control" id="assunto" placeholder="Digite o assunto" required>
-                </div>
+            <div class="col-auto">
+                <button class="btn btn-primary mr-4" id="back">Descartar</button>
             </div>
-            <div class="row my-4">
-                <h4>Preencher Campos em Inglês</h4>
-                <div class="form-group">
-                    <label for="tituloEn">Título:</label>
-                    <input type="text" class="form-control" id="tituloEn" placeholder="Digite o título" required>
+            <div class="col-auto ml-auto">
+                <button class="btn btn-primary" id="next">Confirmar</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row my-4">
+                    <div class="col">
+                        <h4>Preencher Campos em Português</h4>
+                        <div class="form-group">
+                            <label for="titulo">Título:</label>
+                            <input type="text" class="form-control" id="titulo" placeholder="Digite o título" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="assunto">Assunto:</label>
+                            <input type="text" class="form-control" id="assunto" placeholder="Digite o assunto" required>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="assuntoEn">Assunto:</label>
-                    <input type="text" class="form-control" id="assuntoEn" placeholder="Digite o assunto" required>
+                <div class="row my-4">
+                    <div class="col">
+                        <h4>Preencher Campos em Inglês</h4>
+                        <div class="form-group">
+                            <label for="tituloEn">Título:</label>
+                            <input type="text" class="form-control" id="tituloEn" placeholder="Digite o título" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="assuntoEn">Assunto:</label>
+                            <input type="text" class="form-control" id="assuntoEn" placeholder="Digite o assunto" required>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -60,7 +70,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+   
     $(document).ready(function() {
+         // botao para descartar e voltar ao início
         $('#back').click(function() {
             $.ajax({
                 url: 'statsNewsletter.php',
@@ -73,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
             });
         });
-
+        // botão para continuar e enviar as informações preenchidas para o ficheiro preverEmail.php
         $('#next').click(function() {
             var titulo = $('#titulo').val();
             var tituloEn = $('#tituloEn').val();
@@ -81,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             var assuntoEn = $('#assuntoEn').val();
             var noticias = <?php echo json_encode($noticias); ?>;
 
-
+            //alertas para obrigar ao preenchimento
             if (titulo === '' || assunto === '' || tituloEn === '' || assuntoEn === '') {
                 alert('Por favor, preencha todos os campos obrigatórios.');
                 return;
