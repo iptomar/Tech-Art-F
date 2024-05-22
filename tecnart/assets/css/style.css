@@ -11,7 +11,7 @@ body {
 }
 
 header {
-  background-color: #333F50;
+  background-color: #000033;
 }
 
 .layout_padding {
@@ -983,14 +983,14 @@ a:focus {
   display: inline-block;
   font-family: 'Merriweather Sans', sans-serif !important; 
   font-size: 33px;  
-  color:#333f50; 
+  color:#000033; 
 
 }
 
 .heading_h3{
   font-family: 'Merriweather Sans', sans-serif !important; 
   font-size: 33px;  
-  color:#333f50; 
+  color:#000033; 
 }
 
 .heading2_h5 {
@@ -1064,7 +1064,7 @@ li.nav-item ul li a {
 
 
 footer {
-    background: #333F50;
+    background: #000033;
     padding: 30px 0 10px;
 }
 
@@ -1195,7 +1195,7 @@ form input[type="submit"]:focus {
 /** cpy **/
 
 .cpy_ {
-    background: #333F50;
+    background: #002169;
     text-align: center;
     
 }
@@ -1676,7 +1676,7 @@ form input[type="submit"]:focus {
                             font-size:13px;
                           }
                           
-                          .dropdown-content a:hover {background-color: #333F50; color:#ffffff;}
+                          .dropdown-content a:hover {background-color: #002169; color:#ffffff;}
                           
                           .dropdown:hover .dropdown-content {
                             display: block;
@@ -1684,7 +1684,7 @@ form input[type="submit"]:focus {
                          
 
                           #nav_drop:hover {
-                            color: #333F50;
+                            color: #002169;
                             background-color: #ffffff;
                           }
 
@@ -1877,7 +1877,7 @@ form input[type="submit"]:focus {
                           
                           .cormuda:hover{
                               color: #ffffff;
-                              background-color: #333f50;
+                              background-color: #000033;
                           }
 
                           .nofinal {
@@ -1941,13 +1941,13 @@ form input[type="submit"]:focus {
                             height: 40px;
                             display: table-cell;
                             vertical-align: middle;
-                            border-color: #333f50;
+                            border-color: #000033;
                             padding: 0px 0px 0px;
                           }
 
                           .divbotao:hover{
                             color: #ffffff;
-                            background-color: #333f50;
+                            background-color: #000033;
                           }
 
                           .innerButton{
@@ -1978,7 +1978,7 @@ form input[type="submit"]:focus {
                             width: 30%;
                             font-family: 'Merriweather Sans', sans-serif;
                             font-size: 24px; 
-                            color:#333f50; 
+                            color:#000033; 
                             text-align: right; 
                             padding-right: 25px;
                           }

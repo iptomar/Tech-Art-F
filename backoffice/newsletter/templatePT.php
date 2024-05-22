@@ -3,7 +3,7 @@ function template_header_pt() {
     echo '
     <table width="100%" cellpadding="0" cellspacing="0" style="font-family: Arial; background-color: rgb(247, 247, 247); margin: 0;">
         <tr>
-            <td style="background-color: #333f50; padding: 10px; margin-bottom: 20px;">
+            <td style="background-color: #000033; padding: 10px; margin-bottom: 20px;">
                 <table width="100%" cellpadding="0" cellspacing="0">
                     <tr>
                         <td align="center">
@@ -59,7 +59,7 @@ function template_noticias_pt($titulo, $noticias) {
 
 function template_footer_pt($token) {
     echo '
-        <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #333f50; margin-top: 20px;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #000033; margin-top: 20px;">
             <tr>
                 <td align="center" style="padding: 10px;">
                     <a href="#" style="color: white; text-decoration: none; margin-right: 20px; font-weight: bold;">Cancelar Subscrição</a>

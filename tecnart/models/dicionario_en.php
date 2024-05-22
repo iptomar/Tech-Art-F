@@ -46,7 +46,9 @@ function ret_dic_en()
         //::::::RODAPÉ PRINCIPAL::::::
 
         //Imagem com o logotipo da techn&art
-        "footer-site-logo" => "./assets/images/TechnArt12FundoTrans.png",
+        "footer-site-logo" => "./assets/images/techneart-h-neg-en.svg",
+        //Etiqueta / a dizer contactos
+        "footer-contacts" => "CONTACTS",
         //Etiqueta / texto com parte da morada
         "address-txt-1" => "Contador Farm,",
         //Etiqueta / texto com parte da morada
@@ -56,9 +58,9 @@ function ret_dic_en()
         //Divisoria com 'projeto UD ...'
         "project-ud-txt" => "Project UD/05488/2020",
         //Etiqueta / texto com 'Instituto Pol...'
-        "ipt-copyright-txt" => "©Polytechnic Institute of Tomar",
+        "ipt-copyright-txt" => "Financed by national funds through FCT - Fundação para a Ciência e a Tecnologia, I.P., within the scope of the Strategic Project with references Project UD/05488/2020",
         //Etiqueta / texto com 'Todos os direitos reservados'
-        "all-rights-reserved-txt" => "All rights reserved",
+        "all-rights-reserved-txt" => "©2024 TECNH&ART – IPT | All rights reserved | Copyright",
 
         //::::::index.php::::::
 

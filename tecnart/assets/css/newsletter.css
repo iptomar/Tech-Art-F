@@ -30,7 +30,7 @@
   font-weight: 500;
   margin: 0;
   padding: 10px 0 10px;
-  color: #333F50;
+  color: #000033;
 }
 .newsletter-popup .newsletter-popup-container h3 i {
   display: inline-flex;
@@ -39,7 +39,7 @@
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  background-color: #333F50;
+  background-color: #000033;
   color: #fff;
   margin-right: 10px;
 }
@@ -63,7 +63,7 @@
 .newsletter-popup .newsletter-popup-container form button {
   width: 200px;
   appearance: none;
-  background-color: #333F50;
+  background-color: #000033;
   font-weight: 500;
   font-size: 14px;
   color: #fff;
@@ -71,7 +71,7 @@
   cursor: pointer;
 }
 .newsletter-popup .newsletter-popup-container form button:hover {
-  background-color: #333F50;
+  background-color: #000033;
 }
 .newsletter-popup .newsletter-popup-container .newsletter-popup-close-btn {
   position: absolute;
