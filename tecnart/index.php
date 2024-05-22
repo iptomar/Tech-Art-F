@@ -54,7 +54,10 @@ unset($_SESSION['unsubscribe_message']);
                      }
                      ?>
                   </span>
-                  <div><a href='<?= $itemSlider["link"] ?>' class="btn btn-primary px-4 py-3 mt-3 btn_no_left">
+
+                  <div> 
+                  <a href='<?= $itemSlider["link"] ?>' style="display: inline-block; padding: 10px 25px; background-color:#ffffff; border: 2px solid #002169; color: #002169; border-radius: 0; 
+                   -webkit-transition: all 0.3s; transition: all 0.3s; font-family: 'Merriweather Sans', sans-serif; font-size: 14px; font-weight: 700;">
                         <?= change_lang("know-more-btn-txt-slider") ?>
                      </a></div>
                </div>
@@ -126,15 +129,7 @@ unset($_SESSION['unsubscribe_message']);
                            </h5>
                         </a>
                      </div>
-                     <div style="padding-left: 30px; text-align: center; width:210px;">
-                        <h6>
-                           <?=
-                              strlen($row["descricao"]) > 145 ?
-                              preg_split("/\s+(?=\S*+$)/", substr($row["descricao"], 0, 150))[0] . "..."
-                              : $row["descricao"];
-                           ?>
-                        </h6>
-                     </div>
+
                   </div>
                </div>
                <?php
@@ -142,8 +137,8 @@ unset($_SESSION['unsubscribe_message']);
 
             ?>
             <div style="text-align: center;">
-               <a style="display: inline-block; padding: 5px 25px; background-color:#000033; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
-                   -webkit-transition: all 0.3s; transition: all 0.3s; font-family: 'Quicksand', sans-serif; font-size: 20px; width:170px;"
+               <a style="display: inline-block; padding: 10px 25px; background-color:#002169; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
+                   -webkit-transition: all 0.3s; transition: all 0.3s; font-family: 'Merriweather Sans', sans-serif; font-size: 14px; font-weight: 700;"
                   href="projetos_em_curso.php">
                   <?= change_lang("see-all-btn-rd-projects"); ?>
                </a>
@@ -226,8 +221,8 @@ unset($_SESSION['unsubscribe_message']);
          </div>
 
          <div class="text-center">
-            <a style="display: inline-block; padding: 5px 25px; background-color:#000033; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
-                     -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;"
+            <a style="display: inline-block; padding: 10px 25px; background-color:#002169; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
+                     -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Merriweather Sans', sans-serif; font-size: 14px; font-weight: 700;"
                href="noticias.php">
                <?= change_lang("see-all-btn-latest-news") ?>
             </a>

@@ -53,7 +53,7 @@ function ret_dic_pt(){
         //Etiqueta / texto com parte da morada
         "address-txt-2" => "Estrada da Serra",
         //Etiqueta / texto 'Siga-nos',
-        "follow-us-txt" => "Siga-nos",
+        "follow-us-txt" => "SIGA-NOS",
         //Divisoria com 'projeto UD ...'
         "project-ud-txt" => "Projeto UD/05488/2020",
         //Etiqueta / texto com 'Instituto Pol...'
