@@ -90,65 +90,56 @@ unset($_SESSION['unsubscribe_message']);
 
 <!-- product section -->
 <section class="product_section layout_padding">
-   <div style="background-color: #dbdee1; padding-top: 50px; padding-bottom: 50px;">
-      <div class="container">
-         <div class="heading_container2 heading_center2">
-
-            <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 32px; font-weight: 300; color:002169;">
-               <?= change_lang("rd-projects-heading"); ?> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-               &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-               &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-            </h3>
-
-         </div>
-         <div class="row">
-            <?php
-            $sql = "SELECT id,
-                     COALESCE(NULLIF(nome{$language}, ''), nome) AS nome,
-                     COALESCE(NULLIF(descricao{$language}, ''), descricao) AS descricao,
-                     fotografia FROM projetos WHERE concluido = 0 ORDER BY id DESC LIMIT 4";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute();
-            $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            foreach ($projetos as $row) {
-               ?>
-               <div class="col">
-                  <div style="padding-top: 40px">
-                     <div class="img-box">
-                        <a href="projeto.php?projeto=<?= $row["id"]; ?>">
-                           <img style="object-fit: cover; width:230px; height:230px;"
-                              src="../backoffice/assets/projetos/<?= $row["fotografia"]; ?>" alt="">
-                        </a>
-                     </div>
-                  </div>
-                  <div class="detail-box">
-                     <div style="color: #000033; padding-left: 15px; padding-top: 15px; text-align: center; width:210px;">
-                        <a href="projeto.php?projeto=<?= $row["id"]; ?>" style="color:#000033;">
-                           <h5>
-                              <?= $row["nome"]; ?>
-                           </h5>
-                        </a>
-                     </div>
-
-                  </div>
-               </div>
-               <?php
-            }
-
-            ?>
-            <div style="text-align: center;">
-               <a style="display: inline-block; padding: 10px 25px; background-color:#002169; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
-                   -webkit-transition: all 0.3s; transition: all 0.3s; font-family: 'Merriweather Sans', sans-serif; font-size: 14px; font-weight: 700;"
-                  href="projetos_em_curso.php">
-                  <?= change_lang("see-all-btn-rd-projects"); ?>
-               </a>
+    <div style="background-color: #dbdee1; padding-top: 50px; padding-bottom: 50px;">
+        <div class="container">
+            <div class="heading_container2 heading_center2">
+                <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 32px; font-weight: 300; color:002169;">
+                    <?= change_lang("rd-projects-heading"); ?>
+                </h3>
             </div>
+            <br />
+            <div class="row">
+                <?php
+                $sql = "SELECT id, COALESCE(NULLIF(nome{$language}, ''), nome) AS nome, COALESCE(NULLIF(descricao{$language}, ''), descricao) AS descricao, fotografia FROM projetos WHERE concluido = 0 ORDER BY id DESC LIMIT 3";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute();
+                $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                ?>
 
-
-
-         </div>
-      </div>
-   </div>
+                <?php foreach ($projetos as $key => $projeto): ?>
+                    <?php if ($key < 3): ?>
+                        <div class="col-md-4">
+                            <div class="card-product">
+                                <div class="absoluto">
+                                    <a href="projeto.php?projeto=<?= $projeto['id'] ?>">
+                                        <div style="z-index: 1; object-fit: cover; width:350; height:250;" class="image_default">
+                                            <img style="object-fit: cover; width:350; height:250;" class="img-fluid" src="../backoffice/assets/projetos/<?= $projeto['fotografia'] ?>" alt="">
+                                            <div class="text-block">
+                                                <h5 style="font-family: 'Merriweather Sans', sans-serif; font-size: 21px; text-transform: uppercase; font-weight: 700;">
+                                                    <?php
+                                                    $tituloProjeto = trim($projeto['nome']);
+                                                    if (strlen($projeto['nome']) > 35) {
+                                                        $tituloProjeto = preg_split("/\s+(?=\S*+$)/", substr($projeto['nome'], 0, 40))[0];
+                                                    }
+                                                    echo ($tituloProjeto != trim($projeto['nome'])) ? $tituloProjeto . "..." : $tituloProjeto;
+                                                    ?>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+            <div style="text-align: center;">
+                <a style="display: inline-block; padding: 10px 25px; background-color:#002169; border: 2px solid #000000; color: #ffffff; border-radius: 0; -webkit-transition: all 0.3s; transition: all 0.3s; font-family: 'Merriweather Sans', sans-serif; font-size: 14px; font-weight: 700;" href="projetos_em_curso.php">
+                    <?= change_lang("see-all-btn-rd-projects"); ?>
+                </a>
+            </div>
+        </div>
+    </div>
 </section>
 <!-- end product section -->
 
@@ -161,6 +152,7 @@ unset($_SESSION['unsubscribe_message']);
             <h2 style="font-family: 'Merriweather Sans', sans-serif; font-size: 32px; font-weight: 300; color:002169;">
                <?= change_lang("latest-news-heading") ?>
             </h2>
+            <br />
          </div>
 
          <div class="owl-carousel owl-theme" id="bestSellerCarousel">
@@ -180,8 +172,8 @@ unset($_SESSION['unsubscribe_message']);
                <div class="card-product">
                   <div class="absoluto">
                      <a href="noticia.php?noticia=<?= $noticia['id'] ?>">
-                        <div style="z-index: 1; object-fit: cover; width:230px; height:230px;" class="image_default">
-                           <img style="object-fit: cover; width:230px; height:230px;" class="img-fluid"
+                        <div style="z-index: 1; object-fit: cover; width:350; height:250;" class="image_default">
+                           <img style="object-fit: cover; width:350; height:250;" class="img-fluid"
                               src="../backoffice/assets/noticias/<?= $noticia['imagem'] ?>" alt="">
                            <div class="text-block">
                               <h5
