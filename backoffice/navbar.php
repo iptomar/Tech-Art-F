@@ -59,7 +59,7 @@ require_once 'assets/models/functions.php';
         padding: 8px 12px;
         margin-top: 3px;
         color:white;
-        font-family:'Varela Round'
+        font-family:'Merriweather Sans'
     }
 
     #button_pt_en:hover{

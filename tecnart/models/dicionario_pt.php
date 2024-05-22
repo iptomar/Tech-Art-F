@@ -45,7 +45,9 @@ function ret_dic_pt(){
         //::::::RODAPÉ PRINCIPAL::::::
 
         //Imagem com o logotipo da techn&art
-        "footer-site-logo" => "./assets/images/TechnArt6FundoTrans.png",
+        "footer-site-logo" => "./assets/images/techneart-h-neg-pt.svg",
+        //Etiqueta / a dizer contactos
+        "footer-contacts" => "CONTACTOS",
         //Etiqueta / texto com parte da morada
         "address-txt-1" => "Quinta do Contador,",
         //Etiqueta / texto com parte da morada

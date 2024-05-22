@@ -12,7 +12,8 @@ unset($_SESSION['unsubscribe_message']);
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+   rel="stylesheet">
 
 <!DOCTYPE html>
 <html>
@@ -90,17 +91,11 @@ unset($_SESSION['unsubscribe_message']);
       <div class="container">
          <div class="heading_container2 heading_center2">
 
-            <h3>
+            <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 32px; font-weight: 300; color:002169;">
                <?= change_lang("rd-projects-heading"); ?> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
             </h3>
-
-            <a style="display: inline-block; padding: 5px 25px; background-color:#000033; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
-                     -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;"
-               href="projetos_em_curso.php">
-               <?= change_lang("see-all-btn-rd-projects"); ?>
-            </a>
 
          </div>
          <div class="row">
@@ -146,7 +141,13 @@ unset($_SESSION['unsubscribe_message']);
             }
 
             ?>
-
+            <div style="text-align: center;">
+               <a style="display: inline-block; padding: 5px 25px; background-color:#000033; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
+                   -webkit-transition: all 0.3s; transition: all 0.3s; font-family: 'Quicksand', sans-serif; font-size: 20px; width:170px;"
+                  href="projetos_em_curso.php">
+                  <?= change_lang("see-all-btn-rd-projects"); ?>
+               </a>
+            </div>
 
 
 
@@ -162,7 +163,7 @@ unset($_SESSION['unsubscribe_message']);
    <div style="padding-bottom: 50px;">
       <div class="container">
          <div class="section-intro pb-60px">
-            <h2 style="font-family: 'Quicksand', sans-serif; padding-bottom: 20px; padding-left: 50px;">
+            <h2 style="font-family: 'Merriweather Sans', sans-serif; font-size: 32px; font-weight: 300; color:002169;">
                <?= change_lang("latest-news-heading") ?>
             </h2>
          </div>
@@ -188,7 +189,8 @@ unset($_SESSION['unsubscribe_message']);
                            <img style="object-fit: cover; width:230px; height:230px;" class="img-fluid"
                               src="../backoffice/assets/noticias/<?= $noticia['imagem'] ?>" alt="">
                            <div class="text-block">
-                              <h5 style="font-size: 16px; text-transform: uppercase; font-weight: 400;">
+                              <h5
+                                 style="font-family: 'Merriweather Sans', sans-serif; font-size: 21px; text-transform: uppercase; font-weight: 700;">
                                  <?php
                                  //Limitar o título a 35 caracteres e cortar pelo último espaço
                                  $titulo = trim($noticia['titulo']);
@@ -198,7 +200,7 @@ unset($_SESSION['unsubscribe_message']);
                                  echo ($titulo != trim($noticia['titulo'])) ? $titulo . "..." : $titulo;
                                  ?>
                               </h5>
-                              <h6 style="font-size: 14px; font-weight: 100;">
+                              <h6 style="font-family: 'Merriweather Sans', sans-serif; font-size: 14px; font-weight: 300;">
                                  <?php
                                  //Adicionar espaços antes das etiquetas html,
                                  $espacos = str_replace('<', ' <', $noticia['conteudo']);
@@ -237,35 +239,35 @@ unset($_SESSION['unsubscribe_message']);
 </section>
 
 <?php if (!empty($unsubscribe_message)): ?>
-<div class="newsletter-popup open">
-    <div class="newsletter-popup-container open">
-    <a href="#" class="newsletter-popup-close-btn" onclick="closeNewsletterPopup()">&times;</a>
-        <h3><i class="fa-regular fa-envelope"></i>Cancelar subscrição</h3>
-        <p><?= $unsubscribe_message ?></p>
-    </div>
-</div>
+   <div class="newsletter-popup open">
+      <div class="newsletter-popup-container open">
+         <a href="#" class="newsletter-popup-close-btn" onclick="closeNewsletterPopup()">&times;</a>
+         <h3><i class="fa-regular fa-envelope"></i>Cancelar subscrição</h3>
+         <p><?= $unsubscribe_message ?></p>
+      </div>
+   </div>
 <?php endif; ?>
 
 <?php if (empty($unsubscribe_message)): ?>
-<div class="newsletter-popup">
-   <div class="newsletter-popup-container">
-      <a href="#" class="newsletter-popup-close-btn">&times;</a>
-      <h3><i class="fa-regular fa-envelope"></i>Subscreva a nossa newsletter</h3>
-      <p>Subscreva a nossa newsletter para receber as últimas novidades no seu email.</p>
-      <form action="subscrever.php" method="post">
-         <div style="text-align: center;">
-            <input type="email" name="email" placeholder="Endereço de email" required style="text-transform: none;">
-            <input type="radio" class="btn-check" name="idioma" id="idioma-pt" autocomplete="off" checked value="pt">
-            <label class="btn btn-outline-secondary" for="idioma-pt" style="width:120px">Português</label>
-            <input type="radio" class="btn-check" name="idioma" id="idioma-en" autocomplete="off" value="en">
-            <label class="btn btn-outline-secondary" for="idioma-en" style="width:120px;">Inglês</label>
-            <br /><br />
-            <button type="submit" style="height: 40px">Subscrever</button>
-         </div>
-      </form>
-      <p class="newsletter-msg"></p>
+   <div class="newsletter-popup">
+      <div class="newsletter-popup-container">
+         <a href="#" class="newsletter-popup-close-btn">&times;</a>
+         <h3><i class="fa-regular fa-envelope"></i>Subscreva a nossa newsletter</h3>
+         <p>Subscreva a nossa newsletter para receber as últimas novidades no seu email.</p>
+         <form action="subscrever.php" method="post">
+            <div style="text-align: center;">
+               <input type="email" name="email" placeholder="Endereço de email" required style="text-transform: none;">
+               <input type="radio" class="btn-check" name="idioma" id="idioma-pt" autocomplete="off" checked value="pt">
+               <label class="btn btn-outline-secondary" for="idioma-pt" style="width:120px">Português</label>
+               <input type="radio" class="btn-check" name="idioma" id="idioma-en" autocomplete="off" value="en">
+               <label class="btn btn-outline-secondary" for="idioma-en" style="width:120px;">Inglês</label>
+               <br /><br />
+               <button type="submit" style="height: 40px">Subscrever</button>
+            </div>
+         </form>
+         <p class="newsletter-msg"></p>
+      </div>
    </div>
-</div>
 <?php endif; ?>
 
 
