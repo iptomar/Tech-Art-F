@@ -269,28 +269,29 @@ function template_footer()
   echo <<<EOT
                 <!-- footer start -->
                 <footer>
-                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-                    <a href="#"><img class="logo-tech_footer" height="50" src={$change_lang("footer-site-logo")} alt="#" /></a>
-                    <a target="_blank" href="https://www.ipt.pt/"><img height="50" src="./assets/images/ipt.svg" alt="#" /></a>
-                    <a target="_blank" href="https://www.fct.pt/"><img height="80" src="./assets/images/fct.svg" alt="#" /></a>
-                    <ul>
-                        <li><a style="color: white;">{$change_lang("footer-contacts")}</a></li>
-                        <li><a style="color: white;">{$change_lang("address-txt-1")} {$change_lang("address-txt-2")}</a></li>
-                        <li><a style="color: white;">2300-313 Tomar - Portugal</a></li>
-                        <li><a style="color: white;">sec.techeart@ipt.pt</a></li>
-                    </ul>
-                    <div style="display: flex; flex-direction: column; align-items: flex-start;">
-                        <ul style="list-style: none; padding: 0; margin: 0;">
-                            <li><a style="color: white;"><strong>{$change_lang("follow-us-txt")}</strong></a></li>
+                    <div style="display: flex; vertical-align: center;  align-items: center; justify-content: flex-start; gap: 20px; width: 100%;">
+                        <a href="#"><img class="logo-tech_footer" height="50" src={$change_lang("footer-site-logo")} alt="#" /></a>
+                        <a target="_blank" href="https://www.ipt.pt/"><img height="50" src="./assets/images/ipt.svg" alt="#" /></a>
+                        <a target="_blank" href="https://www.fct.pt/"><img height="80" src="./assets/images/fct.svg" alt="#" /></a>
+                        <ul style="list-style: none; padding: 0; margin: 0; color: white;">
+                            <li>{$change_lang("footer-contacts")}</li>
+                            <li>{$change_lang("address-txt-1")} {$change_lang("address-txt-2")}</li>
+                            <li>2300-313 Tomar - Portugal</li>
+                            <li>sec.techeart@ipt.pt</li>
                         </ul>
-                        <div style="display: flex; gap: 10px; margin-top: 10px;">
-                            <span><a target="_blank" href="https://www.facebook.com/Techn.Art.IPT/"><img height="40" src="./assets/images/facebook.svg" alt="#" /></a></span>
-                            <span><a target="_blank" style="color: white; font-size: 19px;" href="https://www.youtube.com/channel/UC3w94LwkXczhZ12WYINYKzA"><img height="40" src="./assets/images/youtube.svg" alt="#" /></a></span>
-                            <span><a target="_blank" style="color: white; font-size: 19px;" href="https://www.linkedin.com/company/techn-art-ipt/"><img height="40" src="./assets/images/linkedin.svg" alt="#" /></a></span>
+                        <div style="display: flex; flex-direction: column; align-items: flex-start; margin-left: 20px;">
+                            <ul style="list-style: none; padding: 0; margin: 0; color: white;">
+                                <li><strong>{$change_lang("follow-us-txt")}</strong></li>
+                            </ul>
+                            <div style="display: flex; gap: 10px; margin-top: 5px;">
+                                <span><a target="_blank" href="https://www.facebook.com/Techn.Art.IPT/"><img height="40" src="./assets/images/facebook.svg" alt="#" /></a></span>
+                                <span><a target="_blank" href="https://www.youtube.com/channel/UC3w94LwkXczhZ12WYINYKzA"><img height="40" src="./assets/images/youtube.svg" alt="#" /></a></span>
+                                <span><a target="_blank" href="https://www.linkedin.com/company/techn-art-ipt/"><img height="40" src="./assets/images/linkedin.svg" alt="#" /></a></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </footer>
+                </footer>
+
             
                 <!-- footer end -->
                 <div class="cpy_">
