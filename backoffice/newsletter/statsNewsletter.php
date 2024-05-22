@@ -44,7 +44,7 @@ $countENG = mysqli_fetch_assoc($resultSubsENG)["count"];
 
   <div class="row">
     <div class="col-sm-12">
-      <button class="btn btn-primary mr-4 ml-4" id="start-send" data-translation='newsletter-button-send'>Iniciar Envio</button>
+      <button class="btn btn-primary my-4 mx-4" id="start-send" data-translation='newsletter-button-send'>Iniciar Envio</button>
     </div>
   </div>
 

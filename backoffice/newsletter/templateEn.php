@@ -62,7 +62,7 @@ function template_footer_en($token) {
         <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #333f50; margin-top: 20px;">
             <tr>
                 <td align="center" style="padding: 10px;">
-                    <a href="#" style="color: white; text-decoration: none; margin-right: 20px; font-weight: bold;">Cancelar Subscrição</a>
+                    <a href="#" style="color: white; text-decoration: none; margin-right: 20px; font-weight: bold;">Cancel Subscription</a>
                 </td>
             </tr>
         </table>
