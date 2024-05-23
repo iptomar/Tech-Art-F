@@ -269,7 +269,7 @@ function template_footer()
   echo <<<EOT
                 <!-- footer start -->
                 <footer>
-                    <div style="display: flex; padding-top: 20px; padding-left:12%; padding-bottom: 40px; vertical-align: center;  align-items: center; justify-content: flex-start; gap: 130px; width: 100%;">
+                    <div style="display: flex; padding-top: 20px; padding-bottom: 40px; vertical-align: center;  align-items: center; justify-content: center; gap: 130px; width: 100%;">
                         <a href="#"><img class="logo-tech_footer" height="50" src={$change_lang("footer-site-logo")} alt="#" /></a>
                         <a target="_blank" href="https://www.ipt.pt/"><img height="50" src="./assets/images/ipt.svg" alt="#" /></a>
                         <a target="_blank" href="https://www.fct.pt/"><img height="80" src="./assets/images/fct.svg" alt="#" /></a>
