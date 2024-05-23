@@ -1,7 +1,7 @@
 <?php
 require "../verifica.php";
 require "../config/basedados.php";
-#require "bloqueador.php";
+require "bloqueador.php";
 
 $mainDir = "../assets/projetos/";
 $noImg = $mainDir."noImg.png";
@@ -218,7 +218,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="card-body">
             <form role="form" data-toggle="validator" action="edit.php" method="post"
                 enctype="multipart/form-data">
-
                 <input type="hidden" name="id" value=<?php echo $id; ?>>
                 <div class="form-group">
                     <div class="form-check">
