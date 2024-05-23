@@ -1,27 +1,28 @@
 <?php
 session_start();
 
-if(!isset($_SESSION["lang"])){
+if (!isset($_SESSION["lang"])) {
   $_SESSION["lang"] = "pt";
 }
 
 $_SESSION["basename"] = $_SERVER['PHP_SELF'];
 
-if(strlen($_SERVER["QUERY_STRING"])>0){
-  $_SESSION["basename"] = $_SESSION["basename"]."?".$_SERVER["QUERY_STRING"];
+if (strlen($_SERVER["QUERY_STRING"]) > 0) {
+  $_SESSION["basename"] = $_SESSION["basename"] . "?" . $_SERVER["QUERY_STRING"];
 }
-function template_header($title){
+function template_header($title)
+{
 
-//::::::CABECALHO PRINCIPAL::::::
-  $ptWeight= $_SESSION["lang"] == "pt" ? "bold" : "normal";
-  $enWeight= $_SESSION["lang"] == "en" ? "bold" :  "normal";
+  //::::::CABECALHO PRINCIPAL::::::
+  $ptWeight = $_SESSION["lang"] == "pt" ? "bold" : "normal";
+  $enWeight = $_SESSION["lang"] == "en" ? "bold" : "normal";
 
-  $change_lang =  function ($key) {
-    return  change_lang($key);
+  $change_lang = function ($key) {
+    return change_lang($key);
   };
 
 
-    echo <<<EOT
+  echo <<<EOT
                 
                 <head>
                 <!-- Basic -->
@@ -231,106 +232,73 @@ function template_header($title){
 EOT;
 }
 
-function template_footer(){
+function template_footer()
+{
 
-try{
-//Select na base de dados que vai buscar o link do regulamentos 
-$pdo = pdo_connect_mysql();
-$query = "SELECT texto 
+  try {
+    //Select na base de dados que vai buscar o link do regulamentos 
+    $pdo = pdo_connect_mysql();
+    $query = "SELECT texto 
           FROM technart.areas_website 
           WHERE titulo = 'Link Regulamentos'";
-$stmt = $pdo->prepare($query);
-$stmt->execute();
-$textoFetched = $stmt->fetch(PDO::FETCH_ASSOC);
-$texto = $textoFetched['texto'];
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+    $textoFetched = $stmt->fetch(PDO::FETCH_ASSOC);
+    $texto = $textoFetched['texto'];
 
-//verifica-se se o ficheiro existe
-$headers = file_exists($texto); 
-// se nao existir mostra uma pagina a informar que este nao esta diponivel  
-if(!$headers) {      
-  $texto = "./assets/regulamentos/linkdown.html"; 
-} 
-}
-catch(Exception $e){
- throw new Exception( 'Ficheiro não encontrado',0,$e);
-}
-//variaveis para passar valores de dicionarios
+    //verifica-se se o ficheiro existe
+    $headers = file_exists($texto);
+    // se nao existir mostra uma pagina a informar que este nao esta diponivel  
+    if (!$headers) {
+      $texto = "./assets/regulamentos/linkdown.html";
+    }
+  } catch (Exception $e) {
+    throw new Exception('Ficheiro não encontrado', 0, $e);
+  }
+  //variaveis para passar valores de dicionarios
 
-//imagens
+  //imagens
 
-//::::::RODAPE PRINCIPAL::::::
+  //::::::RODAPE PRINCIPAL::::::
 
-$change_lang =  function ($key) {
-  return  change_lang($key);
-};
+  $change_lang = function ($key) {
+    return change_lang($key);
+  };
 
 
-    echo <<<EOT
+  echo <<<EOT
                 <!-- footer start -->
                 <footer>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4">
-                        <div class="logo_footer" >
-                        <a target="_blank"href="https://www.ipt.pt/"><img height="100" src="./assets/images/IPT_i_1-vertical-branco-img-para-fundo-escuro.png" alt="#" /></a>
-                    </div>
-                        <div class="logo_footer" id="logo4">
-                        <a href="#"><img class="logo-tech_footer" src={$change_lang("footer-site-logo")} alt="#" /></a>
-                        </div>
-                        
-                    </div>
-                        <div class="col-md-8">
-                            <div class="row center_footer">
-                            <div class="col-md-7 center_footer">
-                            <div class="row">
-                                <div class="col-md-6 center_footer">
-                                    <div class="widget_menu">
-                                        <ul>
-                                        <li><a style="color: white;">{$change_lang("address-txt-1")}</a></li>
-                                        <li><a style="color: white;">{$change_lang("address-txt-2")}</a></li>
-                                        <li><a style="color: white;">2300-313 Tomar - Portugal</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                                <div class="widget_menu">
-                                    <br><ul><li><a style="color: white;"> sec.techenart@ipt.pt</a></li></ul>
-                                </div>
-                                <div class="widget_menu">
-                                <br><a style="color: white;" href="$texto" >Regulamentos Techn&Art</a>
-                                </div>
-                                <div class="widget_menu">
-                                    <br><ul><li><a style="color: white;"><strong>{$change_lang("follow-us-txt")}</strong></a></li></ul>
-                                </div>
-                                <div class="widget_menu">
-                                    <span><a target="_blank"href="https://www.facebook.com/Techn.Art.IPT/"><i id ="fateste" class="fab fa-facebook-f"></i>&nbsp</a></span>
-                                    <span><a target="_blank" style="color: white; font-size: 19px;" href="https://www.youtube.com/channel/UC3w94LwkXczhZ12WYINYKzA"><i class="fab fa-youtube"></i></a></span>
-                                </div>
-                            </div> 
-
-                            <div class="col-md-5 center_footer">
-                            <!-- adicionar margin-left ao logotipo do ipt de forma aos logatipos ficaram alinhados-->
-                            
-                                
-                                <div class="logo_footer">
-                                    <a target="_blank"href="https://www.cienciavitae.pt/"><img height="80" src="./assets/images/cienciavitaeFundoTrans.png" alt="#" /></a>
-                                </div>
-                                <div class="logo_footer">
-                                    <a target="_blank"href="https://www.fct.pt/"><img height="80" src="./assets/images/2022_FCT_Logo_A_horizontal_branco.png" alt="#" /></a>
-                                </div>
-                                <div class="information_f">
-                                    <p style="color: white; font-size: 13px;">{$change_lang("project-ud-txt")}</p>
-                                </div>
-                            </div>
+                    <div style="display: flex; padding-top: 20px; padding-left:12%; padding-bottom: 40px; vertical-align: center;  align-items: center; justify-content: flex-start; gap: 130px; width: 100%;">
+                        <a href="#"><img class="logo-tech_footer" height="50" src={$change_lang("footer-site-logo")} alt="#" /></a>
+                        <a target="_blank" href="https://www.ipt.pt/"><img height="50" src="./assets/images/ipt.svg" alt="#" /></a>
+                        <a target="_blank" href="https://www.fct.pt/"><img height="80" src="./assets/images/fct.svg" alt="#" /></a>
+                        <ul style="list-style: none; padding: 0; margin: 0; color: white; font-family: 'Merriweather Sans', sans-serif; font-size: 10px; font-weight: 700;">
+                            <li>{$change_lang("footer-contacts")}</li>
+                            <br />
+                            <li>{$change_lang("address-txt-1")} {$change_lang("address-txt-2")}</li>
+                            <li>2300-313 Tomar - Portugal</li>
+                            <br />
+                            <li>sec.techeart@ipt.pt</li>
+                        </ul>
+                        <div style="display: flex; flex-direction: column; align-items: flex-start; margin-left: 20px;">
+                            <ul style="list-style: none; padding: 0; margin: 0; color: white; font-family: 'Merriweather Sans', sans-serif; font-size: 10px; font-weight: 700;">
+                                <li>{$change_lang("follow-us-txt")}</li>
+                            </ul>
+                            <div style="display: flex; gap: 10px; margin-top: 5px;">
+                                <span><a target="_blank" href="https://www.facebook.com/Techn.Art.IPT/"><img height="30" src="./assets/images/facebook.svg" alt="#" /></a></span>
+                                <span><a target="_blank" href="https://www.youtube.com/channel/UC3w94LwkXczhZ12WYINYKzA"><img height="30" src="./assets/images/youtube.svg" alt="#" /></a></span>
+                                <span><a target="_blank" href="https://www.linkedin.com/company/techn-art-ipt/"><img height="30" src="./assets/images/linkedin.svg" alt="#" /></a></span>
                             </div>
                         </div>
                     </div>
-                </div>
                 </footer>
+
+            
                 <!-- footer end -->
                 <div class="cpy_">
-                <p class="mx-auto" style="font-size: 13px; padding-bottom: 20px;">
-                {$change_lang("ipt-copyright-txt")} | {$change_lang("all-rights-reserved-txt")} | 
+                <p class="mx-auto" style="font-size: 13px; padding-top: 15px; padding-bottom: 20px;">
+                {$change_lang("ipt-copyright-txt")} <br /> {$change_lang("all-rights-reserved-txt")} | 
                 <a style="font-size: 13px;" href="copyright.php">{$change_lang("copyright-title")}</a> 
                 <br></p>
                 </div>
@@ -478,16 +446,17 @@ $change_lang =  function ($key) {
 EOT;
 
 }
-if ($_SESSION["lang"] == "en"){
+if ($_SESSION["lang"] == "en") {
   include 'models/dicionario_en.php';
-} elseif($_SESSION["lang"] == "pt"){
+} elseif ($_SESSION["lang"] == "pt") {
   include 'models/dicionario_pt.php';
 }
 
-function change_lang($dicElem){
-  if ($_SESSION["lang"] == "en"){
+function change_lang($dicElem)
+{
+  if ($_SESSION["lang"] == "en") {
     return ret_dic_en()[$dicElem];
-  } elseif($_SESSION["lang"] == "pt"){
+  } elseif ($_SESSION["lang"] == "pt") {
     return ret_dic_pt()[$dicElem];
   }
 }

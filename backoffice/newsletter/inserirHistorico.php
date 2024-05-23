@@ -19,14 +19,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $assuntoEn = $_POST['assuntoEn'];
   }
 
+  // lista de notícias enviadas por newsletter
   $json_noticias = json_decode($noticias);
   $all_ids = array();
 
+  //percorre a lista e guarda os titulos das notícias
   foreach ($obj->data as $el) {
     array_push($all_ids, $el[1]);
   }
+  // guarda data atual
   $data_envio = date("Y-m-d H:m:s");
 
+  // guarda a lista de noticias enviadas por newsletter e a informação do email com a data atual
   $sql = "INSERT INTO historico_newsletters (json_noticias, data_envio, titulo_pt, titulo_en, assunto_pt, assunto_en) " .
     "VALUES (?,?,?,?,?,?)";
   $stmt = mysqli_prepare($conn, $sql);

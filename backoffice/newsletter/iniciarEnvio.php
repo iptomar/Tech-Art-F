@@ -74,9 +74,9 @@ $noticias = array();
 
 <body>
   <div id="main-container">
-    <div class="row my-4">
-      <button class="btn btn-primary mr-4 ml-4" id="back">Descartar</button>
-      <button class="btn btn-primary mr-4 ml-4" id="next">Confimar</button>
+    <div class="row my-4 mx-4">
+      <button class="btn btn-primary " id="back">Descartar</button>
+      <button class="btn btn-primary ml-4" id="next">Confimar</button>
     </div>
     <div class="row my-4">
       <div class="col-sm-6">
@@ -143,7 +143,7 @@ $noticias = array();
 </body>
 
 <script>
-  // Passando o array de notícias escolhidas do PHP para o JavaScript
+  // Passa o array de notícias escolhidas do PHP para o JavaScript
   var noticiasEscolhidas = <?php echo json_encode($noticias); ?>;
 </script>
 <script>
@@ -188,7 +188,7 @@ $noticias = array();
       }
     });
 
-    // Event delegation for '.remove-noticia' button
+    // Botão de remover na lista temporária de notícias escolhidas
     $(document).on('click', '.remove-noticia', function() {
       var noticiaId = $(this).closest('li').data('noticia-id');
       var noticiaIndex = noticiasEscolhidas.findIndex(function(noticia) {
