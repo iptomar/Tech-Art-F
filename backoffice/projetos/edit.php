@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fotografia_exists = isset($_FILES["fotografia"]) && $_FILES["fotografia"]["size"] != 0;
     $logo_exists = isset($_FILES["logo"]) && $_FILES["logo"]["size"] != 0;
 
-    $sql = "UPDATE projetos SET nome = ?, descricao = ?, sobreprojeto = ?, referencia = ?, areapreferencial = ?, financiamento = ?, ambito = ?, site = ?, facebook = ?, nome_en = ?, descricao_en = ?, sobreprojeto_en = ?, referencia_en = ?, areapreferencial_en = ?, financiamento_en = ?, ambito_en = ?, site_en = ?, facebook_en = ? ";
+    $sql = "UPDATE projetos SET nome = ?, descricao = ?, sobreprojeto = ?, referencia = ?, areapreferencial = ?, financiamento = ?, ambito = ?, site = ?, facebook = ?, nome_en = ?, descricao_en = ?, sobreprojeto_en = ?, referencia_en = ?, areapreferencial_en = ?, financiamento_en = ?, ambito_en = ?, site_en = ?, facebook_en = ?";
     $params = [$nome, $descricao, $sobreprojeto, $referencia, $areapreferencial, $financiamento, $ambito, $site, $facebook, $nome_en, $descricao_en, $sobreprojeto_en, $referencia_en, $areapreferencial_en, $financiamento_en, $ambito_en, $site_en, $facebook_en];
 
     // Check if the 'fotografia' file exists and update the SQL query and parameters accordingly
@@ -216,9 +216,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="card">
         <h5 class="card-header text-center">Editar Projeto</h5>
         <div class="card-body">
-            <form role="form" data-toggle="validator" action="edit.php?id=<?php echo $id; ?>" method="post"
+            <form role="form" data-toggle="validator" action="edit.php" method="post"
                 enctype="multipart/form-data">
-
                 <input type="hidden" name="id" value=<?php echo $id; ?>>
                 <div class="form-group">
                     <div class="form-check">
@@ -509,7 +508,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="form-group">
                     <label>Fotografia</label>
                     <input accept="image/*" type="file" onchange="previewImg(this,'fotografia');" class="form-control"
-                        id="inputFotografia" name="fotografia"  value=<?php echo $fotografia; ?>>
+                    id="inputFotografia" name="fotografia"  value=<?php echo $fotografia; ?>>
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                     <img id="preview" src="<?= $mainDir . $fotografia ?>" class="mt-3" width='100px'
@@ -518,7 +517,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Logotipo</label>
-                    <input accept="image/*" type="file" onchange="previewImg(this,'logo');" required accept="image/*" class="form-control-file" id="inputLogo" name="logo">
+                    <input accept="image/*" type="file" onchange="previewImg(this,'logo');" class="form-control" id="inputLogo" name="logo" value=<?php echo $logo; ?>>
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
                     <img id="previewLogo"  src="<?= $check_logo_exist ?>" class="mt-2" width='100px' height='100px' class="mb-3" />
@@ -529,8 +528,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="form-group">
-                    <button type="button" onclick="window.location.href = 'index.php'"
-                        class="btn btn-danger btn-block">Cancelar</button>
+                    <button type="button" onclick="window.location.href = 'index.php'"class="btn btn-danger btn-block">Cancelar</button>
                 </div>
             </form>
         </div>

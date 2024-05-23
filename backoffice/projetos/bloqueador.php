@@ -1,6 +1,12 @@
 <?php
-
-$sql = "SELECT gestores_id FROM gestores_projetos WHERE projetos_id = " . $_GET["id"];
+$id = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $id = $_POST["id"];
+}
+else{
+    $id = $_GET["id"];
+}
+$sql = "SELECT gestores_id FROM gestores_projetos WHERE projetos_id = " . $id;
 $result = mysqli_query($conn, $sql);
 $selected = array();
 if (mysqli_num_rows($result) > 0) {
