@@ -4,19 +4,24 @@ include 'models/functions.php';
 
 $pdo = pdo_connect_mysql();
 
-// Receção dos parametros para a query
-if (isset($_GET['query']) && isset($_GET['concluido'])) {
+// Receção dos parâmetros para a query
+if (isset($_GET['query']) && isset($_GET['concluido']) && isset($_GET['context'])) {
     $query = $_GET['query'];
     $concluido = $_GET['concluido'];
-    
+    $context = $_GET['context'];
+
     // Preparar o statement
-    $sql = "SELECT id, nome AS nome, fotografia 
+    $sql = "SELECT id, COALESCE(NULLIF(nome_en, ''), nome) AS nome, fotografia 
             FROM projetos 
-            WHERE concluido=" . $concluido . " AND nome like " . "'%" . $query . "%'";
+            WHERE concluido = :concluido AND {$context} LIKE :query
+            ORDER BY nome";
     
     try {
         $stmt = $pdo->prepare($sql);
-        $stmt->execute();
+        $stmt->execute([
+            'concluido' => $concluido,
+            'query' => "%$query%"
+        ]);
         
         // Fetch aos resultados
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
