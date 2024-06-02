@@ -3,34 +3,76 @@ include 'config/dbconnection.php';
 include 'models/functions.php';
 
 $pdo = pdo_connect_mysql();
+$language = ($_SESSION["lang"] == "en") ? "_en" : "";
 
-// Receção dos parâmetros para a query
-if (isset($_GET['query']) && isset($_GET['concluido']) && isset($_GET['context'])) {
+if (isset($_GET['query'])) {
     $query = $_GET['query'];
-    $concluido = $_GET['concluido'];
-    $context = $_GET['context'];
+    $context = isset($_GET['context']) ? $_GET['context'] : 'nome';
+    $concluido = null; 
+    $origin = isset($_GET['origin']) ? $_GET['origin'] : '';
 
-    // Preparar o statement
-    $sql = "SELECT id, COALESCE(NULLIF(nome_en, ''), nome) AS nome, fotografia 
-            FROM projetos 
-            WHERE concluido = :concluido AND {$context} LIKE :query
-            ORDER BY nome";
-    
+    if ($origin === 'projetos_concluidos') {
+        $concluido = true;
+    } elseif ($origin === 'projetos_em_curso') {
+        $concluido = false;
+    } elseif ($origin === 'projetos') {
+        $concluido = isset($_GET['concluido']) ? $_GET['concluido'] === 'true' : null;
+    }
+
+    if ($origin === 'projetos' || $origin === 'projetos_concluidos' || $origin === 'projetos_em_curso') {
+        // Consulta para a tabela projetos
+        $sql = "SELECT id, COALESCE(NULLIF(nome{$language}, ''), nome) AS nome, fotografia
+                FROM projetos
+                WHERE concluido = :concluido AND COALESCE(NULLIF(nome{$language}, ''), nome) LIKE CONCAT('%', :query, '%')
+                ORDER BY COALESCE(NULLIF(nome{$language}, ''), nome)";
+    } elseif ($origin === 'integrados') {
+        // Consulta para a tabela investigadores com o filtro tipo = "Integrado"
+        $sql = "SELECT id, email, nome,
+                COALESCE(NULLIF(sobre{$language}, ''), sobre) AS sobre,
+                COALESCE(NULLIF(areasdeinteresse{$language}, ''), areasdeinteresse) AS areasdeinteresse,
+                ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id
+                FROM investigadores
+                WHERE tipo = 'Integrado' AND {$context} LIKE CONCAT('%', :query, '%')
+                ORDER BY nome";
+    } elseif ($origin === 'noticias') {
+        // Consulta para a tabela noticias
+        $sql = "SELECT id, COALESCE(NULLIF(titulo{$language}, ''), titulo) AS titulo, imagem, data
+                FROM noticias
+                WHERE {$context} LIKE CONCAT('%', :query, '%')
+                ORDER BY data DESC";
+    } elseif ($origin === 'colaboradores') {
+        // Consulta para a tabela investigadores com o filtro tipo = "Colaborador"
+        $sql = "SELECT id, email, nome,
+                COALESCE(NULLIF(sobre{$language}, ''), sobre) AS sobre,
+                COALESCE(NULLIF(areasdeinteresse{$language}, ''), areasdeinteresse) AS areasdeinteresse,
+                ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id
+                FROM investigadores
+                WHERE tipo = 'Colaborador' AND {$context} LIKE CONCAT('%', :query, '%')
+                ORDER BY nome";
+    } else {
+        echo json_encode(['error' => 'Invalid origin.']);
+        exit;
+    }
+
     try {
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([
-            'concluido' => $concluido,
-            'query' => "%$query%"
-        ]);
-        
-        // Fetch aos resultados
+
+        if ($origin === 'projetos' || $origin === 'projetos_concluidos') {
+            $stmt->execute([
+                'concluido' => $concluido,
+                'query' => "%$query%"
+            ]);
+        } else {
+            $stmt->execute([
+                'query' => "%$query%"
+            ]);
+        }
+
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-        // Devolver como JSON
+
         header('Content-Type: application/json');
         echo json_encode($results);
     } catch (PDOException $e) {
-        // Logs para os erros de base de dados
         error_log('Database Error: ' . $e->getMessage());
         echo json_encode(['error' => 'An error occurred while fetching search results.']);
     }

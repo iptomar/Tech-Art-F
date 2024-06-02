@@ -133,23 +133,27 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         searchInput.addEventListener('input', function() {
-            const query = searchInput.value.trim();
-            const context = selectContext.value;
+    const query = searchInput.value.trim();
+    const context = selectContext ? selectContext.value : 'nome';
 
-            fetch(`search.php?query=${encodeURIComponent(query)}&concluido=1&context=${encodeURIComponent(context)}`)
-                .then(response => response.json())
-                .then(data => {
-                    productListing.style.display = 'none';
-                    searchResults.innerHTML = '';
-                    data.forEach((result) => {
-                        const resultItem = createProjectItem(result);
-                        searchResults.appendChild(resultItem);                        
-                    });
-                })
-                .catch(error => {
-                    console.error('Error fetching search results:', error);
+    fetch(`search.php?query=${encodeURIComponent(query)}&concluido=1&context=${encodeURIComponent(context)}&origin=projetos_concluidos`)
+        .then(response => response.json())
+        .then(data => {
+            productListing.style.display = 'none';
+            searchResults.innerHTML = '';
+            if (Array.isArray(data)) {
+                data.forEach((result) => {
+                    const resultItem = createProjectItem(result);
+                    searchResults.appendChild(resultItem);
                 });
+            } else {
+                console.log('Erro na resposta:', data);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching search results:', error);
         });
+});
     });
 </script>
 
