@@ -111,12 +111,14 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             const imageDiv = document.createElement('div');
             imageDiv.classList.add('image_default');
+            imageDiv.style.width = '225px';
+            imageDiv.style.height = '225px';
 
             const image = document.createElement('img');
             image.classList.add('centrare');
             image.style.objectFit = 'cover';
-            image.style.width = '225px';
-            image.style.height = '280px';
+            image.style.width = '100%';
+            image.style.height = '100%';
             image.src = `../backoffice/assets/projetos/${project.fotografia}`;
             image.alt = '';
 
@@ -129,8 +131,8 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             link.appendChild(imageDiv);
             projectItem.appendChild(link);
 
-            return projectItem;
-        }
+         return projectItem;
+      }
 
       searchInput.addEventListener('input', function() {
       const query = searchInput.value.trim();

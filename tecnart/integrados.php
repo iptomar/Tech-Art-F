@@ -140,49 +140,45 @@ if ($totalPages > 1) {
    <div>
       <div class="container">
 
-         <div class="row justify-content-center mt-3">
-            <div class="col-">
-               <!--Formolario que permite pesquisa o ivestigador -->
-               <form class="form-check form-check-inline"  id="formPesquisaInvestigador" method="get" >
-                  <input type="text" name="pequisaInvestigador" placeholder="<?php echo $placeholder ?>"
-                  style="max-width: 500px; min-width: 450px; display: inline-block; text-transform: none; margin-right: 5px;  height: 40px;">
-            </div>
-             <!--Select para selecionar o campo pelo  qual se quer perquisar  o investigador-->
-            <select class="form-select form-select-lg mb-3" name="selectContext" id="selectContext"  onchange="atualizaPlaceHolder()">
-  						<option value="nome">Nome</option>
-  						<option value="email">Email</option>
-  						<option value="ciencia_id">Ciência ID</option>
-  						<option value="orcid">Orcid</option>
-						</select>
-            <div class="col-">
-               <button type="submit" style="height: 40px; margin-right:10px; margin-left:15px;">
-                  <img name="search-icon" src='assets/icons/search.svg' style="width:30px">
-               </button>
-               </form>
-            </div>
-            <div class="col-">
-                <!--Formulario que permite limpar a pesquisa feita pelo utilizador-->
-               <form  id="formmostraTodosInvestigadores" method="post">
-                  <button type="submit" style="height: 40px;" name="mostraTodos" value="vertodos"> <img name="reload_icon" src='assets\icons\reload.svg' style="width:30px"></button>
-               </form>
-            </div>
-         </div> 
+      <div class="row justify-content-center mt-3">
+   <div class="col-">
+      <!--Formolario que permite pesquisa o ivestigador -->
+      <form class="form-check form-check-inline">
+         <input type="text" id="searchInput" placeholder="<?php echo $placeholder ?>"
+         style="max-width: 500px; min-width: 450px; display: inline-block; text-transform: none; margin-right: 5px;  height: 40px;">
+   </div>
+    <!--Select para selecionar o campo pelo  qual se quer perquisar  o investigador-->
+   <select class="form-select form-select-lg mb-3" name="selectContext" id="selectContext"  onchange="atualizaPlaceHolder()">
+      <option value="nome">Nome</option>
+      <option value="email">Email</option>
+      <option value="ciencia_id">Ciência ID</option>
+      <option value="orcid">Orcid</option>
+   </select>
+   </form>
+</div>
          <?php echo $pagination; ?>
          <div class="row justify-content-center mt-3">
 
-            <?php foreach ($investigadores as $investigador): ?>
+         <div id="productListing" class="row justify-content-center mt-3">
+   <?php foreach ($investigadores as $investigador): ?>
+      <div class="ml-5 imgList">
+         <a href="integrado.php?integrado=<?= $investigador['id'] ?>">
+            <div class="image_default">
+               <img class="centrare" style="object-fit: cover; width:225px; height:280px;"
+                  src="../backoffice/assets/investigadores/<?= $investigador['fotografia'] ?>" alt="">
+               <div class="imgText justify-content-center m-auto"><?= $investigador['nome'] ?></div>
+            </div>
+         </a>
+      </div>
+   <?php endforeach; ?>
+</div>
 
-               <div class="ml-5 imgList">
-                  <a href="integrado.php?integrado=<?= $investigador['id'] ?>">
-                     <div class="image_default">
-                        <img class="centrare" style="object-fit: cover; width:225px; height:280px;"
-                           src="../backoffice/assets/investigadores/<?= $investigador['fotografia'] ?>" alt="">
-                        <div class="imgText justify-content-center m-auto"><?= $investigador['nome'] ?></div>
-                     </div>
-                  </a>
-               </div>
+<div class="row justify-content-center mt-3">
+   <div class="col-md-9">
+      <div id="searchResults"></div>
+   </div>
+</div>
 
-            <?php endforeach; ?>
          </div>
          </div>
          <?php echo $pagination; ?>
@@ -261,9 +257,69 @@ if ($totalPages > 1) {
      var option = document.getElementById("selectContext").options;
      var text = "Procurar Investigador por ";
      var text = text.concat(option[index].text);
-     document.getElementsByName('pequisaInvestigador')[0].placeholder = text ;
-
+     document.getElementById('searchInput').placeholder = text;
    }
+
+   document.addEventListener('DOMContentLoaded', function() {
+       const searchInput = document.querySelector('#searchInput');
+       const searchResults = document.querySelector('#searchResults');
+       const productListing = document.querySelector('#productListing');
+       const selectContext = document.querySelector('#selectContext');
+
+       function createInvestigadorItem(investigador) {
+         const investigadorItem = document.createElement('div');
+         investigadorItem.classList.add('ml-5', 'imgList');
+
+         const link = document.createElement('a');
+         link.href = `integrado.php?integrado=${investigador.id}`;
+
+         const imageDiv = document.createElement('div');
+         imageDiv.classList.add('image_default');
+         imageDiv.style.width = '225px';
+         imageDiv.style.height = '225px';
+
+         const image = document.createElement('img');
+         image.classList.add('centrare');
+         image.style.objectFit = 'cover';
+         image.style.width = '100%';
+         image.style.height = '100%';
+         image.src = `../backoffice/assets/investigadores/${investigador.fotografia}`;
+         image.alt = '';
+
+         const textDiv = document.createElement('div');
+         textDiv.classList.add('imgText', 'justify-content-center', 'm-auto');
+         textDiv.textContent = investigador.nome;
+
+         imageDiv.appendChild(image);
+         imageDiv.appendChild(textDiv);
+         link.appendChild(imageDiv);
+         investigadorItem.appendChild(link);
+
+         return investigadorItem;
+      }
+
+       searchInput.addEventListener('input', function() {
+           const query = searchInput.value.trim();
+           const context = selectContext.value;
+           fetch(`search.php?query=${encodeURIComponent(query)}&context=${encodeURIComponent(context)}&origin=integrados`)
+               .then(response => response.json())
+               .then(data => {
+                   productListing.style.display = 'none';
+                   searchResults.innerHTML = '';
+                   if (Array.isArray(data)) {
+                       data.forEach((result) => {
+                           const resultItem = createInvestigadorItem(result);
+                           searchResults.appendChild(resultItem);
+                       });
+                   } else {
+                       console.log('Erro na resposta:', data);
+                   }
+               })
+               .catch(error => {
+                   console.error('Error fetching search results:', error);
+               });
+       });
+   });
 </script>
 <!-- end product section -->
 
