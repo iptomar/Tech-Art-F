@@ -21,10 +21,26 @@ if (isset($_GET['query'])) {
 
     if ($origin === 'projetos' || $origin === 'projetos_concluidos' || $origin === 'projetos_em_curso') {
         // Consulta para a tabela projetos
-        $sql = "SELECT id, COALESCE(NULLIF(nome{$language}, ''), nome) AS nome, fotografia
-                FROM projetos
-                WHERE concluido = :concluido AND COALESCE(NULLIF(nome{$language}, ''), nome) LIKE CONCAT('%', :query, '%')
-                ORDER BY COALESCE(NULLIF(nome{$language}, ''), nome)";
+        if ($context == 'i.nome' || $context == 'g.nome') {
+            $sql = "SELECT DISTINCT p.id, COALESCE(NULLIF(p.nome{$language}, ''), p.nome) AS nome, p.fotografia
+                    FROM projetos p
+                    LEFT JOIN investigadores_projetos ip ON ip.projetos_id = p.id
+                    LEFT JOIN investigadores i ON ip.investigadores_id = i.id
+                    LEFT JOIN gestores_projetos gp ON gp.projetos_id = p.id
+                    LEFT JOIN investigadores g ON gp.gestores_id = g.id
+                    WHERE p.concluido = :concluido AND {$context} LIKE CONCAT('%', :query, '%')
+                    ORDER BY COALESCE(NULLIF(p.nome{$language}, ''), p.nome)";
+        } elseif ($context == 'financiamento') {
+            $sql = "SELECT id, COALESCE(NULLIF(nome{$language}, ''), nome) AS nome, fotografia
+                    FROM projetos
+                    WHERE concluido = :concluido AND REPLACE({$context}, ' ', '') LIKE REPLACE(CONCAT('%', :query, '%'), ' ', '')
+                    ORDER BY COALESCE(NULLIF(nome{$language}, ''), nome)";
+        } else {
+            $sql = "SELECT id, COALESCE(NULLIF(nome{$language}, ''), nome) AS nome, fotografia
+                    FROM projetos
+                    WHERE concluido = :concluido AND {$context} LIKE CONCAT('%', :query, '%')
+                    ORDER BY COALESCE(NULLIF(nome{$language}, ''), nome)";
+        }
     } elseif ($origin === 'integrados') {
         // Consulta para a tabela investigadores com o filtro tipo = "Integrado"
         $sql = "SELECT id, email, nome,

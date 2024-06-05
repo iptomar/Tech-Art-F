@@ -132,11 +132,10 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return projectItem;
         }
 
-        searchInput.addEventListener('input', function() {
-    const query = searchInput.value.trim();
-    const context = selectContext ? selectContext.value : 'nome';
-
-    fetch(`search.php?query=${encodeURIComponent(query)}&concluido=1&context=${encodeURIComponent(context)}&origin=projetos_concluidos`)
+      searchInput.addEventListener('input', function() {
+      const query = searchInput.value.trim();
+      const context = selectContext.value;
+      fetch(`search.php?query=${encodeURIComponent(query)}&concluido=1&context=${encodeURIComponent(context)}&origin=projetos_concluidos`)
         .then(response => response.json())
         .then(data => {
             productListing.style.display = 'none';
