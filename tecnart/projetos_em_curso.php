@@ -86,8 +86,8 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         const searchInput = document.querySelector('#searchInput');
         const searchResults = document.querySelector('#searchResults');
         const productListing = document.querySelector('#productListing');
+        const selectContext = document.querySelector('#selectContext');
 
-        // Função para gerar o html para o projeto
         function createProjectItem(project) {
             const projectItem = document.createElement('div');
             projectItem.classList.add('ml-5', 'imgList');
@@ -118,20 +118,21 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return projectItem;
         }
 
-        // Event listener para o auto complete search
         searchInput.addEventListener('input', function() {
             const query = searchInput.value.trim();
+            const context = selectContext ? selectContext.value : 'nome';
 
-            // Fetch ao endpoint do search
-            fetch(`search.php?query=${encodeURIComponent(query)}&concluido=0`)
+            fetch(`search.php?query=${encodeURIComponent(query)}&concluido=0&context=${encodeURIComponent(context)}&origin=projetos`)
                 .then(response => response.json())
                 .then(data => {
                     productListing.style.display = 'none';
                     searchResults.innerHTML = '';
-                    data.forEach((result, index) => {
-                        const resultItem = createProjectItem(result);
-                        searchResults.appendChild(resultItem);                        
-                    });
+                    if (Array.isArray(data)) {
+                        data.forEach((result) => {
+                            const resultItem = createProjectItem(result);
+                            searchResults.appendChild(resultItem);
+                        });
+                    }
                 })
                 .catch(error => {
                     console.error('Error fetching search results:', error);
