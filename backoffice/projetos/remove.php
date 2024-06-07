@@ -4,7 +4,7 @@ require "../config/basedados.php";
 require "bloqueador.php";
 
 $mainDir = "../assets/projetos/";
-$noImg = $mainDir."noImg.png";
+$noImg = $mainDir."noImg.png"; # Caminho para imagem por defeito
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST["id"];
@@ -17,9 +17,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "delete from projetos where id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $id);
+    #se o logo existe removeo da pasta 
     if (file_exists($logo)) {
         unlink($logo);
     }
+    #se a foto existe remova da pasta 
     if (file_exists($foto)) {
         unlink($foto);
     }
@@ -58,9 +60,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $site_en = $row["site_en"];
     $facebook_en = $row["facebook_en"];
     $logo = $row["logo"];
+    #verifica se exite valor na variavel logo referente ao caminho para a pasta 
     if($logo!=""){
+        #se o camilho existe guarda 
         $check_logo_exist = $mainDir.$logo; 
     }else{
+        #se não existe guarda o caminho da imagem por defeito 
         $check_logo_exist = $noImg;
     }
 }
@@ -127,7 +132,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h5 class="card-header text-center">Remover Projeto</h5>
         <div class="card-body">
             <form role="form" data-toggle="validator" action="remove.php?id=<?php echo $id; ?>" method="post">
+                <!-- Pasagem da foto através do post-->
                 <input type="hidden" name="foto" value=<?php echo $mainDir . $fotografia; ?>>
+                <!-- Pasagem do logo através do post-->
                 <input type="hidden" name="logo" value=<?php echo $check_logo_exist; ?>>
                 <input type="hidden" name="id" value=<?php echo $id; ?>>
                 <div class="form-group">
@@ -307,8 +314,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                     </div>
                 </div>
-                
+                <!-- Visuaização de imagem -->
                 <img id="preview" src="<?php echo $mainDir . $fotografia; ?>" width='100px' height='100px' class="mb-2 mt-3" /><br>
+                <!-- Visuaização de logotipo -->
                 <img id="preview" src="<?php echo $check_logo_exist; ?>" width='100px' height='100px' class="mb-2 mt-3" /><br>
 
                 <div class="form-group">

@@ -520,6 +520,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input accept="image/*" type="file" onchange="previewImg(this,'logo');" class="form-control" id="inputLogo" name="logo" value=<?php echo $logo; ?>>
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
+                    <!--Perite visualizar o logo na aplicação-->
                     <img id="previewLogo"  src="<?= $check_logo_exist ?>" class="mt-2" width='100px' height='100px' class="mb-3" />
                 </div>
 
