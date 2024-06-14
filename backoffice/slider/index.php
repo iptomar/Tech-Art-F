@@ -42,6 +42,7 @@ $result = mysqli_query($conn, $sql);
 					</div>
 					<div class="col-sm-6">
 						<?php
+						// verifica se é o administrador para permitir a adição de novos itens ao slider
 						if ($_SESSION["autenticado"] == "administrador") {
 							echo '<a href="create.php" class="btn btn-success"><i class="material-icons">&#xE147;</i>';
 							echo '<span data-translation="slider-button-add-new-item">Adicionar Novo Item ao Slider</span></a>';
@@ -64,6 +65,7 @@ $result = mysqli_query($conn, $sql);
 				<tbody>
 					<?php
 					if (mysqli_num_rows($result) > 0) {
+						// verifica se o item do slider está marcado como visivel e se é o administrador para permitir a edição e remoção de itens
 						while ($row = mysqli_fetch_assoc($result)) {
 							echo "<tr>";
 							echo "<td style='width:50px;'>" . $row["titulo"]; 
@@ -97,4 +99,4 @@ $result = mysqli_query($conn, $sql);
 
 <?php
 mysqli_close($conn);
-?> No index.php adicionar funcao/ciclo que faz parse das imagens da tabela e gera o slider para o template da homepage.
+?>

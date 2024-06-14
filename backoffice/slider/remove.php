@@ -4,7 +4,7 @@ require "../config/basedados.php";
 
 $mainDir = "../assets/slider/";
 if ($_SESSION["autenticado"] != 'administrador') {
-    // Usuário não tem permissão para eliminar noticias redireciona para o index das noticias
+    // Utilizador não tem permissão para eliminar itens do slider redireciona para o index das noticias
     header("Location: index.php");
     exit;
 }
@@ -91,6 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </style>
 
 <div class="container-xl mt-5">
+    <!-- mostrar a div com os dados dos itens do slider -->
     <div class="card">
         <h5 class="card-header text-center">Remover Item Slider</h5>
         <div class="card-body">
