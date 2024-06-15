@@ -136,7 +136,7 @@ if ($totalPages > 1) {
          <div id="productListing" class="row justify-content-center mt-3">
             <?php foreach ($investigadores as $investigador): ?>
                <div class="ml-5 imgList">
-                  <a href="integrados.php?integrado=<?= $investigador['id'] ?>">
+                  <a href="integrado.php?integrado=<?= $investigador['id'] ?>">
                      <div class="image_default">
                         <img class="centrare" style="object-fit: cover; width:225px; height:280px;"
                            src="../backoffice/assets/investigadores/<?= $investigador['fotografia'] ?>" alt="">
