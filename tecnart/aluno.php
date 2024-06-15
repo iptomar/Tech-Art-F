@@ -9,7 +9,7 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
 $query = "SELECT id, email, nome,
         COALESCE(NULLIF(sobre{$language}, ''), sobre) AS sobre,
         COALESCE(NULLIF(areasdeinteresse{$language}, ''), areasdeinteresse) AS areasdeinteresse,
-        ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id
+        ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id, data_admissao
         FROM investigadores WHERE id=? and tipo = \"Aluno\"";
 $stmt = $pdo->prepare($query);
 $stmt->bindParam(1, $_GET["aluno"], PDO::PARAM_INT);
@@ -67,11 +67,11 @@ $id =  $_GET["aluno"];
                 </span>
             </button>
 
-            <button class="divbotao" id="showit3">
-                <span href="#" class="innerButton">
-                    <?= change_lang("publications-btn-class") ?>
-                </span>
-            </button>
+            <?php if (new DateTime(($investigadores['data_admissao'])->diff($startDate)->y)>2) : ?>
+                <button class="divbotao" id="showit3">
+                    <span href="#" class="innerButton"><?= change_lang("publications-btn-class") ?></span>
+                </button>
+            <?php endif; ?>
 
             <button class="divbotao lastBtn" id="showit4">
                 <span href="#" class="innerButton">

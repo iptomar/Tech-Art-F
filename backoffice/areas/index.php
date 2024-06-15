@@ -285,31 +285,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         });
     });
 
+    // Criamo um event listener 
     document.addEventListener("DOMContentLoaded", function () {
 
         var path;
 
+        // Vamos buscar o areasSite e adicionamos um listener
         document.getElementById('areasSite').addEventListener('change', function () {
             var selectedId = this.value;
-            var selectedArea = <?php echo json_encode($dadosAreas); ?>.find(function (area) {
+            var selectedArea = <?php echo json_encode($dadosAreas); ?>.find(function (area) { // Vamos buscar os ids na BD referentes as areas
                 return area.id == selectedId;
             });
 
-            if (selectedArea) {
-                $titulo = selectedArea.titulo;
-                document.getElementById('titulo').value = $titulo;
-                editor.setData(selectedArea.texto);
+            if (selectedArea) { // Vemos qual é o id selecionado na dropdown 
+                $titulo = selectedArea.titulo; // fetch aos dados do titulo
+                document.getElementById('titulo').value = $titulo; // Populamos o titulo
+                editor.setData(selectedArea.texto); // Populamos a area de texto
                 //se o titulo for o link regulamentos coloca no div guardaFicheiro o input para receber um pdf 
                 if ($titulo == "Link Regulamentos") {
                     document.getElementById("guardaFicheiro").innerHTML = ' <label>PDF</label>  <input accept=".pdf" type="file" class="form-control" id="inputPDF" name="pdf"> <!-- Error --> <div class="help-block with-errors"></div>'
-                    // para os outros titulos coloca no div guardaFicheiro  o input para receber uma imagem  e mostra uma previsualizacao desta 
+                // para os outros titulos coloca no div guardaFicheiro  o input para receber uma imagem  e mostra uma previsualizacao desta 
                 } else {
                     document.getElementById("guardaFicheiro").innerHTML = ' <label>Fotografia</label>  <input accept="image/*" type="file" onchange="previewImg(this)" class="form-control" id="inputFotografia" name="fotografia" value=<?php echo $fotografia; ?>> <!-- Error --> <div class="help-block with-errors"></div> <img id="preview" src="<?php echo $mainDir . $fotografia ?>" width="300px" height="300px"/>';
                 }
             } else {
-                console.log("Área selecionada não encontrada.");
+                console.log("Área selecionada não encontrada."); // Se houver um erro
             }
-            var inputFotografia = document.getElementById('preview');
+            // Populamos a fotografia referente ao id
+            var inputFotografia = document.getElementById('preview'); 
             var fotografiaSrc = "<?php echo $mainDir; ?>" + selectedArea.fotografia;
             inputFotografia.setAttribute('src', fotografiaSrc);
             function previewImg(input) {
@@ -326,29 +329,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         });
 
-        // Event listener for the "EN" button
+        // Event listener para o botao
         $('button[id="button_en_pt"]').click(function () {
-            var selectedId = $('#areasSite').val();
+            var selectedId = $('#areasSite').val(); // Vemos o id selecionado da dropdown
             var selectedArea = <?php echo json_encode($dadosAreas); ?>.find(function (area) {
                 return area.id == selectedId;
             });
 
+            // Evento para trocar o texto pela lingua selecionada
             if (selectedArea) {
                 var langInput = document.getElementById('lang');
                 if (document.getElementById('button_en_pt').innerText == "EN") {
-                    // Assuming "texto_en" is the column name for English text
                     var texto_en = selectedArea.texto_en;
-                    // Set the fetched text to the CKEditor
+                    // Popular a area de texto
                     editor.setData(texto_en);
                     document.getElementById('button_en_pt').innerText = "PT";
-                    langInput.value = "en"; // Update language value
+                    langInput.value = "en"; // Atualizar o texto do botao
                 } else {
-                    // Assuming "texto_en" is the column name for English text
                     var texto_pt = selectedArea.texto;
-                    // Set the fetched text to the CKEditor
+                    // Popular a area de texto
                     editor.setData(texto_pt);
                     document.getElementById('button_en_pt').innerText = "EN";
-                    langInput.value = "pt"; // Update language value
+                    langInput.value = "pt"; // Atualizar o texto do botao
                 }
                 
             } else {

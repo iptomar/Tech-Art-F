@@ -24,37 +24,6 @@ function ret_dic_en()
         "admin-delete" => "Delete",
         "admin-change-password" => "Change Password",
 
-        //::::::administradores/create.php::::::
-        /*
-        //Titulo da página create.php
-        "admin-create-title" => "Add administrator",
-        //Etiquetas dos campos na página create.php
-        "admin-create-name" => "Name",
-        "admin-create-password" => "Password",
-        "admin-create-repeat-password" => "Repeat the Password",
-        //Botões 'guardar' e 'cancelar' na página create.php 
-        "admin-create-save" => "Save",
-        "admin-create-cancel" => "Cancel" ,
-
-        //::::::investigadores/create.php::::::
-        // Titulo da página
-        "researcher-add-title" => "Add Researcher",
-        //Conteudo da página 
-        "researcher-add-name" => "Name",
-        "researcher-add-email" => "Email",
-        "researcher-add-password" => "Password",
-        "researcher-add-repeat-password" => "Repeat the Password",
-        "researcher-add-about" => "About",
-        "researcher-add-interest-areas" => "Areas of interest",
-        "researcher-add-about-en" => "About",
-        "researcher-add-interest-areas-en" => "Areas of interest",
-        "researcher-add-type" => "type",
-        "researcher-add-photo" => "Photography",
-        //Botões 'guardar' e 'cancelar' na página create.php dos investigadores
-        "researcher-add-save" => "Save",
-        "researcher-add-cancel" => "Cancel",
-        */
-
         //::::::investigadores/::::::
         //Titulos das colunas da página 
         "researcher-title" => "Researchers",
@@ -89,32 +58,7 @@ function ret_dic_en()
         "project-button-delete" => "Delete",
         "project-add-new" => "Add New Project",
 
-        /*
-        //::::::Projetos/create.php::::::
-        //Conteúdo da página
-        "project-create-title" => "Create Project",
-        "project-create-completed" => "Completed",
-        "project-create-name-en" => "Name",
-        "project-create-description-en" => "Description",
-        "project-create-about-en" => "About Project",
-        "project-create-reference" => "Reference",
-        "project-create-preferencial-area" => "TECH&ART preferencial area",
-        "project-create-funding" => "Funding",
-        "project-create-scope" => "Scope",
-        "project-create-site" => "Site",
-        "project-create-facebook" => "Facebook",
-        "project-create-researchers" => "Researchers",
-        //checkboxes dos investigadores
-        "project-create-student" => "Student",
-        "project-create-collaborator" => "Collaborator",
-        "project-create-integrated" => "Integrated",
-        "project-create-external" => "External",
-        "project-create-photography" => "Photography",
-        //Botões criar e cancelar encontrados no fundo da página
-        "project-create-create" => "Create",
-        "project-create-Cancel" => "Cancel",
-        */
-
+        
         //::::::Notícias::::::
         //Titulo da pagina
         "news-title" => "News",
@@ -128,18 +72,6 @@ function ret_dic_en()
         "news-button-change" => "Change",
         "news-button-delete" => "Delete",
 
-        /*
-        //::::::News/create.php::::::
-        //Conteúdo da página 
-        "news-add-date-en" => "News Date",
-        "news-add-title-en" => "News Title",
-        "news-add-content-en" => "News content",
-        "news-add-image" => "Image",
-        //Botões escolher ficheiro,criar e cancelar
-        "news-add-choose-file" => "Choose File",
-        "news-add-create" => "Create",
-        "news-add-cancel" => "Cancel",
-        */
 
         //::::::oportunidades::::::
         //Titulo da página
@@ -152,68 +84,63 @@ function ret_dic_en()
         //Botões alterar e apagar
         "opportunities-button-change" => "Change",
         "opportunities-button-delete" => "Delete",
-        /*
-        //::::::oportunidades/create.php::::::
-        //Conteúdo da pagina
-        "opportunities-add-visible" => "Visible",
-        "opportunities-add-title-en" => "Title",
-        "opportunities-add-content-en" => "Content",
-        "opportunities-add-files-en" => "Files",
-        "opportunities-add-choose-files" => "Choose Files",
-        "opportunities-add-image" => "Image",
-        "opportunities-add-choose-image" => "Choose image",
-        "opportunities-add-create" => "Create",
-        "opportunities-add-Cancel" => "Cancel",
-        */
+        
 
         //::::::admissões::::::
+        //Titulo da tab
         "admissions-title" => "Admissions",
+        //Título da página
         "admissions-requests-title" => "Admission requests",
+        //Titulos das colunas   
         "admissions-table-submission-date" => "Submission date",
         "admissions-table-photo" => "Photography",
         "admissions-table-full-name" => "Full Name",
         "admissions-table-actions" => "Actions",
+        //Botões detalhes e apagar
         "admissions-button-details" => "Details",
         "admissions-button-delete" => "Delete",
 
         //::::::Editar areas::::::
+        //Título da tab
         "areas-title" => "Edit Areas",
+        //Texto da seccção de "Editar texto"
         "areas-edit-text" => "Edit text",
         "areas-choose-to-edit" => "Choose the area to edit",
+        //dropdown
         "areas-dropdown-select" => "Select",
         "areas-dropdown-mission-and-objectives" => "Mission and objectives",
         "areas-dropdown-research-axes" => "Research Axes",
         "areas-dropdown-organic-structures" => "Organic Structure",
         "areas-dropdown-new-admissions" => "New Admissions",
-        "areas-photo" => "Photography",
+        //Botões guardar e cancelar
         "areas-button-save" => "Save",
         "areas-button-cancel" => "Cancel",
 
         //::::::Duplicados::::::
+        //Título da página e da tab
         "duplicated-title" => "Duplicates",
+        //Botão "Atualizar Análise de Publicações"
         "duplicated-button-update-post-analytics" => "Update Publication Analysis",
+        //Texto do menu de pesquisa
         "duplicated-show" => "Show",
-        "duplicated-entry" => "entry's",
         "duplicated-button-search" => "Update search",
-        "duplicated-in-the-field" => "in the field",
-        "duplicated-checkbox-filter-by-state" => "filter by state",
         "duplicated-checkbox-to-check" => "To check",
         "duplicated-checkbox-waiting-for-change" => "Waiting for change",
+        //Dropdown "Atualizar Estado"
         "duplicated-checkbox-verified" => "To be Verified",
         "duplicated-checkbox-numbered-titles" => "Numbered Titles",
         "duplicated-button-update-search" => "Update Search",
         "duplicated-button-update-state" => "Update State",
+        //Titulos das colunas da tabela
         "duplicated-table-state" => "State",
         "duplicated-table-title" => "Title",
 
         //::::::Publicações::::::
+        //Título da página e tab
         "publications-title" => "Publications",
-        "publications-button-update-post-analytics" => "Update Publication Analysis",
-        "publications-show" => "Show",
-        "publications-entry" => "entry's",
-        "publications-search" => "Search",
-        "publications-in-the-field" => "in the field",
+        //Botão "Atualizar Pesquisa"
         "publications-button-update-search" => "Update Search",
+        //Títulos das colunas da tabela
         "publications-table-title" => "Title",
         "publications-table-journal" => "Journal",
         "publications-table-number" => "Nmber",
@@ -223,18 +150,24 @@ function ret_dic_en()
         "publications-table-keywords" => "keywords",  
 
         //::::::Slider::::::
+        //Botão "Adicionar novo item ao slider"
         "slider-button-add-new-item" => "Add New Item to the Slider",
+        //Titulos das colunas da tabela
         "slider-table-title" => "Title",
         "slider-table-image" => "Image",
         "slider-table-content" => "Content",
+        //Botões alterar e eliminar
         "slider-button-change" => "Change" ,
         "slider-button-delete" => "Delete",
 
         //Newsletter
+        //Botão "Iniciar Envio"
         "newsletter-button-send" => "Start sending",
+        //Texto dos cartões dos subscritores
         "newsletter-stats-subscribers-pt" => "Portuguese Subscribers",
         "newsletter-stats-subscribers-en" => "English Subscribers",
         "newsletter-stats-total-subs" => "Total Subscribers",
+        //Texto "Newsletters Enviadas"
         "newsletter-stats-sended" => "Newsletter sent",
 
 

@@ -18,11 +18,10 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
 
 <style>
-    /* Add custom styles for the grid layout */
     #searchResults {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        grid-gap: 20px; /* Adjust the gap between items as needed */
+        grid-gap: 20px;
     }
 </style>
 
@@ -87,8 +86,8 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         const searchInput = document.querySelector('#searchInput');
         const searchResults = document.querySelector('#searchResults');
         const productListing = document.querySelector('#productListing');
+        const selectContext = document.querySelector('#selectContext');
 
-        // Function to generate HTML for project item
         function createProjectItem(project) {
             const projectItem = document.createElement('div');
             projectItem.classList.add('ml-5', 'imgList');
@@ -121,16 +120,19 @@ $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         searchInput.addEventListener('input', function() {
             const query = searchInput.value.trim();
+            const context = selectContext ? selectContext.value : 'nome';
 
-            fetch(`search.php?query=${encodeURIComponent(query)}&concluido=0`)
+            fetch(`search.php?query=${encodeURIComponent(query)}&concluido=0&context=${encodeURIComponent(context)}&origin=projetos`)
                 .then(response => response.json())
                 .then(data => {
                     productListing.style.display = 'none';
                     searchResults.innerHTML = '';
-                    data.forEach((result, index) => {
-                        const resultItem = createProjectItem(result);
-                        searchResults.appendChild(resultItem);                        
-                    });
+                    if (Array.isArray(data)) {
+                        data.forEach((result) => {
+                            const resultItem = createProjectItem(result);
+                            searchResults.appendChild(resultItem);
+                        });
+                    }
                 })
                 .catch(error => {
                     console.error('Error fetching search results:', error);

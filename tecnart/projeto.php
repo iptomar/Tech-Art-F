@@ -16,11 +16,21 @@ $query = "SELECT id, COALESCE(NULLIF(nome{$language}, ''), nome) AS nome,
             COALESCE(NULLIF(ambito{$language}, ''), ambito) AS ambito, 
             COALESCE(NULLIF(site{$language}, ''), site) AS site,
             COALESCE(NULLIF(facebook{$language}, ''), facebook) AS facebook, 
-            fotografia, concluido FROM projetos Where id = ?";
+            fotografia,logo, concluido FROM projetos Where id = ?";
 $stmt = $pdo->prepare($query);
 $stmt->bindParam(1, $_GET["projeto"], PDO::PARAM_INT);
 $stmt->execute();
 $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$log_div = "";
+$log_exist = "../backoffice/assets/projetos/".$projetos['logo'];
+if ($projetos['logo']!="") {
+    $log_div ='<div style="width: 200px;height: 200px; position: relative;margin: 0 auto; overflow: hidden;">
+        <img src ="'.$log_exist.'"style="position: absolute;top: 61%;left: 50%;transform: translate(-50%, -50%);max-width: 100%; max-height:100%;">
+        </div>';
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -38,8 +48,11 @@ $projetos = $stmt->fetch(PDO::FETCH_ASSOC);
 <section>
 
     <div class="totall">
+    
+       
         <div class="barraesquerda">
-
+             <?= $log_div ?> 
+            
             <h3 class="heading_h3" style="font-size: 28px; margin-bottom: 20px; padding-top: 60px; padding-right: 10px; padding-left: 45px;  text-transform: uppercase; word-wrap: break-word;">
                 <?= $projetos['nome'] ?>
             </h3>

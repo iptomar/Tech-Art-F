@@ -10,6 +10,10 @@ unset($_SESSION['unsubscribe_message']);
 <link href="assets/css/newsletter.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+   rel="stylesheet">
 
 <!DOCTYPE html>
 <html>
@@ -50,7 +54,10 @@ unset($_SESSION['unsubscribe_message']);
                      }
                      ?>
                   </span>
-                  <div><a href='<?= $itemSlider["link"] ?>' class="btn btn-primary px-4 py-3 mt-3 btn_no_left">
+
+                  <div> 
+                  <a href='<?= $itemSlider["link"] ?>' style="display: inline-block; padding: 10px 25px; background-color:#ffffff; border: 2px solid #002169; color: #002169; border-radius: 0; 
+                   -webkit-transition: all 0.3s; transition: all 0.3s; font-family: 'Merriweather Sans', sans-serif; font-size: 14px; font-weight: 700;">
                         <?= change_lang("know-more-btn-txt-slider") ?>
                      </a></div>
                </div>
@@ -65,8 +72,8 @@ unset($_SESSION['unsubscribe_message']);
 <!-- why section -->
 <section class="why_section layout_padding">
    <div class="container">
-      <div class="heading_container heading_center">
-         <h3>
+      <div class="heading_container">
+         <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 32px; font-weight: 300; color:002169;">
             <?= change_lang("institutional-video-heading"); ?>
          </h3>
       </div>
@@ -83,73 +90,56 @@ unset($_SESSION['unsubscribe_message']);
 
 <!-- product section -->
 <section class="product_section layout_padding">
-   <div style="background-color: #dbdee1; padding-top: 50px; padding-bottom: 50px;">
-      <div class="container">
-         <div class="heading_container2 heading_center2">
+    <div style="background-color: #dbdee1; padding-top: 50px; padding-bottom: 50px;">
+        <div class="container">
+            <div class="heading_container2 heading_center2">
+                <h3 style="font-family: 'Merriweather Sans', sans-serif; font-size: 32px; font-weight: 300; color:002169;">
+                    <?= change_lang("rd-projects-heading"); ?>
+                </h3>
+            </div>
+            <br />
+            <div class="row">
+                <?php
+                $sql = "SELECT id, COALESCE(NULLIF(nome{$language}, ''), nome) AS nome, COALESCE(NULLIF(descricao{$language}, ''), descricao) AS descricao, fotografia FROM projetos WHERE concluido = 0 ORDER BY id DESC LIMIT 3";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute();
+                $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                ?>
 
-            <h3>
-               <?= change_lang("rd-projects-heading"); ?> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-               &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-               &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-            </h3>
-
-            <a style="display: inline-block; padding: 5px 25px; background-color:#333F50; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
-                     -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;"
-               href="projetos_em_curso.php">
-               <?= change_lang("see-all-btn-rd-projects"); ?>
-            </a>
-
-         </div>
-         <div class="row">
-            <?php
-            $sql = "SELECT id,
-                     COALESCE(NULLIF(nome{$language}, ''), nome) AS nome,
-                     COALESCE(NULLIF(descricao{$language}, ''), descricao) AS descricao,
-                     fotografia FROM projetos WHERE concluido = 0 ORDER BY id DESC LIMIT 4";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute();
-            $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            foreach ($projetos as $row) {
-               ?>
-               <div class="col">
-                  <div style="padding-top: 40px">
-                     <div class="img-box">
-                        <a href="projeto.php?projeto=<?= $row["id"]; ?>">
-                           <img style="object-fit: cover; width:230px; height:230px;"
-                              src="../backoffice/assets/projetos/<?= $row["fotografia"]; ?>" alt="">
-                        </a>
-                     </div>
-                  </div>
-                  <div class="detail-box">
-                     <div style="color: #333F50; padding-left: 15px; padding-top: 15px; text-align: center; width:210px;">
-                        <a href="projeto.php?projeto=<?= $row["id"]; ?>" style="color:#333F50;">
-                           <h5>
-                              <?= $row["nome"]; ?>
-                           </h5>
-                        </a>
-                     </div>
-                     <div style="padding-left: 30px; text-align: center; width:210px;">
-                        <h6>
-                           <?=
-                              strlen($row["descricao"]) > 145 ?
-                              preg_split("/\s+(?=\S*+$)/", substr($row["descricao"], 0, 150))[0] . "..."
-                              : $row["descricao"];
-                           ?>
-                        </h6>
-                     </div>
-                  </div>
-               </div>
-               <?php
-            }
-
-            ?>
-
-
-
-
-         </div>
-      </div>
-   </div>
+                <?php foreach ($projetos as $key => $projeto): ?>
+                    <?php if ($key < 3): ?>
+                        <div class="col-md-4">
+                            <div class="card-product">
+                                <div class="absoluto">
+                                    <a href="projeto.php?projeto=<?= $projeto['id'] ?>">
+                                        <div style="z-index: 1; object-fit: cover; width:350; height:250;" class="image_default">
+                                            <img style="object-fit: cover; width:350; height:250;" class="img-fluid" src="../backoffice/assets/projetos/<?= $projeto['fotografia'] ?>" alt="">
+                                            <div class="text-block">
+                                                <h5 style="font-family: 'Merriweather Sans', sans-serif; font-size: 21px; text-transform: uppercase; font-weight: 700;">
+                                                    <?php
+                                                    $tituloProjeto = trim($projeto['nome']);
+                                                    if (strlen($projeto['nome']) > 35) {
+                                                        $tituloProjeto = preg_split("/\s+(?=\S*+$)/", substr($projeto['nome'], 0, 40))[0];
+                                                    }
+                                                    echo ($tituloProjeto != trim($projeto['nome'])) ? $tituloProjeto . "..." : $tituloProjeto;
+                                                    ?>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+            <div style="text-align: center;">
+                <a style="display: inline-block; padding: 10px 25px; background-color:#002169; border: 2px solid #000000; color: #ffffff; border-radius: 0; -webkit-transition: all 0.3s; transition: all 0.3s; font-family: 'Merriweather Sans', sans-serif; font-size: 14px; font-weight: 700;" href="projetos_em_curso.php">
+                    <?= change_lang("see-all-btn-rd-projects"); ?>
+                </a>
+            </div>
+        </div>
+    </div>
 </section>
 <!-- end product section -->
 
@@ -159,9 +149,10 @@ unset($_SESSION['unsubscribe_message']);
    <div style="padding-bottom: 50px;">
       <div class="container">
          <div class="section-intro pb-60px">
-            <h2 style="font-family: 'Quicksand', sans-serif; padding-bottom: 20px; padding-left: 50px;">
+            <h2 style="font-family: 'Merriweather Sans', sans-serif; font-size: 32px; font-weight: 300; color:002169;">
                <?= change_lang("latest-news-heading") ?>
             </h2>
+            <br />
          </div>
 
          <div class="owl-carousel owl-theme" id="bestSellerCarousel">
@@ -181,11 +172,12 @@ unset($_SESSION['unsubscribe_message']);
                <div class="card-product">
                   <div class="absoluto">
                      <a href="noticia.php?noticia=<?= $noticia['id'] ?>">
-                        <div style="z-index: 1; object-fit: cover; width:230px; height:230px;" class="image_default">
-                           <img style="object-fit: cover; width:230px; height:230px;" class="img-fluid"
+                        <div style="z-index: 1; object-fit: cover; width:350; height:250;" class="image_default">
+                           <img style="object-fit: cover; width:350; height:250;" class="img-fluid"
                               src="../backoffice/assets/noticias/<?= $noticia['imagem'] ?>" alt="">
                            <div class="text-block">
-                              <h5 style="font-size: 16px; text-transform: uppercase; font-weight: 400;">
+                              <h5
+                                 style="font-family: 'Merriweather Sans', sans-serif; font-size: 21px; text-transform: uppercase; font-weight: 700;">
                                  <?php
                                  //Limitar o título a 35 caracteres e cortar pelo último espaço
                                  $titulo = trim($noticia['titulo']);
@@ -195,7 +187,7 @@ unset($_SESSION['unsubscribe_message']);
                                  echo ($titulo != trim($noticia['titulo'])) ? $titulo . "..." : $titulo;
                                  ?>
                               </h5>
-                              <h6 style="font-size: 14px; font-weight: 100;">
+                              <h6 style="font-family: 'Merriweather Sans', sans-serif; font-size: 14px; font-weight: 300;">
                                  <?php
                                  //Adicionar espaços antes das etiquetas html,
                                  $espacos = str_replace('<', ' <', $noticia['conteudo']);
@@ -221,8 +213,8 @@ unset($_SESSION['unsubscribe_message']);
          </div>
 
          <div class="text-center">
-            <a style="display: inline-block; padding: 5px 25px; background-color:#333F50; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
-                     -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Quicksand', sans-serif;  font-size: 20px;"
+            <a style="display: inline-block; padding: 10px 25px; background-color:#002169; border: 2px solid #000000; color: #ffffff; border-radius: 0; 
+                     -webkit-transition: all 0.3s; transition: all 0.3s;  font-family: 'Merriweather Sans', sans-serif; font-size: 14px; font-weight: 700;"
                href="noticias.php">
                <?= change_lang("see-all-btn-latest-news") ?>
             </a>
@@ -233,36 +225,39 @@ unset($_SESSION['unsubscribe_message']);
 
 </section>
 
+<!-- Popup que é mostrada ao cancelar a newsletter -->
 <?php if (!empty($unsubscribe_message)): ?>
-<div class="newsletter-popup open">
-    <div class="newsletter-popup-container open">
-    <a href="#" class="newsletter-popup-close-btn" onclick="closeNewsletterPopup()">&times;</a>
-        <h3><i class="fa-regular fa-envelope"></i>Cancelar subscrição</h3>
-        <p><?= $unsubscribe_message ?></p>
-    </div>
-</div>
+   <div class="newsletter-popup open">
+      <div class="newsletter-popup-container open">
+         <a href="#" class="newsletter-popup-close-btn" onclick="closeNewsletterPopup()">&times;</a>
+         <h3><i class="fa-regular fa-envelope"></i>Cancelar subscrição</h3>
+         <p><?= $unsubscribe_message ?></p>
+      </div>
+   </div>
 <?php endif; ?>
 
+<!-- Popup para mostrar o subscribe da newsletter -->
+<!-- Verifica se o cookie existe, se não, mostra a janela -->
 <?php if (empty($unsubscribe_message)): ?>
-<div class="newsletter-popup">
-   <div class="newsletter-popup-container">
-      <a href="#" class="newsletter-popup-close-btn">&times;</a>
-      <h3><i class="fa-regular fa-envelope"></i>Subscreva a nossa newsletter</h3>
-      <p>Subscreva a nossa newsletter para receber as últimas novidades no seu email.</p>
-      <form action="subscrever.php" method="post">
-         <div style="text-align: center;">
-            <input type="email" name="email" placeholder="Endereço de email" required style="text-transform: none;">
-            <input type="radio" class="btn-check" name="idioma" id="idioma-pt" autocomplete="off" checked value="pt">
-            <label class="btn btn-outline-secondary" for="idioma-pt" style="width:120px">Português</label>
-            <input type="radio" class="btn-check" name="idioma" id="idioma-en" autocomplete="off" value="en">
-            <label class="btn btn-outline-secondary" for="idioma-en" style="width:120px;">Inglês</label>
-            <br /><br />
-            <button type="submit" style="height: 40px">Subscrever</button>
-         </div>
-      </form>
-      <p class="newsletter-msg"></p>
+   <div class="newsletter-popup">
+      <div class="newsletter-popup-container">
+         <a href="#" class="newsletter-popup-close-btn">&times;</a>
+         <h3><i class="fa-regular fa-envelope"></i>Subscreva a nossa newsletter</h3>
+         <p>Subscreva a nossa newsletter para receber as últimas novidades no seu email.</p>
+         <form action="subscrever.php" method="post">
+            <div style="text-align: center;">
+               <input type="email" name="email" placeholder="Endereço de email" required style="text-transform: none;">
+               <input type="radio" class="btn-check" name="idioma" id="idioma-pt" autocomplete="off" checked value="pt">
+               <label class="btn btn-outline-secondary" for="idioma-pt" style="width:120px">Português</label>
+               <input type="radio" class="btn-check" name="idioma" id="idioma-en" autocomplete="off" value="en">
+               <label class="btn btn-outline-secondary" for="idioma-en" style="width:120px;">Inglês</label>
+               <br /><br />
+               <button type="submit" style="height: 40px">Subscrever</button>
+            </div>
+         </form>
+         <p class="newsletter-msg"></p>
+      </div>
    </div>
-</div>
 <?php endif; ?>
 
 

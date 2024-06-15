@@ -1,22 +1,22 @@
-<?php
+    <?php
 
-if (isset($_POST['ids']) && isset($_POST['selected_state'])) {
-    require "../verifica.php";
-    require "../config/basedados.php";
+    if (isset($_POST['ids']) && isset($_POST['selected_state'])) {
+        require "../verifica.php";
+        require "../config/basedados.php";
 
-    $ids = $_POST['ids'];
-    $option = $_POST['selected_state'];
+        $ids = $_POST['ids'];
+        $option = $_POST['selected_state'];
+        //atualiza estado da duplicação consoante o escolhido no dropdown selected_state, acção on click porque é facilmente reversível
+        if (!empty($ids) && !empty($option)) {
+            $idsStr = implode(',', array_map('intval', $ids));
+            $sql = "UPDATE publicacoes_duplicados SET status = '$option' WHERE id IN ($idsStr)";
 
-    if (!empty($ids) && !empty($option)) {
-        $idsStr = implode(',', array_map('intval', $ids));
-        $sql = "UPDATE publicacoes_duplicados SET status = '$option' WHERE id IN ($idsStr)";
-
-        if ($conn->query($sql) === TRUE) {
-            echo "Records updated successfully.";
+            if ($conn->query($sql) === TRUE) {
+                echo "Records updated successfully.";
+            } else {
+                echo "Error updating records: " . $conn->error;
+            }
         } else {
-            echo "Error updating records: " . $conn->error;
+            echo "Invalid request.";
         }
-    } else {
-        echo "Invalid request.";
     }
-}

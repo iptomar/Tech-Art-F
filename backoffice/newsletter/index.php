@@ -28,7 +28,7 @@ require "../verifica.php";
   }
 </style>
 
-<div class="container-xl">
+<div class="container-xxl my-4 mx-4">
   <div class="table-responsive">
     <div class="table-wrapper">
       <div class="table-title">
@@ -36,13 +36,10 @@ require "../verifica.php";
           <div class="col-sm-6">
             <h2 data-translation='newsletter-title'>Newsletter</h2>
           </div>
-          
         </div>
       </div>
       <div id="main-container">
-
         <?php include('statsNewsletter.php'); ?>
-
       </div>
     </div>
   </div>

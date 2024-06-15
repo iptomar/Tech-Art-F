@@ -4,6 +4,7 @@ require "../config/basedados.php";
 require "bloqueador.php";
 
 $mainDir = "../assets/projetos/";
+$noImg = $mainDir."noImg.png";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST["nome"];
@@ -28,12 +29,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ambito_en = $_POST["ambito_en"];
     $site_en = $_POST["site_en"];
     $facebook_en = $_POST["facebook_en"];
+    
     if (isset($_POST["investigadores"])) {
         $investigadores = $_POST["investigadores"];
     }
     $fotografia_exists = isset($_FILES["fotografia"]) && $_FILES["fotografia"]["size"] != 0;
+    $logo_exists = isset($_FILES["logo"]) && $_FILES["logo"]["size"] != 0;
 
-    $sql = "UPDATE projetos SET nome = ?, descricao = ?, sobreprojeto = ?, referencia = ?, areapreferencial = ?, financiamento = ?, ambito = ?, site = ?, facebook = ?, nome_en = ?, descricao_en = ?, sobreprojeto_en = ?, referencia_en = ?, areapreferencial_en = ?, financiamento_en = ?, ambito_en = ?, site_en = ?, facebook_en = ? ";
+    $sql = "UPDATE projetos SET nome = ?, descricao = ?, sobreprojeto = ?, referencia = ?, areapreferencial = ?, financiamento = ?, ambito = ?, site = ?, facebook = ?, nome_en = ?, descricao_en = ?, sobreprojeto_en = ?, referencia_en = ?, areapreferencial_en = ?, financiamento_en = ?, ambito_en = ?, site_en = ?, facebook_en = ?";
     $params = [$nome, $descricao, $sobreprojeto, $referencia, $areapreferencial, $financiamento, $ambito, $site, $facebook, $nome_en, $descricao_en, $sobreprojeto_en, $referencia_en, $areapreferencial_en, $financiamento_en, $ambito_en, $site_en, $facebook_en];
 
     // Check if the 'fotografia' file exists and update the SQL query and parameters accordingly
@@ -43,6 +46,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql .= ", fotografia = ? ";
         $params[] = $fotografia;
         move_uploaded_file($_FILES["fotografia"]["tmp_name"], $mainDir . $fotografia);
+    }
+    // Check if the 'logo' file exists and update the SQL query and parameters accordingly
+    if ($logo_exists) {
+        $logo = uniqid() . '_' . $_FILES["logo"]["name"];
+        ;
+        $sql .= ", logo = ? ";
+        $params[] = $logo;
+        move_uploaded_file($_FILES["logo"]["tmp_name"], $mainDir . $logo);
     }
 
     $sql .= ", concluido = ? WHERE id = ?";
@@ -118,6 +129,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ambito_en = $row["ambito_en"];
     $site_en = $row["site_en"];
     $facebook_en = $row["facebook_en"];
+    $logo = $row["logo"];
+    if($logo!=""){
+        $check_logo_exist = $mainDir.$logo; 
+    }else{
+        $check_logo_exist = $noImg;
+    }
+
 }
 
 
@@ -132,16 +150,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
 <script type="text/javascript">
-    function previewImg(input) {
+    function previewImg(input,foto_or_logo) {
+        
+        if(foto_or_logo =="fotografia"){
+            preview = '#preview';
+            <?php $path = $mainDir.$fotografia ?>
+        }
+        if(foto_or_logo =="logo"){
+            preview = '#previewLogo';
+            <?php $path = $mainDir.$logo?>
+        }
         if (input.files && input.files[0]) {
             var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#preview').attr('src', e.target.result);
+            reader.onload = function(e) {
+                $(preview).attr('src', e.target.result);
+                $(preview).show();
             }
             reader.readAsDataURL(input.files[0]);
-        } else {
-            $('#preview').attr('src', '<?= $mainDir . $fotografia ?>');
-        }
+        } else { 
+            $(preview).attr('src', '<?= $path ?>');
+        } 
     }
 </script>
 <style>
@@ -188,9 +216,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="card">
         <h5 class="card-header text-center">Editar Projeto</h5>
         <div class="card-body">
-            <form role="form" data-toggle="validator" action="edit.php?id=<?php echo $id; ?>" method="post"
+            <form role="form" data-toggle="validator" action="edit.php" method="post"
                 enctype="multipart/form-data">
-
                 <input type="hidden" name="id" value=<?php echo $id; ?>>
                 <div class="form-group">
                     <div class="form-check">
@@ -480,23 +507,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label>Fotografia</label>
-                    <input accept="image/*" type="file" onchange="previewImg(this);" class="form-control"
-                        id="inputFotografia" name="fotografia" value=<?php echo $fotografia; ?>>
+                    <input accept="image/*" type="file" onchange="previewImg(this,'fotografia');" class="form-control"
+                    id="inputFotografia" name="fotografia"  value=<?php echo $fotografia; ?>>
                     <!-- Error -->
                     <div class="help-block with-errors"></div>
-                    <img id="preview" src="<?php echo $mainDir . $fotografia; ?>" class="mt-3" width='100px'
+                    <img id="preview" src="<?= $mainDir . $fotografia ?>" class="mt-3" width='100px'
                         height='100px' />
                 </div>
 
-
+                <div class="form-group">
+                    <label>Logotipo</label>
+                    <input accept="image/*" type="file" onchange="previewImg(this,'logo');" class="form-control" id="inputLogo" name="logo" value=<?php echo $logo; ?>>
+                    <!-- Error -->
+                    <div class="help-block with-errors"></div>
+                    <!--Perite visualizar o logo na aplicação-->
+                    <img id="previewLogo"  src="<?= $check_logo_exist ?>" class="mt-2" width='100px' height='100px' class="mb-3" />
+                </div>
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block">Gravar</button>
                 </div>
 
                 <div class="form-group">
-                    <button type="button" onclick="window.location.href = 'index.php'"
-                        class="btn btn-danger btn-block">Cancelar</button>
+                    <button type="button" onclick="window.location.href = 'index.php'"class="btn btn-danger btn-block">Cancelar</button>
                 </div>
             </form>
         </div>

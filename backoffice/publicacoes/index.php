@@ -56,28 +56,34 @@ $totalPages = ceil($total / $limit);
 
 $limitOptions = array(5, 10, 20, 50);
 
+/* calcular o total de páginas */
+$totalPages = ceil($total / $limit);
 $pagination = '';
+
 if ($totalPages > 1) {
-  $pagination .= '<ul class="pagination">';
+  $pagination .= '<ul class="pagination justify-content-center">';
   $prev = max($page - 1, 1);
   $next = min($page + 1, $totalPages);
+  /* se estiver no início, desabilitar o botão */
+  $disabledStart = ($page == 1) ? 'disabled' : '';
+  $pagination .= '<li class="page-item ' . $disabledStart . '"><a class="page-link" href="?limit=' . $limit . '&page=1&search=' . urlencode($searchTerm) . '">Início</a></li>';
 
-  $pagination .= '<li><a href="?limit=' . $limit . '&page=1&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '">Início</a></li>';
-
-  if ($page > 1) {
-    $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $prev . '&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '">Anterior</a></li>';
-  }
+  /* se não for possível andar para trás, desabilitar o botão */
+  $disabledPrev = ($page == 1) ? 'disabled' : '';
+  $pagination .= '<li class="page-item ' . $disabledPrev . '"><a class="page-link" href="?limit=' . $limit . '&page=' . $prev . '&search=' . urlencode($searchTerm) . '">Anterior</a></li>';
 
   for ($i = max(1, $page - 2); $i <= min($page + 2, $totalPages); $i++) {
-    $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $i . '&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '">' . $i . '</a></li>';
+    $activeClass = ($i == $page) ? 'disabled' : '';
+    $pagination .= '<li class="page-item ' . $activeClass . '"><a class="page-link" href="?limit=' . $limit . '&page=' . $i . '&search=' . urlencode($searchTerm) . '">' . $i . '</a></li>';
   }
 
-  if ($page < $totalPages) {
-    $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $next . '&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '">Próximo</a></li>';
-  }
+  /* se não for possível andar para a frente, desabilitar o botão */
+  $disabledNext = ($page == $totalPages) ? 'disabled' : '';
+  $pagination .= '<li class="page-item ' . $disabledNext . '"><a class="page-link" href="?limit=' . $limit . '&page=' . $next . '&search=' . urlencode($searchTerm) . '">Próximo</a></li>';
 
-  $pagination .= '<li><a href="?limit=' . $limit . '&page=' . $totalPages . '&search=' . urlencode($searchTerm) . '&search_field=' . $searchField . '">Fim</a></li>';
-
+  /* se estiver no fim, desabilitar o botão */
+  $disabledEnd = ($page == $totalPages) ? 'disabled' : '';
+  $pagination .= '<li class="page-item ' . $disabledEnd . '"><a class="page-link" href="?limit=' . $limit . '&page=' . $totalPages . '&search=' . urlencode($searchTerm) . '">Fim</a></li>';
   $pagination .= '</ul>';
 }
 
@@ -88,7 +94,7 @@ foreach ($limitOptions as $option) {
 }
 $limitDropdown .= '</select>';
 
-$searchFields = array('all', 'idPublicacao', 'dados');
+$searchFields = array('all', 'publicacoes', 'email', 'title', 'url');
 $searchFieldDropdown = '<select name="search_field">';
 foreach ($searchFields as $field) {
   $selected = ($field == $searchField) ? 'selected' : '';
@@ -160,92 +166,115 @@ $searchFieldDropdown .= '</select>';
     width: 100px;
     position: relative;
   }
+
+  .pagination .page-item.disabled .page-link {
+    background-color: #eeeeee;
+    border-color: #aaaaaa;
+    color: #343a40;
+  }
+
+  .pagination .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #ffffff;
+  }
+
+  .pagination .page-link:hover {
+    background-color: #aae0f0;
+    border-color: #007bff;
+    color: #ffffff;
+  }
+
+  .pagination .page-link:active {
+    background-color: #aae0f0;
+    border-color: #007bff;
+    color: #ffffff;
+  }
 </style>
 
 </style>
 
-<div class="container-xxl">
-  <div class="container-xxl">
-    <div class="table-responsive">
-      <div class="table-wrapper">
-        <div class="table-title">
-          <div class="row">
-            <div class="col-sm-6">
-              <h2 data-translation='publications-title'>Publicações</h2>
-            </div>
-          </div>
-          <div class="col-sm-6">
+<div class="container-xxl mx-4 my-4">
+  <div class="table-wrapper">
+    <div class="table-title">
+      <div class="row">
+        <div class="col-sm-6">
+          <h2 data-translation='publications-title'>Publicações</h2>
+        </div>
+      </div>
+    </div>
+
+    <form action="" method="get" class="row mb-3 align-items-center">
+      <div class="col-auto mx-4 my-4">
+        <span data-translation="duplicated-show">Mostrar:</span> <?php echo $limitDropdown; ?> entradas
+      </div>
+      <div class="col">
+        <div class="input-group">
+          <input class="form-control" type="text" name="search" placeholder="Inserir pesquisa" value="<?php echo $searchTerm; ?>">
+          <div class="input-group-append">
+            <?php echo $searchFieldDropdown; ?>
+            <button type="submit" class="btn btn-primary">
+              <img name="search-icon" src="../assets/icons/search.svg" style="width:20px">
+            </button>
           </div>
         </div>
       </div>
-      <form action="" method="get">
-        <div class="container-xxl p-3 my-3 bg-dark text-white" style="padding:10px">
-          <div style="padding-top:10px">
-            Mostrar: <?php echo $limitDropdown; ?> entradas
-
-
-          </div>
-
-          <div style="padding-top:10px">
-            <input class="form-control form-control" type="text" name="search" value="<?php echo $searchTerm; ?>" placeholder="Inserir pesquisa">
-
-            <?php echo $searchFieldDropdown; ?>
-          </div>
-          <div style="padding-top:10px">
-            <button type="submit" class="btn btn-outline-primary" data-translation='publications-button-update-search'>Atualizar Pesquisa</button>
-
-
-            <?php echo $pagination; ?>
-          </div>
-      </form>
-
+  </div>
+  <div class="row mb-3">
+    <div class="col-auto">
+      <div class="col-auto ml-auto mx-4 my-4">
+        <?php echo $pagination; ?>
+      </div>
     </div>
     </form>
-    <table id="resizeMe" class="table" style="width:100%; table-layout:fixed; word-wrap:break-word;" class="table table-striped table-hover">
-      <thead>
 
-
-        <tr style="width:100%">
-          <th style="width:5%">Id</th>
-          <th style="width:10%">Email</th>
-          <th style="width:30%" data-translation='publications-table-title'>Title</th>
-          <th data-translation='publications-table-journal'>Journal</th>
-          <th >Volume</th>
-          <th data-translation='publications-table-number'>Number</th>
-          <th data-translation='publications-table-pages'>Pages</th>
-          <th data-translation='publications-table-year'>Year</th>
-          <th style="width:9%">url</th>
-          <th data-translation='publications-table-author'>Author</th>
-          <th data-translation='publications-table-keywords'>Keywords</th>
-        </tr>
-      </thead>
-      <tbody>
-
-        <?php
-        if (mysqli_num_rows($result) > 0) {
-          while ($row = mysqli_fetch_assoc($result)) {
-            echo "<tr>";
-            echo "<td>" . $row["id"] . "</td>";
-            echo "<td>" . $row["email"] . "</td>";
-            echo "<td>" . $row["title"] . "</td>";
-            echo "<td>" . $row["journal"] . "</td>";
-            echo "<td>" . $row["volume"] . "</td>";
-            echo "<td>" . $row["pnumber"] . "</td>";
-            echo "<td>" . $row["pages"] . "</td>";
-            echo "<td>" . $row["pyear"] . "</td>";
-            echo "<td>" . $row["purl"] . "</td>";
-            echo "<td>" . $row["author"] . "</td>";
-            echo "<td>" . $row["keywords"] . "</td>";
-            echo "</tr>";
-          }
-        }
-        ?>
-      </tbody>
-    </table>
-    </form>
   </div>
+  </form>
+  <table id="resizeMe" class="table" style="width:100%; table-layout:fixed; word-wrap:break-word;" class="table table-striped table-hover">
+    <thead>
+
+
+      <tr style="width:100%">
+        <th style="width:5%">Id</th>
+        <th style="width:10%">Email</th>
+        <th style="width:30%" data-translation='publications-table-title'>Title</th>
+        <th data-translation='publications-table-journal'>Journal</th>
+        <th>Volume</th>
+        <th data-translation='publications-table-number'>Number</th>
+        <th data-translation='publications-table-pages'>Pages</th>
+        <th data-translation='publications-table-year'>Year</th>
+        <th style="width:9%">url</th>
+        <th data-translation='publications-table-author'>Author</th>
+        <th data-translation='publications-table-keywords'>Keywords</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <?php
+      if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+          echo "<tr>";
+          echo "<td>" . $row["id"] . "</td>";
+          echo "<td>" . $row["email"] . "</td>";
+          echo "<td>" . $row["title"] . "</td>";
+          echo "<td>" . $row["journal"] . "</td>";
+          echo "<td>" . $row["volume"] . "</td>";
+          echo "<td>" . $row["pnumber"] . "</td>";
+          echo "<td>" . $row["pages"] . "</td>";
+          echo "<td>" . $row["pyear"] . "</td>";
+          echo "<td>" . $row["purl"] . "</td>";
+          echo "<td>" . $row["author"] . "</td>";
+          echo "<td>" . $row["keywords"] . "</td>";
+          echo "</tr>";
+        }
+      }
+      ?>
+    </tbody>
+  </table>
+  </form>
+
 </div>
-</div>
+
 
 <script>
   $(document).ready(function() {

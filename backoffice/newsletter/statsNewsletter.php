@@ -44,7 +44,7 @@ $countENG = mysqli_fetch_assoc($resultSubsENG)["count"];
 
   <div class="row">
     <div class="col-sm-12">
-      <button class="btn btn-primary mr-4 ml-4" id="start-send" data-translation='newsletter-button-send'>Iniciar Envio</button>
+      <button class="btn btn-primary my-4 mx-4" id="start-send" data-translation='newsletter-button-send'>Iniciar Envio</button>
     </div>
   </div>
 
@@ -96,9 +96,9 @@ $countENG = mysqli_fetch_assoc($resultSubsENG)["count"];
               <tr>
                 <th data-translation='newsletter-history-date'>Data de Envio</th>
                 <th data-translation='newsletter-history-title-pt'>Título PT</th>
-                <th data-translation='newsletter-history-title-en'>Título PT</th>
+                <th data-translation='newsletter-history-title-en'>Título EN</th>
                 <th data-translation='newsletter-history-subject-pt'>Assunto</th>
-                <th data-translation='newsletter-history-subject'>Assunto</th>
+                <th data-translation='newsletter-history-subject'>Assunto EN</th>
                 <th data-translation='newsletter-history-content'>Notícias Enviadas</th>
               </tr>
             </thead>

@@ -5,6 +5,10 @@ require_once 'assets/models/functions.php';
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
 <title>TECHN&ART Backoffice</title>
 <style>
     .navUl {
@@ -14,7 +18,7 @@ require_once 'assets/models/functions.php';
         overflow: hidden;
         background-color: #435d7d;
         font-size: 20px;
-        font-family: 'Varela Round';
+        font-family: 'Merriweather Sans';
     }
 
     .navLi {
@@ -55,7 +59,7 @@ require_once 'assets/models/functions.php';
         padding: 8px 12px;
         margin-top: 3px;
         color:white;
-        font-family:'Varela Round'
+        font-family:'Merriweather Sans'
     }
 
     #button_pt_en:hover{

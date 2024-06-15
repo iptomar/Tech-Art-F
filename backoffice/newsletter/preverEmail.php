@@ -50,13 +50,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="col-">
       <h4>Preview Template Português</h4>
       <div class="row my-4">
+        
         <div>
           <?php echo template_header_pt(); ?>
           <?php echo template_noticias_pt($titulo, $noticias); ?>
           <?php echo template_footer_pt('Token'); ?>
         </div>
       </div>
-      <h4>Preview Template Português</h4>
+      <h4>Preview Template Inglês</h4>
       <div class="row my-4">
         <div>
           <?php echo template_header_en(); ?>
@@ -70,6 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 <script>
   $(document).ready(function() {
+    // botão para verificar e enviar a informação escolhida com a lista de noticias para comerçar o envio da newsletter
     $('#next').click(function() {
       var titulo = '<?php echo $titulo; ?>';
       var assunto = '<?php echo $assunto; ?>';

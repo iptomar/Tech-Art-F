@@ -11,48 +11,19 @@ $limit = 9;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $start = ($page - 1) * $limit;
 
-#se o botao do reload for clicado mostra todas as noticias 
-if (isset($_POST["limpaFiltro"])) {
-   $query = "SELECT id,
-        COALESCE(NULLIF(titulo{$language}, ''), titulo) AS titulo,
-        COALESCE(NULLIF(conteudo{$language}, ''), conteudo) AS conteudo,
-        imagem,data
-        FROM noticias WHERE data<=NOW() ORDER BY DATA DESC LIMIT $start, $limit;";
-   /* obter a quantidade de notícias */
-   $stmt = $pdo->query("SELECT COUNT(*) AS total FROM noticias");
-   $total = (int) $stmt->fetchColumn();
-}
-
-
-#se o botão do pesquisar for clicado mostra o/os investigadores que contem esse nome  
-else if (isset($_GET["pesquisaNoticia"])) {
-   $query = "SELECT id,
-   COALESCE(NULLIF(titulo{$language}, ''), titulo) AS titulo,
-   COALESCE(NULLIF(conteudo{$language}, ''), conteudo) AS conteudo,
-   imagem,data
-   FROM noticias WHERE data<=NOW() and titulo LIKE '%{$_GET["pesquisaNoticia"]}%' ORDER BY DATA DESC;";
-   /* obter a quantidade de notícias com o filtro */
-   $stmt = $pdo->query("SELECT COUNT(*) AS total FROM noticias WHERE titulo LIKE '%{$_GET["pesquisaNoticia"]}%' ORDER BY DATA DESC;");
-   $total = (int) $stmt->fetchColumn();
-}
-#caso nehum botao seja clicado mostra todos 
-else {
-   $query = "SELECT id,
+$query = "SELECT id,
         COALESCE(NULLIF(titulo{$language}, ''), titulo) AS titulo,
         COALESCE(NULLIF(conteudo{$language}, ''), conteudo) AS conteudo,
         imagem,data
         FROM noticias WHERE data<=NOW() ORDER BY DATA DESC LIMIT $start, $limit";
-   /* obter a quantidade de notícias */
-   $stmt = $pdo->query("SELECT COUNT(*) AS total FROM noticias");
-   $total = (int) $stmt->fetchColumn();
-}
+/* obter a quantidade de notícias */
+$stmt = $pdo->query("SELECT COUNT(*) AS total FROM noticias");
+$total = (int) $stmt->fetchColumn();
 
 $stmt = $pdo->prepare($query);
 $stmt->execute();
 $noticias = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
-
-
 
 /* calcular o total de páginas */
 $totalPages = ceil($total / $limit);
@@ -76,19 +47,16 @@ if ($totalPages > 1) {
    }
 
    /* se não for possível andar para a frente, desabilitar o botão */
-   $disabledNext = ($page == $totalPages) ? 'disabled' : '';
+   $disabledNext =($page == $totalPages) ? 'disabled' : '';
    $pagination .= '<li class="page-item ' . $disabledNext . '"><a class="page-link" href="?limit=' . $limit . '&page=' . $next . '&search=' . urlencode($searchTerm) . '">Próximo</a></li>';
-
    /* se estiver no fim, desabilitar o botão */
    $disabledEnd = ($page == $totalPages) ? 'disabled' : '';
    $pagination .= '<li class="page-item ' . $disabledEnd . '"><a class="page-link" href="?limit=' . $limit . '&page=' . $totalPages . '&search=' . urlencode($searchTerm) . '">Fim</a></li>';
    $pagination .= '</ul>';
 }
 ?>
-
 <!DOCTYPE html>
 <html>
-
 <head>
    <style>
       .pagination .page-item.disabled .page-link {
@@ -96,27 +64,25 @@ if ($totalPages > 1) {
          border-color: #aaaaaa;
          color: #343a40;
       }
-
       .pagination .page-link {
-         background-color: #007bff;
-         border-color: #007bff;
-         color: #ffffff;
-      }
+          background-color: #007bff;
+          border-color: #007bff;
+          color: #ffffff;
+       }
 
-      .pagination .page-link:hover {
-         background-color: #aae0f0;
-         border-color: #007bff;
-         color: #ffffff;
-      }
+       .pagination .page-link:hover {
+          background-color: #aae0f0;
+          border-color: #007bff;
+          color: #ffffff;
+       }
 
-      .pagination .page-link:active {
-         background-color: #aae0f0;
-         border-color: #007bff;
-         color: #ffffff;
-      }
+       .pagination .page-link:active {
+          background-color: #aae0f0;
+          border-color: #007bff;
+          color: #ffffff;
+       }
    </style>
 </head>
-
 <?= template_header('Notícias'); ?>
 <section class="product_section layout_padding">
    <div style="background-color: #dbdee1; padding-top: 50px; padding-bottom: 50px;">
@@ -132,37 +98,20 @@ if ($totalPages > 1) {
       </div>
    </div>
 </section>
-
-
 <section class="product_section layout_padding">
    <div style="padding-top: 20px;">
       <div class="container">
-
          <div class="row justify-content-center mt-3">
-
-
-            <div class="col-">
-               <!--Formolario que permite pesquisa o ivestigasdor por nome-->
-               <form class="form-check form-check-inline" id="formPesquisaNoticia" method="get">
-                  <input type=" text" name="pesquisaNoticia" placeholder="Título da noticia a pesquisar"
-                     style="max-width: 500px; min-width: 450px; display: inline-block; text-transform: none;  ">
-            </div>
-            <div class="col-">
-               <button type="submit" style="height: 50px; margin-right:10px;">
-                  <img name="search-icon" src='assets/icons/search.svg' style="width:40px">
-               </button>
-               </form>
-            </div>
-            <div class="col-">
-               <!--Formulario que permite limpar a pesquisa feita pelo utilizador-->
-               <form id="formLimpaFiltroNoticias" method="post">
-                  <button type="submit" style="height: 50px;" name="limpaFiltro" value="vertodos"> <img
-                        name="reload_icon" src='assets\icons\reload.svg' style="width:35px"></button>
-               </form>
+            <div class="col-md-6">
+               <!-- Formulário de pesquisa -->
+               <input id="searchInput" type="text" class="form-control" placeholder="Título da noticia a pesquisar" style="max-width: 500px; min-width: 450px; display: inline-block; text-transform: none;">
             </div>
          </div>
+
+         <div id="searchResults" class="row justify-content-center mt-3"></div>
+
          <?php echo $pagination; ?>
-         <div class="row justify-content-center mt-3">
+         <div id="news-list" class="row justify-content-center mt-3">
             <?php foreach ($noticias as $noticia): ?>
                <div class="ml-5 imgList">
                   <a href="noticia.php?noticia=<?= $noticia['id'] ?>">
@@ -184,19 +133,84 @@ if ($totalPages > 1) {
                      </div>
                   </a>
                </div>
-
             <?php endforeach; ?>
-
          </div>
          <?php echo $pagination; ?>
       </div>
-
    </div>
 </section>
-
-
 <?= template_footer(); ?>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.querySelector('#searchInput');
+        const searchResults = document.querySelector('#searchResults');
+        const newsList = document.querySelector('#news-list');
 
+        function createNewsItem(news) {
+            const newsItem = document.createElement('div');
+            newsItem.classList.add('ml-5', 'imgList');
+
+            const link = document.createElement('a');
+            link.href = `noticia.php?noticia=${news.id}`;
+
+            const imageDiv = document.createElement('div');
+            imageDiv.classList.add('image_default');
+
+            const image = document.createElement('img');
+            image.classList.add('centrare');
+            image.style.objectFit = 'cover';
+            image.style.width = '225px';
+            image.style.height = '280px';
+            image.src = `../backoffice/assets/noticias/${news.imagem}`;
+            image.alt = '';
+
+            const titleDiv = document.createElement('div');
+            titleDiv.classList.add('imgText', 'justify-content-center', 'm-auto');
+            titleDiv.style.top = '75%';
+
+            let titulo = news.titulo.trim();
+            if (titulo.length > 35) {
+               titulo = titulo.substr(0, 35).split(/\s+(?=\S*$)/)[0];
+            }
+            titleDiv.textContent = (titulo !== news.titulo.trim()) ? titulo + "..." : titulo;
+
+            const dateDiv = document.createElement('h6');
+            dateDiv.classList.add('imgText', 'm-auto');
+            dateDiv.style.fontSize = '11px';
+            dateDiv.style.fontWeight = '100';
+            dateDiv.style.top = '95%';
+            dateDiv.textContent = new Date(news.data).toLocaleDateString('pt-PT');
+
+            imageDiv.appendChild(image);
+            imageDiv.appendChild(titleDiv);
+            imageDiv.appendChild(dateDiv);
+            link.appendChild(imageDiv);
+            newsItem.appendChild(link);
+
+            return newsItem;
+        }
+
+        searchInput.addEventListener('input', function() {
+            const query = searchInput.value.trim();
+            const context = 'titulo';
+
+            fetch(`search.php?query=${encodeURIComponent(query)}&context=${encodeURIComponent(context)}&origin=noticias`)
+                .then(response => response.json())
+                .then(data => {
+                    newsList.style.display = 'none';
+                    searchResults.innerHTML = '';
+                    if (Array.isArray(data)) {
+                        data.forEach((result) => {
+                            const resultItem = createNewsItem(result);
+                            searchResults.appendChild(resultItem);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching search results:', error);
+                });
+        });
+    });
+</script>
 </body>
-
 </html>

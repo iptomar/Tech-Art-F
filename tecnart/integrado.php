@@ -7,7 +7,7 @@ $language = ($_SESSION["lang"] == "en") ? "_en" : "";
 $query = "SELECT id, email, nome,
         COALESCE(NULLIF(sobre{$language}, ''), sobre) AS sobre,
         COALESCE(NULLIF(areasdeinteresse{$language}, ''), areasdeinteresse) AS areasdeinteresse,
-        ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id
+        ciencia_id, tipo, fotografia, orcid, scholar, research_gate, scopus_id, data_admissao
         FROM investigadores WHERE id=? and tipo = \"Integrado\"";
 $stmt = $pdo->prepare($query);
 $stmt->bindParam(1, $_GET["integrado"], PDO::PARAM_INT);
@@ -25,6 +25,16 @@ $id =  $_GET["integrado"];
             <h3 class="heading_h3" style="font-size: 38px; margin-bottom: 20px; padding-top: 60px; padding-right: 10px; padding-left: 60px; word-wrap: break-word;">
                 <?= $investigadores['nome'] ?>
             </h3>
+            
+            <!-- Adicionar a label e o valor da data de admissão apenas se existir -->
+            <?php if (!empty($investigadores['data_admissao'])): ?>
+                <div class="dataAdmissao"
+                    style="font-size: 15px; text-align: left; padding-top: 20px; padding-left: 60px; padding-bottom: 10px;">
+                    <p>Data de Admissão:</p>
+                    <?php echo $investigadores['data_admissao']; ?>
+                </div>
+            <?php endif; ?>
+
             <div class="canvasEmail" style="height:150px; padding-right: 10px;">
 
                 <div class="emailScroll">
@@ -66,11 +76,11 @@ $id =  $_GET["integrado"];
                 </span>
             </button>
 
-            <button class="divbotao" id="showit3">
-                <span href="#" class="innerButton">
-                    <?= change_lang("publications-btn-class") ?>
-                </span>
-            </button>
+            <?php if (DateTime::createFromFormat('Y-m-d', $investigadores['data_admissao']) == false || (((DateTime::createFromFormat('Y-m-d', $investigadores['data_admissao'])->diff(new DateTime()))->m)>2)) : ?>
+                <button class="divbotao" id="showit3">
+                    <span href="#" class="innerButton"><?= change_lang("publications-btn-class") ?></span>
+                </button>
+            <?php endif; ?>
 
             <button class="divbotao lastBtn" id="showit4">
                 <span href="#" class="innerButton">
