@@ -17,14 +17,15 @@ $pdo = pdo_connect_mysql();
                 $minYear = $result['min_year'];
                 $maxYear = $result['max_year'];
                 
-    // Funcao para atualizar o valor do slider quando este é selecionado
+?>
 
+<script>
+    // JavaScript function to update the displayed value when slider changes
     function updateSliderValue() {
         var slider = document.getElementById("yearSlider");
         var selectedYearDisplay = document.getElementById("selectedYearDisplay");
-
-        // Atualiza o valor mostrado
-
+        
+        // Update the displayed value
         selectedYearDisplay.innerText = slider.value;
     }
 
@@ -80,9 +81,6 @@ $pdo = pdo_connect_mysql();
         </div>
             <div class="col-lg-16">
                 <div class="btn-group">
-
-                    <!-- Lista drop down com todos os tipos de publicações associados às chaves da base de dados -->
-
                     <button type="button" class="btn btn-default dropdown-toggle" id="dropdownTitle" data-toggle="dropdown">Tipo <span class="caret"></span></button>
                     <ul class="dropdown-menu scrollable-menu" role="menu" name="selectContext" id="selectContext" onchange="atualizaPlaceHolder()" >
                             <li><a href="#" value="artistic-exhibition" onclick="atualizaPlaceHolder('artistic-exhibition', 'Pesquisar por exibição artística')">exibição artística</a></li>
@@ -127,9 +125,6 @@ $pdo = pdo_connect_mysql();
                 </div>
             </div>
             <div class="input-group-append">
-
-                <!--Formulario que permite fazer a pesquisa feita pelo utilizador-->
-
             <button type="submit" id="searchButton" style="height: 40px; margin-right:10px; margin-left:15px;">
                   <img name="search-icon"src='assets/icons/search.svg' style="width:30px">
             </button>
@@ -140,9 +135,6 @@ $pdo = pdo_connect_mysql();
                     <button id="reloadButton" type="submit" style="height: 40px; margin: 0px 0px" name="mostraTodos" value="vertodos" > <img name="reload_icon" src='assets\icons\reload.svg' style="width:30px"></button>
             </div>
             <div class="col-6" style="margin:0px 0px 0px 20px">
-
-                <!--Código que permite definir o valor máximo e o mínimo no slider assim como reproduzir uma checkbox para caso o utilizador queira fazer a filtragem pelo ano -->
-
                 <input type="hidden" id="selectedType" name="selectedType">
                 <label for="yearSlider" class="form-label"> <span id="selectedYearDisplay"><?= $maxYear ?></span></label>
                 <input id="yearSlider" name="yearSlider" type="range" min="<?= $minYear ?>" max="<?= $maxYear ?>" value="<?= $maxYear ?>" list="steplist" onchange="updateSliderValue()">
@@ -154,9 +146,6 @@ $pdo = pdo_connect_mysql();
             
 
             <script>
-
-                //Código que vai buscar os valores selecionados pelo utilizador na dropdown
-
                 document.querySelectorAll('#selectContext a').forEach(function(item) {
                     item.addEventListener('click', function() {
                         var selectedType = this.getAttribute('data-value');
@@ -190,31 +179,25 @@ $pdo = pdo_connect_mysql();
                         // No additional filters
                     } else {
                         $filters = [];
-
-                        //código que vai permitir receber o valor introduzido pelo utilizador na searchbar e fazer sua filtragem pelo texto da searchbar
-
+                        
                         if (isset($_GET["searchBar"]) && !empty($_GET["searchBar"])) {
                             $searchBar = $_GET["searchBar"];
                             $filters[] = "dados LIKE '%$searchBar%'";
                         }
-
-                        //código que vai permitir receber o valor selecionado pelo utilizador no menu dropdown e fazer sua filtragem pelo tipo
-
+                    
                         if (isset($_GET["selectedType"]) && !empty($_GET["selectedType"])) {
                             $selectedType = $_GET["selectedType"];
                             $filters[] = "p.tipo = '$selectedType'";
                         }
 
-                        //código que vai permitir receber o valor escolhido pelo utilizador no slider e fazer sua filtragem pelo ano
 
                         if (isset($_GET["filtrarAno"]) && $_GET["filtrarAno"] == "true" && isset($_GET["yearSlider"])) {
                             $selectedYear = $_GET["yearSlider"];
                             $filters[] = "YEAR(data) = $selectedYear";
                         }
 
-                        // Verifica se a variável $filters não está vazia
+                        
                         if (!empty($filters)) {
-                            // Junta os elementos do array $filters numa única string, usando " AND " como delimitador e concatena esta string à consulta SQL existente em $query
                             $query .= " AND " . implode(" AND ", $filters);
                         }
                         
@@ -237,49 +220,35 @@ $pdo = pdo_connect_mysql();
                             $hasPublications = true;
                             break; // Não é necessário continuar verificando se já encontramos publicações para o ano selecionado
                         }
-
                     }
-                    
-                    $query .= " ORDER BY publication_year DESC, pt.$valorSiteName, data DESC";
-                    
-                    $stmt = $pdo->prepare($query);
-                    $stmt->execute();
-                    $publicacoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                    $hasPublications = false;
 
                     // Verifique o valor da variável de sinalização
                     if (!$hasPublications) {
                         // Se não houver publicações para o ano selecionado, exiba a mensagem de erro
                         echo "<div class='error-message'>Não existem publicações para o ano selecionado.</div>";
                     } 
-
-                    // Inicializa um array para agrupar as publicações
+                    
                     $groupedPublicacoes = array();
-                    // Percorre todas as publicações   
+                    
                     foreach ($publicacoes as $publicacao) {
-                        // Obtém o ano da publicação, se estiver definido, caso contrário define como "ano desconhecido"
                         $year = isset($publicacao['publication_year']) ? $publicacao['publication_year'] : change_lang("year-unknown");
-                        // Obtém o site da publicação, se estiver definido, caso contrário define como "site desconhecido"
                         $site = isset($publicacao[$valorSiteName]) ? $publicacao[$valorSiteName] : change_lang("site-unknown");
-                        
-                        // Se ainda não existe uma entrada para este ano no array agrupado, inicializa-a como um array vazio
+                    
                         if (!isset($groupedPublicacoes[$year])) {
                             $groupedPublicacoes[$year] = array();
                         }
-                        
-                        // Se ainda não existe uma entrada para este site no ano específico, inicializa-a como um array vazio
+                    
                         if (!isset($groupedPublicacoes[$year][$site])) {
                             $groupedPublicacoes[$year][$site] = array();
                         }
-
-                        // Se os dados da publicação estão definidos, adiciona-os ao array agrupado para o ano e site específicos
+                    
                         if (isset($publicacao['dados'])) {
                             $groupedPublicacoes[$year][$site][] = $publicacao['dados'];
                         }
 
                         
                     }
+
                     
                 ?>
 
