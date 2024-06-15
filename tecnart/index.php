@@ -225,6 +225,7 @@ unset($_SESSION['unsubscribe_message']);
 
 </section>
 
+<!-- Popup que é mostrada ao cancelar a newsletter -->
 <?php if (!empty($unsubscribe_message)): ?>
    <div class="newsletter-popup open">
       <div class="newsletter-popup-container open">
@@ -235,6 +236,8 @@ unset($_SESSION['unsubscribe_message']);
    </div>
 <?php endif; ?>
 
+<!-- Popup para mostrar o subscribe da newsletter -->
+<!-- Verifica se o cookie existe, se não, mostra a janela -->
 <?php if (empty($unsubscribe_message)): ?>
    <div class="newsletter-popup">
       <div class="newsletter-popup-container">

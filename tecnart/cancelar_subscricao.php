@@ -2,14 +2,18 @@
     include 'config/dbconnection.php';
     $pdo = pdo_connect_mysql();
     $message = '';
+    // verifica se a conta de email e o token foram especificados
     if (isset($_GET['email'], $_GET['token'])) {
+        // verifica se o email é válido
         if (!filter_var($_GET['email'], FILTER_VALIDATE_EMAIL)) {
             $message = 'Por favor insira um email válido!';
         } else {
+            // obtem o registo correspondente à conta de email cujo cancelamento pretende-se que seja feito
             $stmt = $pdo->prepare('SELECT * FROM subscritores WHERE email = ?');
             $stmt->execute([$_GET['email']]);
             $subscriber = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($subscriber) {
+                // se o token for corrento, remove o registo da base de dados e o cancelamento da subscrição é feito
                 if ($subscriber['token_unsubscribe'] == $_GET['token']) {
                     $stmt = $pdo->prepare('DELETE FROM subscritores WHERE email = ?');
                     $stmt->execute([$_GET['email']]);
@@ -24,6 +28,7 @@
     } else {
         $message = 'Não foi especificado uma conta de email ou um código de cancelamento.';
     }
+    // envia o resultado como variável de sessão para o index.php, que vai mostrar o resultado numa popup
     session_start();
     $_SESSION['unsubscribe_message'] = $message;
     header('Location: index.php');
