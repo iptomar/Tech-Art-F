@@ -250,9 +250,14 @@ if ($totalPages > 1) {
         </div>
       </div>
       <div class="col-auto row">
-        <button class="btn btn-primary my-4 mx-4" type="button" id="updateBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled data-translation="duplicated-button-update-state">
+        <button class="btn btn-primary dropdown-toggle update-btn mt-4" style="margin-bottom: 10px;" type="button" id="updateBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled>
           Atualizar Estado
         </button>
+        <div class="dropdown-menu" aria-labelledby="updateBtn">
+          <a class="dropdown-item" href="#" data-option="Por Verificar">Por Verificar</a>
+          <a class="dropdown-item" href="#" data-option="Aguarda Alteração">Aguarda Alteração</a>
+          <a class="dropdown-item" href="#" data-option="Verificado">Verificado</a>
+        </div>
       </div>
       </form>
     </div>
