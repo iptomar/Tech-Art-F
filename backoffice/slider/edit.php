@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "UPDATE slider SET titulo = ?, conteudo = ?, titulo_en = ?, conteudo_en = ?";
     $params = [$titulo, $conteudo, $titulo_en, $conteudo_en, $link , $visibilidade];
 
-    // Check if the 'imagem' file exists and update the SQL query and parameters accordingly
+    // verifica se a imagem existe, e atualiza o sql de acordo com isso
     if ($imagem_exists) {
         $imagem = uniqid() . '_' .  $_FILES["imagem"]["name"];
         $sql .= ", imagem = ? ";
@@ -44,9 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $params[] = $id;
     $stmt = mysqli_prepare($conn, $sql);
     $param_types = str_repeat('s', count($params) - 1) . 'i';
-
     mysqli_stmt_bind_param($stmt, $param_types, ...$params);
-
 
     if (mysqli_stmt_execute($stmt)) {
         header('Location: index.php');
@@ -126,6 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </style>
 
 <div class="container-xl mt-5">
+<!-- Div com os campos com os dados para editar -->
     <div class="card">
         <h5 class="card-header text-center">Editar Item do Slider</h5>
         <div class="card-body">

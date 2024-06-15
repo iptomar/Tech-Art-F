@@ -3,24 +3,25 @@ require "../verifica.php";
 require "../config/basedados.php";
 require "bloqueador.php";
 
+// define a diretoria dos conteúdos do slider
 $mainDir = "../assets/slider/";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // move a imagem carregada para a diretoria de armazenamento
     $target_file =  uniqid() . '_' . $_FILES["imagem"]["name"];
     move_uploaded_file($_FILES["imagem"]["tmp_name"], $mainDir . $target_file);
 
-
+    // define os parâmetros de SQL para efetuar a inserção na tabela 
     $sql = "INSERT INTO slider (titulo, titulo_en, conteudo, conteudo_en, imagem, link) " .
         "VALUES (?,?,?,?,?,?)";
     $stmt = mysqli_prepare($conn, $sql);
     $titulo = $_POST["titulo"];
     $titulo_en = $_POST["titulo_en"];
-
     $conteudo = $_POST["conteudo"];
     $conteudo_en = $_POST["conteudo_en"];
     $link = $_POST["link"];
-
     $imagem = $target_file;
-
+    // tenta inserir os dados na tabela
     mysqli_stmt_bind_param($stmt, 'ssssss', $titulo, $titulo_en, $conteudo, $conteudo_en, $imagem, $link);
     if (mysqli_stmt_execute($stmt)) {
         echo 'alert(Criado com sucesso.)';
@@ -31,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
+<!-- incluir os estilos de css -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </link>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -81,11 +83,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </style>
 
 <div class="container-xl mt-5">
+<!--  div com os campos de inserção dos dados necessários  -->
     <div class="card">
         <h5 class="card-header text-center">Adicionar Item ao Slider</h5>
         <div class="card-body">
             <form role="form" data-toggle="validator" action="create.php" method="post" enctype="multipart/form-data">
-
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
